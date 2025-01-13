@@ -1,0 +1,20 @@
+name: build
+on:
+  push:
+    tags:
+      v*
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: compile
+          uses: xu-cheng/latex-action@v3
+          with: 
+              root_file: main.tex
+        - name: save as artefact
+          uses: actions/upload-artifact@v4
+          with:
+            name: pdf
+            path: main.pdf
