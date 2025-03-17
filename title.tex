@@ -1,11 +1,5 @@
-\fancypagestyle{title}{
-	\renewcommand{\headrulewidth}{0pt}
-	\fancyfoot[C]{
-		\footnotesize
-		This document was compiled on \today{} at \currenttime{}
-	}
-}
-
+\makepagestyle{title}
+\makeoddfoot{title}{}{This document was compiled on \today{} at \currenttime{}}{}
 \thispagestyle{title}
 \newgeometry{centering}
 
@@ -33,7 +27,7 @@
 		Martin Filliung
 
 		\begin{center}
-			\textit{Under the supervision of}
+			\textit{under the supervision of}
 		\end{center}
 
 		\begin{flushright}
