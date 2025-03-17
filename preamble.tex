@@ -1,10 +1,13 @@
+\usepackage[T1]{fontenc}
+\usepackage{babel}
 \usepackage{graphics}
+\usepackage{geometry}
 \usepackage{epsfig}
 \usepackage{mathptmx}
-\usepackage{times}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{bbm}
+\usepackage{datetime}
 \usepackage{color}
 \usepackage{physics}
 \usepackage{siunitx}
@@ -16,6 +19,8 @@
 \usepackage{cleveref}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{enumitem}
+\usepackage[headings, twoside]{fancyhdr}
 
 \title{}
 \author{}
@@ -72,3 +77,5 @@
 \Crefformat{figure}{Fig.~#2#1#3}
 \Crefrangeformat{figure}{Fig.~#3#1#4 to~#5#2#6}
 \Crefmultiformat{figure}{Fig.~#2#1#3}{ and~#2#1#3}{,~#2#1#3}{ and~#2#1#3}
+
+\pagestyle{fancy}
