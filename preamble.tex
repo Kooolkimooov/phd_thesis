@@ -20,11 +20,23 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{multirow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{}
 \author{}
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\graphicspath{{figures/}}
 
 \usetikzlibrary{external, angles, quotes, calc, positioning, pgfplots.statistics, patterns}
+
+\newdimen\figurewidth
+\figurewidth=0.7\textwidth
 
 \tikzset{external/system call={
 			pdflatex
@@ -38,14 +50,14 @@
 		}}
 
 % \tikzset{external/force remake=true}
-\tikzexternalize    % PAS DE '{}' À CETTE COMMANDE CA CASSE TOUT
+\tikzexternalize[prefix=build/]    % PAS DE '{}' À CETTE COMMANDE CA CASSE TOUT
 
 \newcommand{\inputtikz}[1]{
 	\tikzsetnextfilename{#1}
 	\input{#1}
 }
 
-\AtBeginDocument{\RenewCommandCopy\qty\SI}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand\shorttableofcontents{
 	{
@@ -62,17 +74,35 @@
 		}
 }
 
-\crefformat{subsection}{Section~#2#1#3}
-\Crefformat{subsection}{Section~#2#1#3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\crefformat{equation}{(#2#1#3)}
+% \crefformat{subsection}{Section~#2#1#3}
+% \Crefformat{subsection}{Section~#2#1#3}
 
-\crefformat{table}{Tab.~#2#1#3}
-\Crefformat{table}{Tab.~#2#1#3}
+% \crefformat{equation}{(#2#1#3)}
 
-\crefformat{figure}{Fig.~#2#1#3}
-\crefrangeformat{figure}{Fig.~#3#1#4 to~#5#2#6}
-\crefmultiformat{figure}{Fig.~#2#1#3}{ and~#2#1#3}{,~#2#1#3}{ and~#2#1#3}
-\Crefformat{figure}{Fig.~#2#1#3}
-\Crefrangeformat{figure}{Fig.~#3#1#4 to~#5#2#6}
-\Crefmultiformat{figure}{Fig.~#2#1#3}{ and~#2#1#3}{,~#2#1#3}{ and~#2#1#3}
+% \crefformat{table}{Tab.~#2#1#3}
+% \Crefformat{table}{Tab.~#2#1#3}
+
+% \crefformat{figure}{Fig.~#2#1#3}
+% \crefrangeformat{figure}{Fig.~#3#1#4 to~#5#2#6}
+% \crefmultiformat{figure}{Fig.~#2#1#3}{ and~#2#1#3}{,~#2#1#3}{ and~#2#1#3}
+% \Crefformat{figure}{Fig.~#2#1#3}
+% \Crefrangeformat{figure}{Fig.~#3#1#4 to~#5#2#6}
+% \Crefmultiformat{figure}{Fig.~#2#1#3}{ and~#2#1#3}{,~#2#1#3}{ and~#2#1#3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareMathOperator*{\argmin}{arg\!\min}
+
+\newcommand\pmeasured[2]{{}^{#1}\mathbf{P}_{#2}}
+\newcommand\pestimated[3]{{{}^{#1}\mathbf{P}_{#3}^{#2}}}
+\newcommand\pdistance[1]{{\varepsilon_{\mathbf{P}}^{#1}}}
+
+\newcommand\plane[1]{\mathcal{P}_{#1}}
+\newcommand\threedframe[1]{\mathcal{F}_{#1}}
+\newcommand\inzeroton{\in\{0,\hdots, n\}}
+
+\newcommand\thetamodel{$\theta$-augmented}
+\newcommand\gammamodel{$\gamma$-augmented}
+\newcommand\thetagammamodel{$\theta\gamma$-augmented}

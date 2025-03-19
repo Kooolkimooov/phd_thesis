@@ -1,104 +1,103 @@
-\begin{tikzpicture}[scale=2]
-    % Define the coordinates for the planes
-    \def\P{.2}
-    \def\Q{.95 - \P}
-    \def\s{.2}
-    \coordinate (O) at (.3, .45);
- 	\coordinate (A) at ($(O) + (0,.4)$); 
-    \coordinate (B) at ($(O) + (3,0)$); 
-    \coordinate (C) at ($(O) + (0,.5)$); 
-    \coordinate (D) at ($(O) + (3,.5)$); 
-    \coordinate (E) at ($(O) + (3, -.36)$); 
-    \coordinate (F) at ($(O) + (0, -.36)$); 
-    \coordinate (C2) at ($(A) +	(80:\P)$); 
-    \coordinate (D2) at ($(B) + (80:\P)$); 
-    \coordinate (F2) at ($(A) + (-100:\Q)$);
+\begin{tikzpicture}[scale=3]
+	% Define the coordinates for the planes
+	\def\P{.2}
+	\def\Q{.95 - \P}
+	\def\s{.2}
+	\coordinate (O) at (.3, .45);
+	\coordinate (A) at ($(O) + (0,.4)$);
+	\coordinate (B) at ($(O) + (3,0)$);
+	\coordinate (C) at ($(O) + (0,.5)$);
+	\coordinate (D) at ($(O) + (3,.5)$);
+	\coordinate (E) at ($(O) + (3, -.36)$);
+	\coordinate (F) at ($(O) + (0, -.36)$);
+	\coordinate (C2) at ($(A) +	(80:\P)$);
+	\coordinate (D2) at ($(B) + (80:\P)$);
+	\coordinate (F2) at ($(A) + (-100:\Q)$);
 	\coordinate (E2) at ($(B) + (-100:\Q)$);
 
-    % Set the parameters for the catenary curve
-	\def\a{1.5} 
-    \def\h{1} 
-    \def\offsetx{-1.76}
+	% Set the parameters for the catenary curve
+	\def\a{1.5}
+	\def\h{1}
+	\def\offsetx{-1.76}
 
 	% Draw the bg planes
-	\fill[red!20, opacity=.9] (A) -- (B) -- (D2) -- (C2) -- cycle; 
-    \fill[blue!20, opacity=.9] (A) -- (B) -- (D) -- (C) -- cycle; 
+	\fill[red!20, opacity=.9] (A) -- (B) -- (D2) -- (C2) -- cycle;
+	\fill[blue!20, opacity=.9] (A) -- (B) -- (D) -- (C) -- cycle;
 
-    % Draw the vertical catenary curve
-    \draw[yshift=-.91cm, xshift=.3cm, blue, smooth, domain=0:3, samples=100, thick]
-    plot (\x, {\h*cosh((\x + \offsetx)/\a)});
+	% Draw the vertical catenary curve
+	\draw[yshift=-.91cm, xshift=.3cm, blue, smooth, domain=0:3, samples=100, thick]
+	plot (\x, {\h*cosh((\x + \offsetx)/\a)});
 
-    % Draw the fg planes
-    \fill[blue!20, opacity=.5] (A) -- (B) -- (E) -- (F) -- cycle;
-    \fill[red!20, opacity=.5] (A) -- (B) -- (E2) -- (F2) -- cycle;
+	% Draw the fg planes
+	\fill[blue!20, opacity=.5] (A) -- (B) -- (E) -- (F) -- cycle;
+	\fill[red!20, opacity=.5] (A) -- (B) -- (E2) -- (F2) -- cycle;
 
-    % Draw the tilited catenary curve
-    \def\a{1.3}
-    \def\offsetx{-1.5}
-    \draw[yshift=-.87cm, xshift=0.05cm, red, smooth, domain=0:3.03, samples=100, thick, rotate=-8.2]
-    plot (\x, {\h*cosh((\x + \offsetx)/\a)});
+	% Draw the tilited catenary curve
+	\def\a{1.3}
+	\def\offsetx{-1.5}
+	\draw[yshift=-.87cm, xshift=0.05cm, red, smooth, domain=0:3.03, samples=100, thick, rotate=-8.2]
+	plot (\x, {\h*cosh((\x + \offsetx)/\a)});
 
-	\node[below left, blue] at (D) {$\mathcal{P}_{v}$}; 
-    \node[above left, red] at (E2) {$\mathcal{P}_{\gamma}$};
+	\node[below left, blue] at (D) {$\mathcal{P}_{v}$};
+	\node[above left, red] at (E2) {$\mathcal{P}_{\gamma}$};
 
-	\draw[densely dotted] (A) -- (B); 
+	\draw[densely dotted] (A) -- (B);
 
-    \draw[->, thick] (A) -- ($ (A)!.1!(B) $) node[below] {$\mathbf{e}$};
+	\draw[->, thick] (A) -- ($ (A)!.1!(B) $) node[below] {$\mathbf{e}$};
 
-    \filldraw (A) circle (.5pt) node[above] {$({}^{v}X_{i}, {}^{v}Z_{i})$}; 
-    \filldraw (B) circle (.5pt) node[above] {$({}^{v}X_{f}, {}^{v}Z_{f})$};
+	\filldraw (A) circle (.5pt) node[above] {$({}^{v}X_{i}, {}^{v}Z_{i})$};
+	\filldraw (B) circle (.5pt) node[above] {$({}^{v}X_{f}, {}^{v}Z_{f})$};
 
-    \draw[->, thick, blue] 
-    ($ (E)!.4!(F) $) -- 
-    ($(E)!.4!(F) + (0:\s)$)  node[above] {$\mathbf{x}_{v}$};
+	\draw[->, thick, blue]
+	($ (E)!.4!(F) $) --
+	($(E)!.4!(F) + (0:\s)$)  node[above] {$\mathbf{x}_{v}$};
 
-	\draw[->, thick, blue] 
-    ($ (E)!.4!(F) $) -- 
-    ($(E)!.4!(F) + (90:\s)$) node[above] {$\mathbf{z}_{v}$};
+	\draw[->, thick, blue]
+	($ (E)!.4!(F) $) --
+	($(E)!.4!(F) + (90:\s)$) node[above] {$\mathbf{z}_{v}$};
 
-    \filldraw[blue] ($ (E)!.4!(F) $) circle (.5pt) node[above left] {$\mathbf{O}_{v}$};
+	\filldraw[blue] ($ (E)!.4!(F) $) circle (.5pt) node[above left] {$\mathbf{O}_{v}$};
 
-    \draw[->, thick, red] 
-    ($ (E2)!.5!(F2)$) -- 
-    ($(E2)!.5!(F2)  + (-10:\s)$)  node[below] {$\mathbf{x}_{\gamma}$};
+	\draw[->, thick, red]
+	($ (E2)!.5!(F2)$) --
+	($(E2)!.5!(F2)  + (-10:\s)$)  node[below] {$\mathbf{x}_{\gamma}$};
 
-	\draw[->, thick, red] 
-    ($ (E2)!.5!(F2)$) -- 
-    ($(E2)!.5!(F2)  + (80:\s)$) node[above] {$\mathbf{z}_{\gamma}$};
-    
-    \filldraw[red] ($ (E2)!.5!(F2)$) circle (.5pt) node[below left] {$\mathbf{O}_{\gamma}$};
+	\draw[->, thick, red]
+	($ (E2)!.5!(F2)$) --
+	($(E2)!.5!(F2)  + (80:\s)$) node[above] {$\mathbf{z}_{\gamma}$};
 
-    \draw[->, very thick] 
-    (A) --
-    ($(A) + (0, -.3)$) node[below right] {$\mathbf{g}$};
+	\filldraw[red] ($ (E2)!.5!(F2)$) circle (.5pt) node[below left] {$\mathbf{O}_{\gamma}$};
 
-    \draw[->, very thick] 
-    (A) --
-    ($(A) + (-100:.35)$) node[left] {$\mathbf{a}_{\gamma}$};
+	\draw[->, very thick]
+	(A) --
+	($(A) + (0, -.3)$) node[below right] {$\mathbf{g}$};
 
-    \draw[densely dashed] 
-    (A) --
-    (F);
+	\draw[->, very thick]
+	(A) --
+	($(A) + (-100:.35)$) node[left] {$\mathbf{a}_{\gamma}$};
 
-    \draw[densely dashed] 
-    (A) --
-    (F2);
+	\draw[densely dashed]
+	(A) --
+	(F);
 
-    \pic[draw, "$\gamma$", <-, angle radius = 1.5cm, angle eccentricity=1.15] {angle=F2--A--F};
+	\draw[densely dashed]
+	(A) --
+	(F2);
 
+	\pic[draw, "$\gamma$", <-, angle radius = 1.5cm, angle eccentricity=1.15] {angle=F2--A--F};
 
-	\draw[->, thick] 
-    ($(E2) + (.5, .25)$) -- 
-    ($(E2) + (.5, .25) + (-160:\s)$) node[below] {$\mathbf{x}_{w}$};
+	\draw[->, thick]
+	($(E2) + (.5, .25)$) --
+	($(E2) + (.5, .25) + (-160:\s)$) node[below] {$\mathbf{x}_{w}$};
 
-    \draw[->, thick] 
-    ($(E2) + (.5, .25)$) -- 
-    ($(E2) + (.5, .25) + (-20:\s)$)  node[below] {$\mathbf{y}_{w}$};
-    
-	\draw[->, thick] 
-    ($(E2) + (.5, .25)$) -- 
-    ($(E2) + (.5, .25) + (90:\s)$) node[left] {$\mathbf{z}_{w}$};
+	\draw[->, thick]
+	($(E2) + (.5, .25)$) --
+	($(E2) + (.5, .25) + (-20:\s)$)  node[below] {$\mathbf{y}_{w}$};
 
-    \filldraw ($(E2) + (.5, .25)$) circle (.5pt) node[above right] {$\mathbf{O}_{\gamma}$};
+	\draw[->, thick]
+	($(E2) + (.5, .25)$) --
+	($(E2) + (.5, .25) + (90:\s)$) node[left] {$\mathbf{z}_{w}$};
+
+	\filldraw ($(E2) + (.5, .25)$) circle (.5pt) node[above right] {$\mathbf{O}_{w}$};
 
 \end{tikzpicture}

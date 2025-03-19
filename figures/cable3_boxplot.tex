@@ -1,0 +1,254 @@
+\begin{tabular}{l>{\hspace{-.5cm}}l<{\hspace{-.32cm}}}
+	\toprule
+	Experimental parameters                                    & \hspace{.6cm}Box plot \\ \midrule
+	                                                           & \multirow{13}{*}{
+		\begin{tikzpicture}[baseline=(current bounding box.center)]
+			\def\boxwidth{.3}
+			\begin{axis}[
+					xmode=log,
+					ymin=.5,
+					ymax=6.5,
+					xmin=10,
+					ytick pos = left,
+					xtick pos = bottom,
+					ytick distance=1,
+					grid,
+					xminorgrids=true,
+					yminorgrids=true,
+					major x grid style={draw=black},
+					major y grid style={draw=none},
+					minor y tick num=1,
+					minor x tick num=9,
+					xtick style={draw=none},
+					ytick style={draw=none},
+					width = \figurewidth,
+					height = .8\figurewidth,
+					axis line style={draw=none},
+					ytick={1, 2, 3, 4, 5, 6},
+					yticklabels=\empty,
+					x tick label style={yshift={-3pt}},
+					xtick={10, 100, 1000, 10000},
+					minor xtick={20, 30, 40, 50, 60, 70, 80, 90, 200, 300, 400, 500}
+				]
+
+				\addplot[fill=blue,
+					boxplot prepared={
+							draw position=6-\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=166.37175729567872,
+							upper quartile=81.14502392711867,
+							median=48.308186936246365,
+							lower quartile=37.87209416318625,
+							lower whisker=24.412070534954612
+						},
+				] coordinates {};
+				\addplot[fill=red,
+					boxplot prepared={
+							draw position=6,
+							box extend=\boxwidth,
+							upper whisker=162.79823113166069,
+							upper quartile=79.8777470215085,
+							median=47.99790522161106,
+							lower quartile=36.85782616705792,
+							lower whisker=24.265320240204918
+						},
+				] coordinates {};
+				\addplot[fill=gray,
+					boxplot prepared={
+							draw position=6+\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=74.45808328786315,
+							upper quartile=51.97338637175727,
+							median=45.826714308767734,
+							lower quartile=36.24278506210092,
+							lower whisker=23.46559448939725
+						},
+				] coordinates {};
+
+				\addplot[fill=blue,
+					boxplot prepared={
+							draw position=5-\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=487.1116289349869,
+							upper quartile=252.8664134529895,
+							median=94.17334981351928,
+							lower quartile=64.07392500485437,
+							lower whisker=25.94106846998213
+						},
+				] coordinates {};
+				\addplot[fill=red,
+					boxplot prepared={
+							draw position=5,
+							box extend=\boxwidth,
+							upper whisker=474.10151575508087,
+							upper quartile=221.4550641995125,
+							median=90.27814509541673,
+							lower quartile=60.4920790205156,
+							lower whisker=25.087514222531706
+						},
+				] coordinates {};
+				\addplot[fill=gray,
+					boxplot prepared={
+							draw position=5+\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=141.79731532445246,
+							upper quartile=86.33961480982926,
+							median=67.02182590025356,
+							lower quartile=59.78649056495194,
+							lower whisker=24.623229036215022
+						},
+				] coordinates {};
+
+				\addplot[fill=blue,
+					boxplot prepared={
+							draw position=4-\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=161.24599398108916,
+							upper quartile=111.65330555414468,
+							median=75.42338896451274,
+							lower quartile=51.097614378829725,
+							lower whisker=47.12492634265537
+						},
+				] coordinates {};
+				\addplot[fill=red,
+					boxplot prepared={
+							draw position=4,
+							box extend=\boxwidth,
+							upper whisker=53.80348534096952,
+							upper quartile=45.27993298389926,
+							median=40.01367943449044,
+							lower quartile=37.850748541726276,
+							lower whisker=34.377475801657894
+						},
+				] coordinates {};
+				\addplot[fill=gray,
+					boxplot prepared={
+							draw position=4+\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=53.54701841295622,
+							upper quartile=44.20890822026989,
+							median=39.71016126233998,
+							lower quartile=37.33750976593085,
+							lower whisker=34.17804420333813
+						},
+				] coordinates {};
+
+				\addplot[fill=blue,
+					boxplot prepared={
+							draw position=3-\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=143.08257893563604,
+							upper quartile=79.31266848233196,
+							median=45.14305945828052,
+							lower quartile=30.68222451128286,
+							lower whisker=19.857394609174445
+						},
+				] coordinates {};
+				\addplot[fill=red,
+					boxplot prepared={
+							draw position=3,
+							box extend=\boxwidth,
+							upper whisker=44.98069561191158,
+							upper quartile=32.152526092660295,
+							median=24.032032975251724,
+							lower quartile=20.114238647962246,
+							lower whisker=17.999234039154285
+						},
+				] coordinates {};
+				\addplot[fill=gray,
+					boxplot prepared={
+							draw position=3+\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=44.03919733739644,
+							upper quartile=32.1354758665523,
+							median=23.57171822344227,
+							lower quartile=19.92965795542834,
+							lower whisker=17.776385601913322
+						},
+				] coordinates {};
+
+				\addplot[fill=blue,
+					boxplot prepared={
+							draw position=2-\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=344.2413901555906,
+							upper quartile=207.98640015549987,
+							median=89.01871165743484,
+							lower quartile=51.880549408453035,
+							lower whisker=44.232740755377485
+						},
+				] coordinates {};
+				\addplot[fill=red,
+					boxplot prepared={
+							draw position=2,
+							box extend=\boxwidth,
+							upper whisker=113.4962270243008,
+							upper quartile=54.6356835304218,
+							median=42.292107671909584,
+							lower quartile=39.21666561753345,
+							lower whisker=34.42002672112561
+						},
+				] coordinates {};
+				\addplot[fill=gray,
+					boxplot prepared={
+							draw position=2+\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=112.358237743214,
+							upper quartile=51.039872935008816,
+							median=42.02579446840352,
+							lower quartile=38.393101661321325,
+							lower whisker=33.02302945132678
+						},
+				] coordinates {};
+
+				\addplot[fill=blue,
+					boxplot prepared={
+							draw position=1-\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=314.0060471172272,
+							upper quartile=172.00194607785886,
+							median=71.91144956913779,
+							lower quartile=36.43939237964243,
+							lower whisker=21.494987812176877
+						},
+				] coordinates {};
+				\addplot[fill=red,
+					boxplot prepared={
+							draw position=1,
+							box extend=\boxwidth,
+							upper whisker=79.29154831073136,
+							upper quartile=35.91995087264892,
+							median=31.54893601467329,
+							lower quartile=28.185482897950155,
+							lower whisker=17.79395982735226
+						},
+				] coordinates {};
+				\addplot[fill=gray,
+					boxplot prepared={
+							draw position=1+\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=62.90912124740531,
+							upper quartile=35.08899623143637,
+							median=31.432095308657967,
+							lower quartile=27.996830688900214,
+							lower whisker=17.783283150063156
+						},
+				] coordinates {};
+			\end{axis}
+		\end{tikzpicture}
+	}                                                                                  \\ [-5.75pt]
+	\multirow{2}{*}{surge, \qty{0.3}{\m\per\s}, \qty{2.0}{\m}} &                       \\
+	                                                           &                       \\                    \\[-4.pt]
+	\multirow{2}{*}{surge, \qty{0.6}{\m\per\s}, \qty{2.0}{\m}} &                       \\
+	                                                           &                       \\                    \\[-4.pt]
+	\multirow{2}{*}{sway,  \qty{0.3}{\m\per\s}, \qty{1.5}{\m}} &                       \\
+	                                                           &                       \\                    \\[-4.pt]
+	\multirow{2}{*}{sway,  \qty{0.3}{\m\per\s}, \qty{2.0}{\m}} &                       \\
+	                                                           &                       \\                    \\[-4.pt]
+	\multirow{2}{*}{sway,  \qty{0.6}{\m\per\s}, \qty{1.5}{\m}} &                       \\
+	                                                           &                       \\                    \\[-4.pt]
+	\multirow{2}{*}{sway,  \qty{0.6}{\m\per\s}, \qty{2.0}{\m}} &                       \\
+	                                                           &                       \\ [-4.75pt]
+	                                                           &                       \\ \midrule
+	error / \unit{\mm}                                         &                       \\ \bottomrule
+\end{tabular}

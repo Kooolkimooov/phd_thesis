@@ -1,0 +1,106 @@
+\begin{tikzpicture}
+
+	\def\tmin{0.0}
+	\def\tmax{14.2}
+
+	\def\devmin{-10}
+	\def\devmax{550}
+
+	\def\speedmin{-1.3}
+	\def\speedmax{1.2}
+
+	\def\anglemin{-.9}
+	\def\anglemax{.9}
+
+	\begin{axis}[
+			at={(0,0)},
+			xmin = \tmin,
+			xmax = \tmax,
+			ymin = \devmin,
+			ymax = \devmax,
+			ytick pos = left,
+			xtick pos = bottom,
+			grid = both,
+			xticklabels = {},
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			ylabel = error / \unit{\mm},
+			legend cell align={left},
+			legend style={fill opacity=.75, text opacity=1, draw=none}
+		]
+
+		\addplot[blue, thick, dashed, smooth] table {figures/data/e_vertical_L_dynamique3x200dis2_0122.txt};
+		\label{vertical}
+
+		\addplot[red, thick, densely dashed, smooth] table {figures/data/e_gamma_L_dynamique3x200dis2_0122.txt};
+		\label{gamma}
+
+		\addplot[gray, thick, smooth] table {figures/data/e_theta_gamma_L_dynamique3x200dis2_0122.txt};
+		\label{thetagamma}
+
+		\addlegendimage{/pgfplots/refstyle=vertical}\addlegendentry{standard}
+		\addlegendimage{/pgfplots/refstyle=gamma}\addlegendentry{$\gamma$-augmented}
+		\addlegendimage{/pgfplots/refstyle=thetagamma}\addlegendentry{$\theta\gamma$-augmented}
+	\end{axis}
+
+	\begin{axis}[
+			at={(0,-.35\figurewidth)},
+			xmin = \tmin,
+			xmax = \tmax,
+			ymin = \speedmin,
+			ymax = \speedmax,
+			ytick pos = left,
+			xtick pos = bottom,
+			grid = both,
+			width = \figurewidth,
+			height = .5\figurewidth,
+			xlabel = time / \unit{\s},
+			ylabel = speed / \unit{\m\per\s}
+		]
+		\addplot[black, thick, smooth] table {figures/data/speed_L_dynamique3x200dis2_0122.txt};
+		\label{speed}
+		\addplot[thick, black, dashed] coordinates {
+				(0, 0)
+				(2, 0)
+				(2, .6)
+				(4.5, .6)
+				(4.5, -1.2)
+				(4.8, -1.2)
+				(4.8, -.3)
+				(5, -.3)
+				(5, 0)
+				(20, 0)
+			};
+		\label{command}
+	\end{axis}
+
+	\begin{axis}[
+			at={(0,-.35\figurewidth)},
+			axis y line=right,
+			y axis line style = {-},
+			axis x line=none,
+			xmin = \tmin,
+			xmax = \tmax,
+			ymin = \anglemin,
+			ymax = \anglemax,
+			width = \figurewidth,
+			height = .5\figurewidth,
+			ylabel = angle / \unit{\radian},
+			y label style = {rotate=180},
+			legend cell align={left},
+			legend style={fill opacity=.75, text opacity=1, draw=none}
+		]
+		\addlegendimage{/pgfplots/refstyle=speed}\addlegendentry{robot speed}
+		\addlegendimage{/pgfplots/refstyle=command}\addlegendentry{speed command}
+
+		\addplot[red, thick, densely dashed, smooth] table {figures/data/gamma_L_dynamique3x200dis2_0122.txt};
+		\label{gamma}
+
+		\addplot[olive, thick, densely dotted, smooth] table {figures/data/theta_L_dynamique3x200dis2_0122.txt};
+		\label{theta}
+
+		\addlegendimage{/pgfplots/refstyle=gamma}\addlegendentry{angle $\gamma$}
+		\addlegendimage{/pgfplots/refstyle=theta}\addlegendentry{angle $\theta$}
+	\end{axis}
+
+\end{tikzpicture}
