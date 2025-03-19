@@ -6,20 +6,19 @@ on:
   push:
     tags:
       v*
-  # schedule:
-  #   - cron: "0 20 * * *" 
+  schedule:
+    - cron: "00 20 * * *" 
   workflow_dispatch:
 jobs:
     build:
       runs-on: ubuntu-latest
+      container:
+        image: ghcr.io/xu-cheng/texlive-full:latest
       steps:
         - name: checkout
           uses: actions/checkout@v4
-        - name: compile
-          uses: xu-cheng/latex-action@v3
-          with: 
-              latexmk_shell_escape: true
-              root_file: thesis.tex
+        - name: build
+          run: make thesis
         - name: get date
           id: date
           run: echo "::set-output name=date::$(date +'%d.%m.%Y')"
@@ -28,11 +27,11 @@ jobs:
           if: startsWith(github.ref, 'refs/tags/')
           with:
             make_latest: true
-            files: thesis.pdf
+            files: out/thesis.pdf
         - name: prerelease
           uses: softprops/action-gh-release@v2
           if: ${{ !startsWith(github.ref, 'refs/tags/') }}
           with:
             tag_name: '${{ steps.date.outputs.date }}'
             prerelease: true
-            files: thesis.pdf
+            files: out/thesis.pdf

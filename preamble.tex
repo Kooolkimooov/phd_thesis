@@ -41,15 +41,15 @@
 \tikzset{external/system call={
 			pdflatex
 			\tikzexternalcheckshellescape
-			-halt-on-error
 			--extra-mem-top=10000000 % that helps compile humongus tikz pictures
+			--main-memory=10000000
+			--extra-mem-bot=10000000
 			-interaction=batchmode
 			-jobname
 			"\image"
 			"\texsource"
 		}}
 
-% \tikzset{external/force remake=true}
 \tikzexternalize[prefix=build/]    % PAS DE '{}' À CETTE COMMANDE CA CASSE TOUT
 
 \newcommand{\inputtikz}[1]{
