@@ -22,6 +22,8 @@
 \usepackage{enumitem}
 \usepackage{subcaption}
 \usepackage{multirow}
+\usepackage{minitoc}
+\usepackage{titlesec}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,6 +59,22 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\dominitoc
+\tightmtctrue
+\setcounter{minitocdepth}{1}
+
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge\hyperlink{table_of_contents}}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries}{\thesection}{1em}{\hyperlink{table_of_contents}}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries}{\thesubsection}{1em}{\hyperlink{table_of_contents}}
+
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{\hyperlink{table_of_contents}}
+
 \newcommand\shorttableofcontents{
 	{
 			\renewcommand*{\contentsname}{Short contents}
@@ -66,8 +84,9 @@
 }
 \newcommand\longtableofcontents{
 	{
-			\renewcommand*{\contentsname}{Contents}
-			\setcounter{tocdepth}{4}
+			\renewcommand*{\contentsname}{Full Contents}
+			\setcounter{tocdepth}{10}
+			\hypertarget{table_of_contents}{}
 			\tableofcontents
 		}
 }
