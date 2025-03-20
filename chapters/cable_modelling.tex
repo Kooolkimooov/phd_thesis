@@ -4,47 +4,20 @@
 
 \section{Introduction}\label{cable_modelization_sec_introduction}
 
-Remotely Operated Vehicles (ROVs) are used to explore unknown areas. Their tether is the only way
-to provide direct feedback to the pilot, as electromagnetic waves are absorbed in the first few
-centimetres of water. However, the tether can interfere with the robot's movement and, if its shape
-is not controlled, it can become entangled in obstacles. This is even more critical when exploring
-confined karstic terrain, wrecks or offshore installations with small observation ROVs. This study
-focuses on shape estimation of tethers of a few metres in length, \textit{e.g.} the portion of
-cable connecting two mini-ROVs of a chain~\cite{laranjeira2020a} or a mini-ROV to an Unmanned
-Surface Vehicle (USV)~\cite{tortorici2019}. To be used in robot control for path following and
-obstacle avoidance, the chosen geometric model must be parametrised and fast to compute.
+This chapter focuses on the modeling of a cable --particularly its shape-- attached to underwater
+robots under different usage modes. With an accurate model, the cable can be usued as a
+localization method for the robots as well as a basis for control constraints. Its usage in the
+control scheme of the system constrains the model to be as computationally efficient as possible
+while staying accurate. The model must also be inferred from available sensors: IMUs, water
+pressure sensor and cameras.
 
-The standard catenary model, bound to a vertical plane, is defined as the shape of an idealized
-homogeneous hanging cable with fixed length and fixed ends, only subject to its own weight in the
-air. The catenary shape can be determined knowing the cable’s length and its deflection. Depending
-on the available sensors, its shape can be estimated either from the relative position of the two
-attachment points such as in~\cite{dantonio2021, DAntonio2022} or from the local cable tangent
-orientation~\cite{Dru_Dun2022b}.
+The contributions of this chapter are the following:
+\begin{itemize}
+	\item \Cref{cable_modelization_sec_modelization}: The introduction of an augmented catenary model that improves the accuracy of the model;
+	\item \Cref{cable_modelization_sec_experiment}: The experimental validation of the model on eight different cables.
+\end{itemize}
 
-However, the extension of the catenary model to an underwater cable is not straightforward in the
-presence of hydrodynamic effects. In static conditions, submarine cables are only subject to weight
-and buoyancy. While the quasi-static assumption remains applicable for aerial cables at low speed
-when air friction can be neglected, the underwater drag involves hydrodynamic forces that move the
-cable from its vertical plane, even at low speed~\cite{Dru_Dun2022a}.
-
-The main contribution of the present study is the introduction of a new enhanced catenary model
-that incorporates full tilting of the tether during surge or sway motion of the underwater robot.
-The relevance of this geometric model is confirmed by experiments conducted on eight cables with
-different mechanical properties (\cref{cable_modelization_fig_experimentalsetup}).
-
-\begin{figure}
-	\centering
-	\includegraphics[width=\figurewidth, trim=40 20 110 20, clip]{experiment_picture.jpg}
-	\caption{Experimental setup. A dark red cable connects the ROV to a fixed point. Optical markers are regularly placed on
-		the cable for underwater motion tracking. The slack light yellow tether is used for communications with the ROV}
-	\label{cable_modelization_fig_experimentalsetup}
-\end{figure}
-
-The paper is organized as follows. \cref{cable_modelization_sec_related_work} presents related work
-on underwater tethered robots and cable shape estimation.
-\cref{cable_modelization_sec_modelization} introduces the augmented catenary model. The
-experimental protocol and data analysis are detailed in \cref{cable_modelization_sec_experiment}.
-\Cref{cable_modelization_sec_conclusion} concludes the study and outlines future work.
+\newpage
 
 \section{Modeling and estimation}
 \label{cable_modelization_sec_modelization}
