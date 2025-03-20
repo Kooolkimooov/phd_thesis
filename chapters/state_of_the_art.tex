@@ -1,1 +1,45 @@
 \chapter{State of the art}
+
+\section{Cable modelization}
+
+Tethered robots are particularly common in underwater robotics, where cables are the only way to
+provide real time communication between ROVs and the surface~\cite{tortorici2019}. Multiple
+underwater robots can also be connected together in order to communicate freely and share
+resources. In~\cite{yu2013}, small vehicles are connected to a bigger autonomous submarine. In
+addition, underwater robot chains are being investigated in order to limit the mechanical impact of
+tethers on ROV navigation and control by the addition of multiple mini-ROV on the cable to control
+its shape~\cite{laranjeira2020a, Dru_Dun2022b}. It results in an additional underwater tethered
+robot configuration in which small devices are linked together by short cable portions.
+
+The safe control of tethered robotic systems strongly relies on cable shape knowledge: on the one
+hand, controlling tethered robots requires knowledge of the cable's state~\cite{laranjeira2020a},
+on the other hand, cable shape knowledge gives information about the localization of the robot at
+its end point~\cite{mcgarey2017, Viel2023}. Some underwater cables are designed as proprioceptive
+sensors in order to measure their own shape. Optical-fiber cables measure their deformations using
+reflectometry techniques~\cite{duncan2007, floris2021}. Such cables can be used to locate connected
+underwater vessels~\cite{yu2013}. Another version of optical fiber cable shape sensing consists in
+adding an external optical fiber sensor coating on a cable~\cite{xu2016}. Such cables are, however,
+fragile and extremely expensive. The cable shape can also be estimated from the measurements of
+inertial sensors placed along it~\cite{franck2013}. However, these methods require the use of a
+specially designed cable. In addition, the accuracy of these methods decreases with the cable's
+length due to error accumulation, e.g.\ approx.\ \qty{1}{\cm} error for a \qty{1}{\m} long optical
+fiber cable~\cite{duncan2007}.
+
+Other strategies make use of physical or geometrical cable models. A physical model can be
+developed based on the cable's hydrodynamics and the forces acting upon
+it~\cite{eidsvik2018,meng2020,soylu2010,hong2020}. Although such models are the most comprehensive
+and designed to closely match the physics, they are computationally intensive and require an
+extensive understanding of multiple parameters which are difficult to measure under actual
+circumstances, such as water current or thruster parameters. As a result, simpler models are often
+preferred. The cable may be constrained to a simplified geometric shape artificially, for instance
+by introducing weights or sliding floaters to make it piecewise linear~\cite{Viel2022_oe, Viel2022,
+	Viel2023}. Some studies employ the catenary model, a hyperbolic curves, for underwater or aerial
+settings~\cite{laranjeira2020a, Dru_Dun2022b}, whereas parabolic curves may also be utilized in
+aerial scenarios~\cite{smolentsev_shape_2023}.
+
+However, in the presence of external forces, including ambient currents, hydrodynamic damping
+during motion, the geometric models that represent quasi-static cable shapes may not be accurate
+enough. A preliminary study~\cite{Dru_Dun2022a} investigated the accuracy of an inclined catenary
+model for short cables connecting a pair of moving robots, using motion tracking of genuine cables.
+This paper expands on the findings of the study by presenting an enhanced parameterized model that
+considers complete cable inclination caused by external forces underwater.
