@@ -39,9 +39,9 @@
 	\filldraw (A) circle (.5pt);
 	\filldraw (B) circle (.5pt);
 
-	\draw[<->] (A2L) node[above right] {$H$} -- (A2);
-	\draw[<->] (A2) node[above right] {$\Delta H$} -- (A2U);
+	\draw[<->] (A2L) -- (A2) node[midway, right] {$H$};
+	\draw[<->] (A2) -- (A2U) node[midway, right] {$\Delta H$};
 
-	\draw[<->] ($ (AL) + (0, -.2) $) -- ($ (AL)!.5!(BL) + (0, -.2)$) node[below] {$l$} -- ($ (BL) + (0, -.2)$);
+	\draw[<->] ($ (AL) + (0, -.2) $) -- ($ (BL) + (0, -.2)$) node[midway, below] {$l$};
 
 \end{tikzpicture}

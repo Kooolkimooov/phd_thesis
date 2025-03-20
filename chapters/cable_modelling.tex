@@ -2,7 +2,8 @@
 
 \minitoc
 
-\section{Introduction}\label{cable_modelization_sec_introduction}
+\section{Introduction}
+\label{cable_modelization_sec_introduction}
 
 This chapter focuses on the modeling of a cable --particularly its shape-- attached to underwater
 robots under different usage modes. With an accurate model, the cable can be usued as a
@@ -22,8 +23,8 @@ The contributions of this chapter are the following:
 \section{Modeling and estimation}
 \label{cable_modelization_sec_modelization}
 
-Let $\threedframe{w} =(\mathbf{O}_{w}, \mathbf{x}_{w}, \mathbf{y}_{w}, \mathbf{z}_{w})$ be a fixed
-Cartesian reference frame with the $\mathbf{z}_{w}$-axis vertical and pointing upwards.
+Let \lframefull{w} be a fixed Cartesian reference frame with the \ldvect{z}{w}-axis vertical and
+pointing upwards.
 
 \subsection{Standard catenary model}
 \label{cable_modelization_subsec_catenary_model}
@@ -31,24 +32,22 @@ Cartesian reference frame with the $\mathbf{z}_{w}$-axis vertical and pointing u
 The shape of a homogeneous hanging cable, with fixed length $L$, only subjected to its weight and
 buoyancy, is defined by a standard catenary curve
 (\cref{cable_modelization_fig_schematic_catenary_model}). The catenary lies in a vertical plane
-$\plane{v}=(\mathbf{O}_{v}, \mathbf{x}_{v},\mathbf{z}_{v})$, associated to the Cartesian frame
-$\threedframe{v}=(\mathbf{O}_{v}, \mathbf{x}_{v},\mathbf{y}_{v},\mathbf{z}_{v})$ where
-$\mathbf{O}_{v}$ is the lowest point of the curve, $\mathbf{x}_{v}$ is horizontal and
-$\mathbf{z}_{v}$ is collinear to $\mathbf{z}_{w}$. Curve points coordinates $\left( {}^{v}X,{}^{v}Z
-	\right) \in \plane{v}$ are given by:
+\lplanefullxz{v}, associated to the Cartesian frame \lframefull{v} is the lowest point of the
+curve, \ldvect{x}{v} is horizontal and \ldvect{z}{v} is collinear to \ldvect{z}{w}. Curve points
+coordinates $\left( {}^{v}X,{}^{v}Z \right) \in \lplane{v}$ are given by:
 \begin{gather}
 	({}^{v}X, {}^{v}Z)\in[{}^{v}X_{i}, {}^{v}X_{f}]\times \mathbb{R} ~ \text{such that} \nonumber\\
 	{}^{v}Z = \frac{\cosh{({}^{v}XC)} - 1}{C}
 	\label{cable_modelization_eq_catenary_base}
 \end{gather}
-where $C \in \mathbb{R}^*_+$ is the catenary parameter, and indexes $i$ and $f$ refer to the curve's endpoints.
-The left superscript indicates the frame in which a coordinate is given.
+where $C \in \mathbb{R}^*_+$ is the catenary parameter, and indexes $i$ and $f$ refer to the
+curve's endpoints. The left superscript indicates the frame in which a coordinate is given.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary}
 	\caption{
-		Catenary curve of length $L$ defined in $\plane{v}$.
+		Catenary curve of length $L$ defined in \lplane{v}.
 		Parameters are the sag $H$, the difference of elevation $\Delta H$ and the horizontal distance $l$ between
 		attachment points
 	}
@@ -69,13 +68,12 @@ cable is tilted, and its intensity is increased depending on the velocity. The a
 degrees of freedom in the cable shape model to account for this effect is used here to extend the
 standard catenary model.
 
-The first degree of freedom is a rotation of angle $\gamma$ around the catenary axis $\mathbf{e}$,
+The first degree of freedom is a rotation of angle $\gamma$ around the catenary axis \vect{e},
 which is defined as the unit vector that connects cable endpoints~\cite{Dru_Dun2022b}
 (\cref{cable_modelization_fig_schematic_gamma_augmented_catenary}). This is to consider the
 deformations of a tether subjected to sway motions, \emph{i.e.} the cable ends move out of the
-vertical plane, namely $\plane{v}$. This rotation applied to $\threedframe{v}$ and $\plane{v}$
-gives $\threedframe{\gamma} = (\mathbf{O}_{\gamma}, \mathbf{x}_{\gamma},\mathbf{y}_{\gamma},
-	\mathbf{z}_{\gamma})$ and $\plane{\gamma}$, respectively.
+vertical plane, namely \lplane{v}. This rotation applied to \lframe{v} and \lplane{v} gives
+\lframefull{\gamma}, respectively.
 
 \begin{figure}
 	\centering
@@ -86,24 +84,23 @@ gives $\threedframe{\gamma} = (\mathbf{O}_{\gamma}, \mathbf{x}_{\gamma},\mathbf{
 	\label{cable_modelization_fig_schematic_gamma_augmented_catenary}
 \end{figure}
 
-The second degree of freedom, a rotation of angle $\theta$ in $\plane{\gamma}$
+The second degree of freedom, a rotation of angle $\theta$ in \lplane{\gamma}
 (\cref{cable_modelization_fig_theta_augmented_catenary}), considers tether deformations caused by
 surge motions, \textit{i.e.} the two cable ends get closer or further away. The approximation of
 uniform hydrodynamic forces along the cable results in a uniform tilted acceleration
-$\mathbf{a}_{\theta\gamma}$ with respect to gravity. Let $\threedframe{\theta\gamma} =
-	(O_{\theta\gamma}, \mathbf{x}_{\theta\gamma}, \mathbf{y}_{\theta\gamma},
-	\mathbf{z}_{\theta\gamma})$ be the associated Cartesian frame where $\mathbf{z}_{\theta\gamma}$ is
-parallel to $\mathbf{a}_{\theta\gamma}$ and $\mathbf{y}_{\theta\gamma}$ is parallel to
-$\mathbf{y}_{\gamma}$. The two ends of the cable can be expressed in $\threedframe{\theta\gamma}$
-and~\cref{cable_modelization_eq_catenary_base} is used to construct the oriented catenary. This
-2-DOF model is named the \emph{\thetagammamodel{} model}.
+\ldvect{a}{\theta\gamma} with respect to gravity. Let \lframefull{\theta\gamma} be the associated
+Cartesian frame where \ldvect{z}{\theta\gamma} is parallel to \ldvect{a}{\theta\gamma} and
+\ldvect{y}{\theta\gamma} is parallel to \ldvect{y}{\gamma}. The two ends of the cable can be
+expressed in \lframe{\theta\gamma} and~\cref{cable_modelization_eq_catenary_base} is used to
+construct the oriented catenary. This 2-DOF model is named the \emph{\thetagammamodel{} model}.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/tilted_catenary}
 	\caption{
 		\gammamodel{} (red) and \thetagammamodel{} (green) catenary for $\theta = \qty{45}{\degree}$
-	} \label{cable_modelization_fig_theta_augmented_catenary}
+	}
+	\label{cable_modelization_fig_theta_augmented_catenary}
 \end{figure}
 
 Note that zero values for $\gamma$ and $\theta$ yield the \emph{standard catenary} model. If
@@ -119,14 +116,14 @@ Henceforth, the symbols $m,v, \gamma$ and $\theta\gamma$ are used as indexes ref
 measurements and the estimates of the \textit{standard}, \gammamodel{} and \thetagammamodel{}
 catenary model variations, respectively. Model points are written:
 \begin{align*}
-	\pestimated{w}{\ast}{k}=({}^{w}X_{k}^{\ast}, {}^{w}Y_{k}^{\ast}, {}^{w}Z_{k}^{\ast}) \\
+	\fllvect{P}{w}{\ast}{k}=({}^{w}X_{k}^{\ast}, {}^{w}Y_{k}^{\ast}, {}^{w}Z_{k}^{\ast}) \\
 	k\inzeroton, \ast\in \left\{ m, v, \gamma, \theta\gamma \right\}
 \end{align*}
 where indexes $k=0$ and $k=n$ are the tether endpoints, also indexed $i$ and $f$.
 
 Model variants accuracies are computed by means of the residuals:
 \begin{align}
-	\pdistance{\ast} & = \frac{1}{n}\sum_{k=0}^{n}{\norm{\pestimated{w}{m}{k} -\pestimated{w}{\ast}{k}}}, ~
+	\res{\ast} & = \frac{1}{n}\sum_{k=0}^{n}{\norm{ \fllvect{P}{w}{m}{k} - \fllvect{P}{w}{\ast}{k} }}, ~
 	\ast\in \left\{v, \gamma, \theta\gamma \right\}
 	\label{cable_modelization_eq_error_vt_definition}
 \end{align}
@@ -136,7 +133,7 @@ Model variants accuracies are computed by means of the residuals:
 
 Let $L$ be the known tether length, $l$ the horizontal distance and $\Delta H$ the difference in
 elevation between the tether attachment points calculated from the measurements of the initial and
-final attachment points $\pestimated{\Diamond}{m}{i}$ and $\pestimated{\Diamond}{m}{f}$, with
+final attachment points \fllvect{P}{\Diamond}{m}{i} and \fllvect{P}{\Diamond}{m}{f}, with
 $\Diamond\in\{v, \gamma, \theta\gamma\}$ the frame in which the points are expressed
 (\cref{cable_modelization_fig_schematic_catenary_model}). The catenary parameter $C$ is estimated
 by finding the root of function $f$ which relates the curve's length and~$C$~\cite{laranjeira2020a}
@@ -147,17 +144,17 @@ by finding the root of function $f$ which relates the curve's length and~$C$~\ci
 
 \subsubsection{Augmented model parameters}
 
-Let $\pdistance{\theta\gamma}\left(\theta, \gamma\right)$ be the accuracy written as a function of
-$\theta$ and $\gamma$~\cref{cable_modelization_eq_error_vt_definition}. Angles $\theta$ and
-$\gamma$ are estimated by minimizing this function by means of the trust region reflective
+Let $\res{\theta\gamma}\left(\theta, \gamma\right)$ be the accuracy written as a
+function of $\theta$ and $\gamma$~\cref{cable_modelization_eq_error_vt_definition}. Angles $\theta$
+and $\gamma$ are estimated by minimizing this function by means of the trust region reflective
 algorithm~\cite{Branch1999TIR}:
 \begin{align*}
-	(\theta, \gamma) = \argmin_{(\theta, \gamma)\in\left[-\pi,\pi\right]^2} \pdistance{\theta\gamma}\left(\theta, \gamma\right)
+	(\theta, \gamma) = \argmin_{(\theta, \gamma)\in\left[-\pi,\pi\right]^2}{\res{\theta\gamma}\left(\theta, \gamma\right)}
 \end{align*}
 
 The initial estimates $\theta_0$ and $\gamma_0$ are respectively set to zero and to the angle
-between $\plane{\gamma_0}$ and $\plane{v}$, where $\plane{\gamma_0}$ is the closest plane to all
-measured points.
+between $\lplane{\gamma_{0}}$ and $\lplane{v}$, where $\lplane{\gamma_0}$ is the closest plane to
+all measured points.
 
 \section{Experiments}\label{cable_modelization_sec_experiment}
 
@@ -274,8 +271,8 @@ shape fitting due to their clear positive or negative buoyancy, highlighted in
 \subsection{Experimental setup}
 
 The experiment is set up in a \qty{7.2}{\m} long, \qty{4.2}{\m} wide and \qty{3}{\m} deep tank. One
-end of the cable, namely $\pestimated{w}{m}{n}$, is attached to a ROV (BlueROV), while the other,
-namely $\pestimated{w}{m}{0}$, is fixed and attached to the side of the pool
+end of the cable, namely \fllvect{P}{w}{m}{n}, is attached to a ROV (BlueROV), while the other,
+namely \fllvect{P}{w}{m}{0}, is fixed and attached to the side of the pool
 (\cref{cable_modelization_fig_experimentalsetup}).
 
 The cable's and robot's positions are recorded by a 5-camera, \qty{100}{\Hz}
@@ -283,8 +280,8 @@ The cable's and robot's positions are recorded by a 5-camera, \qty{100}{\Hz}
 motion capture system. The robot as well as each cable are equipped with passive reflective markers
 and the cable's markers are evenly spaced out by \qty{0.2}{\m} ($n=15$). The calibration of the
 motion capture system gives a standard deviation of \qty{2.2}{\mm} across the pool's volume for a
-known object's length. The points $\pestimated{w}{m}{k}$ are measured in the \textit{Qualysis}
-world Cartesian frame which is defined by the positioning of a calibration target that may not be
+known object's length. The points \fllvect{P}{w}{m}{k} are measured in the \textit{Qualysis} world
+Cartesian frame which is defined by the positioning of a calibration target that may not be
 perfectly vertical in the real experiment. This introduces a small offset
 ($\pm$\qty{0.05}{\radian}) for the steady state angles as it can be seen in
 \cref{cable_modelization_fig_sequences_cable3surge,cable_modelization_fig_sequences_cable3sway,cable_modelization_fig_sequences_cable6surge,cable_modelization_fig_sequences_cable6sway}.
@@ -369,9 +366,10 @@ in~\cref{cable_modelization_subsec_cable}).
 	\centering
 	\inputtikz{figures/cables_boxplot}
 	\caption{
-		Box plots of  all 8 cables under all experimental parameters (speed, direction, distance) with the median,
-		1\textsuperscript{st} and 3\textsuperscript{rd} quartile, the 1\textsuperscript{st} and 99\textsuperscript{th} percentile
-		of model residuals $\pdistance{v}$ (blue), $\pdistance{\gamma}$ (red) and $\pdistance{\theta\gamma}$ (gray).
+		Box plots of all 8 cables under all experimental parameters (speed, direction, distance) with the
+		median, 1\textsuperscript{st} and 3\textsuperscript{rd} quartile, the 1\textsuperscript{st} and
+		99\textsuperscript{th} percentile of model residuals \res{v} (blue),
+		\res{\gamma} (red) and \res{\theta\gamma} (gray).
 	}
 	\label{cable_modelization_fig_boxplot_all}
 \end{figure}
@@ -382,9 +380,9 @@ in~\cref{cable_modelization_subsec_cable}).
 	\centering
 	\inputtikz{figures/cable3_boxplot}
 	\caption{
-		Box plots of the two-pair network cable, cable~\subref{cable_modelization_fig_image_two_pairs} residuals
-		$\pdistance{v}$ in blue,
-		$\pdistance{\gamma}$ in red and $\pdistance{\theta\gamma}$ in gray
+		Box plots of the two-pair network cable, cable~\subref{cable_modelization_fig_image_two_pairs}
+		residuals \res{v} in blue, \res{\gamma} in red and
+		\res{\theta\gamma} in gray
 	}
 	\label{cable_modelization_tab_parameters_cable3}
 \end{figure}
@@ -393,9 +391,9 @@ in~\cref{cable_modelization_subsec_cable}).
 	\centering
 	\inputtikz{figures/cable6_boxplot}
 	\caption{
-		Box plots of the leaded seamstress rope, cable~\subref{cable_modelization_fig_image_weighted} residuals
-		$\pdistance{v}$ in blue,
-		$\pdistance{\gamma}$ in red and $\pdistance{\theta\gamma}$ in gray
+		Box plots of the leaded seamstress rope, cable~\subref{cable_modelization_fig_image_weighted}
+		residuals $\res{v}$ in blue, $\res{\gamma}$ in red and
+		$\res{\theta\gamma}$ in gray
 	}
 	\label{cable_modelization_tab_parameters_cable6}
 \end{figure}

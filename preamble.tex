@@ -93,6 +93,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\nouppercaseheads
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % \crefformat{subsection}{Section~#2#1#3}
 % \Crefformat{subsection}{Section~#2#1#3}
 
@@ -112,13 +116,34 @@
 
 \DeclareMathOperator*{\argmin}{arg\!\min}
 
-\newcommand\pmeasured[2]{{}^{#1}\mathbf{P}_{#2}}
-\newcommand\pestimated[3]{{{}^{#1}\mathbf{P}_{#3}^{#2}}}
-\newcommand\pdistance[1]{{\varepsilon_{\mathbf{P}}^{#1}}}
+\newcommand\coord[2]{\ensuremath{{}^{#2}#1}}
+\newcommand\lucoord[3]{\ensuremath{{}^{#2}#1^{#3}}}
+\newcommand\ldcoord[3]{\ensuremath{{}^{#2}#1_{#3}}}
 
-\newcommand\plane[1]{\mathcal{P}_{#1}}
-\newcommand\threedframe[1]{\mathcal{F}_{#1}}
-\newcommand\inzeroton{\in\{0,\hdots, n\}}
+\newcommand\vect[1]{\ensuremath{\mathbf{#1}}}
+\newcommand\fvect[2]{\ensuremath{{}^{#2}\vect{#1}}}
+\newcommand\luvect[2]{\ensuremath{\vect{#1}^{#2}}}
+\newcommand\ldvect[2]{\ensuremath{\vect{#1}_{#2}}}
+\newcommand\fluvect[3]{\ensuremath{\fvect{#1}{#2}^{#3}}}
+\newcommand\fldvect[3]{\ensuremath{\fvect{#1}{#2}_{#3}}}
+\newcommand\fllvect[4]{\ensuremath{\fvect{#1}{#2}_{#3}^{#4}}}
+
+\newcommand\res[1]{\ensuremath{\varepsilon_{#1}}}
+
+\newcommand\lplane[1]{\ensuremath{\mathcal{P}_{#1}}}
+\newcommand\lframe[1]{\ensuremath{\mathcal{F}_{#1}}}
+
+\newcommand\fvectfull[2]{\ensuremath{\fvect{#1}{#2}=(\coord{x}{#2}, \coord{y}{#2},\coord{z}{#2})}}
+\newcommand\fluvectfull[3]{\ensuremath{\fluvect{#1}{#2}{#3}=(\lucoord{x}{#2}{#3}, \lucoord{y}{#2}{#3},\lucoord{z}{#2}{#3})}}
+\newcommand\fldvectfull[3]{\ensuremath{\fldvect{#1}{#2}{#3}=(\ldcoord{x}{#2}{#3}, \ldcoord{y}{#2}{#3},\ldcoord{z}{#2}{#3})}}
+
+\newcommand\lplanefullxy[1]{\ensuremath{\lplane{#1}=(\ldvect{O}{#1}, \ldvect{x}{#1},\ldvect{y}{#1})}}
+\newcommand\lplanefullxz[1]{\ensuremath{\lplane{#1}=(\ldvect{O}{#1}, \ldvect{x}{#1},\ldvect{z}{#1})}}
+\newcommand\lplanefullyz[1]{\ensuremath{\lplane{#1}=(\ldvect{O}{#1}, \ldvect{y}{#1},\ldvect{z}{#1})}}
+
+\newcommand\lframefull[1]{\ensuremath{\lframe{#1}=(\ldvect{O}{#1},\ldvect{x}{#1},\ldvect{y}{#1},\ldvect{z}{#1})}}
+
+\newcommand\inzeroton{\ensuremath{\in\{0,\hdots, n\}}}
 
 \newcommand\thetamodel{$\theta$-augmented}
 \newcommand\gammamodel{$\gamma$-augmented}
