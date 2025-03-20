@@ -1,7 +1,8 @@
 \begin{tabular}{l>{\hspace{-.5cm}}l<{\hspace{-.32cm}}}
 	\toprule
-	Experimental parameters                                    & \hspace{.6cm}Box plot \\ \midrule
-	                                                           & \multirow{13}{*}{
+	Experimental parameters                   & \hspace{.6cm}Box plot \\ \midrule
+	surge, \qty{0.3}{\m\per\s}, \qty{2.0}{\m} &
+	\multirow{7}{*}{
 		\begin{tikzpicture}[baseline=(current bounding box.center)]
 			\def\boxwidth{.3}
 			\begin{axis}[
@@ -21,7 +22,7 @@
 					minor x tick num=9,
 					xtick style={draw=none},
 					ytick style={draw=none},
-					width = \figurewidth,
+					width = .8\figurewidth,
 					height = .8\figurewidth,
 					axis line style={draw=none},
 					ytick={1, 2, 3, 4, 5, 6},
@@ -236,19 +237,12 @@
 				] coordinates {};
 			\end{axis}
 		\end{tikzpicture}
-	}                                                                                  \\ [-5.75pt]
-	\multirow{2}{*}{surge, \qty{0.3}{\m\per\s}, \qty{2.0}{\m}} &                       \\
-	                                                           &                       \\                    \\[-4.pt]
-	\multirow{2}{*}{surge, \qty{0.6}{\m\per\s}, \qty{2.0}{\m}} &                       \\
-	                                                           &                       \\                    \\[-4.pt]
-	\multirow{2}{*}{sway,  \qty{0.3}{\m\per\s}, \qty{1.5}{\m}} &                       \\
-	                                                           &                       \\                    \\[-4.pt]
-	\multirow{2}{*}{sway,  \qty{0.3}{\m\per\s}, \qty{2.0}{\m}} &                       \\
-	                                                           &                       \\                    \\[-4.pt]
-	\multirow{2}{*}{sway,  \qty{0.6}{\m\per\s}, \qty{1.5}{\m}} &                       \\
-	                                                           &                       \\                    \\[-4.pt]
-	\multirow{2}{*}{sway,  \qty{0.6}{\m\per\s}, \qty{2.0}{\m}} &                       \\
-	                                                           &                       \\ [-4.75pt]
-	                                                           &                       \\ \midrule
-	error / \unit{\mm}                                         &                       \\ \bottomrule
+	}
+	\\[18.25pt]
+	surge, \qty{0.6}{\m\per\s}, \qty{2.0}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.3}{\m\per\s}, \qty{1.5}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.3}{\m\per\s}, \qty{2.0}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.6}{\m\per\s}, \qty{1.5}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.6}{\m\per\s}, \qty{2.0}{\m} &                       \\[18.25pt] \midrule
+	error / \unit{\mm}                        &                       \\ \bottomrule
 \end{tabular}
