@@ -24,23 +24,19 @@ The contributions of this chapter are the following:
 \section{Modeling and estimation}
 \label{cable_modelling_model}
 
-Let \lframefull{w} be a fixed Cartesian reference frame with the \ldvect{z}{w}-axis vertical and
-pointing upwards.
-
 \subsection{Standard catenary model}
 \label{cable_modelling_catenary_model}
 
 The shape of a homogeneous hanging cable, with fixed length $L$, only subjected to its weight and
-buoyancy, is defined by a standard catenary curve (\cref{cable_modelling_catenary_curve}). The
-catenary lies in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame
-\lframefull{v} is the lowest point of the curve, \ldvect{x}{v} is horizontal and \ldvect{z}{v} is
-collinear to \ldvect{z}{w}. Curve points coordinates $\left( {}^{v}X,{}^{v}Z \right) \in
-	\lplane{v}$ are given by:
-\begin{gather}
-	({}^{v}X, {}^{v}Z)\in[{}^{v}X_{i}, {}^{v}X_{f}]\times \mathbb{R} ~ \text{such that} \nonumber\\
-	{}^{v}Z = \frac{\cosh{({}^{v}XC)} - 1}{C}
-	\label{cable_modelling_catenary_equation}
-\end{gather}
+buoyancy, is defined by a catenary curve (\cref{cable_modelling_catenary_curve}). The catenary lies
+in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame \lframefull{v} with
+\ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being colinear to
+\ldvect{z}{w}. Curve points coordinates $\fpointfull{P}{v} \in \lframe{v}$ are given
+by:
+\begin{align}
+	\fpoint{P}{v} = \left[\coord{x}{v},~0,~\frac{\cosh{(\coord{x}{v}~C)} - 1}{C}\right]^T,~\coord{x}{v}\in\left[-D-\Delta D,~D\right]
+	\label{cable_modelling_catenary_equation}	
+\end{align}
 where $C \in \mathbb{R}^*_+$ is the catenary parameter, and indexes $i$ and $f$ refer to the
 curve's endpoints. The left superscript indicates the frame in which a coordinate is given.
 
