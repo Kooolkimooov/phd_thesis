@@ -1,50 +1,71 @@
-\begin{tikzpicture}[scale=3]
-	\def\a{1.3}
-	\def\h{1}
-	\def\offsetx{-1.76}
-	\coordinate (A) at (0.01, 2.05);
-	\coordinate (B) at (3, 1.5);
+\begin{tikzpicture}
 
-	\coordinate (A2) at (.5, 1.5);
+	\def\xmin{-1.766}
+	\def\xmid{-1.32}
+	\def\xmax{1.32}
 
-	\coordinate (AL) at (0.01, 1);
-	\coordinate (AM) at (0.01, 1.5);
-	\coordinate (A2L) at (.5, 1);
-	\coordinate (A20) at (.5, 0);
-	\coordinate (A2U) at (.5, 2.05);
+	\def\ymin{0.0}
+	\def\ymid{1.0}
+	\def\ymax{2.0}
 
-	\coordinate (BL) at (3, 1);
-	\coordinate (BU) at (3, 2.05);
+	\def\arrowlenght{0.25}
 
-	\draw[densely dotted] (AL) -- (BL);
-	\draw[densely dotted] (AM) -- (B);
-	\draw[densely dotted] (A) -- (BU);
-	\draw[densely dotted] (A) -- (0, 0.7);
-	\draw[densely dotted] (BU) -- (3, 0.7);
-	\draw[densely dotted] (-\offsetx, 1)  -- (- \offsetx, 2.05);
-	
-	\draw[->, thick, blue]
-	(-\offsetx, 1) node[below] {\fpoint{P}{v}} --
-	(- \offsetx, 1.25) node[above right] {\ldvect{z}{v}};
-	\draw[->, thick, blue]
-	(-\offsetx, 1) --
-	(-\offsetx+.25, 1) node[below right] {\ldvect{x}{v}};
-	
-	\draw[smooth, domain=0:3, samples=100, thick, blue]
-	plot (\x, {\h*cosh((\x + \offsetx)/\a)});
-	
-	\node[above right] at (A) {\fpoint{A}{v}};
-	\node[above left] at (B) {\fpoint{B}{v}};
-	
-	\filldraw (A) circle (.5pt);
-	\filldraw (B) circle (.5pt);
-	
-	\draw[<->] (A2L) -- (A2) node[midway, right] {$H$};
-	\draw[<->] (A2) -- (A2U) node[midway, right] {$\Delta H$};
-	\draw[<->] (AM) -- (A2) node[midway, below]{$\Delta D$};
-	\draw[<->] (A2) -- (- \offsetx, 1.5) node[midway, below]{$D$};
-	\draw[<->] (- \offsetx, 1.5) -- (B) node[midway, below]{$D$};
+	\def\c{1.0}
 
-	\draw[<->] ($ (AL) + (0, -.2) $) -- ($ (BL) + (0, -.2)$) node[midway, below] {$l$};
+	\begin{axis}[
+			xmin = \xmin,
+			xmax = \xmax,
+			ymin = \ymin,
+			ymax = \ymax,
+			width = \figurewidth,
+			height = .65\figurewidth,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (x) at (axis cs: \arrowlenght, 0.0);
+		\coordinate (z) at (axis cs: 0.0, \arrowlenght);
+		
+		\coordinate (A) at (axis cs: \xmin, \ymax);
+		\coordinate (B) at (axis cs: \xmax, \ymid);
+		
+		\coordinate (Bp) at (axis cs: \xmid, \ymid);
+		
+		\coordinate (Ou) at (axis cs: 0.0, \ymax);
+		\coordinate (Om) at (axis cs: 0.0, \ymid);
+
+		\coordinate (Am) at (axis cs: \xmin, \ymid);
+		\coordinate (Ad) at (axis cs: \xmin, \ymin);
+
+		\coordinate (Bpu) at (axis cs: \xmid, \ymax);
+		\coordinate (Bpd) at (axis cs: \xmid, \ymin);
+
+		\coordinate (Bu) at (axis cs: \xmax, \ymax);
+		\coordinate (Bd) at (axis cs: \xmax, \ymin);
+
+		\draw[densely dotted, thick] (Ad) -- (Bd);
+		\draw[densely dotted, thick] (A) -- (Bu);
+		\draw[densely dotted, thick] (A) -- (Ad);
+		\draw[densely dotted, thick] (Bu)  -- (Bd);
+		\draw[densely dotted, thick] (Ou)  -- (O);
+
+		\filldraw[blue] (O) circle (2pt) node[below] {\fpoint{O}{v}};
+		\draw[->, thick, blue] (O) -- (x) node[below right] {\ldvect{x}{v}};
+		\draw[->, thick, blue] (O) -- (z) node[above right] {\ldvect{z}{v}};
+
+		\addplot[smooth, domain=\xmin:\xmax, samples=100, thick, blue] {{(cosh(\x*\c)-1)/\c}};
+
+		\filldraw[blue] (A) circle (2pt) node[above right] {\fpoint{A}{v}};
+		\filldraw[blue] (B) circle (2pt) node[above left] {\fpoint{B}{v}};
+
+		\draw[<->] (Bpd) -- (Bp) node[midway, right] {$H$};
+		\draw[<->] (Bp) -- (Bpu) node[midway, right] {$\Delta H$};
+		\draw[<->] (Am) -- (Bp) node[midway, below]{$\Delta D$};
+		\draw[<->] (Bp) -- (Om) node[midway, below]{$D$};
+		\draw[<->] (Om) -- (B) node[midway, below]{$D$};
+
+	\end{axis}
 
 \end{tikzpicture}
