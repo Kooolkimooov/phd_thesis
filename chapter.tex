@@ -2,14 +2,7 @@
 
 \input{preamble}
 
-
 \begin{document}
-
-\let\oldchapter\chapter
-\renewcommand{\chapter}[1]{
-	\oldchapter*{#1}
-	\addcontentsline{toc}{chapter}{#1}
-}
 
 \frontmatter
 
@@ -20,8 +13,6 @@
 \input{chapters/PLACEHOLDER}
 
 \backmatter
-
-\let\chapter\oldchapter
 
 \printbibliography
 
