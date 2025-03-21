@@ -22,25 +22,28 @@
 	\draw[densely dotted] (A) -- (0, 0.7);
 	\draw[densely dotted] (BU) -- (3, 0.7);
 	\draw[densely dotted] (-\offsetx, 1)  -- (- \offsetx, 2.05);
-
+	
 	\draw[->, thick, blue]
-	(-\offsetx, 1) node[below] {$\mathbf{O}_{v}$} --
-	(- \offsetx, 1.25) node[above right] {$\mathbf{z}_{v}$};
+	(-\offsetx, 1) node[below] {\fpoint{P}{v}} --
+	(- \offsetx, 1.25) node[above right] {\ldvect{z}{v}};
 	\draw[->, thick, blue]
 	(-\offsetx, 1) --
-	(-\offsetx+.25, 1) node[below right] {$\mathbf{x}_{v}$};
-
+	(-\offsetx+.25, 1) node[below right] {\ldvect{x}{v}};
+	
 	\draw[smooth, domain=0:3, samples=100, thick, blue]
 	plot (\x, {\h*cosh((\x + \offsetx)/\a)});
-
-	\node[above right] at (A) {$({}^{v}X_{i}, {}^{v}Z_{i})$};
-	\node[above left] at (B) {$({}^{v}X_{f}, {}^{v}Z_{f})$};
-
+	
+	\node[above right] at (A) {\fpoint{A}{v}};
+	\node[above left] at (B) {\fpoint{B}{v}};
+	
 	\filldraw (A) circle (.5pt);
 	\filldraw (B) circle (.5pt);
-
+	
 	\draw[<->] (A2L) -- (A2) node[midway, right] {$H$};
 	\draw[<->] (A2) -- (A2U) node[midway, right] {$\Delta H$};
+	\draw[<->] (AM) -- (A2) node[midway, below]{$\Delta D$};
+	\draw[<->] (A2) -- (- \offsetx, 1.5) node[midway, below]{$D$};
+	\draw[<->] (- \offsetx, 1.5) -- (B) node[midway, below]{$D$};
 
 	\draw[<->] ($ (AL) + (0, -.2) $) -- ($ (BL) + (0, -.2)$) node[midway, below] {$l$};
 
