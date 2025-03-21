@@ -125,7 +125,15 @@
 \newcommand\lucoord[3]{\ensuremath{{}^{#2}#1^{#3}}}
 \newcommand\ldcoord[3]{\ensuremath{{}^{#2}#1_{#3}}}
 
-\newcommand\vect[1]{\ensuremath{\mathbf{#1}}}
+\newcommand\point[1]{\ensuremath{\mathbf{#1}}}
+\newcommand\fpoint[2]{\ensuremath{{}^{#2}\point{#1}}}
+\newcommand\lupoint[2]{\ensuremath{\point{#1}^{#2}}}
+\newcommand\ldpoint[2]{\ensuremath{\point{#1}_{#2}}}
+\newcommand\flupoint[3]{\ensuremath{\fpoint{#1}{#2}^{#3}}}
+\newcommand\fldpoint[3]{\ensuremath{\fpoint{#1}{#2}_{#3}}}
+\newcommand\fllpoint[4]{\ensuremath{\fpoint{#1}{#2}_{#3}^{#4}}}
+
+\newcommand\vect[1]{\ensuremath{\vec{\mathbf{#1}}}}
 \newcommand\fvect[2]{\ensuremath{{}^{#2}\vect{#1}}}
 \newcommand\luvect[2]{\ensuremath{\vect{#1}^{#2}}}
 \newcommand\ldvect[2]{\ensuremath{\vect{#1}_{#2}}}
@@ -138,15 +146,19 @@
 \newcommand\lplane[1]{\ensuremath{\mathcal{P}_{#1}}}
 \newcommand\lframe[1]{\ensuremath{\mathcal{F}_{#1}}}
 
+\newcommand\fpointfull[2]{\ensuremath{\fpoint{#1}{#2}=(\coord{x}{#2}, \coord{y}{#2},\coord{z}{#2})}}
+\newcommand\flupointfull[3]{\ensuremath{\flupoint{#1}{#2}{#3}=(\lucoord{x}{#2}{#3}, \lucoord{y}{#2}{#3},\lucoord{z}{#2}{#3})}}
+\newcommand\fldpointfull[3]{\ensuremath{\fldpoint{#1}{#2}{#3}=(\ldcoord{x}{#2}{#3}, \ldcoord{y}{#2}{#3},\ldcoord{z}{#2}{#3})}}
+
 \newcommand\fvectfull[2]{\ensuremath{\fvect{#1}{#2}=(\coord{x}{#2}, \coord{y}{#2},\coord{z}{#2})}}
 \newcommand\fluvectfull[3]{\ensuremath{\fluvect{#1}{#2}{#3}=(\lucoord{x}{#2}{#3}, \lucoord{y}{#2}{#3},\lucoord{z}{#2}{#3})}}
 \newcommand\fldvectfull[3]{\ensuremath{\fldvect{#1}{#2}{#3}=(\ldcoord{x}{#2}{#3}, \ldcoord{y}{#2}{#3},\ldcoord{z}{#2}{#3})}}
 
-\newcommand\lplanefullxy[1]{\ensuremath{\lplane{#1}=(\ldvect{O}{#1}, \ldvect{x}{#1},\ldvect{y}{#1})}}
-\newcommand\lplanefullxz[1]{\ensuremath{\lplane{#1}=(\ldvect{O}{#1}, \ldvect{x}{#1},\ldvect{z}{#1})}}
-\newcommand\lplanefullyz[1]{\ensuremath{\lplane{#1}=(\ldvect{O}{#1}, \ldvect{y}{#1},\ldvect{z}{#1})}}
+\newcommand\lplanefullxy[1]{\ensuremath{\lplane{#1}=(\ldpoint{O}{#1}, \ldvect{x}{#1},\ldvect{y}{#1})}}
+\newcommand\lplanefullxz[1]{\ensuremath{\lplane{#1}=(\ldpoint{O}{#1}, \ldvect{x}{#1},\ldvect{z}{#1})}}
+\newcommand\lplanefullyz[1]{\ensuremath{\lplane{#1}=(\ldpoint{O}{#1}, \ldvect{y}{#1},\ldvect{z}{#1})}}
 
-\newcommand\lframefull[1]{\ensuremath{\lframe{#1}=(\ldvect{O}{#1},\ldvect{x}{#1},\ldvect{y}{#1},\ldvect{z}{#1})}}
+\newcommand\lframefull[1]{\ensuremath{\lframe{#1}=(\ldpoint{O}{#1},\ldvect{x}{#1},\ldvect{y}{#1},\ldvect{z}{#1})}}
 
 \newcommand\inzeroton{\ensuremath{\in\{0,\hdots, n\}}}
 
