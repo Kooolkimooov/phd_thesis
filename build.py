@@ -155,7 +155,7 @@ def build_thesis(remake=False):
 def clean(name=None):
     """Clean up build files."""
     if name:
-        for pattern in [f"build/{name}.*", f"out/{name}.*"]:
+        for pattern in [f"build/{name}.*", f"out/{name}.*", f"build/figures/{name}.*", f"build/build/figures/{name}.*"]:
             for file in glob.glob(pattern):
                 try:
                     os.remove(file)
