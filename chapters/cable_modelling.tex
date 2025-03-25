@@ -27,26 +27,27 @@ The contributions of this chapter are the following:
 \subsection{Standard catenary model}
 \label{cable_modelling_catenary_model}
 
-The shape of a homogeneous hanging cable, with fixed length $L$, only subjected to its weight and
-buoyancy, is defined by a catenary curve (\cref{cable_modelling_catenary_curve}). The catenary lies
-in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame \lframefull{v} with
-\ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being colinear to
-\ldvect{z}{w}. Curve points coordinates $\fpointfull{P}{v} \in \lframe{v}$ are given
-by:
+The shape of a homogeneous hanging cable, with fixed length \catL, only subjected to its weight and
+buoyancy, is defined by a catenary curve (\cref{cable_modelling_catenary_curve}). Underwater cable
+are also subjected to buoyancy which is opposite to weight; the resultant of those two force must
+be non-zeros for the catenary model to apply.
+
+The catenary model lies in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame
+\lframefull{v} with \ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being
+colinear to \ldvect{z}{w}. Curve points coordinates $\fpointfull{P}{v} \in \lframe{v}$ between two
+attachment points \fpoint{A}{v} and \fpoint{B}{v} are given by:
 \begin{align}
-	\fpoint{P}{v} = \left[\coord{x}{v},~0,~\frac{\cosh{(\coord{x}{v}~C)} - 1}{C}\right]^T,~\coord{x}{v}\in\left[-D-\Delta D,~D\right]
-	\label{cable_modelling_catenary_equation}	
+	\fpoint{P}{v} = \left[\coord{x}{v},~0,~\frac{\cosh{(\coord{x}{v}~\catC)} - 1}{C}\right]^T,~\coord{x}{v}\in\left[-\catD-\catdD,~\catD\right]
+	\label{cable_modelling_catenary_equation}
 \end{align}
-where $C \in \mathbb{R}^*_+$ is the catenary parameter, and indexes $i$ and $f$ refer to the
-curve's endpoints. The left superscript indicates the frame in which a coordinate is given.
+where $\catC \in \mathbb{R}^*_+$ is the catenary parameter.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary}
 	\caption{
-		Catenary curve of length $L$ defined in \lplane{v}.
-		Parameters are the sag $H$, the difference of elevation $\Delta H$ and the horizontal distance $l$ between
-		attachment points
+		Catenary curve of length \catL~defined in \lplane{v}. Parameters are the sag \catH, the difference of
+		elevation \catdH~and the horizontal distance $l=2\catD+\catdD$ between attachment points
 	}
 	\label{cable_modelling_catenary_curve}
 \end{figure}
@@ -54,23 +55,36 @@ curve's endpoints. The left superscript indicates the frame in which a coordinat
 \subsection{Augmented catenary model}
 \label{cable_modelling_augmented_catenary_model}
 
-As soon as the underwater cable is moved fast enough, hydrodynamics forces become non-negligible.
-The drag force dampens the movement with an amplitude that is proportional to the square of the
-speed. This effect is amplified by the added mass when significant accelerations are
-present~\cite{fossenHandbookMarineCraft2011, o.aFiniteElementCablemodel2018}.
+In dynamical regimes, the cable is subjected to additional hydrodynamic forces---primarily drag and
+added mass effects. Drag force is proportional to the square of the relative fluid velocity and
+depends on the cable's orientation, with drag coefficients varying significantly between normal
+($\dragCt \approx \num{1}$) and tangential ($\dragCt \approx \num{0.02}$)
+components~\cite{fossenHandbookMarineCraft2011, o.aFiniteElementCablemodel2018}. Added mass effects
+generate forces proportional to the cable's acceleration, further complicating the dynamics. These
+hydrodynamic forces cause the cable to deviate from the static catenary shape in two primary ways:
+\begin{itemize}
+	\item Forces normal to the catenary plane \lplane{v} cause out-of-plane deformations;
+	\item Forces inside the catenary plane cause in-plane deformations.
+\end{itemize}
+
+At moderate Reynolds numbers ($\Reynolds \approx \numrange{1e3}{1e5}$), typical for underwater
+vehicle operations, these hydrodynamic forces can significantly alter the cable shape even at
+relatively low speeds. The resulting shape depends on the balance between gravitational/buoyancy
+forces and these velocity-dependent hydrodynamic effects.
 
 In the steady state case where all points on the cable move at the same velocity, they are
-subjected to the same drag forces. As a consequence, the resulting uniform acceleration of the
-cable is tilted, and its intensity is increased depending on the velocity. The addition of two
-degrees of freedom in the cable shape model to account for this effect is used here to extend the
-standard catenary model.
+subjected to the same drag forces which is equivalent to adding a component to the gravitational
+acceleration. As a consequence, the resulting uniform acceleration of the cable is tilted, and its
+norm is increased depending on the velocity. The addition of two degrees of freedom in the cable
+shape model to account for this effect is used here to extend the standard catenary model defined
+in \cref{cable_modelling_catenary_model}.
 
 The first degree of freedom is a rotation of angle $\gamma$ around the catenary axis \vect{e},
 which is defined as the unit vector that connects cable
 endpoints~\cite{druptInertialmeasurementbasedCatenaryShape2022}
 (\cref{cable_modelling_gamma_rotation}). This is to consider the deformations of a tether subjected
 to sway motions, \emph{i.e.} the cable ends move out of the vertical plane, namely \lplane{v}. This
-rotation applied to \lframe{v} and \lplane{v} gives \lframefull{\gamma}, respectively.
+rotation applied to \lframe{v} gives \lframefull{\gamma}, respectively.
 
 \begin{figure}
 	\centering

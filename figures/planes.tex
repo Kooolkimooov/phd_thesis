@@ -1,103 +1,119 @@
-\begin{tikzpicture}[scale=3]
-	% Define the coordinates for the planes
-	\def\P{.2}
-	\def\Q{.95 - \P}
-	\def\s{.2}
-	\coordinate (O) at (.3, .45);
-	\coordinate (A) at ($(O) + (0,.4)$);
-	\coordinate (B) at ($(O) + (3,0)$);
-	\coordinate (C) at ($(O) + (0,.5)$);
-	\coordinate (D) at ($(O) + (3,.5)$);
-	\coordinate (E) at ($(O) + (3, -.36)$);
-	\coordinate (F) at ($(O) + (0, -.36)$);
-	\coordinate (C2) at ($(A) +	(80:\P)$);
-	\coordinate (D2) at ($(B) + (80:\P)$);
-	\coordinate (F2) at ($(A) + (-100:\Q)$);
-	\coordinate (E2) at ($(B) + (-100:\Q)$);
+\begin{tikzpicture}
 
-	% Set the parameters for the catenary curve
-	\def\a{1.5}
-	\def\h{1}
-	\def\offsetx{-1.76}
+	\def\c{0.85}
 
-	% Draw the bg planes
-	\fill[red!20, opacity=.9] (A) -- (B) -- (D2) -- (C2) -- cycle;
-	\fill[blue!20, opacity=.9] (A) -- (B) -- (D) -- (C) -- cycle;
+	\def\xmincat{-1.5}
+	\def\xmidcat{-1.0}
+	\def\xmaxcat{1.0}
 
-	% Draw the vertical catenary curve
-	\draw[yshift=-.91cm, xshift=.3cm, blue, smooth, domain=0:3, samples=100, thick]
-	plot (\x, {\h*cosh((\x + \offsetx)/\a)});
+	\def\ymincat{0.0}
+	\pgfmathsetmacro{\ymaxcat}{(cosh(\xmincat*\c)-1)/\c}
+	\pgfmathsetmacro{\ymidcat}{(cosh(\xmaxcat*\c)-1)/\c}
 
-	% Draw the fg planes
-	\fill[blue!20, opacity=.5] (A) -- (B) -- (E) -- (F) -- cycle;
-	\fill[red!20, opacity=.5] (A) -- (B) -- (E2) -- (F2) -- cycle;
+	\def\buffer{.5}
+	\def\xmin{\xmincat - \buffer}
+	\def\xmax{\xmaxcat + \buffer}
+	\def\ymin{\ymincat - \buffer}
+	\def\ymax{\ymaxcat + \buffer}
 
-	% Draw the tilited catenary curve
-	\def\a{1.3}
-	\def\offsetx{-1.5}
-	\draw[yshift=-.87cm, xshift=0.05cm, red, smooth, domain=0:3.03, samples=100, thick, rotate=-8.2]
-	plot (\x, {\h*cosh((\x + \offsetx)/\a)});
+	\def\arrowlength{0.25}
 
-	\node[below left, blue] at (D) {$\mathcal{P}_{v}$};
-	\node[above left, red] at (E2) {$\mathcal{P}_{\gamma}$};
+	\def\bgquadh{.1}
+	\def\fgquadh{-\ymidcat}
+	\def\tiltangle{10}
+	\pgfmathsetmacro{\abangle}{atan((\ymidcat - \ymaxcat) / (\xmaxcat - \xmincat))}
 
-	\draw[densely dotted] (A) -- (B);
+	\pgfmathsetmacro{\tiltcatstretch}{(\xmaxcat - \xmincat) /((\xmaxcat - \xmidcat) * cos(\abangle))}
 
-	\draw[->, thick] (A) -- ($ (A)!.1!(B) $) node[below] {$\mathbf{e}$};
+	\def\pointsize{2pt}
 
-	\filldraw (A) circle (.5pt) node[above] {$({}^{v}X_{i}, {}^{v}Z_{i})$};
-	\filldraw (B) circle (.5pt) node[above] {$({}^{v}X_{f}, {}^{v}Z_{f})$};
+	\begin{axis}[
+			xmin = \xmin,
+			xmax = \xmax,
+			ymin = \ymin,
+			ymax = \ymax,
+			width = \figurewidth,
+			axis equal,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (x) at (axis cs: \arrowlength, 0.0);
+		\coordinate (z) at (axis cs: 0.0, \arrowlength);
 
-	\draw[->, thick, blue]
-	($ (E)!.4!(F) $) --
-	($(E)!.4!(F) + (0:\s)$)  node[above] {$\mathbf{x}_{v}$};
+		\coordinate (A) at (axis cs: \xmincat, \ymaxcat);
+		\coordinate (B) at (axis cs: \xmaxcat, \ymidcat);
 
-	\draw[->, thick, blue]
-	($ (E)!.4!(F) $) --
-	($(E)!.4!(F) + (90:\s)$) node[above] {$\mathbf{z}_{v}$};
+		\coordinate (C) at ($(B) - (O) + (axis cs: 0.0, \bgquadh - \ymidcat + \ymaxcat)$);
+		\coordinate (D) at ($(A) - (O) + (axis cs: 0.0, \bgquadh)$);
 
-	\filldraw[blue] ($ (E)!.4!(F) $) circle (.5pt) node[above left] {$\mathbf{O}_{v}$};
+		\coordinate (E) at ($(B) - (O) + (axis cs: 0.0, \fgquadh)$);
+		\coordinate (F) at ($(A) - (O) + (axis cs: 0.0, \fgquadh + \ymidcat - \ymaxcat)$);
 
-	\draw[->, thick, red]
-	($ (E2)!.5!(F2)$) --
-	($(E2)!.5!(F2)  + (-10:\s)$)  node[below] {$\mathbf{x}_{\gamma}$};
+		\coordinate (Ow) at (axis cs: {\xmin + \buffer / 2}, 0.0);
+		\coordinate (xw) at (axis cs: {-\arrowlength * 0.9}, {-\arrowlength * 0.3});
+		\coordinate (yw) at (axis cs: {\arrowlength * 0.9}, {-\arrowlength *  0.3});
+		\coordinate (zw) at (axis cs: 0.0, \arrowlength );
 
-	\draw[->, thick, red]
-	($ (E2)!.5!(F2)$) --
-	($(E2)!.5!(F2)  + (80:\s)$) node[above] {$\mathbf{z}_{\gamma}$};
+		\coordinate (OTU) at (axis cs:
+		{(\bgquadh - (\ymidcat - \ymaxcat) / 4) * sin(\tiltangle)},
+		{(\bgquadh - (\ymidcat - \ymaxcat) / 4) * cos(\tiltangle)}
+		);
+		\coordinate (Ct) at ($(B) - (O) + (OTU)$);
+		\coordinate (Dt) at ($(A) - (O) + (OTU)$);
 
-	\filldraw[red] ($ (E2)!.5!(F2)$) circle (.5pt) node[below left] {$\mathbf{O}_{\gamma}$};
+		\coordinate (OTD) at (axis cs:
+		{(\fgquadh + (\ymidcat - \ymaxcat) / 2) * sin(\tiltangle)},
+		{(\fgquadh + (\ymidcat - \ymaxcat) / 2) * cos(\tiltangle)}
+		);
+		\coordinate (Et) at ($(B) - (O) + (OTD)$);
+		\coordinate (Ft) at ($(A) - (O) + (OTD)$);
 
-	\draw[->, very thick]
-	(A) --
-	($(A) + (0, -.3)$) node[below right] {$\mathbf{g}$};
+		\coordinate (Ot) at ($ (Et)!.5!(Ft) $);
+		\coordinate (xt) at (axis cs: {\arrowlength * cos(-\abangle)}, {-\arrowlength * sin(-\abangle) });
+		\coordinate (zt) at (axis cs: {\arrowlength * sin(\tiltangle) }, {\arrowlength * cos(\tiltangle) });
 
-	\draw[->, very thick]
-	(A) --
-	($(A) + (-100:.35)$) node[left] {$\mathbf{a}_{\gamma}$};
+		\fill[red!20, opacity=.9] (A) -- (B) -- (Ct) -- (Dt) -- cycle;
+		\fill[blue!20, opacity=.9] (A) -- (B) -- (C) -- (D) -- cycle;
 
-	\draw[densely dashed]
-	(A) --
-	(F);
+		\node[blue, below left] at (C) {\lplane{v}};
 
-	\draw[densely dashed]
-	(A) --
-	(F2);
+		\addplot[smooth, domain=\xmincat:\xmaxcat, samples=100, very
+			thick, blue] {{(cosh(\x*\c)-1)/\c}};
 
-	\pic[draw, "$\gamma$", <-, angle radius = 1.5cm, angle eccentricity=1.15] {angle=F2--A--F};
+		\filldraw[blue] (O) circle (\pointsize) node[above left] {\ldpoint{O}{v}};
+		\draw[blue, thick, ->] (O) -- (x) node[above] {\ldvect{x}{v}};
+		\draw[blue, thick, ->] (O) -- (z) node[above] {\ldvect{z}{v}};
 
-	\draw[->, thick]
-	($(E2) + (.5, .25)$) --
-	($(E2) + (.5, .25) + (-160:\s)$) node[below] {$\mathbf{x}_{w}$};
+		\fill[blue!20, opacity=.5] (A) -- (B) -- (E) -- (F) -- cycle;
+		\fill[red!20, opacity=.5] (A) -- (B) -- (Et) -- (Ft) -- cycle;
 
-	\draw[->, thick]
-	($(E2) + (.5, .25)$) --
-	($(E2) + (.5, .25) + (-20:\s)$)  node[below] {$\mathbf{y}_{w}$};
+		\node[red, above left] at (Et) {\lplane{\gamma}};
 
-	\draw[->, thick]
-	($(E2) + (.5, .25)$) --
-	($(E2) + (.5, .25) + (90:\s)$) node[left] {$\mathbf{z}_{w}$};
+		\addplot[
+		smooth, very thick, red,
+		domain=\xmidcat*\tiltcatstretch:\xmaxcat*\tiltcatstretch, samples=100,
+		shift={($(A) - (axis cs: {\xmidcat*\tiltcatstretch}, {(cosh(\xmidcat*\tiltcatstretch*\c)-1)/\c})$)},
+		rotate around={\abangle:(A)}
+		]
+		{{(cosh(\x*\c)-1)/\c}};
 
-	\filldraw ($(E2) + (.5, .25)$) circle (.5pt) node[above right] {$\mathbf{O}_{w}$};
+		\filldraw[red] (Ot) circle (\pointsize) node[below left] {\ldpoint{O}{\gamma}};
+		\draw[red, thick, ->] (Ot) -- ($(Ot) - (O) + (xt)$) node[below] {\ldvect{x}{\gamma}};
+		\draw[red, thick, ->] (Ot) -- ($(Ot) - (O) + (zt)$) node[above] {\ldvect{y}{\gamma}};
 
+		\draw[thick, ->] (A) -- ($(A) - (O) + (xt)$) node[above] {\vect{e}};
+		\draw[thick, ->] (A) -- ($(A) + (O) - (z)$) node[below] {\vect{g}};
+		\draw[thick, ->] (A) -- ($(A) + (O) - (zt)$) node[left] {\ldvect{a}{\gamma}};
+
+		\filldraw (A) circle (\pointsize) node[above left] {\fpoint{A}{v}};
+		\filldraw (B) circle (\pointsize) node[above left] {\fpoint{B}{v}};
+
+		\filldraw (Ow) circle (\pointsize) node[below] {\ldpoint{O}{w}};
+		\draw[thick, ->] (Ow) -- ($(Ow) - (O) + (xw)$) node[above] {\ldvect{x}{w}};
+		\draw[thick, ->] (Ow) -- ($(Ow) - (O) + (yw)$) node[above] {\ldvect{y}{w}};
+		\draw[thick, ->] (Ow) -- ($(Ow) - (O) + (zw)$) node[above] {\ldvect{z}{w}};
+
+	\end{axis}
 \end{tikzpicture}

@@ -1,38 +1,38 @@
 \begin{tikzpicture}
 
-	\def\xmin{-1.766}
-	\def\xmid{-1.32}
-	\def\xmax{1.32}
+	\def\c{0.85}
+
+	\def\xmin{-1.5}
+	\def\xmid{-1.0}
+	\def\xmax{1.0}
 
 	\def\ymin{0.0}
-	\def\ymid{1.0}
-	\def\ymax{2.0}
+	\pgfmathsetmacro{\ymax}{(cosh(\xmin*\c)-1)/\c}
+	\pgfmathsetmacro{\ymid}{(cosh(\xmax*\c)-1)/\c}
 
-	\def\arrowlenght{0.25}
-
-	\def\c{1.0}
-
+	\def\arrowlength{.2}
+	
 	\begin{axis}[
-			xmin = \xmin,
-			xmax = \xmax,
-			ymin = \ymin,
-			ymax = \ymax,
-			width = \figurewidth,
-			height = .5\figurewidth,
-			clip = false,
-			axis x line=none,
-			axis y line=none
+		xmin = \xmin,
+		xmax = \xmax,
+		ymin = \ymin,
+		ymax = \ymax,
+		width = \figurewidth,
+		axis equal,
+		clip = false,
+		axis x line=none,
+		axis y line=none
 		]
-
-		\coordinate (O) at (axis cs: 0.0, 0.0);
-		\coordinate (x) at (axis cs: \arrowlenght, 0.0);
-		\coordinate (z) at (axis cs: 0.0, \arrowlenght);
 		
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (x) at (axis cs: \arrowlength, 0.0);
+		\coordinate (z) at (axis cs: 0.0, \arrowlength);
+
 		\coordinate (A) at (axis cs: \xmin, \ymax);
 		\coordinate (B) at (axis cs: \xmax, \ymid);
-		
+
 		\coordinate (Bp) at (axis cs: \xmid, \ymid);
-		
+
 		\coordinate (Ou) at (axis cs: 0.0, \ymax);
 		\coordinate (Om) at (axis cs: 0.0, \ymid);
 
@@ -60,11 +60,11 @@
 		\filldraw[blue] (A) circle (2pt) node[above right] {\fpoint{A}{v}};
 		\filldraw[blue] (B) circle (2pt) node[above left] {\fpoint{B}{v}};
 
-		\draw[<->] (Bpd) -- (Bp) node[midway, right] {$H$};
-		\draw[<->] (Bp) -- (Bpu) node[midway, right] {$\Delta H$};
-		\draw[<->] (Am) -- (Bp) node[midway, below]{$\Delta D$};
-		\draw[<->] (Bp) -- (Om) node[midway, below]{$D$};
-		\draw[<->] (Om) -- (B) node[midway, below]{$D$};
+		\draw[<->] (Bpd) -- (Bp) node[midway, right] {\catH};
+		\draw[<->] (Bp) -- (Bpu) node[midway, right] {\catdH};
+		\draw[<->] (Am) -- (Bp) node[midway, below]{\catdD};
+		\draw[<->] (Bp) -- (Om) node[midway, below]{\catD};
+		\draw[<->] (Om) -- (B) node[midway, below]{\catD};
 
 	\end{axis}
 
