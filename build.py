@@ -11,6 +11,7 @@ import platform
 COMPILER = "latexmk"
 LATEX_FLAGS = ["-output-directory=build", "-pdf", "--shell-escape", 
                "-interaction=nonstopmode", "-file-line-error"]
+SILENT_FLAGS = ["-silent"]
 
 def check_latex_installation():
     """Check if a LaTeX distribution is installed."""
@@ -177,16 +178,16 @@ def main():
     subparsers = parser.add_subparsers(dest="command", help="Build command")
     
     thesis_parser = subparsers.add_parser("thesis", help="Build the complete thesis")
-    thesis_parser.add_argument("--remake", action="store_true", 
+    thesis_parser.add_argument("--remake", "-r", action="store_true", 
                               help="Skip rebuilding figures")
     
     chapters_parser = subparsers.add_parser("chapters", help="Build all chapters as separate pdf files")
-    chapters_parser.add_argument("--remake", action="store_true", 
+    chapters_parser.add_argument("--remake", "-r", action="store_true", 
                               help="Skip rebuilding figures")
     
-    chapter_parser = subparsers.add_parser("chapter", help="Build a specific chapter")
+    chapter_parser = subparsers.add_parser("chapter", help="Build a specific chapter as separate pdf file")
     chapter_parser.add_argument("name", help="Name of the chapter to build")
-    chapter_parser.add_argument("--remake", action="store_true",
+    chapter_parser.add_argument("--remake", "-r", action="store_true",
                                 help="Skip rebuilding figures")
     
     subparsers.add_parser("figures", help="Build all figures")
@@ -198,8 +199,10 @@ def main():
     clean_parser.add_argument("name", nargs="?", default=None, help="Clean files of that name")
     
     all_parser = subparsers.add_parser("all", help="Build thesis and all chapters")
-    all_parser.add_argument("--remake", action="store_true", 
+    all_parser.add_argument("--remake", "-r", action="store_true", 
                               help="Skip rebuilding figures")
+    
+    parser.add_argument("--verbose", "-v", action="store_true", default=False, help="Enable verbose output")
 
     args = parser.parse_args()
     
@@ -211,9 +214,10 @@ def main():
     latex_distribution = check_latex_installation()
     print(f"Using LaTeX distribution: {latex_distribution}")
 
+    if not args.verbose:
+        LATEX_FLAGS.extend(SILENT_FLAGS)
     if latex_distribution == "miktex":
-        LATEX_FLAGS.extend(["--extra-mem-top=10000000", "--main-memory=10000000", 
-                           "--extra-mem-bot=10000000"])
+        LATEX_FLAGS.extend(["--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000"])
     
     if args.command == "thesis":
         build_thesis(remake=args.remake)
