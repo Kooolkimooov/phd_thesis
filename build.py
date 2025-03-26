@@ -13,27 +13,32 @@ LATEX_FLAGS = ["-output-directory=build", "-pdf", "--shell-escape",
                "-interaction=nonstopmode", "-file-line-error"]
 SILENT_FLAGS = ["-silent"]
 
+def printlog(message: str): 
+    message = " " + message + " "
+    print(f"{message:->{shutil.get_terminal_size().columns}}")
+
 def check_latex_installation():
-    """Check if a LaTeX distribution is installed."""
     if platform.system() == "Windows":
         miktex_path = os.path.expanduser("~\\miktex")
         if os.path.exists(miktex_path):
-            print("MiKTeX found")
+            printlog("MiKTeX found")
             return "miktex"
         
         texlive_path = os.path.expanduser("~\\texlive")
         if os.path.exists(texlive_path):
-            print("TeXLive found")
+            printlog("TeXLive found")
             return "texlive"
     else:
-        # TODO: fix that check
-        try:
-            subprocess.run(["which", COMPILER], check=True, capture_output=True)
+        if os.path.exists("/usr/share/texlive") or os.path.exists("/usr/local/texlive") or os.path.exists("/opt/texlive"):
+            return "texlive"
+        
+        if os.path.exists("/usr/share/miktex-texmf") or os.path.exists("/usr/local/miktex-texmf") or os.path.exists("/opt/miktex-texmf"):
+            return "miktex"
+        
+        if os.path.exists(os.path.join("/usr/share", COMPILER)) or os.path.exists(os.path.join("/usr/bin", COMPILER)):
             return "latex"
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            pass
-    
-    print("Warning: No LaTeX distribution found")
+        return "latex"
+  
     return None
 
 def ensure_output_directories():
@@ -49,10 +54,11 @@ def build_figure(name=None):
     if name:
         figure_path = f"figures/{name}.tex"
         if not os.path.exists(figure_path):
-            print(f"Error: Figure file {figure_path} does not exist")
+            printlog(f"file {figure_path} does not exist")
             return False
         
-        print(f"Building figure {name}...")
+        terminal_width = shutil.get_terminal_size().columns
+        printlog(f"building figure {name}")
         
         with open("figure.tex", "r") as f:
             content = f.read()
@@ -64,34 +70,48 @@ def build_figure(name=None):
         
         try:
             subprocess.run([COMPILER] + LATEX_FLAGS + ["figure.tex"], check=True)
-            print(f"Figure {name} built successfully")
+            printlog(f"figure {name} compiled")
         except subprocess.CalledProcessError:
-            print(f"Error: Failed to build figure {name}")
+            printlog(f"error while building figure {name}")
+        
+            with open("figure.tex", "w") as f:
+                f.write(content)
+
+            return False
         
         with open("figure.tex", "w") as f:
             f.write(content)
 
+        return True
+
     else:
-        print("Prebuilding all figures...")
+        printlog("building all figures")
         
-        for figure_file in glob.glob("figures/*.tex"):
-            basename = os.path.splitext(os.path.basename(figure_file))[0]
-            build_figure(basename)
+        files = [os.path.splitext(os.path.basename(file))[0] for file in glob.glob("figures/*.tex")]
+        successes = []
+
+        for file in files:
+            successes.append(build_figure(file))
+
+        for success, file in zip(successes, files):
+            printlog(f"{file}: {'compiled' if success else '  failed'}")
+        
+        return all(successes)        
         
 def build_chapter(name=None, remake=False):
     """Build a specific chapter or all chapters."""
     ensure_output_directories()
     
     if not remake:
-        build_figure()  
+        build_figure()
     
     if name:
         chapter_path = f"chapters/{name}.tex"
         if not os.path.exists(chapter_path):
-            print(f"Error: Chapter file {chapter_path} does not exist")
+            printlog(f"file {chapter_path} does not exist")
             return False
         
-        print(f"Building chapter {name}...")
+        printlog(f"building chapter {name}")
         
         with open("chapter.tex", "r") as f:
             content = f.read()
@@ -104,30 +124,36 @@ def build_chapter(name=None, remake=False):
         try:
             subprocess.run([COMPILER] + LATEX_FLAGS + ["chapter.tex"], check=True)
         except subprocess.CalledProcessError:
-            print(f"Error: Failed to build chapter {name}")
-            
+            printlog(f"error while building chapter {name}")
+            with open("chapter.tex", "w") as f:
+                f.write(content)
+            return False
+        
         with open("chapter.tex", "w") as f:
             f.write(content)
             
         try:
             shutil.move("build/chapter.pdf", f"out/{name}.pdf")
         except (FileNotFoundError, shutil.Error) as e:
-            print(f"Error moving output file: {e}")
-        
-        with open("chapter.tex", "w") as f:
-            f.write(content)
+            printlog(f"error moving output file: {e}")
+            return False
 
-        print(f"Chapter {name} compiled successfully to out/{name}.pdf")
+        printlog(f"chapter {name} compiled to out/{name}.pdf")
+        return True
     
     else:
-        print("Building all chapters...")
+        printlog("building all chapters")
         
-        for chapter_file in glob.glob("chapters/*.tex"):
-            basename = os.path.splitext(os.path.basename(chapter_file))[0]
-            build_chapter(basename)
+        files = [os.path.splitext(os.path.basename(file))[0] for file in glob.glob("chapters/*.tex")]
+        successes = []
+        for file in files:
+            successes.append(build_chapter(name=file, remake=True))
 
-        print(f"All chapters compiled successfully to out/*.pdf")
+        for success, file in zip(successes, files):
+            printlog(f"{file}: {'compiled' if success else '  failed'}")
         
+        return all(successes)
+            
 def build_thesis(remake=False):
     """Build the complete thesis."""
     ensure_output_directories()
@@ -135,21 +161,21 @@ def build_thesis(remake=False):
     if not remake:
         build_figure()
     
-    print("Compiling thesis...")
+    printlog("building thesis")
     
     try:
         subprocess.run([COMPILER] + LATEX_FLAGS + ["thesis.tex"], check=True)
     except subprocess.CalledProcessError:
-        print("Error: Failed to build thesis")
+        printlog("error while building thesis")
         return False
     
     try:
         shutil.move("build/thesis.pdf", "out/thesis.pdf")
     except (FileNotFoundError, shutil.Error) as e:
-        print(f"Error moving output file: {e}")
+        printlog(f"error moving output file: {e}")
         return False
     
-    print("Thesis compiled successfully to out/thesis.pdf")
+    printlog("thesis compiled to out/thesis.pdf")
     return True
 
 def clean(name=None):
@@ -159,18 +185,18 @@ def clean(name=None):
             for file in glob.glob(pattern):
                 try:
                     os.remove(file)
-                    print(f"Removed {file}")
+                    printlog(f"removed {file}")
                 except (FileNotFoundError, PermissionError) as e:
-                    print(f"Error removing {file}: {e}")
-        print(f"Build files cleaned for {name}")
+                    printlog(f"error removing {file}: {e}")
+        printlog(f"build files cleaned for {name}")
     else:
         for directory in ["build", "out"]:
             if os.path.exists(directory):
                 try:
                     shutil.rmtree(directory)
-                    print(f"Removed {directory} directory")
+                    printlog(f"removed {directory} directory")
                 except (FileNotFoundError, PermissionError) as e:
-                    print(f"Error removing {directory}: {e}")
+                    printlog(f"error removing {directory}: {e}")
 
 def main():
     """Parse arguments and run the appropriate command."""
@@ -212,7 +238,10 @@ def main():
         return
     
     latex_distribution = check_latex_installation()
-    print(f"Using LaTeX distribution: {latex_distribution}")
+    if latex_distribution is None: 
+        printlog("latexmk not found, exiting")
+        return -1
+    printlog(f"using {latex_distribution}")
 
     if not args.verbose:
         LATEX_FLAGS.extend(SILENT_FLAGS)
