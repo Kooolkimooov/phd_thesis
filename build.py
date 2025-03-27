@@ -19,15 +19,14 @@ def printlog(message: str):
 
 def check_latex_installation():
     if platform.system() == "Windows":
-        miktex_path = os.path.expanduser("~\\miktex")
-        if os.path.exists(miktex_path):
-            printlog("MiKTeX found")
-            return "miktex"
+        if shutil.which(COMPILER):
+            if shutil.which("miktex-console.exe"):
+                return "miktex"
+            elif shutil.which("tlmgr.bat") or shutil.which("tlmgr"):
+                return "texlive"
+            else:
+                return "latex"
         
-        texlive_path = os.path.expanduser("~\\texlive")
-        if os.path.exists(texlive_path):
-            printlog("TeXLive found")
-            return "texlive"
     else:
         if os.path.exists("/usr/share/texlive") or os.path.exists("/usr/local/texlive") or os.path.exists("/opt/texlive"):
             return "texlive"
@@ -37,7 +36,6 @@ def check_latex_installation():
         
         if os.path.exists(os.path.join("/usr/share", COMPILER)) or os.path.exists(os.path.join("/usr/bin", COMPILER)):
             return "latex"
-        return "latex"
   
     return None
 
