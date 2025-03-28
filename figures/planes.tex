@@ -20,7 +20,7 @@
 
 	\def\bgquadh{.1}
 	\def\fgquadh{-\ymidcat}
-	\def\tiltangle{10}
+	\def\tiltangle{20}
 	\pgfmathsetmacro{\abangle}{atan((\ymidcat - \ymaxcat) / (\xmaxcat - \xmincat))}
 
 	\pgfmathsetmacro{\tiltcatstretch}{(\xmaxcat - \xmincat) /((\xmaxcat - \xmidcat) * cos(\abangle))}
@@ -99,12 +99,21 @@
 		]
 		{{(cosh(\x*\c)-1)/\c}};
 
+		
 		\filldraw[red] (Ot) circle (\pointsize) node[below left] {\ldpoint{O}{\gamma}};
 		\draw[red, thick, ->] (Ot) -- ($(Ot) - (O) + (xt)$) node[below] {\ldvect{x}{\gamma}};
 		\draw[red, thick, ->] (Ot) -- ($(Ot) - (O) + (zt)$) node[above] {\ldvect{y}{\gamma}};
+		
+		\coordinate (Ad) at ($(A) + 2*(O) - 2*(z)$);
+		\coordinate (At) at ($(A) + 2*(O) - 2*(zt)$);
+
+		\draw[dotted] (A) -- (Ad);
+		\draw[dotted] (A) -- (At);
+
+		\pic [draw, angle radius=1cm, angle eccentricity=1.2, "\footnotesize $\gamma$"] {angle = At--A--Ad};
 
 		\draw[thick, ->] (A) -- ($(A) - (O) + (xt)$) node[above] {\vect{e}};
-		\draw[thick, ->] (A) -- ($(A) + (O) - (z)$) node[below] {\vect{g}};
+		\draw[thick, ->] (A) -- ($(A) + (O) - (z)$) node[below right] {\vect{g}};
 		\draw[thick, ->] (A) -- ($(A) + (O) - (zt)$) node[left] {\ldvect{a}{\gamma}};
 
 		\filldraw (A) circle (\pointsize) node[above left] {\fpoint{A}{v}};
