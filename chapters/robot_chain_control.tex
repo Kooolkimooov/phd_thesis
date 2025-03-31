@@ -1,374 +1,64 @@
 \chapter{Robot chain control}
+\label{robot_chain_control}
 
 \minitoc{}
 
-\section{Underwater robot chain modelization}
-\label{sec:model}
+\section{Introduction}
 
-\subsection{Frames definition}
+\section{Robot chain modelling}
 
-In accordance with the SNAME~\cite{fossenHandbookMarineCraft2011} convention, the world reference
-frame, designated as $w$, is aligned with the NED convention: $\mathbf{x}_w$-axis is oriented
-towards the North, $\mathbf{y}_w$-axis towards the East and the $\mathbf{z}_w$-axis is oriented
-downwards, perpendicular to the Earth's surface. The origin $\mathbf{O}_w$ of the reference frame
-is placed on the surface at a fixed point in the navigation zone. It is assumed that the navigation
-zone is locally flat and that the reference frame is a Galilean reference frame. The
-$\mathbf{z}_w$-coordinate directly represents the immersion depth of the vehicle
-(\cref{fig:frames}).
+\subsection{Single robot dynamics}
 
-The robot frame is a Cartesian frame affixed to the robot body whose origin is at the centre of
-mass. The $\mathbf{x}_r$-axis points forward, the $\mathbf{z}_r$-axis points downward, and the
-$\mathbf{y}_r$-axis is oriented to the right.
+\lipsum[1]
 
-Henceforth, the frame in which a coordinate is expressed will be indicated by means of an upper
-left index. For the sake of readability and when there's no ambiguity, this notation is not used in
-certain equations.
-\begin{figure}
-	\centering
-	% \input{figures/frames.tex}
-	% https://docs.google.com/presentation/d/1WVlA9_4oLpASD91up4dThMYDIxypvvU-ZnLA6A4U7jM/edit?usp=sharing
-	\includegraphics[width=\figurewidth]{figures/frames.png}
-	\caption{Schematic representation of the frames. Reference leader trajectory in orange.}
-	\label{fig:frames}
-\end{figure}
+\subsection{Robot chain dynamics}
 
-\subsection{Single robot dynamics}\label{sec:robot_dynamics}
+\lipsum[1]
 
-The state of an underwater robot is given by
-\begin{align}
-	\mathbf{x} = \left[\mathbf{\eta},\mathbf{\nu} \right]^T
-\end{align}
-where $\mathbf{\eta} = \left[{}^wx, {}^wy, {}^wz, {}^w\phi, {}^w\theta,
-		{}^w\psi\right]^T$ is the pose of the robot in the world frame and
-$\mathbf{\nu} =\left[{}^ru, {}^rv, {}^rw, {}^rp, {}^rq,{}^rr\right]^T$ is the
-linear and rotational velocity of the robot in the body frame. The robot
-dynamics are~\cite{creuze_robots_2014, fossen_handbook_2011}:
-\begin{align}
-	\begin{bmatrix}
-		\text{Id} & 0          \\
-		0         & \mathbf{I}
-	\end{bmatrix}
-	\begin{bmatrix}
-		\dot{\mathbf{\eta}} \\
-		\dot{\mathbf{\nu}}
-	\end{bmatrix} & =
-	\begin{bmatrix*}[l]
-		0 & \mathbf{J}\left(\mathbf{\eta}\right) \\
-		0 & -\mathbf{D}
-	\end{bmatrix*}
-	\begin{bmatrix}
-		\mathbf{\eta} \\
-		\mathbf{\nu}
-	\end{bmatrix} +
-	\begin{bmatrix}
-		0 \\
-		\mathbf{\tau} - \mathbf{s}\left(\eta\right)
-	\end{bmatrix}
-\end{align}
-where $\mathbf{J}\left(\mathbf{\eta}\right)$ is the transformation matrix from
-the world frame to the body frame:
-\begin{align}
-	\mathbf{J}\left(\eta\right) & = \begin{bmatrix}
-		                                \mathbf{R}^w_r\left(\eta\right) & \mathbf{0}_{3\times3}       \\
-		                                \mathbf{0}_{3\times3}           & \mathbf{T}\left(\eta\right)
-	                                \end{bmatrix}
-\end{align}
-with $\mathbf{R}^w_r\left(\eta\right)$ is the rotation matrix that represents
-the orientation of the robot in the NED reference frame,
-$\mathbf{T}\left(\eta\right)$ is defined as:
-\begin{align}
-	\mathbf{T}\left(\eta\right) & =\begin{bmatrix}
-		                               1 & \sin\phi \tan\theta   & \cos\phi \tan\theta   \\
-		                               0 & \cos\phi              & -\sin\phi             \\
-		                               0 & \sin\phi / \cos\theta & \cos\phi / \cos\theta \\
-	                               \end{bmatrix}
-\end{align}
+\subsection{Cable modelling}
 
-$\mathbf{I}$ is the inertial matrix
-\begin{align*}
-	 & \mathbf{I}=\!\!\!\!\!\!\!\!\!\!                                       % \\
-	 & \begin{bmatrix}
-		   m         & 0         & 0         & 0         & {}^rz_mm  & -{}^ry_mm \\
-		   0         & m         & 0         & -{}^rz_mm & 0         & {}^rx_mm  \\
-		   m         & 0         & m         & {}^ry_mm  & -{}^rx_mm & 0         \\
-		   0         & -{}^rz_mm & {}^ry_mm  & I_x       & -I_{xy}   & -I_{xz}   \\
-		   {}^rz_mm  & 0         & -{}^rx_mm & -I_{xy}   & I_y       & -I_{yz}   \\
-		   -{}^ry_mm & {}^rx_mm  & 0         & -I_{xz}   & -I_{yz}   & I_z
-	   \end{bmatrix}\notag
-\end{align*}
-with $I_x$, $I_y$ and $I_z$ the moments of inertia, $I_{xy}$, $I_{yz}$ and
-$I_{xz}$ the products of inertia, $m$ the robot's mass and $\left[{}^rx_m,
-		{}^ry_m, {}^rz_m\right]^T$ its center of mass. $\mathbf{D} = \diag{\left(D_u,
-		D_v, D_w, D_p, D_q, D_r\right)}$ is the hydrodynamic drag matrix,
-$\mathbf{\tau}$ is the control input for each degree of freedom and
-$\mathbf{s}\left(\eta\right)$ is the hydrostatic force i.e.~weight and
-buoyancy.
+\lipsum[1]
 
-\subsection{Chain dynamics}
+\section{Model predictive control}
 
-The robot chain system is defined as a set of $n$ underwater robots connected by tethers, where
-each robot follows the dynamics described in \cref{sec:robot_dynamics}. The state of the system is
-a concatenation of the state of the robots
-\begin{align}
-	\mathbf{x} = \left[\mathbf{\eta}_1, \mathbf{\nu}_1, \dots, \mathbf{\eta}_n, \mathbf{\nu}_n\right]^T
-\end{align}
+\subsection{Definition}
 
-Similarly, its input is a concatenation of all actuations
-\begin{align}
-	\mathbf{u} = \left[\mathbf{\tau}_1, \dots, \mathbf{\tau}_n\right]^T
-\end{align}
+\lipsum[1]
 
-\subsection{Cable model}\label{sec:cable_model}
+\subsection{Tuning}
 
-The shape of a homogeneous hanging cable of length $L$, subjected only to its own weight and
-buoyancy, is modelled as a catenary curve. It is expressed in the catenary frame $c$
-(\cref{fig:catenary}) by the following expression:
-\begin{align}
-	{}^cz = \frac{\cosh{({}^cx\text{ }C)} - 1}{C} &  & \forall C \in \mathbb{R}^*_+
-	\label{eq:catenary}
-\end{align}
+\lipsum[1]
 
-The catenary parameter $C$ is derived from the horizontal distance $l$ and the vertical distance
-$\Delta H$ between the two endpoints as well as the length $L$ of the curve.
-\begin{figure}
-	\centering
-	\input{figures/catenary}
-	\caption{Catenary curve of length $L$ between two consecutive robots $i$ and $i+1$}
-	\label{fig:catenary}
-\end{figure}
+\subsection{Simulation}
 
-The sag $H$ is given by the solution of~\cref{equ:sag} and used to determine the vertical component
-of the lowest point of the catenary~\cite{druptInertialmeasurementbasedCatenaryShape2022}. Let
-$H_{i(i+1)}$ denote the sag between robots $i$ and $i+1$ then, the elevation of the lowest point of
-the catenary is $H_{i(i+1)} + {}^wz_i$.%between robots $i$ and $i+1$ 
-\begin{equation}\label{equ:sag}
-	0  = aH^2 + bH + C \text{; }
-	\begin{cases}
-		a  = 4C^2\left(\Delta H^2 - L^2\right)  % \notag                     
-		\\
-		b  = 4C\left(\Delta H^2 - L^2\right)(C\Delta H + 2)   %\notag 
-		\\
-		c  = \left(C\left(L^2 - \Delta H^2\right) - 2\Delta H\right)^2
-	\end{cases}
-\end{equation}
+\lipsum[1]
 
-\section{Model predictive controller}
-\label{sec:control}
+\section{Path planning}
 
-Let~\cref{equ:discrete_sys} be a discrete-time control system with state $\mathbf{x}_k$ and control
-input $\mathbf{u}_k$, both expressed at time $k$.
-\begin{equation}
-	\mathbf{x}_{k+1} = f(\mathbf{x}_k, \mathbf{u}_k) \label{equ:discrete_sys}
-\end{equation}
+\subsection{Definition}
 
-A model predictive control problem consists of finding a sequence of control inputs $\mathbf{u}=
-	\left(\mathbf{u}_0, \dots, \mathbf{u}_h\right)$ over a \emph{future} time horizon $h$ in order to
-minimize some prescribed cost function~(\cref{fig:mpc}). In addition to the aforementioned dynamic
-constraint~\cref{equ:discrete_sys}, it is also possible to impose algebraic constraints on the
-variables associated with the problem. In the case of the present paper, it takes the form:
-\begin{align}
-	\mathbf{u} = & \argmin{\left(\mathbf{x}_h^T \mathbf{P} \mathbf{x}_h + \frac{1}{h}\sum_{k=0}^{h-1}{\mathbf{x}_k^T \mathbf{Q} \mathbf{x}_k + \Delta \mathbf{u}_k^T \mathbf{R} \Delta \mathbf{u}_k}\right)}
-\end{align}
-\begin{align}
-	\text{subject to } \Delta   \mathbf{u}_{\text{min}} \leq\Delta\mathbf{u}_k & \leq\Delta\mathbf{u}_{\text{max}}\notag \\
-	H_{i(i+1)} + {}^wz_i                                                       & \leq z_{\text{floor}}\notag             \\ \sqrt{l_{i(i+1)}^2 +
-	\Delta H_{i(i+1)}^2}                                                       & \leq d_{\text{max}}\notag               \\ dh_{\text{min}}\leq
-	l_{i(i+1)}                                                                 & \leq dh_{\text{max}}\notag              \\ \norm{\nu_{i}} & \leq
-	   \nu_{\text{max}}\notag
-\end{align}
-where $\Delta \mathbf{u}_k = \mathbf{u}_k - \mathbf{u}_{k-1}$ and $\mathbf{P}$,
-$\mathbf{Q}$ and $\mathbf{R}$ are positive semi-definite matrices weighting the
-final, state and control costs, respectively; $\mathbf{u}_{\text{min}}$ and
-$\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and
-$\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input.
+\lipsum[1]
 
-Additionally, in the context of the robot chain, we introduce specific constraints. These
-constraints are imposed on the state of the system such that the robots and the tether are not
-compromised. The cable's sag is obtained as described in \cref{sec:cable_model}. Using this
-information, the position of lowest point of the tether is constrained given information on the
-environment. Furthermore, the distance between two consecutive robots is constrained by the length
-$L$ of the tether with safety margins. Finally, the speed of the robots is constrained as a safety
-measure.
+\subsection{Tuning}
 
-Once the optimal control input is found, the first control input is applied to the system and the
-optimization problem is solved again at the next time step.
-\begin{figure}
-	\centering
-	\input{figures/mpc}
-	\caption{Schematic of the model predictive control algorithm}
-	\label{fig:mpc}
-\end{figure}
+\lipsum[1]
 
-In order to speed up the optimization time, $\mathbf{u}$ may be peace-wise constant over the
-horizon. In this paper we consider a constant control input
-\begin{align}
-	\mathbf{u}_i = \mathbf{u}_j \forall i, j \in \{0,\hdots, h\}^2
-\end{align}
+\subsection{Simulation}
 
-\section{Path planning with PID controller}
-\section{QP controller}
+\lipsum[1]
 
-\section{Simulation}
-\label{sec:simu}
+\section{Quadratic programming controller}
 
-\subsection{Setup}
+\subsection{Definition}
 
-The controller is assessed through the analysis of a scenario comprising four tethered robots
-($n=4$). The experiment takes place in a numerical tank with a depth of 4 meters, and infinite
-width and length (\cref{fig:three_d_view}). The tethers are assumed to be negatively buoyant with a
-known fixed length~\cite{druptValidityCatenaryModel2022}. In previous works, the chain of ROVs move
-freely~\cite{laranjeiraCatenarybasedVisualServoing2017,talkeCatenaryTetherShape2018,laranjeiraCatenarybasedVisualServoing2020}.
-Whereas in this scenario, the fourth robot \textit{considered as a fixed point} in order to
-represent the link to a surface control station. Consequently, the operational range the rest of
-the chain system is constrained.
+\lipsum[1]
 
-The leader robot is tasked with tracking a reference trajectory, while the two follower robots must
-ensure that the constraints are not violated. It is imperative that they maintain a safe distance
-from one another since proximity could result in contact with the floor or other obstacles. To
-prevent the follower robots from spinning, their orientation is controlled to remain aligned with
-that of the leader (\cref{tab:constraints}).
+\subsection{Tuning}
 
-To test the system's ability to cope with these constraints, we tested a trajectory in which the
-leading robot touches the ground. This allowed us to check that, even in this critical case, the
-following robots were able to position themselves so that the cables did not touch the ground. The
-leader reference trajectory is a sine of amplitude \qty{3.}{\m} along the $\mathbf{z}_w$-axis
-centered on a depth of \qty{2.5}{\m} (\cref{fig:pose_z_2}) and a smooth curve from
-${}^wx=$\qty{2}{\m} to ${}^wx=$\qty{-3}{\m} and back with speed equal to zero at both ends
-(\cref{fig:pose_x_2}). the reference on $\mathbf{y}_w$-axis as well as the orientation is constant
-and equal to zero. The leader robot initial state is $\eta_0=[2,0,-1, 0, 0, 0]$ and the two
-follower robots'states are $\eta_1=[2.5,0,-1, 0, 0, 0]$ and $\eta_2=[3,0,-1, 0, 0, 0]$. The fixed
-point is positioned at $[3.5,0,0,0,0,0]$.
+\lipsum[1]
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\figurewidth]{figures/0.png}
-	\caption{Three dimensional view of the experimental setup. Reference trajectory is in orange. The four robots are linked with red, green and blue catenaries.}
-	\label{fig:three_d_view}
-\end{figure}
+\subsection{Simulation}
 
-\subsection{Implementation}
+\lipsum[1]
 
-The simulation integrates the robots dynamics introduced in \cref{sec:robot_dynamics}. The
-simulation is run with a time step of \qty{0.01}{\second} for 2000 steps, \text{i.e.}
-\qty{20}{\second}. The MPC horizon is 25 steps, \text{i.e.} \qty{.25}{\second}. The problem is
-solved with the \texttt{scipy.minimize} function in Python with a tolerance of \num{1e-3}.
-
-The matrices $\mathbf{P}$ and $\mathbf{Q}$ are defined in such a way that the position of the
-leader is assigned a weight of 10 and its orientation a weight of 5. The orientation of the other
-robots is also assigned a weight of 5, while their position is not weighted, leaving them free on
-these axes. Matrix $\mathbf{R}$ has a weight of zero on linear actuation and a weight of \num{1e3}
-on angular actuation. No matrix weights on the fixed point.
-
-In order to differentiate the simulation from the model employed in the MPC prediction horizon,
-their integration methodologies diverge. The simulation utilizes a Runge-Kutta integration of order
-4~\cite{ralstonRungeKuttaMethodsMinimum1962}, whereas the MPC prediction employs an Euler-explicit
-scheme. The shape of each cable is deduced from the position of its attachment points using the
-catenary equation \cref{eq:catenary}.
-
-The code is available at {\small\url{https://github.com/LaboratoireCosmerTOULON/rov_chain_mpc/}}.
-
-\begin{table}
-	\centering
-	\robustify\bfseries
-	\sisetup{ % pour changer le nombre de chiffres après la virgule affichés après compilation
-		round-mode = places,
-		round-precision = 1
-	}
-	\caption{Model Predictive Controller Constraints}
-	\begin{tabular}{@{}ccSS@{}}
-		constrained value                            & unit             & {upper bound} & {lower bound} \\ \midrule
-		linear part $\Delta\mathbf{u}_k$             & \unit{\newton}   & 20.           & -20           \\
-		angular part $\Delta\mathbf{u}_k$            & \unit{\newton\m} & .1            & -.1           \\
-		$H_{i(i+1)} + {}^wz_i$                       & \unit{\m}        & 4.            &               \\
-		$\sqrt{l_{i(i+1)}^2 + \Delta H_{i(i+1)}^2 }$ & \unit{\m}        & 2.8           &               \\
-		$l_{i(i+1)}$                                 & \unit{\m}        & 2.8           & 0.2           \\
-		linear part $\norm{\nu_i}$                   & \unit{\m\per\s}  & 3.            &               \\
-	\end{tabular}
-	\label{tab:constraints}
-\end{table}
-
-\subsection{Results}
-\label{sec:results}
-
-\Cref{fig:error_2,fig:angular_error_2} show the absolute linear and angular tracking error of the leader robot, respectively. %for scenario \#1 and \#2 respectively. 
-The mean linear error is \qty{10}{\milli\m} with a standard deviation of \qty{5}{\milli\m}.
-The mean angular error is \qty{2e-3}{\radian} with a standard deviation of \qty{9e-4}{\radian}.
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_error.png}
-	\caption{Linear tracking errors of the leader robot.}
-	\label{fig:error_2}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_angular_error.png}
-	\caption{Angular tracking errors of the leader robot.}
-	\label{fig:angular_error_2}
-\end{figure}
-\begin{figure*}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_pose_z.png}
-	\caption{Trajectory of the robots on the $^w\mathbf{z}$-axis along with the catenaries' lowest point.}
-	\label{fig:pose_z_2}
-\end{figure*}
-
-In \cref{fig:pose_x_2,,fig:pose_y_2,,fig:pose_z_2} trajectories of the robots are depicted. The
-lowest point of the simulated cables are displayed in \cref{fig:pose_z_2}. As quantified in
-\cref{fig:error_2} it can be observed that the leader robot tracks the reference trajectory. Robots
-1 and 2 manoeuver in order for the cable to avoid the floor and stay withing the bounds of the
-other constraints.
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_pose_x.png}
-	\caption{Trajectory of the robots on the $x$-axis.}
-	\label{fig:pose_x_2}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_pose_y.png}
-	\caption{Trajectory of the robots on the $^w\mathbf{y}$-axis.}
-	\label{fig:pose_y_2}
-\end{figure}
-
-\Cref{fig:inter_robot_distance_2,fig:horizontal_inter_robot_distance_2}
-display the constrained values not present in \cref{fig:pose_z_2} \textit{i.e.}
-the horizontal inter-robot distance, the inter-robot distance and the norm of
-the robots' speed (\cref{tab:constraints}). The leader robot is planned to
-approach the ground at times $t=$\qty{5}{\s} and $t=$\qty{15}{\s} and as
-illustrated in \cref{fig:inter_robot_distance_2}, the highest inter-robot
-distance between the leader robot and its follower is observed at these exact
-times. This is attributed to the motion of the follower robot, which is
-required to tighten the cable that links robot 0 and 1.
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_inter_robot_distance.png}
-	\caption{Inter-robot distance constraint during the simulation. }
-	\label{fig:inter_robot_distance_2}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_horizontal_inter_robot_distance.png}
-	\caption{Horizontal inter-robot distance constraint during the simulation.}
-	\label{fig:horizontal_inter_robot_distance_2}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_robots_speed.png}
-	\caption{Norm of the robots' speed constraint during the simulation.}
-	\label{fig:robots_speed_2}
-\end{figure}
-
-\Cref{fig:compute_time_2} shows the computation time of the model
-predictive controller over the simulation. The average computational time for
-one step is \qty{2}{\s} with the Python simulator. This time could be reduced
-by lowering the tolerance of the optimization, by linearizing the robot model,
-change the catenary model for simpler analytical model such as
-parabolas~\cite{smolentsevShapeVisualServoing2023} and by further constraining the search
-space. Indeed, the search of the lowest point position is the result of a
-minimization process that is time consuming in an MPC context.
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{figures/1726429003_compute_time.png}
-	\caption{Computation time of the MPC.}
-	\label{fig:compute_time_2}
-\end{figure}
+\section{Conclusion}

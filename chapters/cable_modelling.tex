@@ -4,7 +4,6 @@
 \minitoc{}
 
 \section{Introduction}
-\label{cable_modelling_introduction}
 
 This chapter focuses on the modeling of a cable --particularly its shape-- attached to underwater
 robots under different usage modes. With an accurate model, the cable can be usued as a
@@ -15,176 +14,33 @@ pressure sensor and cameras.
 
 The contributions of this chapter are the following:
 \begin{itemize}
-	\item \Cref{cable_modelling_model}: The introduction of an augmented catenary model that improves the accuracy of the model;
+	\item
 \end{itemize}
 
-\newpage
+\section{Catenary model}
 
-\section{Modeling and estimation}
-\label{cable_modelling_model}
+\subsection{Definition}
 
-\subsection{Standard catenary model}
-\label{cable_modelling_catenary_model}
+\lipsum[1]
 
-The shape of a homogeneous hanging cable, with fixed length \catL, only subjected to its weight and
-buoyancy, is defined by a catenary curve (\cref{cable_modelling_catenary_curve}). Underwater cable
-are also subjected to buoyancy which is opposite to weight; the resultant of those two force must
-be non-zeros for the catenary model to apply.
+\subsection{Parameter derivation}
 
-The catenary model lies in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame
-\lframefull{v} with \ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being
-colinear to \ldvect{z}{w}. Curve points coordinates $\fpointfull{P}{v} \in \lframe{v}$ between two
-attachment points \fpoint{A}{v} and \fpoint{B}{v} are given by:
-\begin{align}
-	\fpoint{P}{v} = \left[\coord{x}{v},~0,~\frac{\cosh{(\coord{x}{v}~\catC)} - 1}{C}\right]^T,~\coord{x}{v}\in\left[-\catD-\catdD,~\catD\right]
-	\label{cable_modelling_catenary_equation}
-\end{align}
-where $\catC \in \mathbb{R}^*_+$ is the catenary parameter.
+\lipsum[1]
 
-\begin{figure}
-	\centering
-	\inputtikz{figures/catenary}
-	\caption{
-		Catenary curve of length \catL~defined in \lplane{v}. Parameters are the sag \catH, the difference of
-		elevation \catdH~and the horizontal distance $l=2\catD+\catdD$ between attachment points
-	}
-	\label{cable_modelling_catenary_curve}
-\end{figure}
+\section{Augmented catenary model}
 
-\subsection{Augmented catenary model}
-\label{cable_modelling_augmented_catenary_model}
+\subsection{Definition}
 
-In dynamical regimes, the cable is subjected to additional hydrodynamic forces---primarily drag and
-added mass effects. Drag force is proportional to the square of the relative fluid velocity and
-depends on the cable's orientation, with drag coefficients varying significantly between normal
-($\dragCt \approx \num{1}$) and tangential ($\dragCt \approx \num{0.02}$)
-components~\cite{fossenHandbookMarineCraft2011, o.aFiniteElementCablemodel2018}. Added mass effects
-generate forces proportional to the cable's acceleration, further complicating the dynamics. These
-hydrodynamic forces cause the cable to deviate from the static catenary shape in two primary ways:
-\begin{itemize}
-	\item Forces normal to the catenary plane \lplane{v} cause out-of-plane deformations;
-	\item Forces inside the catenary plane cause in-plane deformations.
-\end{itemize}
+\lipsum[1]
 
-At moderate Reynolds numbers ($\Reynolds \approx \numrange{1e3}{1e5}$), typical for underwater
-vehicle operations, these hydrodynamic forces can significantly alter the cable shape even at
-relatively low speeds. The resulting shape depends on the balance between gravitational/buoyancy
-forces and these velocity-dependent hydrodynamic effects.
+\subsection{Parameters derivation}
 
-In the steady state case where all points on the cable move at the same velocity, they are
-subjected to the same drag forces which is equivalent to adding a component to the gravitational
-acceleration. As a consequence, the resulting uniform acceleration of the cable is tilted, and its
-norm is increased depending on the velocity. The addition of two degrees of freedom in the cable
-shape model to account for this effect is used here to extend the standard catenary model defined
-in \cref{cable_modelling_catenary_model}.
+\lipsum[1]
 
-The first degree of freedom is a rotation of angle $\gamma$ around the catenary axis \vect{e},
-which is defined as the unit vector that connects cable
-endpoints~\cite{druptInertialmeasurementbasedCatenaryShape2022}
-(\cref{cable_modelling_gamma_rotation}). This is to consider the deformations of a tether subjected
-to sway motions, \emph{i.e.} the cable ends move out of the vertical plane, namely \lplane{v}. This
-rotation applied to \lframe{v} gives \lframefull{\gamma}, respectively.
+\subsection{Parameters dynamics}
 
-\begin{figure}
-	\centering
-	\inputtikz{figures/planes}
-	\caption{
-		Standard (blue) and \gammamodel{} (red) catenary for $\gamma = \qty{20}{\degree}$
-	}
-	\label{cable_modelling_gamma_rotation}
-\end{figure}
-
-The second degree of freedom, a rotation of angle $\theta$ in \lplane{\gamma}
-(\cref{cable_modelling_theta_rotation}), considers tether deformations caused by surge motions,
-\textit{i.e.} the two cable ends get closer or further away. The approximation of uniform
-hydrodynamic forces along the cable results in a uniform tilted acceleration
-\ldvect{a}{\theta\gamma} with respect to gravity. Let \lframefull{\theta\gamma} be the associated
-Cartesian frame where \ldvect{z}{\theta\gamma} is parallel to \ldvect{a}{\theta\gamma} and
-\ldvect{y}{\theta\gamma} is parallel to \ldvect{y}{\gamma}. The two ends of the cable can be
-expressed in \lframe{\theta\gamma} and~\cref{cable_modelling_catenary_equation} is used to
-construct the oriented catenary. This 2-DOF model is named the \emph{\thetagammamodel{} model}.
-
-\begin{figure}
-	\centering
-	\inputtikz{figures/tilted_catenary}
-	\caption{
-		\gammamodel{} (red) and \thetagammamodel{} (green) catenary for $\theta = \qty{30}{\degree}$
-	}
-	\label{cable_modelling_theta_rotation}
-\end{figure}
-
-Note that zero values for $\gamma$ and $\theta$ yield the \emph{standard catenary} model. If
-$\theta$ only is set to zero, the model presented
-in~\cite{druptInertialmeasurementbasedCatenaryShape2022} can be obtained, and is referenced as
-\emph{\gammamodel{}}.
-
-\subsection{Curvilinear discretization and residual}
-\label{cable_modelling_discretization}
-
-Let us consider $n+1$ 3D measurement points distributed along the cable's length. Accordingly, the
-model is discretized with respect to the curvilinear abscissa.
-
-Henceforth, the symbols $m,v, \gamma$ and $\theta\gamma$ are used as indexes referring to the
-measurements and the estimates of the \textit{standard}, \gammamodel{} and \thetagammamodel{}
-catenary model variations, respectively. Model points are written:
-\begin{align*}
-	\fllvect{P}{w}{\ast}{k}=({}^{w}X_{k}^{\ast}, {}^{w}Y_{k}^{\ast}, {}^{w}Z_{k}^{\ast}) \\
-	k\inzeroton, \ast\in \left\{ m, v, \gamma, \theta\gamma \right\}
-\end{align*}
-where indexes $k=0$ and $k=n$ are the tether endpoints, also indexed $i$ and $f$.
-
-Model variants accuracies are computed by means of the residuals:
-\begin{align}
-	\res{\ast} & = \frac{1}{n}\sum_{k=0}^{n}{\norm{ \fllvect{P}{w}{m}{k} - \fllvect{P}{w}{\ast}{k} }}, ~
-	\ast\in \left\{v, \gamma, \theta\gamma \right\}
-	\label{cable_modelling_residual}
-\end{align}
-
-\subsection{Model parameters estimation}
-\label{cable_modelling_estimation}
-
-\subsubsection{Catenary parameter}
-
-Let $L$ be the known tether length, $l$ the horizontal distance and $\Delta H$ the difference in
-elevation between the tether attachment points calculated from the measurements of the initial and
-final attachment points \fllvect{P}{\Diamond}{m}{i} and \fllvect{P}{\Diamond}{m}{f}, with
-$\Diamond\in\{v, \gamma, \theta\gamma\}$ the frame in which the points are expressed
-(\cref{cable_modelling_catenary_curve}). The catenary parameter $C$ is estimated by finding the
-root of function $f$ which relates the curve's length
-and~$C$~\cite{laranjeiraCatenarybasedVisualServoing2020} (using Brent's
-method~\cite{brentAlgorithmGuaranteedConvergence1971}):
-\begin{align*}
-	f(C)=C^2 \left(L^2 - \Delta H^2\right) - 4 \sinh^2(lC/2)
-\end{align*}
-
-\subsubsection{Augmented model parameters}
-
-Let $\res{\theta\gamma}\left(\theta, \gamma\right)$ be the accuracy written as a function of
-$\theta$ and $\gamma$~\cref{cable_modelling_residual}. Angles $\theta$ and $\gamma$ are estimated
-by minimizing this function by means of the trust region reflective
-algorithm~\cite{branchSubspaceInteriorConjugate1999}:
-\begin{align*}
-	(\theta, \gamma) = \argmin_{(\theta, \gamma)\in\left[-\pi,\pi\right]^2}{\res{\theta\gamma}\left(\theta, \gamma\right)}
-\end{align*}
-
-The initial estimates $\theta_0$ and $\gamma_0$ are respectively set to zero and to the angle
-between $\lplane{\gamma_{0}}$ and $\lplane{v}$, where $\lplane{\gamma_0}$ is the closest plane to
-all measured points.
+\lipsum[1]
 
 \section{Conclusion}
-\label{cable_modelling_conclusion}
 
-This work introduced an augmented catenary model that accounts for the hydrodynamic effects on the
-tether when the ROV performs surge and sway motion. It incorporates the models presented in the
-state of the art, which can be found by zeroing one or both of the angles proposed as augmentation
-parameters.
-
-The results drawn from the experiments carried out on eight different cables show that the
-augmented model provides a better estimate of the shape of all cables during dynamic phases,
-compared with the standard catenary model. The accuracy is best for flexible cables with adequate
-negative buoyancy. In addition, cables with the lowest residuals relative to the standard catenary
-model lead to the best improvements in accuracy using the augmented model. Their measured shape
-features greater planarity and homogenous tilting of their support plane during motion.
-
-In light of these results, the augmented catenary model will be used in model-based controllers to
-estimate cable shape and its lowest position for deployment scenarios of tethered robots.
+\lipsum[1]

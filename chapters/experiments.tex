@@ -2,7 +2,10 @@
 
 \minitoc{}
 
-\section{Augmented catenary model validation experiment}
+\section{Introduction}
+\label{experiments_introduction}
+
+\section{Augmented catenary model}
 \label{experiments_cable_modelling}
 
 \subsection{Cables description}
@@ -21,8 +24,8 @@ classified into two categories based on their capacity to retain plastic deforma
 \subref{experiments_cable_modelling_elastic} do not. Cables
 \subref{experiments_cable_modelling_floating}, \subref{experiments_cable_modelling_weighted} and
 \subref{experiments_cable_modelling_chain}, are expected to give the best results in catenary shape
-fitting due to their clear positive or negative buoyancy, highlighted in
-\cref{experiments_cable_modelling_cables_characteristics}.
+fitting due to their clear positive or negative buoyancy and lack of plastic deformation
+characteristics, highlighted in \cref{experiments_cable_modelling_cables_characteristics}.
 
 \begin{figure}
 	\renewcommand\thesubfigure{\arabic{subfigure}}
@@ -127,9 +130,9 @@ namely \fllvect{P}{w}{m}{0}, is fixed and attached to the side of the pool
 	\centering
 	\includegraphics[width=\figurewidth]{experiment_picture.jpg}
 	\caption{
-		Experimental setup. A dark red cable connects the ROV to a fixed point; Optical markers are
-		regularly placed on the cable for underwater motion tracking; The slack light yellow tether is used
-		for communications with the ROV
+		Experimental setup. A dark red cable (cable~\#\subref{experiments_cable_modelling_rope}) connects
+		the ROV to a fixed point; Optical markers are regularly placed on the cable for underwater motion
+		tracking; The slack light yellow tether is used for communications with the ROV
 	}
 	\label{experiments_cable_modelling_pool}
 \end{figure}
@@ -329,21 +332,22 @@ subsequent hydrostatic phase.
 A clear correlation appears between the robot's dynamics and the angle $\gamma$ for sway motion.
 The estimated $\gamma$ angle consistently increases with speed during sway movements, whereas
 $\theta$ remains close to zero (\cref{experiments_cable_modelling_res_3_sway}
-and~\cref{experiments_cable_modelling_res_6_sway}). As anticipated, surge movements have a noticeable impact on
-cable~\subref{experiments_cable_modelling_two_pairs}'s estimated angle $\theta$, with $\gamma$ maintaining a
-small value (\cref{experiments_cable_modelling_res_3_surge}). For cable~\subref{experiments_cable_modelling_weighted}, both
-angles increase with velocity, with $\theta$ being greater than the one observed for sway movement
-(\cref{experiments_cable_modelling_res_6_surge}). However, since $\gamma$ is larger than expected, let us
-examine the trajectory displayed in \cref{experiments_cable_modelling_trajectories} relative to surge motion
-with \qty{0.6}{\m\per\s} and \qty{2}{\m}. While the primary motion is surge, the trajectory of the
-robot is not precisely aligned with the fixed point causing the cable to move laterally. Although
-this effect is present throughout all sequences, it is particularly pronounced in this trajectory
-which explains the values for $\gamma$. This demonstrates that our \thetagammamodel{} model is
-capable of simultaneously managing significant sway and surge movements. Finally, one can clearly
-see that cable~\subref{experiments_cable_modelling_weighted} restores balance towards the vertical plane and
-the standard model at a faster rate compared to the lighter
-cable~\subref{experiments_cable_modelling_two_pairs}. As a result, physics-based modelling of angle dynamics
-opens up promising perspectives for model-based control synthesis.
+and~\cref{experiments_cable_modelling_res_6_sway}). As anticipated, surge movements have a
+noticeable impact on cable~\subref{experiments_cable_modelling_two_pairs}'s estimated angle
+$\theta$, with $\gamma$ maintaining a small value (\cref{experiments_cable_modelling_res_3_surge}).
+For cable~\subref{experiments_cable_modelling_weighted}, both angles increase with velocity, with
+$\theta$ being greater than the one observed for sway movement
+(\cref{experiments_cable_modelling_res_6_surge}). However, since $\gamma$ is larger than expected,
+let us examine the trajectory displayed in \cref{experiments_cable_modelling_trajectories} relative
+to surge motion with \qty{0.6}{\m\per\s} and \qty{2}{\m}. While the primary motion is surge, the
+trajectory of the robot is not precisely aligned with the fixed point causing the cable to move
+laterally. Although this effect is present throughout all sequences, it is particularly pronounced
+in this trajectory which explains the values for $\gamma$. This demonstrates that our
+\thetagammamodel{} model is capable of simultaneously managing significant sway and surge
+movements. Finally, one can clearly see that cable~\subref{experiments_cable_modelling_weighted}
+restores balance towards the vertical plane and the standard model at a faster rate compared to the
+lighter cable~\subref{experiments_cable_modelling_two_pairs}. As a result, physics-based modelling
+of angle dynamics opens up promising perspectives for model-based control synthesis.
 
 \section{Robot chain control experiment}
 \label{experiments_robot_chain_control}
