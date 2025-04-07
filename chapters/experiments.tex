@@ -1,1 +1,344 @@
 \chapter{Experiments}
+
+\section{Experiments}
+\label{experiments_cable_modelling}
+
+\subsection{Cables description}
+\label{experiments_cable_modelling_cables}
+
+The experiments involve eight \qty{3}{\m} long cables presented in
+\cref{experiments_cable_modelling_all_cables}. These cables are meant to reflect the full range of
+mechanical characteristics found in robot umbilicals and tethers: stiffness from the most flexible
+to the most rigid; neutral, positive or negative buoyancy; elastic or nonelastic
+(\cref{experiments_cable_modelling_cables_characteristics}). Overall, these cables can be
+classified into two categories based on their capacity to retain plastic deformation: cables
+\subref{experiments_cable_modelling_coaxial}, \subref{experiments_cable_modelling_four_pairs} and
+\subref{experiments_cable_modelling_two_pairs} do, and cables
+\subref{experiments_cable_modelling_floating}, \subref{experiments_cable_modelling_rope},
+\subref{experiments_cable_modelling_weighted}, \subref{experiments_cable_modelling_chain} and
+\subref{experiments_cable_modelling_elastic} do not. Cables
+\subref{experiments_cable_modelling_floating}, \subref{experiments_cable_modelling_weighted} and
+\subref{experiments_cable_modelling_chain}, are expected to give the best results in catenary shape
+fitting due to their clear positive or negative buoyancy, highlighted in
+\cref{experiments_cable_modelling_cables_characteristics}.
+
+\begin{figure}
+	\renewcommand\thesubfigure{\arabic{subfigure}}
+	\centering
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{coaxial.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_coaxial}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{four_pairs.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_four_pairs}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{two_pairs.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_two_pairs}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{floating.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_floating}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{rope.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_rope}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{catenary.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_weighted}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chain.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_chain}
+	\end{subfigure}
+	\begin{subfigure}{.2 \textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{elastic.jpg}
+		\caption{}
+		\label{experiments_cable_modelling_elastic}
+	\end{subfigure}
+	\caption{
+		Cables ends:
+		(\subref{experiments_cable_modelling_coaxial}) coaxial cable,
+		(\subref{experiments_cable_modelling_four_pairs}) four-pair network cable,
+		(\subref{experiments_cable_modelling_two_pairs}) two-pair network cable,
+		(\subref{experiments_cable_modelling_floating}) floating braided rope,
+		(\subref{experiments_cable_modelling_rope}) sail rope,
+		(\subref{experiments_cable_modelling_weighted}) leaded seamstress rope,
+		(\subref{experiments_cable_modelling_chain}) plain steel chain,
+		(\subref{experiments_cable_modelling_elastic}) elastic
+	}
+	\label{experiments_cable_modelling_all_cables}
+	\renewcommand\thesubfigure{\alpha{subfigure}}
+\end{figure}
+
+\begin{table}
+	\centering
+	\robustify\bfseries
+	\sisetup{ % pour changer le nombre de chiffres après la virgule affichés après compilation
+		round-mode = places,
+		round-precision = 3}
+	\caption{Cables characteristics}
+	\begin{tabular}{@{}l|SSSS@{}}
+		\toprule
+		cable \#                    & \subref{experiments_cable_modelling_coaxial} & \subref{experiments_cable_modelling_four_pairs} & \subref{experiments_cable_modelling_two_pairs} & \subref{experiments_cable_modelling_floating} \\ \midrule
+		diameter / \unit{\m}        & 0.0068                                       & 0.005                                           & 0.0042                                         & 0.0077                                        \\
+		weight / \unit{\N}          & 1.0791                                       & 0.6867                                          & 0.3924                                         & 0.2943                                        \\
+		weight in water / \unit{\N} & 0.04905                                      & 0.14715                                         & -0.04905                                       & -0.4905                                       \\
+		wet weight / \unit{\N}      & 1.0791                                       & 0.6867                                          & 0.3924                                         & 0.981                                         \\
+		plastic deformation         & {\checkmark}                                 & {\checkmark}                                    & {\checkmark}                                   & {$\cross$}                                    \\ \midrule[1pt]
+		cable \#                    & \subref{experiments_cable_modelling_rope}    & \subref{experiments_cable_modelling_weighted}   & \subref{experiments_cable_modelling_chain}     & \subref{experiments_cable_modelling_elastic}  \\ \midrule
+		diameter / \unit{\m}        & 0.0055                                       & 0.0035                                          & {---}                                          & 0.0054                                        \\
+		weight / \unit{\N}          & 1.0791                                       & 1.3734                                          & 3.11958                                        & 0.5886                                        \\
+		weight in water / \unit{\N} & 0.24525                                      & 1.1772                                          & 2.70756                                        & 0.0981                                        \\
+		wet weight / \unit{\N}      & 1.5696                                       & 1.52055                                         & 3.11958                                        & 0.6867                                        \\
+		plastic deformation         & {$\cross$}                                   & {$\cross$}                                      & {$\cross$}                                     & {$\cross$}                                    \\ \bottomrule
+	\end{tabular}
+	\label{experiments_cable_modelling_cables_characteristics}
+\end{table}
+
+\subsection{Experimental setup}
+\label{experiments_cable_modelling_experiment_setup}
+
+The experiment is set up in a \qty{7.2}{\m} long, \qty{4.2}{\m} wide and \qty{3}{\m} deep tank. One
+end of the cable, namely \fllvect{P}{w}{m}{n}, is attached to a ROV (BlueROV), while the other,
+namely \fllvect{P}{w}{m}{0}, is fixed and attached to the side of the pool
+(\cref{experiments_cable_modelling_pool}).
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth]{experiment_picture.jpg}
+	\caption{
+		Experimental setup. A dark red cable connects the ROV to a fixed point; Optical markers are
+		regularly placed on the cable for underwater motion tracking; The slack light yellow tether is used
+		for communications with the ROV
+	}
+	\label{experiments_cable_modelling_pool}
+\end{figure}
+
+The cable's and robot's positions are recorded by a 5-camera, \qty{100}{\Hz}
+\emph{Qualisys}\footnote{See specifications at www.qualisys.com/cameras/underwater} underwater
+motion capture system. The robot as well as each cable are equipped with passive reflective markers
+and the cable's markers are evenly spaced out by \qty{0.2}{\m} ($n=15$). The calibration of the
+motion capture system gives a standard deviation of \qty{2.2}{\mm} across the pool's volume for a
+known object's length. The points \fllvect{P}{w}{m}{k} are measured in the \textit{Qualysis} world
+Cartesian frame which is defined by the positioning of a calibration target that may not be
+perfectly vertical in the real experiment. This introduces a small offset
+($\pm$\qty{0.05}{\radian}) for the steady state angles as it can be seen in
+\cref{experiments_cable_modelling_res_3_surge,experiments_cable_modelling_res_3_sway,experiments_cable_modelling_res_6_surge,experiments_cable_modelling_res_6_sway}.
+
+The initial position of the robot is defined such that the robot is stabilized at \qty{1}{\m} depth
+and approximately \qty{1}{\m} from the lateral pool wall facing the fixed attachment point
+(\cref{experiments_cable_modelling_trajectories}). Surge and sway movements are conducted
+individually to investigate the cable's response movement within or without its original vertical
+plane. The robot repeats the same open-loop control in sway or surge with the same step profile one
+after the other for each cable: 1) stabilisation with auto-depth at \qty{1}{\m} depth for
+\qty{2}{\s}, 2) abrupt start with constant surge or sway command applied for \qty{2.5}{\s}, 3)
+reversing of the thrusters for \qty{0.3}{\s} with a doubled velocity of opposite direction, to
+obtain an abrupt stop, 4) slow down the thruster for half the initial velocity during \qty{0.2}{\s}
+and 5) deactivation of the auto-depth control and complete stop of the thrusters after
+\qty{13}{\s}. The robot then drifts slowly.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/trajectories}
+	\caption{
+		Top view of typical trajectories of cable~\subref{experiments_cable_modelling_weighted} end.
+		Circles refer to initial positions and crosses refer to final positions
+	}
+	\label{experiments_cable_modelling_trajectories}
+\end{figure}
+
+The starting position of the mini-ROV is manually determined with the help of a visual reference
+point. It is not always perfectly aligned with the fixed point (see starting circles and
+trajectories in \cref{experiments_cable_modelling_trajectories}). To address this problem,
+closed-loop control could be considered. However, conventional position sensors such as IMUs, DVLs
+and USBLs are not suitable for an experiment in a compact metal tank, and the use of a visual
+target limits the range of possible movements. Another option would be to use a traction bench.
+However, such a setup would not be representative of the dynamics of the mini-ROV in interaction
+with its tether. Nevertheless, the depth sensor allows for closed-loop depth control and the
+desired direction of motion was dominant with its open-loop controller.
+
+The experiment is repeated three times for each cable, under six experimental conditions, which
+makes it possible to test the reactions of more or less taut cables with accelerations of different
+amplitudes. Each experimental condition is a combination of a direction of motion (sway or surge),
+a speed (\qty{0.3}{\m\per\s} or \qty{0.6}{\m\per\s}) and a starting point characterized by its
+horizontal distance from the fixation point (about \qty{1.5}{\m} or \qty{2}{\m}).
+
+\subsection{Results}
+\label{experiments_cable_modelling_results}
+
+\subsubsection*{General study}
+
+\Cref{experiments_cable_modelling_boxplot_all} represents the residuals
+\cref{cable_modelling_residual} for the three model variants, namely standard
+Catenary, \gammamodel{} and \thetagammamodel{}, for all sequences and all experimental conditions.
+There is a general trend showing that the \thetagammamodel{} model has lower residuals than the
+standard catenary model and the \gammamodel{} one. The \gammamodel{} variant is also more accurate
+than the standard catenary model.
+
+Regardless of the experimental condition, cable \subref{experiments_cable_modelling_weighted} and
+\subref{experiments_cable_modelling_chain} show lower residuals for all three variants, as expected
+regarding their physical properties (see
+\cref{experiments_cable_modelling_cables_characteristics}). Indeed, these cables are the closer to
+the definition of the catenary because they are flexible and negatively buoyant. Sail rope
+\subref{experiments_cable_modelling_rope} and elastic rope
+\subref{experiments_cable_modelling_elastic} are also negatively buoyant but lighter with regards
+to their volume so their residual is higher. Indeed, the drag forces damping effects wins over the
+weight. The floating cable~\subref{experiments_cable_modelling_floating} behaves like an inverted
+catenary. It has a high residual for the standard catenary model (2\textsuperscript{nd} worst
+median) but shows a good fit for the \thetagammamodel{} model (3\textsuperscript{rd} best median).
+
+For the stiffer
+cables~\subref{experiments_cable_modelling_coaxial},~\subref{experiments_cable_modelling_four_pairs}
+and~\subref{experiments_cable_modelling_two_pairs}, the improvement in accuracy for the
+\thetagammamodel{} variant still exists, albeit to a lesser extent. Indeed, the stiffer the cable,
+the higher the residuals. These cables have permanent deformations as a result of being coiled.
+Furthermore they are neutrally buoyant. As a result, the impact of weight is insufficient to
+generate the catenary shape.
+
+The section below examines the three model variants in greater details, distinguishing between the
+experiments involving predominant surge and sway motion.
+Cables~\subref{experiments_cable_modelling_two_pairs} is chosen as representative of the stiff
+cables with neutral buoyancy and cable~\subref{experiments_cable_modelling_weighted} is chosen
+among the flexible cables that are negatively buoyant (as defined
+in~\cref{experiments_cable_modelling_cables}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/cables_boxplot}
+	\caption{
+		Box plots of all 8 cables under all experimental parameters (speed, direction, distance) with the
+		median, 1\textsuperscript{st} and 3\textsuperscript{rd} quartile, the 1\textsuperscript{st} and
+		99\textsuperscript{th} percentile of model residuals \res{v} (blue),
+		\res{\gamma} (red) and \res{\theta\gamma} (gray).
+	}
+	\label{experiments_cable_modelling_boxplot_all}
+\end{figure}
+
+\subsubsection*{Detailed analysis of cables~\subref{experiments_cable_modelling_two_pairs} and~\subref{experiments_cable_modelling_weighted} as group representatives}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/cable3_boxplot}
+	\caption{
+		Box plots of the two-pair network cable, cable~\subref{experiments_cable_modelling_two_pairs}
+		residuals \res{v} in blue, \res{\gamma} in red and
+		\res{\theta\gamma} in gray
+	}
+	\label{experiments_cable_modelling_boxplot_3}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/cable6_boxplot}
+	\caption{
+		Box plots of the leaded seamstress rope, cable~\subref{experiments_cable_modelling_weighted}
+		residuals $\res{v}$ in blue, $\res{\gamma}$ in red and
+		$\res{\theta\gamma}$ in gray
+	}
+	\label{experiments_cable_modelling_boxplot_6}
+\end{figure}
+
+\Cref{experiments_cable_modelling_boxplot_3} and~\cref{experiments_cable_modelling_boxplot_6}
+show the box plots of the model residuals for cable~\subref{experiments_cable_modelling_two_pairs}
+and~\subref{experiments_cable_modelling_weighted} according to experimental parameters. First, the
+sway movements are displayed for a distance of \qty{2}{\m} and two different velocities. Then the
+sway movements are detailed for two different velocities and two starting points. These Tables show
+that the improvements of accuracy of the \thetagammamodel{} model is consistent across experimental
+parameters.
+
+For both groups representatives, the residuals of the models are smaller for slower movements and
+greater distance from the attachment point (\textit{i.e.} more tension in the cable). The
+\gammamodel{} model displays a higher accuracy for lateral sway movements compared to forward surge
+movements. Conversely, our \thetagammamodel{} is significantly better for surge movements in
+comparison of the \gammamodel{}. The gain in accuracy is even greater for
+cable~\subref{experiments_cable_modelling_weighted}'s group.
+
+\subsubsection*{
+	Detailed analysis for experimental conditions of 0.6~m~s\textsuperscript{-1} speed and 2~m distance
+	for cables~\subref{experiments_cable_modelling_two_pairs}
+	and~\subref{experiments_cable_modelling_weighted} as group representatives
+}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/sway_3}
+	\caption{
+		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
+		\qty{2}{\m} distance with cable~\subref{experiments_cable_modelling_two_pairs}, sway motion
+	}
+	\label{experiments_cable_modelling_res_3_sway}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/sway_6}
+	\caption{
+		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
+		\qty{2}{\m} distance with cable~\subref{experiments_cable_modelling_weighted}, sway motion
+	}
+	\label{experiments_cable_modelling_res_6_sway}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/surge_3}
+	\caption{
+		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
+		\qty{2}{\m} distance with cable~\subref{experiments_cable_modelling_two_pairs}, surge motion
+	}
+	\label{experiments_cable_modelling_res_3_surge}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/surge_6}
+	\caption{
+		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
+		\qty{2}{\m} distance. with cable~\subref{experiments_cable_modelling_weighted}, surge motion
+	}
+	\label{experiments_cable_modelling_res_6_surge}
+\end{figure}
+
+\Cref{experiments_cable_modelling_res_3_surge,experiments_cable_modelling_res_3_sway,experiments_cable_modelling_res_6_surge,experiments_cable_modelling_res_6_sway}
+shows the three model variants residuals, angles $\theta$ and $\gamma$, as well as the robot's
+speed. These figures show in detail the different phases of the movement: an initial stable
+position (hydrostatic equilibrium phase), an abrupt start (dynamic phase), a phase of continuous
+application of a constant command (steady state phase), an abrupt stop (dynamic phase) and a
+subsequent hydrostatic phase.
+
+A clear correlation appears between the robot's dynamics and the angle $\gamma$ for sway motion.
+The estimated $\gamma$ angle consistently increases with speed during sway movements, whereas
+$\theta$ remains close to zero (\cref{experiments_cable_modelling_res_3_sway}
+and~\cref{experiments_cable_modelling_res_6_sway}). As anticipated, surge movements have a noticeable impact on
+cable~\subref{experiments_cable_modelling_two_pairs}'s estimated angle $\theta$, with $\gamma$ maintaining a
+small value (\cref{experiments_cable_modelling_res_3_surge}). For cable~\subref{experiments_cable_modelling_weighted}, both
+angles increase with velocity, with $\theta$ being greater than the one observed for sway movement
+(\cref{experiments_cable_modelling_res_6_surge}). However, since $\gamma$ is larger than expected, let us
+examine the trajectory displayed in \cref{experiments_cable_modelling_trajectories} relative to surge motion
+with \qty{0.6}{\m\per\s} and \qty{2}{\m}. While the primary motion is surge, the trajectory of the
+robot is not precisely aligned with the fixed point causing the cable to move laterally. Although
+this effect is present throughout all sequences, it is particularly pronounced in this trajectory
+which explains the values for $\gamma$. This demonstrates that our \thetagammamodel{} model is
+capable of simultaneously managing significant sway and surge movements. Finally, one can clearly
+see that cable~\subref{experiments_cable_modelling_weighted} restores balance towards the vertical plane and
+the standard model at a faster rate compared to the lighter
+cable~\subref{experiments_cable_modelling_two_pairs}. As a result, physics-based modelling of angle dynamics
+opens up promising perspectives for model-based control synthesis.
