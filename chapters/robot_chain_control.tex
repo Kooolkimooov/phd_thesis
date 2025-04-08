@@ -25,7 +25,7 @@ certain equations.
 	\centering
 	% \input{figures/frames.tex}
 	% https://docs.google.com/presentation/d/1WVlA9_4oLpASD91up4dThMYDIxypvvU-ZnLA6A4U7jM/edit?usp=sharing
-	\includegraphics[width=\linewidth]{figures/frames.png}
+	\includegraphics[width=\figurewidth]{figures/frames.png}
 	\caption{Schematic representation of the frames. Reference leader trajectory in orange.}
 	\label{fig:frames}
 \end{figure}
@@ -136,9 +136,9 @@ $\Delta H$ between the two endpoints as well as the length $L$ of the curve.
 \end{figure}
 
 The sag $H$ is given by the solution of~\cref{equ:sag} and used to determine the vertical component
-of the lowest point of the catenary~\cite{drupt_inertial-measurement-based_2022}. Let $H_{i(i+1)}$
-denote the sag between robots $i$ and $i+1$ then, the elevation of the lowest point of the catenary
-is $H_{i(i+1)} + {}^wz_i$.%between robots $i$ and $i+1$ 
+of the lowest point of the catenary~\cite{druptInertialmeasurementbasedCatenaryShape2022}. Let
+$H_{i(i+1)}$ denote the sag between robots $i$ and $i+1$ then, the elevation of the lowest point of
+the catenary is $H_{i(i+1)} + {}^wz_i$.%between robots $i$ and $i+1$ 
 \begin{equation}\label{equ:sag}
 	0  = aH^2 + bH + C \text{; }
 	\begin{cases}
@@ -214,8 +214,8 @@ horizon. In this paper we consider a constant control input
 The controller is assessed through the analysis of a scenario comprising four tethered robots
 ($n=4$). The experiment takes place in a numerical tank with a depth of 4 meters, and infinite
 width and length (\cref{fig:three_d_view}). The tethers are assumed to be negatively buoyant with a
-known fixed length~\cite{drupt_validity_2022}. In previous works, the chain of ROVs move
-freely~\cite{laranjeira_catenary-based_2017,talke_catenary_2018, laranjeira_catenary-based_2020}.
+known fixed length~\cite{druptValidityCatenaryModel2022}. In previous works, the chain of ROVs move
+freely~\cite{laranjeiraCatenarybasedVisualServoing2017,talkeCatenaryTetherShape2018,laranjeiraCatenarybasedVisualServoing2020}.
 Whereas in this scenario, the fourth robot \textit{considered as a fixed point} in order to
 represent the link to a surface control station. Consequently, the operational range the rest of
 the chain system is constrained.
@@ -239,7 +239,7 @@ point is positioned at $[3.5,0,0,0,0,0]$.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\columnwidth]{figures/0.png}
+	\includegraphics[width=\figurewidth]{figures/0.png}
 	\caption{Three dimensional view of the experimental setup. Reference trajectory is in orange. The four robots are linked with red, green and blue catenaries.}
 	\label{fig:three_d_view}
 \end{figure}
@@ -259,9 +259,9 @@ on angular actuation. No matrix weights on the fixed point.
 
 In order to differentiate the simulation from the model employed in the MPC prediction horizon,
 their integration methodologies diverge. The simulation utilizes a Runge-Kutta integration of order
-4~\cite{ralston_runge-kutta_1962}, whereas the MPC prediction employs an Euler-explicit scheme. The
-shape of each cable is deduced from the position of its attachment points using the catenary
-equation \cref{eq:catenary}.
+4~\cite{ralstonRungeKuttaMethodsMinimum1962}, whereas the MPC prediction employs an Euler-explicit
+scheme. The shape of each cable is deduced from the position of its attachment points using the
+catenary equation \cref{eq:catenary}.
 
 The code is available at {\small\url{https://github.com/LaboratoireCosmerTOULON/rov_chain_mpc/}}.
 
@@ -361,7 +361,7 @@ predictive controller over the simulation. The average computational time for
 one step is \qty{2}{\s} with the Python simulator. This time could be reduced
 by lowering the tolerance of the optimization, by linearizing the robot model,
 change the catenary model for simpler analytical model such as
-parabolas~\cite{smolentsev_shape_2023} and by further constraining the search
+parabolas~\cite{smolentsevShapeVisualServoing2023} and by further constraining the search
 space. Indeed, the search of the lowest point position is the result of a
 minimization process that is time consuming in an MPC context.
 \begin{figure}
