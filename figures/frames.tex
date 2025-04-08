@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+    % Set the wave parameters
+    \def\xoffset{1.25}
+    \def\amplitude{0.1} % Amplitude of the waves
+    \def\waveheight{0.9} % Height of the waves
+    \def\wavelength{1} % Wavelength of the waves
+    \def\numwaves{7} % Number of waves
+
+    % Draw the waves
+    \foreach \i in {1,...,\numwaves} {
+    \filldraw[color=blue!30, smooth, domain={(\i-1)*\wavelength}:{\i*\wavelength}, samples=100]
+        plot (\x - \xoffset, {\amplitude*sin((\x - (\i-1)*\wavelength) * 360 / \wavelength) + \waveheight})
+        -- (\i*\wavelength - \xoffset, -2.3) -- ({(\i-1)*\wavelength-\xoffset}, -2.3) -- cycle;
+    }
+
+
+    \def\amplitude{1.} 
+    \coordinate (Ow) at (1., 1., 0.);
+    \coordinate (Or) at (3., -.5, 1.);
+
+    \draw[->, thick] (Ow) node[above left] {$\mathbf{O}_{w}$} -- ($(Ow) + (xyz cs:x=1)$) node[above right] {$\mathbf{x}_{w}$ --- North};
+    \draw[->, thick] (Ow) -- ($(Ow) + (xyz cs:z=-1)$) node[above right] {$\mathbf{y}_{w}$ --- East};
+    \draw[->, thick] (Ow) -- ($(Ow) + (xyz cs:y=-1)$) node[right] {$\mathbf{z}_{w}$ --- Down};
+
+    \draw[blue, ->, thick] (Or) node[above] {$\mathbf{O}_{r}$} -- ($(Or) + (xyz cs:z=1)$) node[left] {$\mathbf{x}_{r}$};
+    \draw[blue, ->, thick] (Or) -- ($(Or) + (xyz cs:x=1)$) node[above] {$\mathbf{y}_{r}$};
+    \draw[blue, ->, thick] (Or) -- ($(Or) + (xyz cs:y=-1)$) node[left] {$\mathbf{z}_{r}$};
+
+    % \draw[<-, dashed] plot[smooth] coordinates {(Ow) (0, 0, 0) (Or)} node[midway, left] {$\mathbf{R}^w_r\left(\eta\right)$};
+
+\end{tikzpicture}
