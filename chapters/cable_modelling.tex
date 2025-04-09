@@ -30,7 +30,7 @@ The catenary curve lies in a vertical plane \lplanefullxz{v}, associated to the 
 \lframefull{v} with \ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being the
 axis along which gravity exerts its effet in this frame. Curve points coordinates $\fpoint{P}{v} =
 	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$ between two attachment points
-$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
 $\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$ are given by:
 \begin{align}
 	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{C},~\coord{x}{v}\in\left[-\catD-\catdD,~\catD\right]
@@ -49,10 +49,18 @@ where $\catC \in \mathbb{R}^*_+$ is the catenary parameter.
 	\label{cm_catenary_curve}
 \end{figure}
 
-\subsection{Parameter derivation}
+\subsection{Parameters derivation}
 
-The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{}, the cable length \catL{} as
-well as its mass are closely related to the overall catenary shape parameter \catC{}.
+The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{} as wella as the cable length
+\catL{} are closely related to the overall catenary shape parameter \catC{}
+\begin{align}
+	C              & = \frac{4\catH+2\catdH+4\catL\sqrt{\frac{\catH\left(\catH+\catdH\right)}{\catL^2-\catdH^2}}}{\catL^2-\left(2\catH+\catdH\right)^2} \\
+	\catH          & = \frac{\cosh{(\catD\catC)} - 1}{C}                                                                                                \\
+	\catH + \catdH & = \frac{\cosh{((\catD+\catdD)\catC)} - 1}{C}
+\end{align}
+
+In practice, all of these parameters are not all available, however there are other ways to
+determine its value.
 
 \subsubsection{From mass and tension}
 
@@ -77,14 +85,14 @@ with $\rho_w$ the water density.
 
 \subsubsection{From endpoints coordinates}
 
-Let $L$ be the known cable length, $2\catdD+\catD$ the horizontal distance and \catdH{} the
-difference in elevation between the cable end points \fpoint{A}{v} and \fpoint{B}{v}. The catenary
-parameter $C$ is estimated by finding the root of function $f$ which relates the curve's length and
-\catC{} (\cite{laranjeiraCatenarybasedVisualServoing2020}) (using Brent's
+Knowing the cable end points \fpoint{A}{v} and \fpoint{B}{v}, \catdH{} and $l$ can be determined
+(\cref{cm_catenary_curve}). If the cable length \catL{} is also known, the catenary parameter
+\catC{} is estimated by finding the root of function which relates the curve's length and \catC{}
+(\cite{laranjeiraCatenarybasedVisualServoing2020}) (using Brent's
 method~\cite{brentAlgorithmGuaranteedConvergence1971}):
-\begin{align*}
-	f(C)=C^2 \left(L^2 - \Delta H^2\right) - 4 \sinh^2(lC/2)
-\end{align*}
+\begin{align}
+	f(\catC)=\catC^2 \left(\catL^2 - \catdH^2\right) - 4 \sinh^2(l\catC/2)
+\end{align}
 
 \section{Augmented catenary model}
 
