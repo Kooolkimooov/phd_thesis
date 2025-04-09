@@ -21,11 +21,70 @@ The contributions of this chapter are the following:
 
 \subsection{Definition}
 
-\lipsum[1]
+The shape of a homogeneous hanging cable between two points, with fixed length \catL, only
+subjected to its weight, is defined by a catenary curve (\cref{cm_catenary_curve}). Underwater
+cable are also subjected to buoyancy which is opposite to weight in direction; the resultant of
+those two forces must be non-zeros for the catenary model to apply.
+
+The catenary curve lies in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame
+\lframefull{v} with \ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being the
+axis along which gravity exerts its effet in this frame. Curve points coordinates $\fpoint{P}{v} =
+	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$ between two attachment points
+$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$ are given by:
+\begin{align}
+	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{C},~\coord{x}{v}\in\left[-\catD-\catdD,~\catD\right]
+	\label{cm_catenary_equation}
+\end{align}
+where $\catC \in \mathbb{R}^*_+$ is the catenary parameter.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary}
+	\caption{
+		Catenary curve of length \catL{} defined in plane \lplane{v}. Construction parameters are the sag
+		\catH{}, the difference of elevation \catdH{} and the horizontal distance $l=2\catD+\catdD$ between
+		attachment points \fpoint{A}{v} and \fpoint{B}{v}
+	}
+	\label{cm_catenary_curve}
+\end{figure}
 
 \subsection{Parameter derivation}
 
-\lipsum[1]
+The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{}, the cable length \catL{} as
+well as its mass are closely related to the overall catenary shape parameter \catC{}.
+
+\subsubsection{From mass and tension}
+
+By construction (\cref{mb_catenary_model_derivation}), the catenary parameter \catC{} can be
+determined by
+\begin{align}
+	\catC = \frac{\lambda_mg}{T_h}
+	\label{cm_catenary_parameter_mt}
+\end{align}
+
+with $g$ the gravitational acceleration, $\lambda_c$ the cable linear mass and $T_h$ the horizontal
+component of the tension in the cable. The horizontal component of the tension is constant
+throughout the cable.
+
+Knowing the linear volume $\lambda_v$ of the cable, the buoyancy of the cable can be used to extend
+\cref{cm_catenary_parameter_mt}
+\begin{align}
+	\catC = \frac{\left(\lambda_m - \lambda_v\rho_w\right)g}{T_h}
+\end{align}
+
+with $\rho_w$ the water density.
+
+\subsubsection{From endpoints coordinates}
+
+Let $L$ be the known cable length, $2\catdD+\catD$ the horizontal distance and \catdH{} the
+difference in elevation between the cable end points \fpoint{A}{v} and \fpoint{B}{v}. The catenary
+parameter $C$ is estimated by finding the root of function $f$ which relates the curve's length and
+\catC{} (\cite{laranjeiraCatenarybasedVisualServoing2020}) (using Brent's
+method~\cite{brentAlgorithmGuaranteedConvergence1971}):
+\begin{align*}
+	f(C)=C^2 \left(L^2 - \Delta H^2\right) - 4 \sinh^2(lC/2)
+\end{align*}
 
 \section{Augmented catenary model}
 
