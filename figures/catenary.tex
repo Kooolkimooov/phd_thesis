@@ -50,6 +50,8 @@
 
 		\draw[densely dotted, thick] (Ad) -- (Bd);
 		\draw[densely dotted, thick] (A) -- (Bu);
+		\draw[densely dotted, thick] (Am) -- (B);
+		\draw[densely dotted, thick] (Bpu) -- (Bpd);
 		\draw[densely dotted, thick] (A) -- (Add);
 		\draw[densely dotted, thick] (Bu)  -- (Bdd);
 		\draw[densely dotted, thick] (Ou)  -- (O);
@@ -63,12 +65,12 @@
 		\filldraw[blue] (A) circle (2pt) node[above right] {\fpoint{A}{v}};
 		\filldraw[blue] (B) circle (2pt) node[above left] {\fpoint{B}{v}};
 
-		\draw[<->] (Bpd) -- (Bp) node[midway, right] {\catH};
-		\draw[<->] (Bp) -- (Bpu) node[midway, right] {\catdH};
-		\draw[<->] (Am) -- (Bp) node[midway, below]{\catdD};
-		\draw[<->] (Bp) -- (Om) node[midway, below]{\catD};
-		\draw[<->] (Om) -- (B) node[midway, below]{\catD};
-		\draw[<->] (Add) -- (Bdd) node[midway, below]{\catl};
+		\draw[<->, thick] (Bd) -- (B) node[midway, left] {\catH};
+		\draw[|->, thick] ($(Bp)!.5!(Am)$) -- ($(Bpu)!.5!(A)$) node[midway, right] {\catdH};
+		\draw[|->, thick] ($(Bp)!.5!(Bpd)$) -- ($(Am)!.5!(Ad)$) node[midway, below]{\catdD};
+		\draw[<->, thick] (Bp) -- (Om) node[midway, below]{\catD};
+		\draw[<->, thick] (Om) -- (B) node[midway, below]{\catD};
+		\draw[<->, thick] (Add) -- (Bdd) node[midway, below]{\catl};
 
 	\end{axis}
 
