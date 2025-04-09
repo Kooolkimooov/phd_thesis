@@ -70,8 +70,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\dominitoc
-\tightmtctrue
+\dominitoc{}
+\tightmtctrue{}
 \setcounter{minitocdepth}{1}
 
 \titleformat{\chapter}[display]
@@ -90,7 +90,8 @@
 	{
 			\renewcommand*{\contentsname}{Short contents}
 			\setcounter{tocdepth}{0}
-			\tableofcontents*
+			\tableofcontents
+			\adjustmtc
 		}
 }
 \newcommand\longtableofcontents{
