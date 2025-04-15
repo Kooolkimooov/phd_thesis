@@ -21,37 +21,45 @@ The contributions of this chapter are the following:
 
 \subsection{Definition}
 
-The shape of a homogeneous hanging cable between two points, with fixed length \catL, only
-subjected to its weight, is defined by a catenary curve (\cref{cm_catenary_curve}). Underwater
-cable are also subjected to buoyancy which is opposite to weight in direction; the resultant of
-those two forces must be non-zeros for the catenary model to apply.
+The catenary model describes the static equilibrium shape of a homogeneous, flexible cable
+suspended between two fixed points under the influence of gravity. This shape, depicted in
+\cref{cm_catenary_curve}, is defined when the cable has a fixed length $\catL$ and is solely
+subjected to its own weight. In underwater environments, the cable also experiences a buoyant
+force, which acts in the opposite direction to weight. For the catenary model to remain valid, the
+net vertical force—resulting from the combination of weight and buoyancy—must be non-zero.
 
-The catenary curve lies in a vertical plane \lplanefullxz{v}, associated to the Cartesian frame
-\lframefull{v} with \ldpoint{O}{v} being the lowest point of the curve and \ldvect{z}{v} being the
-axis along which gravity exerts its effet in this frame. Curve points coordinates $\fpoint{P}{v} =
-	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$ between two attachment points
-$\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
-$\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$ are given by:
+The resulting curve lies within a vertical plane, denoted by \lplanefullxz{v}, and is described
+relative to a Cartesian reference frame \lframefull{v}. The origin \ldpoint{O}{v} is set at the
+lowest point of the curve, and the axis \ldvect{z}{v} is aligned with the direction of
+gravitational action in this frame. The coordinates of the points along the curve are expressed as
+$\fpoint{P}{v} = \left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bounded by the
+attachment points $\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$. The elevation $\coord{z}{v}$ of each point is given
+by the standard catenary equation:
+
 \begin{align}
-	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{C},~\coord{x}{v}\in\left[-\catD-\catdD,~\catD\right]
+	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD+\catdD,~\catD\right]
 	\label{cm_catenary_equation}
 \end{align}
-where $\catC \in \mathbb{R}^*_+$ is the catenary parameter.
+
+Here, $\catC \in \mathbb{R}^*_+$ is referred to as the catenary parameter, which governs the
+curvature of the cable.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/vertical_catenary_schematic}
 	\caption{
-		Catenary curve of length \catL{} defined in plane \lplane{v}. Construction parameters are the sag
-		\catH{}, the difference of elevation \catdH{} and the horizontal distance $l=2\catD+\catdD$ between
-		attachment points \fpoint{A}{v} and \fpoint{B}{v}. Note that \catdD{} and \catdH{} are signed distances
+		Catenary curve of length $\catL$ defined in plane \lplane{v}. The construction parameters are the
+		sag $\catH$, the elevation difference $\catdH$, and the horizontal separation $l = 2\catD + \catdD$
+		between attachment points $\fpoint{A}{v}$ and $\fpoint{B}{v}$. Note that $\catdD$ and $\catdH$
+		represent signed distances.
 	}
 	\label{cm_catenary_curve}
 \end{figure}
 
 \subsection{Parameters derivation}
 
-The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{} as wella as the cable length
+The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{} as well as the cable length
 \catL{} are closely related to the overall catenary shape parameter \catC{}
 \begin{align}
 	C              & = \frac{4\catH+2\catdH+4\catL\sqrt{\frac{\catH\left(\catH+\catdH\right)}{\catL^2-\catdH^2}}}{\catL^2-\left(2\catH+\catdH\right)^2} \\
@@ -60,7 +68,7 @@ The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{} as wella as 
 \end{align}
 
 In practice, all of these parameters are not all available, however there are other ways to
-determine its value.
+determine the catenary parameter.
 
 \subsubsection{From mass and tension}
 
@@ -75,7 +83,7 @@ with $g$ the gravitational acceleration, $\lambda_c$ the cable linear mass and $
 component of the tension in the cable. The horizontal component of the tension is constant
 throughout the cable.
 
-Knowing the linear volume $\lambda_v$ of the cable, the buoyancy of the cable can be used to extend
+Knowing the linear volume $\lambda_v$, the buoyancy of the cable can be used to extend
 \cref{cm_catenary_parameter_mt}
 \begin{align}
 	\catC = \frac{\left(\lambda_m - \lambda_v\rho_w\right)g}{T_h}
@@ -91,8 +99,20 @@ Knowing the cable end points \fpoint{A}{v} and \fpoint{B}{v}, \catdH{} and $l$ c
 (\cite{laranjeiraCatenarybasedVisualServoing2020}) (using Brent's
 method~\cite{brentAlgorithmGuaranteedConvergence1971}):
 \begin{align}
-	f(\catC)=\catC^2 \left(\catL^2 - \catdH^2\right) - 4 \sinh^2(l\catC/2)
+	\catC^2 \left(\catL^2 - \catdH^2\right) - 4 \sinh^2(l\catC/2) = 0
 \end{align}
+
+\subsubsection{From endpoint coordinate and tangent}
+
+As described in~\cite{druptInertialmeasurementbasedCatenaryShape2022}, the catenary parameter can
+be determined Knowing the coordinates of one of the enpoints as well as the tangent vector at a
+known point $s$ along the length of the cable. The catenary parameter is then
+\begin{align}
+	\catC = \frac{2\abs{\tan{\left(\beta\right)}}}{\catL - \catdH - 2s}
+\end{align}
+
+with $\beta$ the angle between the tangent vector and the horizontal. Note that this method is
+valid only if $s$ is very small and $\catL >> \catdH$.
 
 \section{Augmented catenary model}
 
