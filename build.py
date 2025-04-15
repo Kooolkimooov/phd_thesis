@@ -197,39 +197,43 @@ def clean(name=None):
                     printlog(f"error removing {directory}: {e}")
 
 def main():
-    """Parse arguments and run the appropriate command."""
     parser = argparse.ArgumentParser(description="LaTeX thesis build script")
-    subparsers = parser.add_subparsers(dest="command", help="Build command")
+    subparsers = parser.add_subparsers(dest="command")
     
-    thesis_parser = subparsers.add_parser("thesis", help="Build the complete thesis")
-    thesis_parser.add_argument("--remake", "-r", action="store_true", 
-                              help="Skip rebuilding figures")
+    thesis_parser = subparsers.add_parser("thesis", help="build the complete thesis")
+    thesis_parser.add_argument("--remake", "-r", action="store_true", help="skip building figures")
     
-    chapters_parser = subparsers.add_parser("chapters", help="Build all chapters as separate pdf files")
-    chapters_parser.add_argument("--remake", "-r", action="store_true", 
-                              help="Skip rebuilding figures")
+    chapters_parser = subparsers.add_parser("chapters", help="build all chapters as separate pdf files")
+    chapters_parser.add_argument("--remake", "-r", action="store_true", help="skip rebuilding figures")
     
-    chapter_parser = subparsers.add_parser("chapter", help="Build a specific chapter as separate pdf file")
-    chapter_parser.add_argument("name", help="Name of the chapter to build")
-    chapter_parser.add_argument("--remake", "-r", action="store_true",
-                                help="Skip rebuilding figures")
+    chapter_parser = subparsers.add_parser("chapter", help="build a specific chapter as separate pdf file")
+    chapter_parser.add_argument("name", help="name of the chapter to build")
+    chapter_parser.add_argument("--remake", "-r", action="store_true", help="skip rebuilding figures")
     
-    subparsers.add_parser("figures", help="Build all figures")
+    subparsers.add_parser("figures", help="build all figures")
     
-    figure_parser = subparsers.add_parser("figure", help="Build a specific figure")
+    figure_parser = subparsers.add_parser("figure", help="build a specific figure")
     figure_parser.add_argument("name", help="Name of the figure to build")
     
-    clean_parser = subparsers.add_parser("clean", help="Clean build files")
-    clean_parser.add_argument("name", nargs="?", default=None, help="Clean files of that name")
+    clean_parser = subparsers.add_parser("clean", help="clean build files")
+    clean_parser.add_argument("name", nargs="?", default=None, help="clean files of that name")
     
-    all_parser = subparsers.add_parser("all", help="Build thesis and all chapters")
-    all_parser.add_argument("--remake", "-r", action="store_true", 
-                              help="Skip rebuilding figures")
+    all_parser = subparsers.add_parser("all", help="build thesis and all chapters")
+    all_parser.add_argument("--remake", "-r", action="store_true", help="skip rebuilding figures")
     
-    parser.add_argument("--verbose", "-v", action="store_true", default=False, help="Enable verbose output")
+    parser.add_argument("--verbose", "-v", action="store_true", help="enable verbose output")
+    parser.add_argument("--HELP", "-H", action="store_true", help="show verbose help message and exit")
+
+    help_msg = parser.format_help()
+    for subparser in subparsers.choices.values():
+        help_msg += "\n" + f"{'=' * 10 :^30}" + "\n\n"
+        help_msg += subparser.format_help()
 
     args = parser.parse_args()
-    
+
+    if args.HELP:
+        print(help_msg)
+        return
 
     if args.command == "clean":
         clean(args.name)
@@ -260,7 +264,7 @@ def main():
         build_thesis(remake=args.remake)
         build_chapter(remake=True)
     else:
-        parser.print_help()
+        print(help_msg)
 
 if __name__ == "__main__":
     main()
