@@ -5,39 +5,101 @@ name: build
 on:
   push:
     tags:
-      v*
+      - v*
   schedule:
     - cron: "00 20 * * *" 
   workflow_dispatch:
+
 jobs:
+    check:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Determine if build is needed
+          id: determine_build
+          uses: actions/github-script@v6
+          with:
+            script: |
+              // Is this a tagged release?
+              const isTaggedRelease = context.ref.startsWith('refs/tags/') && context.eventName === 'push';
+              core.setOutput('is_release', isTaggedRelease.toString());
+              
+              // Check if this commit already has a tag
+              const { data: tags } = await github.rest.git.listMatchingRefs({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'tags/'
+              });
+              
+              const hasTagOnCurrentCommit = tags.some(tag => 
+                tag.object && tag.object.sha === context.sha
+              );
+              core.setOutput('has_tag', hasTagOnCurrentCommit.toString());
+              
+              // We need to build if:
+              // 1. This is a tagged release, OR
+              // 2. This is a scheduled/manual run AND the commit doesn't have a tag
+              const needsBuild = isTaggedRelease || 
+                ((context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') && !hasTagOnCurrentCommit);
+              
+              core.setOutput('needs_build', needsBuild.toString());
+              console.log(`Build needed: ${needsBuild} (Tagged release: ${isTaggedRelease}, Has tag: ${hasTagOnCurrentCommit})`);
+      outputs:
+        needs_build: ${{ steps.determine_build.outputs.needs_build }}
+        is_release: ${{ steps.determine_build.outputs.is_release }}
+        has_tag: ${{ steps.determine_build.outputs.has_tag }}
+
     build:
+      needs: check
+      if: needs.check.outputs.needs_build == 'true'
       runs-on: ubuntu-latest
       container:
         image: ghcr.io/xu-cheng/texlive-full:latest
       steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-python@v5
+        - name: checkout
+          uses: actions/checkout@v4
+
+        - name: setup python
+          uses: actions/setup-python@v5
           with:
             python-version: '>3.10'
-        - name: build
+            
+        - name: compile
           run: python ./build.py all
-        - name: get date
-          id: date
-          run: echo "::set-output name=date::$(date +'%d.%m.%Y')"
+
+        # Handle tagged release
         - name: release
           uses: softprops/action-gh-release@v2
-          if: startsWith(github.ref, 'refs/tags/')
+          if: needs.check.outputs.is_release == 'true'
           with:
             make_latest: true
             files: out/thesis.pdf
+    
+        # Handle prerelease for non-tagged commits
+        - name: bump patch version
+          if: needs.check.outputs.has_tag == 'false'
+          id: tag_version
+          uses: anothrNick/github-tag-action@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+            WITH_V: true
+            DEFAULT_BUMP: patch
+          
         - name: prerelease
+          if: needs.check.outputs.has_tag == 'false'
           uses: softprops/action-gh-release@v2
-          if: ${{ !startsWith(github.ref, 'refs/tags/') }}
           with:
-            tag_name: '${{ steps.date.outputs.date }}'
+            tag_name: ${{ steps.tag_version.outputs.new_tag }}
             prerelease: true
             files: out/*.pdf
-        - uses: sgpublic/delete-release-action@v1.2
+
+        # Cleanup old prereleases
+        - name: cleanup old prereleases
+          uses: sgpublic/delete-release-action@v1.2
           with:
             release-drop: false
             pre-release-drop: true
