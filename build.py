@@ -148,7 +148,7 @@ def build_chapter(name=None, remake=False):
         
         return all(successes)
             
-def build_thesis(remake=False):
+def build_thesis(remake=False, git_description=None):
     ensure_output_directories()
     
     if not remake:
@@ -158,25 +158,29 @@ def build_thesis(remake=False):
     
     printlog("building thesis")
 
-    gitcommit_path = "gitcommit.tex"
+    gitcommit_path = "gitdescription.tex"
     with open(gitcommit_path, "r") as f:
         original_content = f.read()
+
+    if git_description is None:
+        try:
+            git_description = subprocess.run(["git", "describe", "--dirty"], capture_output=True, check=True).stdout.strip().decode()
+        
+        except subprocess.CalledProcessError as e:
+            printlog(f"error while getting git commit info: {e}")
     
+    with open(gitcommit_path, "w") as f:
+        f.write(git_description)
+
     try:
-        git_info = subprocess.run(["git", "describe", "--dirty"], capture_output=True, check=True).stdout.strip().decode()
-
-        with open(gitcommit_path, "w") as f:
-            f.write(git_info)
-
         subprocess.run([COMPILER] + LATEX_FLAGS + ["thesis.tex"], check=True)
 
     except subprocess.CalledProcessError as e:
         printlog(f"error while building thesis: {e}")
         return False
     
-    finally: 
-        with open(gitcommit_path, "w") as f:
-            f.write(original_content)
+    with open(gitcommit_path, "w") as f:
+        f.write(original_content)
     
     try:
         shutil.move("build/thesis.pdf", "out/thesis.pdf")
@@ -215,6 +219,7 @@ def main():
     
     thesis_parser = subparsers.add_parser("thesis", help="build the complete thesis")
     thesis_parser.add_argument("-r", "--remake", action="store_true", help="skip building figures")
+    thesis_parser.add_argument("-gd", "--git-description", type=str, default=None, help="git description to embed in the thesis")
     
     chapters_parser = subparsers.add_parser("chapters", help="build all chapters as separate pdf files")
     chapters_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
@@ -233,6 +238,7 @@ def main():
     
     all_parser = subparsers.add_parser("all", help="build thesis and all chapters")
     all_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
+    all_parser.add_argument("-gd", "--git-description", type=str, default=None, help="git description to embed in the thesis")
     
     parser.add_argument("-H", "--HELP", action="store_true", help="show verbose help message and exit")
     parser.add_argument("-v", "--verbose", action="store_true", help="enable verbose output")
@@ -263,7 +269,7 @@ def main():
         LATEX_FLAGS.extend(["--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000"])
     
     if args.command == "thesis":
-        return build_thesis(remake=args.remake)
+        return build_thesis(remake=args.remake, git_description=args.git_description)
     elif args.command == "chapters":
         return build_chapter(remake=args.remake)
     elif args.command == "chapter":
@@ -273,7 +279,7 @@ def main():
     elif args.command == "figure":
         return build_figure(name=args.name)
     elif args.command == "all":
-        return build_thesis(remake=args.remake) and build_chapter(remake=True)
+        return build_thesis(remake=args.remake, git_description=args.git_description) and build_chapter(remake=True)
     else:
         print(help_msg)
         return True
