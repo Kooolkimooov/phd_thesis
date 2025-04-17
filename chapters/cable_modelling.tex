@@ -18,6 +18,7 @@ The contributions of this chapter are the following:
 \end{itemize}
 
 \section{Catenary model}
+\label{cm_catenary_model}
 
 \subsection{Definition}
 
@@ -26,7 +27,7 @@ suspended between two fixed points under the influence of gravity. This shape, d
 \cref{cm_catenary_curve}, is defined when the cable has a fixed length $\catL$ and is solely
 subjected to its own weight. In underwater environments, the cable also experiences a buoyant
 force, which acts in the opposite direction to weight. For the catenary model to remain valid, the
-net vertical force—resulting from the combination of weight and buoyancy—must be non-zero.
+net vertical force --resulting from the combination of weight and buoyancy-- must be non-zero.
 
 The resulting curve lies within a vertical plane, denoted by \lplanefullxz{v}, and is described
 relative to a Cartesian reference frame \lframefull{v}. The origin \ldpoint{O}{v} is set at the
@@ -57,64 +58,81 @@ curvature of the cable.
 	\label{cm_catenary_curve}
 \end{figure}
 
-\subsection{Parameters derivation}
+\subsection{Parameters Derivation}
 
-The construction parameters \catD{}, \catdD{}, \catH{} and \catdH{} as well as the cable length
-\catL{} are closely related to the overall catenary shape parameter \catC{}
+The catenary shape is governed by a combination of geometric parameters: the half horizontal
+distance $\catD$, the horizontal offset $\catdD$, the sag $\catH$, the elevation difference
+$\catdH$, and the cable length $\catL$. These are interrelated through the catenary parameter
+$\catC$, which controls the curvature of the cable:
+
 \begin{align}
-	C              & = \frac{4\catH+2\catdH+4\catL\sqrt{\frac{\catH\left(\catH+\catdH\right)}{\catL^2-\catdH^2}}}{\catL^2-\left(2\catH+\catdH\right)^2} \\
-	\catH          & = \frac{\cosh{(\catD\catC)} - 1}{C}                                                                                                \\
-	\catH + \catdH & = \frac{\cosh{((\catD+\catdD)\catC)} - 1}{C}
+	\catC          & = \frac{4\catH + 2\catdH + 4\catL \sqrt{\frac{\catH(\catH + \catdH)}{\catL^2 - \catdH^2}}}{\catL^2 - \left(2\catH + \catdH\right)^2} \\
+	\catH          & = \frac{\cosh(\catD\catC) - 1}{\catC}                                                                                                \\
+	\catH + \catdH & = \frac{\cosh\left((\catD + \catdD)\catC\right) - 1}{\catC}
 \end{align}
 
-In practice, all of these parameters are not all available, however there are other ways to
-determine the catenary parameter.
+In practice, all parameters are not always available simultaneously. However, several estimation
+methods can be employed to compute $\catC$, depending on the known quantities.
 
-\subsubsection{From mass and tension}
+\subsubsection{From Mass and Tension}
 
-By construction (\cref{mb_catenary_model_derivation}), the catenary parameter \catC{} can be
-determined by
+As shown in \cref{mb_catenary_model_derivation}, the catenary parameter $\catC$ is defined by:
+
 \begin{align}
-	\catC = \frac{\lambda_mg}{T_h}
+	\catC = \frac{\lambda_m g}{T_h}
 	\label{cm_catenary_parameter_mt}
 \end{align}
 
-with $g$ the gravitational acceleration, $\lambda_c$ the cable linear mass and $T_h$ the horizontal
-component of the tension in the cable. The horizontal component of the tension is constant
-throughout the cable.
+where $g$ is the gravitational acceleration, $\lambda_m$ is the cable's linear mass, and $T_h$ is
+the horizontal component of the cable's tension. Notably, $T_h$ remains constant along the entire
+cable.
 
-Knowing the linear volume $\lambda_v$, the buoyancy of the cable can be used to extend
-\cref{cm_catenary_parameter_mt}
+In underwater environments, buoyancy modifies the effective force acting on the cable.
+Incorporating this, the expression becomes:
+
 \begin{align}
-	\catC = \frac{\left(\lambda_m - \lambda_v\rho_w\right)g}{T_h}
+	\catC = \frac{\left(\lambda_m - \lambda_v \rho_w\right) g}{T_h}
 \end{align}
 
-with $\rho_w$ the water density.
+where $\lambda_v$ is the cable’s linear volume and $\rho_w$ is the water density.
 
-\subsubsection{From endpoints coordinates}
+\subsubsection{From Endpoints Coordinates}
 
-Knowing the cable end points \fpoint{A}{v} and \fpoint{B}{v}, \catdH{} and $l$ can be determined
-(\cref{cm_catenary_curve}). If the cable length \catL{} is also known, the catenary parameter
-\catC{} is estimated by finding the root of function which relates the curve's length and \catC{}
-(\cite{laranjeiraCatenarybasedVisualServoing2020}) (using Brent's
-method~\cite{brentAlgorithmGuaranteedConvergence1971}):
+If the cable’s endpoints $\fpoint{A}{v}$ and $\fpoint{B}{v}$ are known, the elevation difference
+$\catdH$ and horizontal span $l$ can be deduced geometrically, as depicted in
+\cref{cm_catenary_curve}. With an additional measurement of the total length $\catL$, the catenary
+parameter $\catC$ is estimated by solving the following transcendental equation, typically via
+Brent's method~\cite{brentAlgorithmGuaranteedConvergence1971}, as used
+in~\cite{laranjeiraCatenarybasedVisualServoing2020}:
+
 \begin{align}
-	\catC^2 \left(\catL^2 - \catdH^2\right) - 4 \sinh^2(l\catC/2) = 0
+	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
 \end{align}
 
-\subsubsection{From endpoint coordinate and tangent}
+\subsubsection{From Endpoint Coordinate and Tangent}
 
-As described in~\cite{druptInertialmeasurementbasedCatenaryShape2022}, the catenary parameter can
-be determined Knowing the coordinates of one of the enpoints as well as the tangent vector at a
-known point $s$ along the length of the cable. The catenary parameter is then
+As described in~\cite{druptInertialmeasurementbasedCatenaryShape2022}, the catenary parameter may
+also be computed when the coordinates of an endpoint and the tangent vector at a known position $s$
+along the cable are available. In such a case, the following expression is used:
+
 \begin{align}
-	\catC = \frac{2\abs{\tan{\left(\beta\right)}}}{\catL - \catdH - 2s}
+	\catC = \frac{2 \abs{\tan(\beta)}}{\catL - \catdH - 2s}
 \end{align}
 
-with $\beta$ the angle between the tangent vector and the horizontal. Note that this method is
-valid only if $s$ is very small and $\catL >> \catdH$.
+where $\beta$ is the angle between the tangent vector and the horizontal axis. This method is valid
+under the assumptions that $s$ is very small and $\catL \gg \catdH$.
 
 \section{Augmented catenary model}
+\label{cm_augmented_catenary_model}
+
+As soon as the underwater cable is moved fast enough, hydrodynamics forces become non-negligible.
+The drag force dampens the movement with an amplitude that is proportional to the square of the
+speed. This effect is amplified by the added mass when significant accelerations are present. In
+the steady state case where all points on the cable move at the same velocity, they are subjected
+to the same drag forces. As a consequence, the resulting uniform acceleration of the cable is
+tilted, and its intensity is increased depending on the velocity. The addition of two degrees of
+freedom in the cable shape model to account for this effect is used here to extend the standard
+catenary model.
 
 \subsection{Definition}
 
