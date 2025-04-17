@@ -104,13 +104,13 @@
 		\draw[red, thick, ->] (Ot) -- ($(Ot) - (O) + (xt)$) node[below] {\ldvect{x}{\gamma}};
 		\draw[red, thick, ->] (Ot) -- ($(Ot) - (O) + (zt)$) node[above] {\ldvect{y}{\gamma}};
 		
-		\coordinate (Ad) at ($(A) + 2*(O) - 2*(z)$);
-		\coordinate (At) at ($(A) + 2*(O) - 2*(zt)$);
+		\coordinate (Ad) at ($(A) + 1.5*(O) - 1.5*(z)$);
+		\coordinate (At) at ($(A) + 1.5*(O) - 1.5*(zt)$);
 
 		\draw[dotted] (A) -- (Ad);
 		\draw[dotted] (A) -- (At);
 
-		\pic [draw, angle radius=1cm, angle eccentricity=1.2, "\footnotesize $\gamma$"] {angle = At--A--Ad};
+		\draw[thick, ->, bend left=\tiltangle] (Ad) to node[midway, below] {$\gamma$} (At);
 
 		\draw[thick, ->] (A) -- ($(A) - (O) + (xt)$) node[above] {\vect{e}};
 		\draw[thick, ->] (A) -- ($(A) + (O) - (z)$) node[below right] {\vect{g}};
