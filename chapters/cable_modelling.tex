@@ -140,13 +140,86 @@ catenary model.
 
 \subsection{Definition}
 
-\lipsum[1]
+\subsubsection{$\gamma$ degree of freedom}
+
+The first degree of freedom introduced in the augmented model corresponds to a rotation of angle
+$\gamma$ around the catenary axis \vect{e}, which is defined as the unit vector pointing from the
+attachment point \fpoint{A}{v} to \fpoint{B}{v} (see \cref{cm_gamma_augmented_catenary_curve}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/gamma_augmented_catenary_schematic}
+	\caption{
+		\verticalmodel{} (blue) and \gammamodel{} (red) for $\gamma = \qty{20}{\degree}$.
+	}
+	\label{cm_gamma_augmented_catenary_curve}
+\end{figure}
+
+This degree of freedom accounts for deformations induced by sway motions, in which the endpoints of
+the cable deviate laterally, i.e., in the direction normal to the original vertical plane
+\lplane{v}. The corresponding rotation is applied to both the frame \lframe{v} and the plane
+\lplane{v}, resulting in the rotated frame \lframefull{\gamma} and the plane \lplanefullxz{\gamma},
+respectively.
+
+The catenary curve may be computed either directly within this rotated frame or, equivalently, by
+applying the same rotation to the curve initially defined in \lframe{v}, since the parameters of
+the curve remain unchanged under this transformation.
+
+\subsubsection{$\theta$ degree of freedom}
+
+The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
+$\theta$ around the normal to the plane \lplane{v} or \lplane{\gamma}. This transformation accounts
+for deformations induced by surge motion, in which the endpoints of the cable move within the plane
+\lplane{v} or \lplane{\gamma}, depending on whether the $\gamma$ rotation has already been applied
+(see \cref{cm_theta_augmented_catenary_curve}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/theta_augmented_catenary_schematic}
+	\caption{
+		\gammamodel{} (red) and \thetagammamodel{} (green) for $\theta = \qty{30}{\degree}$.
+	}
+	\label{cm_theta_augmented_catenary_curve}
+\end{figure}
+
+The \thetamodel{}'s curve may be computed directly in the rotated frame, or alternatively, it may
+be derived by first computing a catenary curve in \lframe{v} or \lframe{\gamma} between the initial
+point \point{A} and a virtual endpoint obtained by rotating \fpoint{B} by $-\theta$ around
+$\point{A}$ within \lplane{v} or \lplane{\gamma}, and then applying the inverse rotation to the
+resulting curve. This procedure preserves the parameterization of the original catenary while
+accounting for the inclination induced by surge dynamics.
+
+\subsubsection{\thetagammamodel{}}
+
+The degrees of freedom $\theta$ and $\gamma$ can be composed to define a \thetagammamodel{}, which
+is intended to represent the cable's shape in more general configurations involving both sway and
+surge-induced deformations. This model retains the computational efficiency and analytic simplicity
+of the standard catenary formulation while incorporating additional dynamic effects.
+
+Two valid composition orders may be employed, depending on the chosen modeling convention:
+
+\begin{itemize}
+	\item In the \emph{$\gamma$-then-$\theta$} composition, the $\gamma$ rotation is first applied to define
+	      the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for lateral (sway)
+	      displacements of the cable endpoints. The \thetamodel{} is then constructed within this rotated
+	      configuration by rotating around the normal to \lplane{\gamma}.
+	\item In the \emph{$\theta$-then-$\gamma$} composition, the \thetamodel{} is first computed within the
+	      initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting curve is
+	      then rotated around the \vect{e}-axis by angle $\gamma$, yielding the final shape in the
+	      \thetagammamodel{}.
+\end{itemize}
+
+In both cases, the final curve captures the combined effects of surge and sway motions while
+relying on an analytically tractable formulation. For consistency in implementation, a fixed
+composition order should be adopted, as the two approaches are not commutative in general.
 
 \subsection{Parameters derivation}
 
+\subsubsection{Minimization}
+
 \lipsum[1]
 
-\subsection{Parameters dynamics}
+\subsubsection{Dynamics}
 
 \lipsum[1]
 
