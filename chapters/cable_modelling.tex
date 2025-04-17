@@ -28,7 +28,7 @@ motion.
 
 The catenary model describes the static equilibrium shape of a homogeneous, flexible cable
 suspended between two fixed points under the influence of gravity. This shape, depicted in
-\cref{cm_catenary_curve}, is defined when the cable has a fixed length $\catL$ and is solely
+\cref{cm_catenary_curve}, is defined when the cable has a fixed length \catL{} and is solely
 subjected to its own weight. In underwater environments, the cable also experiences a buoyant
 force, which acts in the opposite direction to weight. For the catenary model to remain valid, the
 net vertical force --resulting from the combination of weight and buoyancy-- must be non-zero.
@@ -39,8 +39,8 @@ lowest point of the curve, and the axis \ldvect{z}{v} is aligned with the direct
 gravitational action in this frame. The coordinates of the points along the curve are expressed as
 $\fpoint{P}{v} = \left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bounded by the
 attachment points $\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
-$\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$. The elevation $\coord{z}{v}$ of each point is given
-by the standard catenary equation:
+$\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$. The elevation \coord{z}{v} of each point is given by
+the standard catenary equation:
 
 \begin{align}
 	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD+\catdD,~\catD\right]
@@ -55,8 +55,8 @@ curvature of the cable.
 	\inputtikz{figures/vertical_catenary_schematic}
 	\caption{
 		Catenary curve of length $\catL$ defined in plane \lplane{v}. The construction parameters are the
-		sag $\catH$, the elevation difference $\catdH$, and the horizontal separation $l = 2\catD + \catdD$
-		between attachment points $\fpoint{A}{v}$ and $\fpoint{B}{v}$. Note that $\catdD$ and $\catdH$
+		sag $\catH$, the elevation difference \catdH{}, and the horizontal separation $l = 2\catD + \catdD$
+		between attachment points \fpoint{A}{v} and \fpoint{B}{v}. Note that \catdD{} and \catdH{}
 		represent signed distances.
 	}
 	\label{cm_catenary_curve}
@@ -65,9 +65,9 @@ curvature of the cable.
 \subsection{Parameters Derivation}
 
 The catenary shape is governed by a combination of geometric parameters: the half horizontal
-distance $\catD$, the horizontal offset $\catdD$, the sag $\catH$, the elevation difference
-$\catdH$, and the cable length $\catL$. These are interrelated through the catenary parameter
-$\catC$, which controls the curvature of the cable:
+distance \catD{}, the horizontal offset \catdD{}, the sag \catH{}, the elevation difference
+\catdH{}, and the cable length \catL{}. These are interrelated through the catenary parameter
+\catC{}, which controls the curvature of the cable:
 
 \begin{align}
 	\catC          & = \frac{4\catH + 2\catdH + 4\catL \sqrt{\frac{\catH(\catH + \catdH)}{\catL^2 - \catdH^2}}}{\catL^2 - \left(2\catH + \catdH\right)^2} \\
@@ -76,11 +76,11 @@ $\catC$, which controls the curvature of the cable:
 \end{align}
 
 In practice, all parameters are not always available simultaneously. However, several estimation
-methods can be employed to compute $\catC$, depending on the known quantities.
+methods can be employed to compute \catC{}, depending on the known quantities.
 
 \subsubsection{From Mass and Tension}
 
-As shown in \cref{mb_catenary_model_derivation}, the catenary parameter $\catC$ is defined by:
+As shown in \cref{mb_catenary_model_derivation}, the catenary parameter \catC{} is defined by:
 
 \begin{align}
 	\catC = \frac{\lambda_m g}{T_h}
@@ -102,10 +102,10 @@ where $\lambda_v$ is the cable’s linear volume and $\rho_w$ is the water densi
 
 \subsubsection{From Endpoints Coordinates}
 
-If the cable’s endpoints $\fpoint{A}{v}$ and $\fpoint{B}{v}$ are known, the elevation difference
-$\catdH$ and horizontal span $l$ can be deduced geometrically, as depicted in
-\cref{cm_catenary_curve}. With an additional measurement of the total length $\catL$, the catenary
-parameter $\catC$ is estimated by solving the following transcendental equation, typically via
+If the cable’s endpoints \fpoint{A}{v} and \fpoint{B}{v} are known, the elevation difference
+\catdH{} and horizontal span \catl{} can be deduced geometrically, as depicted in
+\cref{cm_catenary_curve}. With an additional measurement of the total length \catL{}, the catenary
+parameter \catC{} is estimated by solving the following transcendental equation, typically via
 Brent's method~\cite{brentAlgorithmGuaranteedConvergence1971}, as used
 in~\cite{laranjeiraCatenarybasedVisualServoing2020}:
 
