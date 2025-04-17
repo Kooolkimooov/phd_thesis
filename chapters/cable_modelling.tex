@@ -5,17 +5,21 @@
 
 \section{Introduction}
 
-This chapter focuses on the modeling of a cable --particularly its shape-- attached to underwater
-robots under different usage modes. With an accurate model, the cable can be usued as a
-localization method for the robots as well as a basis for control constraints. Its usage in the
-control scheme of the system constrains the model to be as computationally efficient as possible
-while staying accurate. The model must also be inferred from available sensors: IMUs, water
-pressure sensor and cameras.
+This chapter will address the modeling of an underwater cable, with particular emphasis on its
+geometric shape, when attached to underwater robotic systems operating under various dynamic
+conditions. With an accurate geometric model, the cable will serve as a means of estimating the
+robots' positions and as a constraint element in control strategies.
 
-The contributions of this chapter are the following:
-\begin{itemize}
-	\item
-\end{itemize}
+To be suitable for integration within a control framework, the model will be required to maintain a
+high level of computational efficiency without compromising accuracy. In addition, the
+parameterization of the model will rely solely on data acquired from onboard sensors such as
+inertial measurement units (IMUs), water pressure sensors, and cameras.
+
+\Cref{cm_catenary_model} will introduce the catenary model, a classical geometric formulation for
+representing the shape of a cable subjected to gravitational forces. Subsequently,
+\cref{cm_augmented_catenary_model} will present an augmented version of this model, designed to
+incorporate hydrodynamic forces that influence the cable when the robot undergoes certain types of
+motion.
 
 \section{Catenary model}
 \label{cm_catenary_model}
