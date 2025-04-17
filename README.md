@@ -25,7 +25,7 @@
 You can build the thesis using the included Python script:
 
 ```
-usage: build.py [-h] [--verbose] [--HELP] {thesis,chapters,chapter,figures,figure,clean,all} ...
+usage: build.py [-h] [-H] [-v] {thesis,chapters,chapter,figures,figure,clean,all} ...
 
 LaTeX thesis build script
 
@@ -39,43 +39,43 @@ positional arguments:
     clean               clean build files
     all                 build thesis and all chapters
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
-  --verbose, -v         enable verbose output
-  --HELP, -H            show verbose help message and exit
+  -H, --HELP            show verbose help message and exit
+  -v, --verbose         enable verbose output
 
           ==========
 
-usage: build.py thesis [-h] [--remake]
+usage: build.py thesis [-h] [-r]
 
-options:
+optional arguments:
   -h, --help    show this help message and exit
-  --remake, -r  skip building figures
+  -r, --remake  skip building figures
 
           ==========
 
-usage: build.py chapters [-h] [--remake]
+usage: build.py chapters [-h] [-r]
 
-options:
+optional arguments:
   -h, --help    show this help message and exit
-  --remake, -r  skip rebuilding figures
+  -r, --remake  skip rebuilding figures
 
           ==========
 
-usage: build.py chapter [-h] [--remake] name
+usage: build.py chapter [-h] [-r] name
 
 positional arguments:
   name          name of the chapter to build
 
-options:
+optional arguments:
   -h, --help    show this help message and exit
-  --remake, -r  skip rebuilding figures
+  -r, --remake  skip rebuilding figures
 
           ==========
 
 usage: build.py figures [-h]
 
-options:
+optional arguments:
   -h, --help  show this help message and exit
 
           ==========
@@ -85,7 +85,7 @@ usage: build.py figure [-h] name
 positional arguments:
   name        Name of the figure to build
 
-options:
+optional arguments:
   -h, --help  show this help message and exit
 
           ==========
@@ -95,16 +95,16 @@ usage: build.py clean [-h] [name]
 positional arguments:
   name        clean files of that name
 
-options:
+optional arguments:
   -h, --help  show this help message and exit
 
           ==========
 
-usage: build.py all [-h] [--remake]
+usage: build.py all [-h] [-r]
 
-options:
+optional arguments:
   -h, --help    show this help message and exit
-  --remake, -r  skip rebuilding figures
+  -r, --remake  skip rebuilding figures
 ```
 
 This will compile the LaTeX files in the `build/` directory and output the final result in the `out/` directory.

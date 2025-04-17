@@ -15,7 +15,7 @@ SILENT_FLAGS = ["-silent"]
 
 def printlog(message: str): 
     message = " " + message + " "
-    print(f"{message:->{shutil.get_terminal_size().columns}}")
+    print(f"{message:->{shutil.get_terminal_size().columns}}", flush=True)
 
 def check_latex_installation():
     if platform.system() == "Windows":
@@ -40,13 +40,11 @@ def check_latex_installation():
     return None
 
 def ensure_output_directories():
-    """Create necessary output directories if they don't exist."""
     os.makedirs("build/figures", exist_ok=True)
     os.makedirs("build/build/figures", exist_ok=True)
     os.makedirs("out", exist_ok=True)
 
 def build_figure(name=None):
-    """Build a specific figure or all figures."""
     ensure_output_directories()
     
     if name:
@@ -55,7 +53,6 @@ def build_figure(name=None):
             printlog(f"file {figure_path} does not exist")
             return False
         
-        terminal_width = shutil.get_terminal_size().columns
         printlog(f"building figure {name}")
         
         with open("figure.tex", "r") as f:
@@ -69,8 +66,9 @@ def build_figure(name=None):
         try:
             subprocess.run([COMPILER] + LATEX_FLAGS + ["figure.tex"], check=True)
             printlog(f"figure {name} compiled")
-        except subprocess.CalledProcessError:
-            printlog(f"error while building figure {name}")
+
+        except subprocess.CalledProcessError as e:
+            printlog(f"error while building figure {name}: {e}")
             return False
         
         finally:
@@ -91,14 +89,15 @@ def build_figure(name=None):
         for success, file in zip(successes, files):
             printlog(f"{file}: {'compiled' if success else '  failed'}")
         
-        return all(successes)        
+        return all(successes)
         
 def build_chapter(name=None, remake=False):
-    """Build a specific chapter or all chapters."""
     ensure_output_directories()
     
     if not remake:
-        build_figure()
+        success = build_figure()
+        if not success:
+            return False
     
     if name:
         chapter_path = f"chapters/{name}.tex"
@@ -118,8 +117,9 @@ def build_chapter(name=None, remake=False):
         
         try:
             subprocess.run([COMPILER] + LATEX_FLAGS + ["chapter.tex"], check=True)
-        except subprocess.CalledProcessError:
-            printlog(f"error while building chapter {name}")
+
+        except subprocess.CalledProcessError as e:
+            printlog(f"error while building chapter {name}: {e}")
             return False
         
         finally:
@@ -149,11 +149,12 @@ def build_chapter(name=None, remake=False):
         return all(successes)
             
 def build_thesis(remake=False):
-    """Build the complete thesis."""
     ensure_output_directories()
     
     if not remake:
-        build_figure()
+        success = build_figure()
+        if not success:
+            return False
     
     printlog("building thesis")
 
@@ -162,14 +163,15 @@ def build_thesis(remake=False):
         original_content = f.read()
     
     try:
-        git_info = subprocess.check_output(["git", "describe", "--dirty"], stderr=subprocess.STDOUT, text=True).strip()
+        git_info = subprocess.run(["git", "describe", "--dirty"], capture_output=True, check=True).stdout.strip().decode()
 
         with open(gitcommit_path, "w") as f:
             f.write(git_info)
 
         subprocess.run([COMPILER] + LATEX_FLAGS + ["thesis.tex"], check=True)
-    except subprocess.CalledProcessError:
-        printlog("error while building thesis")
+
+    except subprocess.CalledProcessError as e:
+        printlog(f"error while building thesis: {e}")
         return False
     
     finally: 
@@ -186,7 +188,6 @@ def build_thesis(remake=False):
     return True
 
 def clean(name=None):
-    """Clean up build files."""
     if name:
         for pattern in [f"build/{name}.*", f"out/{name}.*", f"build/figures/{name}.*", f"build/build/figures/{name}.*"]:
             for file in glob.glob(pattern):
@@ -195,6 +196,7 @@ def clean(name=None):
                     printlog(f"removed {file}")
                 except (FileNotFoundError, PermissionError) as e:
                     printlog(f"error removing {file}: {e}")
+                    return False
         printlog(f"build files cleaned for {name}")
     else:
         for directory in ["build", "out"]:
@@ -204,20 +206,22 @@ def clean(name=None):
                     printlog(f"removed {directory} directory")
                 except (FileNotFoundError, PermissionError) as e:
                     printlog(f"error removing {directory}: {e}")
+                    return False
+    return True
 
 def main():
     parser = argparse.ArgumentParser(description="LaTeX thesis build script")
     subparsers = parser.add_subparsers(dest="command")
     
     thesis_parser = subparsers.add_parser("thesis", help="build the complete thesis")
-    thesis_parser.add_argument("--remake", "-r", action="store_true", help="skip building figures")
+    thesis_parser.add_argument("-r", "--remake", action="store_true", help="skip building figures")
     
     chapters_parser = subparsers.add_parser("chapters", help="build all chapters as separate pdf files")
-    chapters_parser.add_argument("--remake", "-r", action="store_true", help="skip rebuilding figures")
+    chapters_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
     
     chapter_parser = subparsers.add_parser("chapter", help="build a specific chapter as separate pdf file")
     chapter_parser.add_argument("name", help="name of the chapter to build")
-    chapter_parser.add_argument("--remake", "-r", action="store_true", help="skip rebuilding figures")
+    chapter_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
     
     subparsers.add_parser("figures", help="build all figures")
     
@@ -228,10 +232,10 @@ def main():
     clean_parser.add_argument("name", nargs="?", default=None, help="clean files of that name")
     
     all_parser = subparsers.add_parser("all", help="build thesis and all chapters")
-    all_parser.add_argument("--remake", "-r", action="store_true", help="skip rebuilding figures")
+    all_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
     
-    parser.add_argument("--verbose", "-v", action="store_true", help="enable verbose output")
-    parser.add_argument("--HELP", "-H", action="store_true", help="show verbose help message and exit")
+    parser.add_argument("-H", "--HELP", action="store_true", help="show verbose help message and exit")
+    parser.add_argument("-v", "--verbose", action="store_true", help="enable verbose output")
 
     help_msg = parser.format_help()
     for subparser in subparsers.choices.values():
@@ -242,11 +246,10 @@ def main():
 
     if args.HELP:
         print(help_msg)
-        return
+        return True
 
     if args.command == "clean":
-        clean(args.name)
-        return
+        return clean(args.name)
     
     latex_distribution = check_latex_installation()
     if latex_distribution is None: 
@@ -260,20 +263,21 @@ def main():
         LATEX_FLAGS.extend(["--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000"])
     
     if args.command == "thesis":
-        build_thesis(remake=args.remake)
+        return build_thesis(remake=args.remake)
     elif args.command == "chapters":
-        build_chapter(remake=args.remake)
+        return build_chapter(remake=args.remake)
     elif args.command == "chapter":
-        build_chapter(name=args.name, remake=args.remake)
+        return build_chapter(name=args.name, remake=args.remake)
     elif args.command == "figures":
-        build_figure()
+        return build_figure()
     elif args.command == "figure":
-        build_figure(name=args.name)
+        return build_figure(name=args.name)
     elif args.command == "all":
-        build_thesis(remake=args.remake)
-        build_chapter(remake=True)
+        return build_thesis(remake=args.remake) and build_chapter(remake=True)
     else:
         print(help_msg)
+        return True
 
 if __name__ == "__main__":
-    main()
+    success = main()
+    exit(0 if success else 1)
