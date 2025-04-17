@@ -71,14 +71,11 @@ def build_figure(name=None):
             printlog(f"figure {name} compiled")
         except subprocess.CalledProcessError:
             printlog(f"error while building figure {name}")
-        
-            with open("figure.tex", "w") as f:
-                f.write(content)
-
             return False
         
-        with open("figure.tex", "w") as f:
-            f.write(content)
+        finally:
+            with open("figure.tex", "w") as f:
+                f.write(content)
 
         return True
 
@@ -123,12 +120,11 @@ def build_chapter(name=None, remake=False):
             subprocess.run([COMPILER] + LATEX_FLAGS + ["chapter.tex"], check=True)
         except subprocess.CalledProcessError:
             printlog(f"error while building chapter {name}")
-            with open("chapter.tex", "w") as f:
-                f.write(content)
             return False
         
-        with open("chapter.tex", "w") as f:
-            f.write(content)
+        finally:
+            with open("chapter.tex", "w") as f:
+                f.write(content)
             
         try:
             shutil.move("build/chapter.pdf", f"out/{name}.pdf")
@@ -160,12 +156,25 @@ def build_thesis(remake=False):
         build_figure()
     
     printlog("building thesis")
+
+    gitcommit_path = "gitcommit.tex"
+    with open(gitcommit_path, "r") as f:
+        original_content = f.read()
     
     try:
+        git_info = subprocess.check_output(["git", "describe", "--dirty"], stderr=subprocess.STDOUT, text=True).strip()
+
+        with open(gitcommit_path, "w") as f:
+            f.write(git_info)
+
         subprocess.run([COMPILER] + LATEX_FLAGS + ["thesis.tex"], check=True)
     except subprocess.CalledProcessError:
         printlog("error while building thesis")
         return False
+    
+    finally: 
+        with open(gitcommit_path, "w") as f:
+            f.write(original_content)
     
     try:
         shutil.move("build/thesis.pdf", "out/thesis.pdf")

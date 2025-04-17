@@ -1,5 +1,9 @@
 \makepagestyle{title}
-\makeoddfoot{title}{}{\footnotesize{}This document was compiled on \today{} at \currenttime{}}{}
+\makeoddfoot{title}{
+	\footnotesize{}This document was compiled on \today{} at \currenttime{} % Replace 'undefined-hash' with the actual hash or use a package like gitinfo2
+	}{}{
+	\footnotesize{}\input{gitcommit}
+}
 \thispagestyle{title}
 \newgeometry{centering}
 
@@ -25,19 +29,19 @@
 \begin{center}
 	\begin{minipage}[t]{0.75\textwidth}
 
-		\theauthor{}
+		written by \theauthor{}
 
 		\begin{center}
 			\textit{under the supervision of}
 		\end{center}
 
 		\begin{flushright}
-			Dr. Claire Dune\\
-			Dr. Nicolas Boizot\\ 
+			Dr. Claire Dune    \\
+			Dr. Nicolas Boizot \\
 		\end{flushright}
 		\relax{}
 
-		At
+		at
 		\begin{itemize}[topsep=0pt,itemsep=2pt,partopsep=4pt, parsep=0pt]
 			\item[]\textsc{\large Univerisité de Toulon}
 			\item[]\textsc{\large École doctorale 548 ---  Mer et Sciences}
@@ -47,13 +51,21 @@
 		\vspace{1cm}
 
 		% Defended on \formatdate{1}{12}{2025} in front of a jury composed of:
-		To be defended in front of a jury composed of:
+		to be defended in front of a jury composed of: \vspace{.1cm}
 
+		\begin{center}
+			\begin{tabularx}{.9\linewidth}{lll}
+				                    & president   &                      \\
+				                    & reviewer    &                      \\
+				                    & examiner    &                      \\
+				Dr. Nicolas Boizot, & supervisor, & Université de Toulon \\
+				Dr. Claire Dune,    & supervisor, & Université de Toulon
+			\end{tabularx}
+		\end{center}
 		\vspace{.1cm}
-		\begin{tabularx}{.95\linewidth}{lll}
-			Dr. Nicolas Boizot, & supervisor, & Université de Toulon \\
-			Dr. Claire Dune,    & supervisor, & Université de Toulon
-		\end{tabularx}
+
+		in order to obtain the degree of Doctor of Philosophy --- Docteur en automatique, signal,
+		productique, robotique.
 
 	\end{minipage}
 
