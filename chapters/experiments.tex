@@ -32,49 +32,49 @@ characteristics, highlighted in \cref{experiments_cable_modelling_cables_charact
 	\centering
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{coaxial.jpg}
+		\includegraphics[width=\textwidth]{coaxial_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_coaxial}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{four_pairs.jpg}
+		\includegraphics[width=\textwidth]{four_pairs_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_four_pairs}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{two_pairs.jpg}
+		\includegraphics[width=\textwidth]{two_pairs_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_two_pairs}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{floating.jpg}
+		\includegraphics[width=\textwidth]{floating_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_floating}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{rope.jpg}
+		\includegraphics[width=\textwidth]{rope_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_rope}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{catenary.jpg}
+		\includegraphics[width=\textwidth]{weighted_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_weighted}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{chain.jpg}
+		\includegraphics[width=\textwidth]{chain_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_chain}
 	\end{subfigure}
 	\begin{subfigure}{.2 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{elastic.jpg}
+		\includegraphics[width=\textwidth]{elastic_cable.jpg}
 		\caption{}
 		\label{experiments_cable_modelling_elastic}
 	\end{subfigure}
@@ -128,7 +128,7 @@ namely \fllvect{P}{w}{m}{0}, is fixed and attached to the side of the pool
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\figurewidth]{experiment_picture.jpg}
+	\includegraphics[width=\figurewidth]{catenary_experiment_bluerov_picture_1.jpg}
 	\caption{
 		Experimental setup. A dark red cable (cable~\#\subref{experiments_cable_modelling_rope}) connects
 		the ROV to a fixed point; Optical markers are regularly placed on the cable for underwater motion
@@ -162,7 +162,7 @@ and 5) deactivation of the auto-depth control and complete stop of the thrusters
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/trajectories}
+	\inputtikz{figures/catenary_experiment_trajectories}
 	\caption{
 		Top view of typical trajectories of cable~\subref{experiments_cable_modelling_weighted} end.
 		Circles refer to initial positions and crosses refer to final positions
@@ -227,7 +227,7 @@ in~\cref{experiments_cable_modelling_cables}).
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/cables_boxplot}
+	\inputtikz{figures/catenary_experiment_cables_boxplot}
 	\caption{
 		Box plots of all 8 cables under all experimental parameters (speed, direction, distance) with the
 		median, 1\textsuperscript{st} and 3\textsuperscript{rd} quartile, the 1\textsuperscript{st} and
@@ -241,7 +241,7 @@ in~\cref{experiments_cable_modelling_cables}).
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/cable3_boxplot}
+	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
 	\caption{
 		Box plots of the two-pair network cable, cable~\subref{experiments_cable_modelling_two_pairs}
 		residuals \res{v} in blue, \res{\gamma} in red and
@@ -252,7 +252,7 @@ in~\cref{experiments_cable_modelling_cables}).
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/cable6_boxplot}
+	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
 	\caption{
 		Box plots of the leaded seamstress rope, cable~\subref{experiments_cable_modelling_weighted}
 		residuals $\res{v}$ in blue, $\res{\gamma}$ in red and
@@ -284,7 +284,7 @@ cable~\subref{experiments_cable_modelling_weighted}'s group.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/sway_3}
+	\inputtikz{figures/catenary_experiment_cable_3_sway_sequence}
 	\caption{
 		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
 		\qty{2}{\m} distance with cable~\subref{experiments_cable_modelling_two_pairs}, sway motion
@@ -294,7 +294,7 @@ cable~\subref{experiments_cable_modelling_weighted}'s group.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/sway_6}
+	\inputtikz{figures/catenary_experiment_cable_6_sway_sequence}
 	\caption{
 		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
 		\qty{2}{\m} distance with cable~\subref{experiments_cable_modelling_weighted}, sway motion
@@ -304,7 +304,7 @@ cable~\subref{experiments_cable_modelling_weighted}'s group.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/surge_3}
+	\inputtikz{figures/catenary_experiment_cable_3_surge_sequence}
 	\caption{
 		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
 		\qty{2}{\m} distance with cable~\subref{experiments_cable_modelling_two_pairs}, surge motion
@@ -314,7 +314,7 @@ cable~\subref{experiments_cable_modelling_weighted}'s group.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/surge_6}
+	\inputtikz{figures/catenary_experiment_cable_6_surge_sequence}
 	\caption{
 		Model residuals, robot speed and $\theta$, $\gamma$ angles over time. Speed command of \qty{0.6}{\m\per\s} and
 		\qty{2}{\m} distance. with cable~\subref{experiments_cable_modelling_weighted}, surge motion
