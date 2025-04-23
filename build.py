@@ -179,8 +179,9 @@ def build_thesis(remake=False, git_description=None):
         printlog(f"error while building thesis: {e}")
         return False
     
-    with open(gitcommit_path, "w") as f:
-        f.write(original_content)
+    finally:
+        with open(gitcommit_path, "w") as f:
+            f.write(original_content)
     
     try:
         shutil.move("build/thesis.pdf", "out/thesis.pdf")
