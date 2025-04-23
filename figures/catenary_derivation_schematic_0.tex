@@ -1,0 +1,57 @@
+\begin{tikzpicture}
+
+	\def\c{0.85}
+
+	\def\xmin{-1.5}
+	\def\xmid{-1.0}
+	\def\xmax{1.0}
+	\def\offseta{0.075}
+	\def\offsetb{0.15}
+
+	\def\ymin{0.0}
+	\pgfmathsetmacro{\ymax}{(cosh(\xmin*\c)-1)/\c}
+	\pgfmathsetmacro{\ymid}{(cosh(\xmax*\c)-1)/\c}
+
+	\def\arrowlength{.2}
+
+	\begin{axis}[
+			xmin = \xmin,
+			xmax = \xmax,
+			ymin = \ymin,
+			ymax = \ymax,
+			width = \figurewidth,
+			axis equal,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (x) at (axis cs: \arrowlength, 0.0);
+		\coordinate (z) at (axis cs: 0.0, \arrowlength);
+
+		\coordinate (A) at (axis cs: \xmin, \ymax);
+		\coordinate (B) at (axis cs: \xmax, \ymid);
+		\coordinate (P) at (axis cs: \xmid, \ymid);
+
+		\filldraw (O) circle (2pt) node[below] {\ldpoint{O}{v}};
+		\draw[->, thick] (O) -- (x) node[below right] {\ldvect{x}{v}};
+		\draw[->, thick] (O) -- (z) node[above right] {\ldvect{z}{v}};
+
+		\draw[red, ->, very thick] (O) -- (axis cs: -2*\arrowlength, 0.0) node[below right] {$T_h$};
+		\draw[red, ->, very thick] (P) -- (axis cs: \xmid-2*\arrowlength, \ymid+2*\arrowlength) 
+		node[below left] {$T_1$};
+
+		\addplot[blue, smooth, domain=\xmin:\xmax, samples=100, thick] {{(cosh(\x*\c)-1)/\c}};
+		\addplot[smooth, domain=\xmin+\offseta:\xmax-\offseta, samples=100, <->]
+		{{\offseta + (cosh(\x*(\c+\offseta))-1)/(\c+\offseta)}} node[pos=0.85, above left] {\catL};
+		\addplot[smooth, domain=\xmid+\offsetb:0, samples=100, <->]
+		{{2*\offseta + (cosh(\x*(\c+\offsetb))-1)/(\c+\offsetb)}} node[midway, above right] {$L_1$};
+
+		\filldraw (A) circle (2pt) node[above] {\fpoint{A}{v}};
+		\filldraw (B) circle (2pt) node[above] {\fpoint{B}{v}};
+		\filldraw (P) circle (2pt) node[below] {\fldpoint{P}{v}{1}};
+
+	\end{axis}
+
+\end{tikzpicture}

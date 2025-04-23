@@ -5,7 +5,45 @@
 \section{Catenary model derivation}
 \label{mb_catenary_model_derivation}
 
-\lipsum[1]
+In order to derive the shape of a homogeneous, infinitely flexible, non elastic cable only
+subjected to its own weight which is uniformly distributed along its length, we consider a cable of
+length \catL{} and mass per unit length $\lambda_m$ hanging between two fixed points \fpoint{A}{v}
+and \fpoint{B}{v} whose coordinates are expressed in the plane \lplanefullxz{v} where
+\ldpoint{O}{v} is the origin of the coordinate system as well as the lowest point of the cable.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_derivation_schematic_0}
+	\caption{
+		PLACEHOLDER.
+	}
+	\label{mb_catenary_derivation_schematic}
+\end{figure}
+
+The overall weight of the cable is
+\begin{align}
+	W & = \lambda_m \catL g \label{mb_cable_weight_equation}
+\end{align}
+
+At \ldpoint{O}{v}, the tension in the cable is fully horizontal because the tangent of the cable at
+that point is horizontal and the cable's infinite flexibility does not allow load to be transferred
+vertically.
+
+At a given point \fldpoint{P}{v}{1} of the cable, the tension is composed of a vertical component
+and a horizontal component
+\begin{align}
+	T_1 & = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2} \label{mb_cable_tension_equation}
+\end{align}
+
+where $L_1$ is the length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
+
+Let us define a infinitesimal length of the cable $dL$, the infinitesimal horizontal length $dx$ is
+define as
+\begin{align}
+	dx = dR \cos{\omega}
+\end{align}
+
+where $\cos{\omega} = \frac{T_0}{T}$.
 
 \section{Curvilinear discretization}
 
