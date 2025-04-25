@@ -26,6 +26,9 @@
 \usepackage{titlesec}
 \usepackage[style=authoryear-comp]{biblatex}
 \usepackage{lipsum}
+\usepackage{textcase}
+\usepackage{ltablex}
+\usepackage{xltabular}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -129,38 +132,52 @@
 \DeclareMathOperator*{\diag}{diag}
 \DeclareMathOperator*{\argmin}{arg\!\min}
 
-\newcommand\coord[2]{\ensuremath{{}^{#2}#1}}
-\newcommand\lucoord[3]{\ensuremath{{}^{#2}#1^{#3}}}
-\newcommand\ldcoord[3]{\ensuremath{{}^{#2}#1_{#3}}}
+\newcommand\coord[2]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}}}
+\newcommand\lucoord[3]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}^{#3}}}
+\newcommand\ldcoord[3]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}_{#3}}}
+\newcommand\llcoord[4]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}^{#3}_{#4}}}
 
-\newcommand\point[1]{\ensuremath{\mathbf{#1}}}
-\newcommand\fpoint[2]{\ensuremath{{}^{#2}\point{#1}}}
+\newcommand\point[1]{\ensuremath{\mathbf{\MakeLowercase{#1}}}}
+\newcommand\fpoint[2]{\ensuremath{{}^{#2}\!\point{#1}}}
 \newcommand\lupoint[2]{\ensuremath{\point{#1}^{#2}}}
 \newcommand\ldpoint[2]{\ensuremath{\point{#1}_{#2}}}
 \newcommand\flupoint[3]{\ensuremath{\fpoint{#1}{#2}^{#3}}}
 \newcommand\fldpoint[3]{\ensuremath{\fpoint{#1}{#2}_{#3}}}
 \newcommand\fllpoint[4]{\ensuremath{\fpoint{#1}{#2}_{#3}^{#4}}}
 
-\newcommand\vect[1]{\ensuremath{\vec{\mathbf{#1}}}}
-\newcommand\fvect[2]{\ensuremath{{}^{#2}\vect{#1}}}
+\newcommand\vect[1]{\point{#1}}
+\newcommand\fvect[2]{\ensuremath{{}^{#2}\!\vect{#1}}}
 \newcommand\luvect[2]{\ensuremath{\vect{#1}^{#2}}}
 \newcommand\ldvect[2]{\ensuremath{\vect{#1}_{#2}}}
 \newcommand\fluvect[3]{\ensuremath{\fvect{#1}{#2}^{#3}}}
 \newcommand\fldvect[3]{\ensuremath{\fvect{#1}{#2}_{#3}}}
 \newcommand\fllvect[4]{\ensuremath{\fvect{#1}{#2}_{#3}^{#4}}}
 
+\newcommand\matr[1]{\ensuremath{\mathbf{\MakeUppercase{#1}}}}
+\newcommand\lrumatr[2]{\ensuremath{\matr{#1}^{#2}}}
+\newcommand\llumatr[2]{\ensuremath{{}^{#2}\!\matr{#1}}}
+\newcommand\lrdmatr[2]{\ensuremath{\matr{#1}_{#2}}}
+\newcommand\lldmatr[2]{\ensuremath{{}_{#2}\!\matr{#1}}}
+\newcommand\lrmatr[3]{\ensuremath{\matr{#1}^{#2}_{#3}}}
+\newcommand\llmatr[3]{\ensuremath{{}^{#2}_{#3}\!\matr{#1}}}
+\newcommand\llrmatr[5]{\ensuremath{{}^{#2}_{#3}\!\matr{#1}^{#4}_{#5}}}
+
 \newcommand\res[1]{\ensuremath{\varepsilon_{#1}}}
 
 \newcommand\lplane[1]{\ensuremath{\mathcal{P}_{#1}}}
 \newcommand\lframe[1]{\ensuremath{\mathcal{F}_{#1}}}
 
-\newcommand\fpointfull[2]{\ensuremath{\fpoint{#1}{#2}=\left(\coord{x}{#2}, \coord{y}{#2},\coord{z}{#2}\right)}}
-\newcommand\flupointfull[3]{\ensuremath{\flupoint{#1}{#2}{#3}=\left(\lucoord{x}{#2}{#3}, \lucoord{y}{#2}{#3},\lucoord{z}{#2}{#3}\right)}}
-\newcommand\fldpointfull[3]{\ensuremath{\fldpoint{#1}{#2}{#3}=\left(\ldcoord{x}{#2}{#3}, \ldcoord{y}{#2}{#3},\ldcoord{z}{#2}{#3}\right)}}
+\newcommand\fpointthree[2]{\ensuremath{\fpoint{#1}{#2}=\left(\ldcoord{#1}{#2}{x}, \ldcoord{#1}{#2}{y},\ldcoord{#1}{#2}{z}\right)}}
+\newcommand\flupointthree[3]{\ensuremath{\flupoint{#1}{#2}{#3}=\left(\llcoord{#1}{#2}{#3}{x}, \llcoord{#1}{#2}{#3}{y},\llcoord{#1}{#2}{#3}{z}\right)}}
+\newcommand\fldpointthree[3]{\ensuremath{\fldpoint{#1}{#2}{#3}=\left(\ldcoord{#1}{#2}{#3,x}, \ldcoord{#1}{#2}{#3,y},\ldcoord{#1}{#2}{#3,z}\right)}}
 
-\newcommand\fvectfull[2]{\ensuremath{\fvect{#1}{#2}=\left(\coord{x}{#2}, \coord{y}{#2},\coord{z}{#2}\right)}}
-\newcommand\fluvectfull[3]{\ensuremath{\fluvect{#1}{#2}{#3}=\left(\lucoord{x}{#2}{#3}, \lucoord{y}{#2}{#3},\lucoord{z}{#2}{#3}\right)}}
-\newcommand\fldvectfull[3]{\ensuremath{\fldvect{#1}{#2}{#3}=\left(\ldcoord{x}{#2}{#3}, \ldcoord{y}{#2}{#3},\ldcoord{z}{#2}{#3}\right)}}
+\newcommand\fvectthree[2]{\ensuremath{\fvect{#1}{#2}=\left(\ldcoord{#1}{#2}{x}, \ldcoord{#1}{#2}{y},\ldcoord{#1}{#2}{z}\right)}}
+\newcommand\fluvectthree[3]{\ensuremath{\fluvect{#1}{#2}{#3}=\left(\llcoord{#1}{#2}{#3}{x}, \llcoord{#1}{#2}{#3}{y},\llcoord{#1}{#2}{#3}{z}\right)}}
+\newcommand\fldvectthree[3]{\ensuremath{\fldvect{#1}{#2}{#3}=\left(\ldcoord{#1}{#2}{#3,x}, \ldcoord{#1}{#2}{#3,y},\ldcoord{#1}{#2}{#3,z}\right)}}
+
+\newcommand\fvectn[3]{\ensuremath{\fvect{#1}{#2}=\left(\ldcoord{#1}{#2}{0}, \hdots{},\ldcoord{#1}{#2}{#3}\right)}}
+\newcommand\fluvectn[4]{\ensuremath{\fluvect{#1}{#2}{#3}=\left(\llcoord{#1}{#2}{#3}{0}, \hdots{},\llcoord{#1}{#2}{#3}{#4}\right)}}
+\newcommand\fldvectn[4]{\ensuremath{\fldvect{#1}{#2}{#3}=\left(\ldcoord{#1}{#2}{#3,0}, \hdots{},\ldcoord{#1}{#2}{#3,#4}\right)}}
 
 \newcommand\lplanefullxy[1]{\ensuremath{\lplane{#1}=\left(\ldpoint{O}{#1}, \ldvect{x}{#1},\ldvect{y}{#1}\right)}}
 \newcommand\lplanefullxz[1]{\ensuremath{\lplane{#1}=\left(\ldpoint{O}{#1}, \ldvect{x}{#1},\ldvect{z}{#1}\right)}}
@@ -186,3 +203,66 @@
 \newcommand\thetamodel{\ensuremath{\theta}-\text{augmented model}}
 \newcommand\gammamodel{\ensuremath{\gamma}-\text{augmented model}}
 \newcommand\thetagammamodel{\ensuremath{\theta\gamma}-\text{augmented model}}
+
+\newcommand\personalizedmacrostest{
+	\begin{xltabular}{\linewidth}{XX}
+		\verb|$\diag{\text{expression}}$|   & $\diag{\text{expression}}$   \\
+		\verb|$\argmin{\text{expression}}$| & $\argmin{\text{expression}}$ \\
+		\verb|\coord{c}{f}|                 & \coord{c}{f}                 \\
+		\verb|\lucoord{c}{f}{l}|            & \lucoord{c}{f}{l}            \\
+		\verb|\ldcoord{c}{f}{l}|            & \ldcoord{c}{f}{l}            \\
+		\verb|\point{p}|                    & \point{p}                    \\
+		\verb|\fpoint{p}{f}|                & \fpoint{p}{f}                \\
+		\verb|\lupoint{p}{l}|               & \lupoint{p}{l}               \\
+		\verb|\ldpoint{p}{l}|               & \ldpoint{p}{l}               \\
+		\verb|\flupoint{p}{f}{l}|           & \flupoint{p}{f}{l}           \\
+		\verb|\fldpoint{p}{f}{l}|           & \fldpoint{p}{f}{l}           \\
+		\verb|\fllpoint{p}{f}{l}{l}|        & \fllpoint{p}{f}{l}{l}        \\
+		\verb|\vect{v}|                     & \vect{v}                     \\
+		\verb|\fvect{v}{f}|                 & \fvect{v}{f}                 \\
+		\verb|\luvect{v}{l}|                & \luvect{v}{l}                \\
+		\verb|\ldvect{v}{l}|                & \ldvect{v}{l}                \\
+		\verb|\fluvect{v}{f}{l}|            & \fluvect{v}{f}{l}            \\
+		\verb|\fldvect{v}{f}{l}|            & \fldvect{v}{f}{l}            \\
+		\verb|\fllvect{v}{f}{l}{l}|         & \fllvect{v}{f}{l}{l}         \\
+		\verb|\matr{m}|                     & \matr{m}                     \\
+		\verb|\lrumatr{m}{l}|               & \lrumatr{m}{l}               \\
+		\verb|\llumatr{m}{l}|               & \llumatr{m}{l}               \\
+		\verb|\lrdmatr{m}{l}|               & \lrdmatr{m}{l}               \\
+		\verb|\lldmatr{m}{l}|               & \lldmatr{m}{l}               \\
+		\verb|\lrmatr{m}{l}{l}|             & \lrmatr{m}{l}{l}             \\
+		\verb|\llmatr{m}{l}{l}|             & \llmatr{m}{l}{l}             \\
+		\verb|\llrmatr{m}{l}{l}{l}{l}|      & \llrmatr{m}{l}{l}{l}{l}      \\
+		\verb|\res{r}|                      & \res{r}                      \\
+		\verb|\lplane{p}|                   & \lplane{p}                   \\
+		\verb|\lframe{f}|                   & \lframe{f}                   \\
+		\verb|\fpointthree{p}{f}|           & \fpointthree{p}{f}           \\
+		\verb|\flupointthree{p}{f}{l}|      & \flupointthree{p}{f}{l}      \\
+		\verb|\fldpointthree{p}{f}{l}|      & \fldpointthree{p}{f}{l}      \\
+		\verb|\fvectthree{v}{f}|            & \fvectthree{v}{f}            \\
+		\verb|\fluvectthree{v}{f}{l}|       & \fluvectthree{v}{f}{l}       \\
+		\verb|\fldvectthree{v}{f}{l}|       & \fldvectthree{v}{f}{l}       \\
+		\verb|\fvectn{v}{f}{n}|             & \fvectn{v}{f}{n}             \\
+		\verb|\fluvectn{v}{f}{l}{n}|        & \fluvectn{v}{f}{l}{n}        \\
+		\verb|\fldvectn{v}{f}{l}{n}|        & \fldvectn{v}{f}{l}{n}        \\
+		\verb|\lplanefullxy{p}|             & \lplanefullxy{p}             \\
+		\verb|\lplanefullxz{p}|             & \lplanefullxz{p}             \\
+		\verb|\lplanefullyz{p}|             & \lplanefullyz{p}             \\
+		\verb|\lframefull{f}|               & \lframefull{f}               \\
+		\verb|\inzeroton{}|                 & \inzeroton{}                 \\
+		\verb|\catl{}|                      & \catl{}                      \\
+		\verb|\catL{}|                      & \catL{}                      \\
+		\verb|\catC{}|                      & \catC{}                      \\
+		\verb|\catH{}|                      & \catH{}                      \\
+		\verb|\catdH{}|                     & \catdH{}                     \\
+		\verb|\catD{}|                      & \catD{}                      \\
+		\verb|\catdD{}|                     & \catdD{}                     \\
+		\verb|\dragCt{}|                    & \dragCt{}                    \\
+		\verb|\dragCn{}|                    & \dragCn{}                    \\
+		\verb|\Reynolds{}|                  & \Reynolds{}                  \\
+		\verb|\verticalmodel{}|             & \verticalmodel{}             \\
+		\verb|\thetamodel{}|                & \thetamodel{}                \\
+		\verb|\gammamodel{}|                & \gammamodel{}                \\
+		\verb|\thetagammamodel{}|           & \thetagammamodel{}           \\
+	\end{xltabular}
+}
