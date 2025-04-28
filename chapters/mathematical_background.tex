@@ -21,7 +21,7 @@ the lowest point of the cable.
 	\label{mb_catenary_derivation_schematic}
 \end{figure}
 
-The overall weight $W$ of the cable is given by:
+The overall weight \scal{W} of the cable is given by:
 \begin{align}
 	W = \lambda_m \catL g
 	\label{mb_cable_weight_equation}
@@ -81,6 +81,31 @@ Integration from \ldpoint{O}{v} to $\fldpoint{P}{v}{1}$ yields:
 thus obtaining the standard catenary equation.
 
 \section{Curvilinear discretization}
+
+The goal of curvilinear discretization is to represent the catenary curve as a set of points that
+are regularly spaced along the curve.
+
+From the catenary equation, the infinitesimal arc-length $dL$ is expressed as:
+\begin{align}
+	dL = \sqrt{dx^2 + dz^2}
+\end{align}
+
+with $\frac{dz}{dx} = \sinh{\left(x\catC\right)}$, then
+\begin{align}
+	dL & = \sqrt{dx^2 + \left(\sinh{\left(x\catC\right)}dx\right)^2} \\
+	   & = \sqrt{1 + \sinh^2{\left(x\catC\right)}} dx
+\end{align}
+
+Integrating over a given discretization step $\Delta x$, the arc-length $\Delta s$ is
+\begin{align}
+	\Delta s & = \int_{0}^{\scal{\Delta x}} \sqrt{1 + \sinh^2{\left(x\catC\right)}} dx \\
+	       & = \frac{\sinh{\left(\scal{\Delta x}\catC\right)}}{\catC}
+\end{align}
+
+Which leads to the expression of the discretization step $\Delta x$ as a function of the arc length
+\begin{align}
+	\Delta x &= \frac{sinh^{-1}{\left(\Delta s \catC\right)}}{\catC} 
+\end{align}
 
 \section{Dynamic model of a cable}
 
