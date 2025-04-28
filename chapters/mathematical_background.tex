@@ -15,7 +15,7 @@ and \fpoint{B}{v} whose coordinates are expressed in the plane \lplanefullxz{v} 
 	\centering
 	\inputtikz{figures/catenary_derivation_schematic_0}
 	\caption{
-		Cable of length \catL{} hanging between \fpoint{A}{v} and \fpoint{B}{v}. 
+		Cable of length \catL{} hanging between \fpoint{A}{v} and \fpoint{B}{v}.
 	}
 	\label{mb_catenary_derivation_schematic}
 \end{figure}
@@ -40,10 +40,43 @@ where $L_1$ is the length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v
 Let us define a infinitesimal length of the cable $dL$, the infinitesimal horizontal length $dx$ is
 define as
 \begin{align}
-	dx = dR \cos{\omega}
+	dx = \cos{\left(\omega\right)}dL
 \end{align}
 
-where $\cos{\omega} = \frac{T_0}{T}$.
+where $\cos{\omega} = \frac{T_h}{T_1}$. Then
+\begin{align}
+	dx = \frac{T_h}{T_1}dL = \frac{T_h}{\sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}}dL
+\end{align}
+
+with a change of variable $\catC = \frac{\lambda_mg}{T_h}$
+\begin{align}
+	dx & = \frac{\frac{\lambda_mg}{\catC}}{\sqrt{\left(\frac{\lambda_mg}{\catC}\right)^2 + \left(\lambda_m L_1 g\right)^2}}dL \\
+	   & = \frac{1}{\sqrt{1 + \left(L_1\catC\right)^2}}dL
+\end{align}
+
+integrating between \ldpoint{O}{v} and \fldpoint{P}{v}{1} gives
+\begin{align}
+	x & = \int_0^{L_1} \frac{1}{\sqrt{1 + \left(L_1\catC\right)^2}}dL \\
+	  & = \frac{\sinh^{-1}{\left(L_1\catC\right)}}{\catC}
+\end{align}
+
+Then, finally, let us define the vertical infinitesimal length $dz$
+\begin{align}
+	dz = \tan{\left(\omega\right)}dx
+\end{align}
+
+where $\tan{\omega} = \frac{W_1}{T_h}$ with $W_1$ being the weight of the cable between \ldpoint{O}{v} and \fldpoint{p}{v}{1}. Then
+\begin{align}
+	dz & = \frac{W}{T_h}dx = \frac{\lambda_m L_1 g}{T_h}dx \\
+	   & = L_1\catC dx                                     \\
+	   & = \sinh{\left(x~\catC\right)} dx
+\end{align}
+
+integrating between \ldpoint{O}{v} and \fldpoint{P}{v}{1} gives
+\begin{align}
+	z & = \int_0^{L_1} \sinh{\left(x~\catC\right)} dx \\
+	  & = \frac{\cosh{(x~\catC)} - 1}{\catC}
+\end{align}
 
 \section{Curvilinear discretization}
 
