@@ -5,11 +5,12 @@
 \section{Catenary model derivation}
 \label{mb_catenary_model_derivation}
 
-In order to derive the shape of a homogeneous, infinitely flexible, non elastic cable only
-subjected to its own weight which is uniformly distributed along its length, we consider a cable of
-length \catL{} and mass per unit length $\lambda_m$ hanging between two fixed points \fpoint{A}{v}
-and \fpoint{B}{v} whose coordinates are expressed in the plane \lplanefullxz{v} where
-\ldpoint{O}{v} is the origin of the coordinate system as well as the lowest point of the cable.
+In order to derive the shape of a homogeneous, infinitely flexible, non-elastic cable subjected
+solely to its own weight, which is uniformly distributed along its length, a cable of length
+\catL{} and mass per unit length $\lambda_m$ is considered. The cable is assumed to hang between
+two fixed points, \fpoint{A}{v} and \fpoint{B}{v}, whose coordinates are expressed in the plane
+\lplanefullxz{v}, where \ldpoint{O}{v} is defined as both the origin of the coordinate system and
+the lowest point of the cable.
 
 \begin{figure}
 	\centering
@@ -20,63 +21,63 @@ and \fpoint{B}{v} whose coordinates are expressed in the plane \lplanefullxz{v} 
 	\label{mb_catenary_derivation_schematic}
 \end{figure}
 
-The overall weight of the cable is
+The overall weight $W$ of the cable is given by:
 \begin{align}
-	W & = \lambda_m \catL g \label{mb_cable_weight_equation}
+	W = \lambda_m \catL g
+	\label{mb_cable_weight_equation}
 \end{align}
 
-At \ldpoint{O}{v}, the tension in the cable is fully horizontal because the tangent of the cable at
-that point is horizontal and the cable's infinite flexibility does not allow load to be transferred
-vertically.
+At \ldpoint{O}{v}, the tension in the cable is purely horizontal, as the tangent to the cable at
+this point is horizontal, and the infinite flexibility of the cable prevents any vertical load
+transfer.
 
-At a given point \fldpoint{P}{v}{1} of the cable, the tension is composed of a vertical component
-and a horizontal component
+At a general point $\fldpoint{P}{v}{1}$ along the cable, the tension is composed of both vertical
+and horizontal components, and its magnitude $T_1$ is expressed as:
 \begin{align}
-	T_1 & = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2} \label{mb_cable_tension_equation}
+	T_1 = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}
+	\label{mb_cable_tension_equation}
+\end{align}
+where $L_1$ denotes the arc-length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
+
+Considering an infinitesimal cable element of length $dL$, the infinitesimal horizontal
+displacement $dx$ is given by:
+\begin{align}
+	dx = \cos{\left(\omega\right)} dL
+\end{align}
+where $\cos{\omega} = \frac{T_h}{T_1}$. Substituting this yields:
+\begin{align}
+	dx = \frac{T_h}{T_1} dL = \frac{T_h}{\sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}} dL
 \end{align}
 
-where $L_1$ is the length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
-
-Let us define a infinitesimal length of the cable $dL$, the infinitesimal horizontal length $dx$ is
-define as
+Introducing the change of variable $\catC = \frac{\lambda_m g}{T_h}$, the expression simplifies to:
 \begin{align}
-	dx = \cos{\left(\omega\right)}dL
+	dx & = \frac{\frac{\lambda_m g}{\catC}}{\sqrt{\left(\frac{\lambda_m g}{\catC}\right)^2 + \left(\lambda_m L_1 g\right)^2}} dL \\
+	   & = \frac{1}{\sqrt{1 + \left(L_1 \catC\right)^2}} dL
 \end{align}
 
-where $\cos{\omega} = \frac{T_h}{T_1}$. Then
+Integration from \ldpoint{O}{v} to \fldpoint{P}{v}{1} leads to:
 \begin{align}
-	dx = \frac{T_h}{T_1}dL = \frac{T_h}{\sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}}dL
+	x & = \int_0^{L_1} \frac{1}{\sqrt{1 + \left(L_1 \catC\right)^2}} dL \\
+	  & = \frac{\sinh^{-1}\left(L_1 \catC\right)}{\catC}
 \end{align}
 
-with a change of variable $\catC = \frac{\lambda_mg}{T_h}$
+Next, the vertical displacement $dz$ is related to $dx$ via:
 \begin{align}
-	dx & = \frac{\frac{\lambda_mg}{\catC}}{\sqrt{\left(\frac{\lambda_mg}{\catC}\right)^2 + \left(\lambda_m L_1 g\right)^2}}dL \\
-	   & = \frac{1}{\sqrt{1 + \left(L_1\catC\right)^2}}dL
+	dz = \tan{\left(\omega\right)} dx
+\end{align}
+where $\tan{\omega} = \frac{W_1}{T_h}$, with $W_1$ being the weight of the cable segment between \ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
+\begin{align}
+	dz & = \frac{W_1}{T_h} dx = \frac{\lambda_m L_1 g}{T_h} dx \\
+	   & = L_1 \catC dx                                        \\
+	   & = \sinh\left(x \catC\right) dx
 \end{align}
 
-integrating between \ldpoint{O}{v} and \fldpoint{P}{v}{1} gives
+Integration from \ldpoint{O}{v} to $\fldpoint{P}{v}{1}$ yields:
 \begin{align}
-	x & = \int_0^{L_1} \frac{1}{\sqrt{1 + \left(L_1\catC\right)^2}}dL \\
-	  & = \frac{\sinh^{-1}{\left(L_1\catC\right)}}{\catC}
+	z & = \int_0^x \sinh\left(x \catC\right) dx       \\
+	  & = \frac{\cosh\left(x \catC\right) - 1}{\catC}
 \end{align}
-
-Then, finally, let us define the vertical infinitesimal length $dz$
-\begin{align}
-	dz = \tan{\left(\omega\right)}dx
-\end{align}
-
-where $\tan{\omega} = \frac{W_1}{T_h}$ with $W_1$ being the weight of the cable between \ldpoint{O}{v} and \fldpoint{p}{v}{1}. Then
-\begin{align}
-	dz & = \frac{W}{T_h}dx = \frac{\lambda_m L_1 g}{T_h}dx \\
-	   & = L_1\catC dx                                     \\
-	   & = \sinh{\left(x~\catC\right)} dx
-\end{align}
-
-integrating between \ldpoint{O}{v} and \fldpoint{P}{v}{1} gives
-\begin{align}
-	z & = \int_0^{L_1} \sinh{\left(x~\catC\right)} dx \\
-	  & = \frac{\cosh{(x~\catC)} - 1}{\catC}
-\end{align}
+thus obtaining the standard catenary equation.
 
 \section{Curvilinear discretization}
 
