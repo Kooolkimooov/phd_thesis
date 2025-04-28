@@ -29,6 +29,7 @@
 \usepackage{textcase}
 \usepackage{ltablex}
 \usepackage{xltabular}
+\usepackage{multicol}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -132,6 +133,11 @@
 \DeclareMathOperator*{\diag}{diag}
 \DeclareMathOperator*{\argmin}{arg\!\min}
 
+\newcommand\scal[1]{\ensuremath{#1}}
+\newcommand\luscal[2]{\ensuremath{{#1}^{#2}}}
+\newcommand\ldscal[2]{\ensuremath{{#1}_{#2}}}
+\newcommand\llscal[3]{\ensuremath{{#1}^{#2}_{#3}}}
+
 \newcommand\coord[2]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}}}
 \newcommand\lucoord[3]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}^{#3}}}
 \newcommand\ldcoord[3]{\ensuremath{{}^{#2}\!\MakeLowercase{#1}_{#3}}}
@@ -187,82 +193,87 @@
 
 \newcommand\inzeroton{\ensuremath{\in\{0,\hdots, n\}}}
 
-\newcommand\catl{\ensuremath{l}}
-\newcommand\catL{\ensuremath{L}}
-\newcommand\catC{\ensuremath{C}}
-\newcommand\catH{\ensuremath{H}}
-\newcommand\catdH{\ensuremath{\Delta H}}
-\newcommand\catD{\ensuremath{D}}
-\newcommand\catdD{\ensuremath{\Delta D}}
+\newcommand\catl{\scal{l}}
+\newcommand\catL{\scal{L}}
+\newcommand\catC{\scal{C}}
+\newcommand\catH{\scal{H}}
+\newcommand\catdH{\scal{\Delta H}}
+\newcommand\catD{\scal{D}}
+\newcommand\catdD{\scal{\Delta D}}
 
-\newcommand\dragCt{\ensuremath{C_{t}}}
-\newcommand\dragCn{\ensuremath{C_{n}}}
-\newcommand\Reynolds{\ensuremath{R_{n}}}
+\newcommand\dragCt{\scal{C_t}}
+\newcommand\dragCn{\scal{C_n}}
+\newcommand\Reynolds{\scal{R_n}}
 
 \newcommand\verticalmodel{standard catenary model}
-\newcommand\thetamodel{\ensuremath{\theta}-\text{augmented model}}
-\newcommand\gammamodel{\ensuremath{\gamma}-\text{augmented model}}
-\newcommand\thetagammamodel{\ensuremath{\theta\gamma}-\text{augmented model}}
+\newcommand\thetamodel{\ensuremath{\theta}-augmented model}
+\newcommand\gammamodel{\ensuremath{\gamma}-augmented model}
+\newcommand\thetagammamodel{\ensuremath{\theta\gamma}-augmented model}
 
 \newcommand\personalizedmacrostest{
-	\begin{xltabular}{\linewidth}{XX}
-		\verb|$\diag{\text{expression}}$|   & $\diag{\text{expression}}$   \\
-		\verb|$\argmin{\text{expression}}$| & $\argmin{\text{expression}}$ \\
-		\verb|\coord{c}{f}|                 & \coord{c}{f}                 \\
-		\verb|\lucoord{c}{f}{l}|            & \lucoord{c}{f}{l}            \\
-		\verb|\ldcoord{c}{f}{l}|            & \ldcoord{c}{f}{l}            \\
-		\verb|\point{p}|                    & \point{p}                    \\
-		\verb|\fpoint{p}{f}|                & \fpoint{p}{f}                \\
-		\verb|\lupoint{p}{l}|               & \lupoint{p}{l}               \\
-		\verb|\ldpoint{p}{l}|               & \ldpoint{p}{l}               \\
-		\verb|\flupoint{p}{f}{l}|           & \flupoint{p}{f}{l}           \\
-		\verb|\fldpoint{p}{f}{l}|           & \fldpoint{p}{f}{l}           \\
-		\verb|\fllpoint{p}{f}{l}{l}|        & \fllpoint{p}{f}{l}{l}        \\
-		\verb|\vect{v}|                     & \vect{v}                     \\
-		\verb|\fvect{v}{f}|                 & \fvect{v}{f}                 \\
-		\verb|\luvect{v}{l}|                & \luvect{v}{l}                \\
-		\verb|\ldvect{v}{l}|                & \ldvect{v}{l}                \\
-		\verb|\fluvect{v}{f}{l}|            & \fluvect{v}{f}{l}            \\
-		\verb|\fldvect{v}{f}{l}|            & \fldvect{v}{f}{l}            \\
-		\verb|\fllvect{v}{f}{l}{l}|         & \fllvect{v}{f}{l}{l}         \\
-		\verb|\matr{m}|                     & \matr{m}                     \\
-		\verb|\lrumatr{m}{l}|               & \lrumatr{m}{l}               \\
-		\verb|\llumatr{m}{l}|               & \llumatr{m}{l}               \\
-		\verb|\lrdmatr{m}{l}|               & \lrdmatr{m}{l}               \\
-		\verb|\lldmatr{m}{l}|               & \lldmatr{m}{l}               \\
-		\verb|\lrmatr{m}{l}{l}|             & \lrmatr{m}{l}{l}             \\
-		\verb|\llmatr{m}{l}{l}|             & \llmatr{m}{l}{l}             \\
-		\verb|\llrmatr{m}{l}{l}{l}{l}|      & \llrmatr{m}{l}{l}{l}{l}      \\
-		\verb|\res{r}|                      & \res{r}                      \\
-		\verb|\lplane{p}|                   & \lplane{p}                   \\
-		\verb|\lframe{f}|                   & \lframe{f}                   \\
-		\verb|\fpointthree{p}{f}|           & \fpointthree{p}{f}           \\
-		\verb|\flupointthree{p}{f}{l}|      & \flupointthree{p}{f}{l}      \\
-		\verb|\fldpointthree{p}{f}{l}|      & \fldpointthree{p}{f}{l}      \\
-		\verb|\fvectthree{v}{f}|            & \fvectthree{v}{f}            \\
-		\verb|\fluvectthree{v}{f}{l}|       & \fluvectthree{v}{f}{l}       \\
-		\verb|\fldvectthree{v}{f}{l}|       & \fldvectthree{v}{f}{l}       \\
-		\verb|\fvectn{v}{f}{n}|             & \fvectn{v}{f}{n}             \\
-		\verb|\fluvectn{v}{f}{l}{n}|        & \fluvectn{v}{f}{l}{n}        \\
-		\verb|\fldvectn{v}{f}{l}{n}|        & \fldvectn{v}{f}{l}{n}        \\
-		\verb|\lplanefullxy{p}|             & \lplanefullxy{p}             \\
-		\verb|\lplanefullxz{p}|             & \lplanefullxz{p}             \\
-		\verb|\lplanefullyz{p}|             & \lplanefullyz{p}             \\
-		\verb|\lframefull{f}|               & \lframefull{f}               \\
-		\verb|\inzeroton{}|                 & \inzeroton{}                 \\
-		\verb|\catl{}|                      & \catl{}                      \\
-		\verb|\catL{}|                      & \catL{}                      \\
-		\verb|\catC{}|                      & \catC{}                      \\
-		\verb|\catH{}|                      & \catH{}                      \\
-		\verb|\catdH{}|                     & \catdH{}                     \\
-		\verb|\catD{}|                      & \catD{}                      \\
-		\verb|\catdD{}|                     & \catdD{}                     \\
-		\verb|\dragCt{}|                    & \dragCt{}                    \\
-		\verb|\dragCn{}|                    & \dragCn{}                    \\
-		\verb|\Reynolds{}|                  & \Reynolds{}                  \\
-		\verb|\verticalmodel{}|             & \verticalmodel{}             \\
-		\verb|\thetamodel{}|                & \thetamodel{}                \\
-		\verb|\gammamodel{}|                & \gammamodel{}                \\
-		\verb|\thetagammamodel{}|           & \thetagammamodel{}           \\
+	\begin{xltabular}{\linewidth}{X|X}
+		\multicolumn{2}{l}{List of personalized macros for verification purposes, should not be in releases.} \\ \toprule
+		\verb|\scal{s}|                     & \scal{s}                                                        \\
+		\verb|\luscal{s}{l}|                & \luscal{s}{l}                                                   \\
+		\verb|\ldscal{s}{l}|                & \ldscal{s}{l}                                                   \\
+		\verb|\llscal{s}{l}{l}|             & \llscal{s}{l}{l}                                                \\
+		\verb|$\diag{expression}$|          & $\diag{expression}$                                             \\
+		\verb|$\argmin{expression}$|        & $\argmin{expression}$                                           \\
+		\verb|\coord{c}{f}|                 & \coord{c}{f}                                                    \\
+		\verb|\lucoord{c}{f}{l}|            & \lucoord{c}{f}{l}                                               \\
+		\verb|\ldcoord{c}{f}{l}|            & \ldcoord{c}{f}{l}                                               \\
+		\verb|\point{p}|                    & \point{p}                                                       \\
+		\verb|\fpoint{p}{f}|                & \fpoint{p}{f}                                                   \\
+		\verb|\lupoint{p}{l}|               & \lupoint{p}{l}                                                  \\
+		\verb|\ldpoint{p}{l}|               & \ldpoint{p}{l}                                                  \\
+		\verb|\flupoint{p}{f}{l}|           & \flupoint{p}{f}{l}                                              \\
+		\verb|\fldpoint{p}{f}{l}|           & \fldpoint{p}{f}{l}                                              \\
+		\verb|\fllpoint{p}{f}{l}{l}|        & \fllpoint{p}{f}{l}{l}                                           \\
+		\verb|\vect{v}|                     & \vect{v}                                                        \\
+		\verb|\fvect{v}{f}|                 & \fvect{v}{f}                                                    \\
+		\verb|\luvect{v}{l}|                & \luvect{v}{l}                                                   \\
+		\verb|\ldvect{v}{l}|                & \ldvect{v}{l}                                                   \\
+		\verb|\fluvect{v}{f}{l}|            & \fluvect{v}{f}{l}                                               \\
+		\verb|\fldvect{v}{f}{l}|            & \fldvect{v}{f}{l}                                               \\
+		\verb|\fllvect{v}{f}{l}{l}|         & \fllvect{v}{f}{l}{l}                                            \\
+		\verb|\matr{m}|                     & \matr{m}                                                        \\
+		\verb|\lrumatr{m}{l}|               & \lrumatr{m}{l}                                                  \\
+		\verb|\llumatr{m}{l}|               & \llumatr{m}{l}                                                  \\
+		\verb|\lrdmatr{m}{l}|               & \lrdmatr{m}{l}                                                  \\
+		\verb|\lldmatr{m}{l}|               & \lldmatr{m}{l}                                                  \\
+		\verb|\lrmatr{m}{l}{l}|             & \lrmatr{m}{l}{l}                                                \\
+		\verb|\llmatr{m}{l}{l}|             & \llmatr{m}{l}{l}                                                \\
+		\verb|\llrmatr{m}{l}{l}{l}{l}|      & \llrmatr{m}{l}{l}{l}{l}                                         \\
+		\verb|\res{r}|                      & \res{r}                                                         \\
+		\verb|\lplane{p}|                   & \lplane{p}                                                      \\
+		\verb|\lframe{f}|                   & \lframe{f}                                                      \\
+		\verb|\fpointthree{p}{f}|           & \fpointthree{p}{f}                                              \\
+		\verb|\flupointthree{p}{f}{l}|      & \flupointthree{p}{f}{l}                                         \\
+		\verb|\fldpointthree{p}{f}{l}|      & \fldpointthree{p}{f}{l}                                         \\
+		\verb|\fvectthree{v}{f}|            & \fvectthree{v}{f}                                               \\
+		\verb|\fluvectthree{v}{f}{l}|       & \fluvectthree{v}{f}{l}                                          \\
+		\verb|\fldvectthree{v}{f}{l}|       & \fldvectthree{v}{f}{l}                                          \\
+		\verb|\fvectn{v}{f}{n}|             & \fvectn{v}{f}{n}                                                \\
+		\verb|\fluvectn{v}{f}{l}{n}|        & \fluvectn{v}{f}{l}{n}                                           \\
+		\verb|\fldvectn{v}{f}{l}{n}|        & \fldvectn{v}{f}{l}{n}                                           \\
+		\verb|\lplanefullxy{p}|             & \lplanefullxy{p}                                                \\
+		\verb|\lplanefullxz{p}|             & \lplanefullxz{p}                                                \\
+		\verb|\lplanefullyz{p}|             & \lplanefullyz{p}                                                \\
+		\verb|\lframefull{f}|               & \lframefull{f}                                                  \\
+		\verb|\inzeroton{}|                 & \inzeroton{}                                                    \\
+		\verb|\catl{}|                      & \catl{}                                                         \\
+		\verb|\catL{}|                      & \catL{}                                                         \\
+		\verb|\catC{}|                      & \catC{}                                                         \\
+		\verb|\catH{}|                      & \catH{}                                                         \\
+		\verb|\catdH{}|                     & \catdH{}                                                        \\
+		\verb|\catD{}|                      & \catD{}                                                         \\
+		\verb|\catdD{}|                     & \catdD{}                                                        \\
+		\verb|\dragCt{}|                    & \dragCt{}                                                       \\
+		\verb|\dragCn{}|                    & \dragCn{}                                                       \\
+		\verb|\Reynolds{}|                  & \Reynolds{}                                                     \\
+		\verb|\verticalmodel{}|             & \verticalmodel{}                                                \\
+		\verb|\thetamodel{}|                & \thetamodel{}                                                   \\
+		\verb|\gammamodel{}|                & \gammamodel{}                                                   \\
+		\verb|\thetagammamodel{}|           & \thetagammamodel{}                                              \\
 	\end{xltabular}
 }
