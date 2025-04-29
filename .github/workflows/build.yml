@@ -78,12 +78,9 @@ jobs:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             create_annotated_tag: true
             custom_release_rules: | 
-              fix:patch,
-              bug:patch,
-              new:patch,
-              wip:patch,
-              feature:patch,
-              change:patch
+              fix:patch:fixed,
+              wip:patch:work done,
+              change:patch:changed
 
         - name: get description
           if: steps.determine_build.outputs.needs_build == 'true'
