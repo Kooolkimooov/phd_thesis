@@ -184,7 +184,7 @@ for deformations induced by surge motion, in which the endpoints of the cable mo
 
 The \thetamodel{}'s curve may be computed directly in the rotated frame, or alternatively, it may
 be derived by first computing a catenary curve in \lframe{v} or \lframe{\gamma} between the initial
-point \point{A} and a virtual endpoint obtained by rotating \fpoint{B} by $-\theta$ around
+point \point{A} and a virtual endpoint obtained by rotating \point{B} by $-\theta$ around
 $\point{A}$ within \lplane{v} or \lplane{\gamma}, and then applying the inverse rotation to the
 resulting curve. This procedure preserves the parameterization of the original catenary while
 accounting for the inclination induced by surge dynamics.
@@ -213,11 +213,27 @@ In both cases, the final curve captures the combined effects of surge and sway m
 relying on an analytically tractable formulation. For consistency in implementation, a fixed
 composition order should be adopted, as the two approaches are not commutative in general.
 
+In the following, the \thetagammamodel{} is referred as \llpoint{p}{\theta\gamma}{k} with
+$k\inzeroton$. \llpoint{p}{\theta\gamma}{0} and \llpoint{p}{\theta\gamma}{n} correspond to the
+attachment points \point{a} and \point{b}, respectively.
+
 \subsection{Parameters derivation}
 
 \subsubsection{Minimization}
 
-\lipsum[1]
+In order to quantify the potential gains of accuracy from the \thetagammamodel{}, a minimization of
+said accuracy is performed to compute the proposed degrees of freedom $\theta$ and $\gamma$. The
+proposed accuracy is
+\begin{align}
+	\res{\theta\gamma}\left(\theta, \gamma\right) & = \frac{1}{n}\sum_{k=0}^{n}{\norm{\fllpoint{p}{w}{m}{k} -\fllpoint{p}{w}{\theta\gamma}{k}\left(\theta, \gamma\right)}}
+\end{align}
+
+where \fllpoint{p}{w}{m}{k} are ground truth measurements of a cables shape.
+
+The the minimization is
+\begin{align}
+	(\theta, \gamma) = \argmin_{(\theta, \gamma)\in\left[-\pi,\pi\right]^2} \res{\theta\gamma}\left(\theta, \gamma\right)
+\end{align}
 
 \subsubsection{Dynamics}
 
