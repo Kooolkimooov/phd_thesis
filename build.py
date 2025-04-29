@@ -91,7 +91,7 @@ def build_figure(name=None):
         
         return all(successes)
         
-def build_chapter(name=None, remake=False):
+def build_chapter(name=None, remake=False, git_description=None):
     ensure_output_directories()
     
     if not remake:
@@ -104,6 +104,17 @@ def build_chapter(name=None, remake=False):
         if not os.path.exists(chapter_path):
             printlog(f"file {chapter_path} does not exist")
             return False
+        
+        gitcommit_path = "gitdescription.tex"
+        with open(gitcommit_path, "r") as f:
+            original_content = f.read()
+
+        if git_description is None:
+            try:
+                git_description = subprocess.run(["git", "describe", "--dirty"], capture_output=True, check=True).stdout.strip().decode()
+        
+            except subprocess.CalledProcessError as e:
+                printlog(f"error while getting git commit info: {e}")
         
         printlog(f"building chapter {name}")
         
@@ -127,7 +138,7 @@ def build_chapter(name=None, remake=False):
                 f.write(content)
             
         try:
-            shutil.move("build/chapter.pdf", f"out/{name}.pdf")
+            shutil.move("build/chapter.pdf", f"out/{name}_{git_description}.pdf")
         except (FileNotFoundError, shutil.Error) as e:
             printlog(f"error moving output file: {e}")
             return False
@@ -184,7 +195,7 @@ def build_thesis(remake=False, git_description=None):
             f.write(original_content)
     
     try:
-        shutil.move("build/thesis.pdf", "out/thesis.pdf")
+        shutil.move("build/thesis.pdf", f"out/thesis_{git_description}.pdf")
     except (FileNotFoundError, shutil.Error) as e:
         printlog(f"error moving output file: {e}")
         return False
@@ -224,10 +235,12 @@ def main():
     
     chapters_parser = subparsers.add_parser("chapters", help="build all chapters as separate pdf files")
     chapters_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
+    chapters_parser.add_argument("-gd", "--git-description", type=str, default=None, help="git description to embed in the thesis")
     
     chapter_parser = subparsers.add_parser("chapter", help="build a specific chapter as separate pdf file")
     chapter_parser.add_argument("name", help="name of the chapter to build")
     chapter_parser.add_argument("-r", "--remake", action="store_true", help="skip rebuilding figures")
+    chapter_parser.add_argument("-gd", "--git-description", type=str, default=None, help="git description to embed in the thesis")
     
     subparsers.add_parser("figures", help="build all figures")
     
@@ -272,15 +285,15 @@ def main():
     if args.command == "thesis":
         return build_thesis(remake=args.remake, git_description=args.git_description)
     elif args.command == "chapters":
-        return build_chapter(remake=args.remake)
+        return build_chapter(remake=args.remake, git_description=args.git_description)
     elif args.command == "chapter":
-        return build_chapter(name=args.name, remake=args.remake)
+        return build_chapter(name=args.name, remake=args.remake, git_description=args.git_description)
     elif args.command == "figures":
         return build_figure()
     elif args.command == "figure":
         return build_figure(name=args.name)
     elif args.command == "all":
-        return build_thesis(remake=args.remake, git_description=args.git_description) and build_chapter(remake=True)
+        return build_thesis(remake=args.remake, git_description=args.git_description) and build_chapter(remake=True, git_description=args.git_description)
     else:
         print(help_msg)
         return True

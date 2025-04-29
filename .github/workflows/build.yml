@@ -138,7 +138,7 @@ jobs:
           with:
             make_latest: true
             body: ${{ needs.check.outputs.changelog }}
-            files: out/thesis.pdf
+            files: out/thesis*.pdf
 
           
         - name: prerelease

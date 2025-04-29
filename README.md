@@ -2,13 +2,14 @@
 
 ## Project Structure
 
+- `build.py` - Python script for building the thesis
 - `thesis.tex` - Main document file
 - `preamble.tex` - LaTeX configuration and package imports
 - `title.tex` - Title page formatting and content
 - `bib.bib` - Bibliography file
-- `build.py` - Python script for building the thesis
 - `chapter.tex` - Template used to programmatically compile individual chapters
 - `figure.tex` - Template used to programmatically compile individual figures
+- `gitdescription.tex` - Empty file used to embed the git description in the thesis
 - `chapters/` - Directory containing individual chapter files
 - `figures/` - Directory for figures and diagrams
 
@@ -39,43 +40,49 @@ positional arguments:
     clean               clean build files
     all                 build thesis and all chapters
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -H, --HELP            show verbose help message and exit
   -v, --verbose         enable verbose output
 
           ==========
 
-usage: build.py thesis [-h] [-r]
+usage: build.py thesis [-h] [-r] [-gd GIT_DESCRIPTION]
 
-optional arguments:
-  -h, --help    show this help message and exit
-  -r, --remake  skip building figures
-
-          ==========
-
-usage: build.py chapters [-h] [-r]
-
-optional arguments:
-  -h, --help    show this help message and exit
-  -r, --remake  skip rebuilding figures
+options:
+  -h, --help            show this help message and exit
+  -r, --remake          skip building figures
+  -gd, --git-description GIT_DESCRIPTION
+                        git description to embed in the thesis
 
           ==========
 
-usage: build.py chapter [-h] [-r] name
+usage: build.py chapters [-h] [-r] [-gd GIT_DESCRIPTION]
+
+options:
+  -h, --help            show this help message and exit
+  -r, --remake          skip rebuilding figures
+  -gd, --git-description GIT_DESCRIPTION
+                        git description to embed in the thesis
+
+          ==========
+
+usage: build.py chapter [-h] [-r] [-gd GIT_DESCRIPTION] name
 
 positional arguments:
-  name          name of the chapter to build
+  name                  name of the chapter to build
 
-optional arguments:
-  -h, --help    show this help message and exit
-  -r, --remake  skip rebuilding figures
+options:
+  -h, --help            show this help message and exit
+  -r, --remake          skip rebuilding figures
+  -gd, --git-description GIT_DESCRIPTION
+                        git description to embed in the thesis
 
           ==========
 
 usage: build.py figures [-h]
 
-optional arguments:
+options:
   -h, --help  show this help message and exit
 
           ==========
@@ -85,7 +92,7 @@ usage: build.py figure [-h] name
 positional arguments:
   name        Name of the figure to build
 
-optional arguments:
+options:
   -h, --help  show this help message and exit
 
           ==========
@@ -95,16 +102,18 @@ usage: build.py clean [-h] [name]
 positional arguments:
   name        clean files of that name
 
-optional arguments:
+options:
   -h, --help  show this help message and exit
 
           ==========
 
-usage: build.py all [-h] [-r]
+usage: build.py all [-h] [-r] [-gd GIT_DESCRIPTION]
 
-optional arguments:
-  -h, --help    show this help message and exit
-  -r, --remake  skip rebuilding figures
+options:
+  -h, --help            show this help message and exit
+  -r, --remake          skip rebuilding figures
+  -gd, --git-description GIT_DESCRIPTION
+                        git description to embed in the thesis
 ```
 
 This will compile the LaTeX files in the `build/` directory and output the final result in the `out/` directory.
