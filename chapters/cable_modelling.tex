@@ -245,7 +245,7 @@ Defining a dynamic model for the proposed degrees of freedom is a nontrivial tas
 the intuitive construction of the \thetagammamodel{} and the absence of a straightforward
 physics-based formulation.
 
-\paragraph{Physics-Based Model}
+\paragraph{Physics-based model}
 
 The proposed physical analogy relies on a pendulum mounted on a horizontally translating cart,
 where the length of the pendulum may either remain constant or vary dynamically based on catenary
@@ -253,8 +253,8 @@ parameters.
 
 The equation governing the angle $\alpha$ in this system is derived as:
 \begin{align}
-	l\ddot{\alpha} = {} & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{l} \dot{\alpha} \nonumber \\
-	                    & + \frac{1}{2m_2} \rho_{w} A_c C_c
+	l\ddot{\alpha} = & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{l} \dot{\alpha}~+ \nonumber \\
+	                 & \frac{1}{2m_2} \rho_{w} A_c C_c
 	\sqrt{
 		\left(\dot{x} + l \dot{\alpha} \cos\left(\alpha\right) + \dot{l} \sin\left(\alpha\right)\right)^2
 		+ \left(l \dot{\alpha} \sin\left(\alpha\right) - \dot{l} \cos\left(\alpha\right)\right)^2
@@ -272,9 +272,9 @@ The terms in this expression are defined as follows:
 	\item $C_c$: hydrodynamic drag coefficient.
 \end{itemize}
 
-This formulation introduces both added mass and nonlinear drag effects. It may serve as a
-conceptual foundation for the development of surrogate or reduced-order dynamic models that
-approximate the evolution of $\theta$ and $\gamma$ under underwater motion.
+This formulation accounts for drag effects. It may serve as a conceptual foundation for the
+development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
+and $\gamma$ under underwater motion.
 
 \paragraph{Data based model}
 
