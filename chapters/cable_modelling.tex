@@ -241,6 +241,29 @@ The optimal parameters are then obtained by solving the following minimization p
 
 \subsubsection{Dynamics}
 
+Defining dynamic models for the proposed degrees of freedom is a complex task mainly due to the
+intuitional origin of the \thetagammamodel{} and the difficulty of proposing a physics base model.
+
+\paragraph{Physics based model}
+
+
+The proposed model is based on the pendulum model with an horizontally moving cart as well as a
+dynamic length that may be based on catenary parameters or kept constant.
+
+The dynamic equation of the angle $\alpha$ in this pendulum model is
+\begin{align}
+	l\ddot{\alpha} & = -\ddot{x} \cos{\left(\alpha\right)} + g\sin{\left(\alpha\right)} + 2\dot{l}\dot{\alpha}~+ \nonumber\\
+	               & \frac{1}{2m_2} \rho_{w} A_c C_c \sqrt{
+		\left(\dot{x} + l \dot{\alpha}\cos{\left(\alpha\right)} + \dot{l}\sin{\left(\alpha\right)}\right)^2 + \left(l \dot{\alpha}\sin{\left(\alpha\right)}-\dot{l} \cos{\left(\alpha\right)}\right)^2
+	}\left(\dot{x}\cos{\left(\alpha\right)} + l\dot{\alpha}\right)
+\end{align}
+
+with $l$ being the length of the pendulum, $x$ the horizontal position of the cart, $m_1$ and $m_2$
+the mass of the cart and the weight respectively, $g$ the gravitational acceleration, $\rho_{w}$
+the water density, $A_c$ the cross section of the mass and $C_c$ the drag coefficient of the mass.
+
+\paragraph{Data based model}
+
 \lipsum[1]
 
 \section{Conclusion}
