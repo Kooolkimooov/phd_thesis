@@ -221,18 +221,22 @@ attachment points \point{a} and \point{b}, respectively.
 
 \subsubsection{Minimization}
 
-In order to quantify the potential gains of accuracy from the \thetagammamodel{}, a minimization of
-said accuracy is performed to compute the proposed degrees of freedom $\theta$ and $\gamma$. The
-proposed accuracy is
+In order to quantify the potential accuracy improvement provided by the \thetagammamodel{}, a
+minimization procedure is employed to estimate the values of the augmentation parameters $\theta$
+and $\gamma$.
+
+The model accuracy is defined by the residual function:
 \begin{align}
-	\res{\theta\gamma}\left(\theta, \gamma\right) & = \frac{1}{n}\sum_{k=0}^{n}{\norm{\fllpoint{p}{w}{m}{k} -\fllpoint{p}{w}{\theta\gamma}{k}\left(\theta, \gamma\right)}}
+	\res{\theta\gamma}(\theta, \gamma) = \frac{1}{n} \sum_{k=0}^{n} \norm{\fllpoint{p}{w}{m}{k} - \fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)}
 \end{align}
 
-where \fllpoint{p}{w}{m}{k} are ground truth measurements of a cables shape.
+where $\fllpoint{p}{w}{m}{k}$ denotes the measured positions of the cable at discrete points, and
+$\fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)$ are the corresponding points predicted by the
+\thetagammamodel{} for a given pair of parameters $(\theta, \gamma)$.
 
-The the minimization is
+The optimal parameters are then obtained by solving the following minimization problem:
 \begin{align}
-	(\theta, \gamma) = \argmin_{(\theta, \gamma)\in\left[-\pi,\pi\right]^2} \res{\theta\gamma}\left(\theta, \gamma\right)
+	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
 \end{align}
 
 \subsubsection{Dynamics}
