@@ -96,7 +96,7 @@
 		\draw[thick, ->] (I) -- ($(I)!.5!(I1)$) node[right] {\ldvect{a}{\gamma}};
 		\draw[thick, ->] (I) -- ($(I)!.5!(I2)$) node[left] {\ldvect{a}{\theta\gamma}};
 		
-		\pic [draw, angle radius=1cm, angle eccentricity=1.2, "\footnotesize $\theta$"] {angle = I2--I--I1};
+		\pic [draw, ->, angle radius=1cm, angle eccentricity=1.2, "\footnotesize $\theta$"] {angle = I2--I--I1};
 		
 		\filldraw[red] (O) circle (\pointsize) node[above left] {\ldpoint{O}{\gamma}};
 		\draw[red, thick, ->] (O) -- (x) node[above] {\ldvect{x}{\gamma}};
