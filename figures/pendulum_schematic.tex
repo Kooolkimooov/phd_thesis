@@ -1,0 +1,60 @@
+\begin{tikzpicture}
+
+	\def\length{1.0}
+	\def\angle{25.0}
+
+	\def\xzero{0.5}
+	\def\yzero{0.0}
+
+	\pgfmathsetmacro{\xmin}{\xzero - \length*sin(\angle)}
+	\pgfmathsetmacro{\xmax}{\xzero + \length*sin(\angle)}
+	\pgfmathsetmacro{\arrowlength}{(\xmax -\xmin)/12.5}
+
+	\pgfmathsetmacro{\ymin}{\yzero - \length*cos(\angle)}
+	\pgfmathsetmacro{\ymax}{\yzero + \arrowlength}
+
+	\begin{axis}[
+			xmin = \xmin,
+			xmax = \xmax,
+			ymin = \ymin,
+			ymax = \ymax,
+			width = \figurewidth,
+			axis equal,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (x) at (axis cs: \arrowlength, 0.0);
+		\coordinate (z) at (axis cs: 0.0, \arrowlength);
+
+		\coordinate (A) at (axis cs: \xzero, \yzero);
+		\coordinate (B) at (axis cs: \xmax, \ymin);
+
+		\coordinate (Ob) at (axis cs: 0.0, \ymin);
+        \coordinate (Om) at ($(O)!.5!(Ob)$);
+		\coordinate (Ab) at (axis cs: \xzero, \ymin);
+        \coordinate (Am) at ($(A)!.5!(Ab)$);
+		\coordinate (Cu) at (axis cs: \xmax, 0.0);
+
+		\draw[thick] (A) -- (B);
+
+		\draw[densely dotted, thick] (O) -- (Ob);
+		\draw[densely dotted, thick] (A) -- (Ab);
+		\draw[densely dotted, thick] (O) -- (Cu);
+
+		\filldraw (O) circle (2pt) node[below right] {\ldpoint{O}{v}};
+		\draw[->, thick] (O) -- (x) node[above right] {\ldvect{x}{v}};
+		\draw[->, thick] (O) -- (z) node[above right] {\ldvect{z}{v}};
+
+		\filldraw[gray] (A) circle (8pt) node[black, above right=7pt] {\fpoint{A}{v}, $m_1$};
+		\filldraw[gray] (B) circle (8pt) node[black, above left=7pt] {\fpoint{B}{v}, $m_2$};
+
+		\draw[<->] (axis cs: \xzero+0.02, \yzero) -- (axis cs: \xmax+0.02, \ymin) node[midway, right] {$l$};
+		\draw[<->] (Om) -- (Am) node[midway, above] {$x$};
+        \pic[draw, "${\alpha}$", ->, angle radius=3.5cm, angle eccentricity=0.9] {angle=Ab--A--B};
+
+	\end{axis}
+
+\end{tikzpicture}

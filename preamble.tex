@@ -133,6 +133,23 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\NewCommandCopy{\oldcos}{\cos}
+\NewCommandCopy{\oldsin}{\sin}
+
+\newcommand\newcos[1]{\ensuremath{\mathbf{c}_{#1}}}
+\newcommand\newsin[1]{\ensuremath{\mathbf{s}_{#1}}}
+
+\newcommand\trigsh{
+	\RenewCommandCopy{\cos}{\newcos}
+	\RenewCommandCopy{\sin}{\newsin}
+	}
+\newcommand\trigft{
+	\RenewCommandCopy{\cos}{\oldcos}
+	\RenewCommandCopy{\sin}{\oldsin}
+	}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \DeclareMathOperator*{\diag}{diag}
 \DeclareMathOperator*{\argmin}{arg\!\min}
 

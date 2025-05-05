@@ -38,6 +38,7 @@ expressed as:
 	T_1 = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}
 	\label{mb_cable_tension_equation}
 \end{align}
+
 where $L_1$ denotes the arc-length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
 
 Considering an infinitesimal cable element of length $dL$, the infinitesimal horizontal
@@ -45,6 +46,7 @@ displacement $dx$ is given by:
 \begin{align}
 	dx = \cos{\left(\omega\right)} dL
 \end{align}
+
 where $\cos{\omega} = \frac{T_h}{T_1}$. Substituting this yields:
 \begin{align}
 	dx = \frac{T_h}{T_1} dL = \frac{T_h}{\sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}} dL
@@ -66,7 +68,9 @@ Next, the vertical displacement $dz$ is related to $dx$ via:
 \begin{align}
 	dz = \tan{\left(\omega\right)} dx
 \end{align}
-where $\tan{\omega} = \frac{W_1}{T_h}$, with $W_1$ being the weight of the cable segment between \ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
+
+where $\tan{\omega} = \frac{W_1}{T_h}$, with $W_1$ being the weight of the cable segment between
+\ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
 \begin{align}
 	dz & = \frac{W_1}{T_h} dx = \frac{\lambda_m L_1 g}{T_h} dx \\
 	   & = L_1 \catC dx                                        \\
@@ -78,6 +82,7 @@ Integration from \ldpoint{O}{v} to $\fldpoint{P}{v}{1}$ yields:
 	z & = \int_0^x \sinh\left(x \catC\right) dx       \\
 	  & = \frac{\cosh\left(x \catC\right) - 1}{\catC}
 \end{align}
+
 thus obtaining the standard catenary equation.
 \section{Curvilinear discretization}
 
@@ -106,6 +111,111 @@ This relation leads to the expression of the horizontal discretization step $\De
 function of the arc-length increment $\Delta s$:
 \begin{align}
 	\Delta x = \frac{\sinh^{-1}\left(\Delta s \catC\right)}{\catC}
+\end{align}
+
+\section{Moving pendulum as dynamic model for the augmentated catenary}
+\label{mb_pendulum_derivation}
+
+We wish to describe the dynamics of the augmented catenary model with a moving cart pendulum. Let
+$\dot{x}$ be the speed of the moving cart $m_1$ its mass, $m_2$ the pendulum's mass, $\alpha$ its
+tilt angle and finally $l=f(L, \dots)$ the length of the pendulum
+(\cref{mb_pendulum_derivation_schematic}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/pendulum_schematic}
+	\caption{Pendulum and parameters.}
+	\label{mb_pendulum_derivation_schematic}
+\end{figure}
+
+The angle $\alpha$ is used in the augmented catenary model. The speed $\dot{x}$ corresponds to the
+average of the two endpoints' speeds. While the mass $m_1$ is the mass of the robots attached to
+the endpoints. If the tether forms a symmetrical catenary curve, its weight and drag can be
+integrated to be applied to a point halfway between the the height of lowest point and of the
+attachment points. Moreover, if the attachment points are close, this distance may be approximated
+to be half of the tether length:
+\begin{align}
+	l = \frac{\catL}{4}
+\end{align}
+
+However this first approximation does not take into account cases like the attachment points being
+spaced out or a tether that is not symmetrical. Some of these methods may be more feasible in a
+real application than others. In any of these cases, the pendulum's length is time dependant as a
+function of the robots' position:
+\begin{align}
+	l = f\left(t, L, \ldpoint{P}{0}(t), \ldpoint{P}{n}(t)\right)
+\end{align}
+
+with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
+
+In any case the dynamics of the pendulum is derived in the next section with the criteria $l>0$
+since $l=0$ would mean that the tether is perfectly taunt and out of the scope of this model.
+
+\subsection{pendulum with the speed of the attachment point as input}
+
+Note that $l$ and $x$ \textbf{are considered as parameters and not variables}. Let $\vect{A} =
+	\left(x, 0, 0\right)$ be the attach point of the support, the position of $m_2$ is $\vect{B} =
+	\left(x + l \sin{\alpha}, 0, -l \cos{\alpha}\right)$ (\cref{mb_pendulum_schematic}).
+
+The speed of $m_2$ is:
+\begin{align}
+	\dot{\vect{B}} =
+	\begin{pmatrix}
+		\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \\
+		0                                                          \\
+		l \dot{\alpha}\sin{\alpha} - \dot{l}\cos{\alpha}
+	\end{pmatrix}
+\end{align}
+
+We use the shorthands $\cos{\ast} = \newcos{\ast}$ and $\sin{\ast} = \newsin{\ast}$. \trigsh{}
+
+Kinetic energy is written:
+\begin{align}
+	E_k & = \frac{1}{2} m_1 \norm{\dot{\vect{A}}}^2 + \frac{1}{2} m_1 \norm{\dot{\vect{B}}}^2 \nonumber                                                                                                              \\
+	    & =\frac{1}{2}  \left(m_1 \dot{x}^2 + m_2 \left(\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \right)^2 + \left(l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}\right)^2\right) \right)
+\end{align}
+
+And potential energy is written:
+\begin{align}
+	E_p & = m_1 g \vect{A}\cdot\ldvect{z}{v} + m_2 g \vect{B}\cdot\ldvect{z}{v} \nonumber \\
+	    & = - m_2gl\cos{\alpha}
+\end{align}
+
+The Lagrangian operator is:
+\begin{align}
+	L & = E_k - E_p \nonumber                                                                                                                                                                                                            \\
+	  & = \frac{1}{2}  \left( m_1 \dot{x}^2 + m_2 \left(\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \right)^2 + \left(l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}\right)^2\right) \right) + m_2gl\cos{\alpha}
+\end{align}
+
+In addition, we have the non-conservative drag force:
+\begin{align}
+	\vec{F}_D & = - \frac{1}{2} \rho_{w} A_c C_c \norm{\dot{\vect{B}}}\dot{\vect{B}}     \nonumber                                                                                                 \\
+	          & = - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}
+	\begin{pmatrix}
+		\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \\
+		0                                                          \\
+		l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}
+	\end{pmatrix}
+\end{align}
+
+With the Lagrange principle:
+\begin{align}
+	\frac{d}{dt} \frac{\partial L}{\partial \dot{\alpha}}
+	 & = \frac{\partial L}{\partial \alpha}
+	+ \frac{\partial \vect{B} \cdot \ldvect{x}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{x}{v}
+	+ \frac{\partial \vect{B} \cdot \ldvect{y}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{y}{v}
+	+ \frac{\partial \vect{B} \cdot \ldvect{z}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{z}{v} \label{mb_pendulum_derivation_lagrange}
+\end{align}
+
+Finally, substituting in~\cref{mb_pendulum_derivation_lagrange}:
+\begin{align*}
+	 & m_2l^2\ddot{\alpha} + 2m_2l\dot{l}\dot{\alpha} + m_2l\ddot{x} \cos{\alpha} - m_2l\dot{x} \dot{\alpha} \sin{\alpha} + m_2\dot{l}\dot{x}\cos{\alpha}                                                                                                                    \\
+	 & = - m_2l\dot{\alpha}\dot{x}\sin{\alpha} + m_2\dot{x}\dot{l}\cos{\alpha} - m_2gl\sin{\alpha}                                                                                                                                                                           \\
+	 & - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right) l\cos{\alpha} \\
+	 & - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(l \dot{\alpha}\sin{\alpha} -\dot{l} \cos{\alpha}\right) l\sin{\alpha}
+\end{align*}
+\begin{align}
+	\Leftrightarrow~ & \ddot{\alpha} = -\frac{1}{l}\left( \ddot{x} \cos{\alpha} + g\sin{\alpha} + 2\dot{l}\dot{\alpha} + \frac{1}{2m_2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(\dot{x}\cos{\alpha} + l\dot{\alpha}\right)\right)
 \end{align}
 
 \section{Dynamic model of a cable}
