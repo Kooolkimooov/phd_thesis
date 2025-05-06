@@ -134,7 +134,6 @@ jobs:
           if: needs.check.outputs.is_release == 'true'
           with:
             make_latest: true
-            body: ${{ needs.check.outputs.changelog }}
             files: out/thesis*.pdf
 
           
@@ -144,7 +143,6 @@ jobs:
           with:
             prerelease: true
             tag_name: ${{ needs.check.outputs.new_tag }}
-            body: ${{ needs.check.outputs.changelog }}
             files: out/*.pdf
 
         - name: cleanup old prereleases
