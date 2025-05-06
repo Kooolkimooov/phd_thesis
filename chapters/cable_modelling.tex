@@ -105,9 +105,7 @@ where $\lambda_v$ is the cable's linear volume and $\rho_w$ is the water density
 If the cable's endpoints \fpoint{A}{v} and \fpoint{B}{v} are known, the elevation difference
 \catdH{} and horizontal span \catl{} can be deduced geometrically, as depicted in
 \cref{cm_catenary_curve}. With an additional measurement of the total length \catL{}, the catenary
-parameter \catC{} is estimated by solving the following transcendental equation, typically via
-Brent's method~\cite{brentAlgorithmGuaranteedConvergence1971}, as used
-in~\cite{laranjeiraCatenarybasedVisualServoing2020}:
+parameter \catC{} is estimated by solving the following transcendental equation:
 
 \begin{align}
 	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
@@ -251,7 +249,8 @@ The proposed physical analogy relies on a pendulum mounted on a horizontally tra
 where the length of the pendulum may either remain constant or vary dynamically based on catenary
 parameters.
 
-The equation governing the angle $\alpha$ in this system is derived in details in \cref{mb_pendulum_derivation}
+The equation governing the angle $\alpha$ in this system is derived in details in
+\cref{mb_pendulum_derivation}
 \begin{align}
 	l\ddot{\alpha} = & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{l} \dot{\alpha}~+ \nonumber \\
 	                 & \frac{1}{2m_2} \rho_{w} A_c C_c
