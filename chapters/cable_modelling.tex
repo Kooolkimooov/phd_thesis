@@ -75,33 +75,6 @@ distance \catD{}, the horizontal offset \catdD{}, the sag \catH{}, the elevation
 	\catH + \catdH & = \frac{\cosh\left((\catD + \catdD)\catC\right) - 1}{\catC}
 \end{align}
 
-In practice, all parameters are not always available simultaneously. However, several estimation
-methods can be employed to compute \catC{}, depending on the known quantities.
-
-\subsubsection{From Mass and Tension}
-
-As shown in \cref{mb_catenary_model_derivation}, the catenary parameter \catC{} is defined by:
-
-\begin{align}
-	\catC = \frac{\lambda_m g}{T_h}
-	\label{cm_catenary_parameter_mt}
-\end{align}
-
-where $g$ is the gravitational acceleration, $\lambda_m$ is the cable's linear mass, and $T_h$ is
-the horizontal component of the cable's tension. Notably, $T_h$ remains constant along the entire
-cable.
-
-In underwater environments, buoyancy modifies the effective force acting on the cable.
-Incorporating this, the expression becomes:
-
-\begin{align}
-	\catC = \frac{\left(\lambda_m - \lambda_v \rho_w\right) g}{T_h}
-\end{align}
-
-where $\lambda_v$ is the cable's linear volume and $\rho_w$ is the water density.
-
-\subsubsection{From Endpoints Coordinates}
-
 If the cable's endpoints \fpoint{A}{v} and \fpoint{B}{v} are known, the elevation difference
 \catdH{} and horizontal span \catl{} can be deduced geometrically, as depicted in
 \cref{cm_catenary_curve}. With an additional measurement of the total length \catL{}, the catenary
@@ -110,19 +83,6 @@ parameter \catC{} is estimated by solving the following transcendental equation:
 \begin{align}
 	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
 \end{align}
-
-\subsubsection{From Endpoint Coordinate and Tangent}
-
-As described in~\cite{druptInertialmeasurementbasedCatenaryShape2022}, the catenary parameter may
-also be computed when the coordinates of an endpoint and the tangent vector at a known position $s$
-along the cable are available. In such a case, the following expression is used:
-
-\begin{align}
-	\catC = \frac{2 \abs{\tan(\beta)}}{\catL - \catdH - 2s}
-\end{align}
-
-where $\beta$ is the angle between the tangent vector and the horizontal axis. This method is valid
-under the assumptions that $s$ is very small and $\catL \gg \catdH$.
 
 \section{Augmented catenary model}
 \label{cm_augmented_catenary_model}
@@ -215,7 +175,11 @@ In the following, the \thetagammamodel{} is referred as \llpoint{p}{\theta\gamma
 $k\inzeroton$. \llpoint{p}{\theta\gamma}{0} and \llpoint{p}{\theta\gamma}{n} correspond to the
 attachment points \point{a} and \point{b}, respectively.
 
-\subsection{Parameters derivation}
+\subsection{Experimental validation}
+\label{cm_experimental_validation}
+
+The experimental validation is done on a dataset whose aquisition is detailed in
+\cref{ex_catenary}.
 
 \subsubsection{Minimization}
 
@@ -237,13 +201,15 @@ The optimal parameters are then obtained by solving the following minimization p
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
 \end{align}
 
-\subsubsection{Dynamics}
+\section{Conclusion and perspectives}
+
+\subsection{Augmentation parameters dynamics}
 
 Defining a dynamic model for the proposed degrees of freedom is a nontrivial task, primarily due to
 the intuitive construction of the \thetagammamodel{} and the absence of a straightforward
 physics-based formulation.
 
-\paragraph{Physics-based model}
+\subsubsection{Physics-based model}
 
 The proposed physical analogy relies on a pendulum mounted on a horizontally translating cart,
 where the length of the pendulum may either remain constant or vary dynamically based on catenary
@@ -275,10 +241,7 @@ This formulation accounts for drag effects. It may serve as a conceptual foundat
 development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
 and $\gamma$ under underwater motion.
 
-\paragraph{Data based model}
+\subsubsection{Data based model}
 
 \lipsum[1]
 
-\section{Conclusion}
-
-\lipsum[1]
