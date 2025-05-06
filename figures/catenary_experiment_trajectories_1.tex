@@ -1,0 +1,111 @@
+\begin{tikzpicture}
+\def\xmin{-2.29609275}
+\def\xmax{0.10500000000000001}
+\def\ymin{-0.5003691}
+\def\ymax{1.39743975}
+\def\zmin{-0.7509117}
+\def\zmax{0.10500000000000001}
+\begin{axis}[
+       anchor=north east,
+       at = {(0,0)},
+       xmin = \xmin, xmax = \xmax,
+       ymin = \ymin, ymax = \ymax,
+       width = .8\figurewidth,
+       height = .8\figurewidth,
+       ylabel =  ${}^w\mathbf{y}$ / \unit{\m},
+       xlabel =  ${}^w\mathbf{x}$ / \unit{\m},
+       legend style = {fill opacity=.75, text opacity=1, draw=none},
+       legend cell align={left},
+       grid
+]
+\addplot[thick, smooth] table[x=x, y=y] {figures/data/trajectory_L_dynamique1x100dis2_0013.txt};
+\label{x100dis2}
+\addplot[thick, smooth, violet] table[x=x, y=y] {figures/data/trajectory_L_dynamique1x200dis2_0010.txt};
+\label{x200dis2}
+
+
+\addplot[thick, smooth, orange] table[x=x, y=y] {figures/data/trajectory_L_dynamique1y200dis1_0004.txt};
+\label{y200dis1}
+\addplot[thick, smooth, red] table[x=x, y=y] {figures/data/trajectory_L_dynamique1y200dis2_0007.txt};
+\label{y200dis2}  
+\addplot[only marks, mark=square*] coordinates {(0, 0)};
+\label{origin}   
+\addlegendimage{/pgfplots/refstyle=x100dis2}\addlegendentry{surge, \qty{0.3}{\m\per\s}, \qty{2}{\m}}
+\addlegendimage{/pgfplots/refstyle=x200dis2}\addlegendentry{surge, \qty{0.6}{\m\per\s}, \qty{2}{\m}}
+
+
+\addlegendimage{/pgfplots/refstyle=y200dis1}\addlegendentry{sway, \qty{0.6}{\m\per\s}, \qty{1.5}{\m}}
+\addlegendimage{/pgfplots/refstyle=y200dis2}\addlegendentry{sway, \qty{0.6}{\m\per\s}, \qty{2}{\m}}
+\addlegendimage{/pgfplots/refstyle=origin}\addlegendentry{fixed point}
+\addplot[thick, smooth] table[x=x, y=y] {figures/data/trajectory_L_dynamique1x100dis2_0014.txt};
+\addplot[thick, smooth] table[x=x, y=y] {figures/data/trajectory_L_dynamique1x100dis2_0015.txt};
+\addplot[thick, smooth, violet] table[x=x, y=y] {figures/data/trajectory_L_dynamique1x200dis2_0011.txt};
+\addplot[thick, smooth, violet] table[x=x, y=y] {figures/data/trajectory_L_dynamique1x200dis2_0012.txt};
+
+
+\addplot[thick, smooth, orange] table[x=x, y=y] {figures/data/trajectory_L_dynamique1y200dis1_0005.txt};
+\addplot[thick, smooth, orange] table[x=x, y=y] {figures/data/trajectory_L_dynamique1y200dis1_0006.txt};
+\addplot[thick, smooth, red] table[x=x, y=y] {figures/data/trajectory_L_dynamique1y200dis2_0008.txt};
+\addplot[thick, smooth, red] table[x=x, y=y] {figures/data/trajectory_L_dynamique1y200dis2_0009.txt};
+\end{axis}
+\begin{axis}[
+      anchor=north west,
+      at = {(-10,0)},
+      xmin = \zmin, xmax = \zmax,
+      ymin = \ymin, ymax = \ymax,
+      x dir = reverse,
+      yticklabels = {},
+      width = .3\figurewidth,
+      height = .8\figurewidth,
+      xlabel =  ${}^w\mathbf{z}$ / \unit{\m},
+      legend style = {fill opacity=.75, text opacity=1, draw=none},
+      legend cell align={left},
+      grid
+]
+\addplot[thick, smooth] table[x=z, y=y] {figures/data/trajectory_L_dynamique1x100dis2_0013.txt};
+\addplot[thick, smooth] table[x=z, y=y] {figures/data/trajectory_L_dynamique1x100dis2_0014.txt};
+\addplot[thick, smooth] table[x=z, y=y] {figures/data/trajectory_L_dynamique1x100dis2_0015.txt};
+\addplot[thick, smooth, violet] table[x=z, y=y] {figures/data/trajectory_L_dynamique1x200dis2_0010.txt};
+\addplot[thick, smooth, violet] table[x=z, y=y] {figures/data/trajectory_L_dynamique1x200dis2_0011.txt};
+\addplot[thick, smooth, violet] table[x=z, y=y] {figures/data/trajectory_L_dynamique1x200dis2_0012.txt};
+
+
+\addplot[thick, smooth, orange] table[x=z, y=y] {figures/data/trajectory_L_dynamique1y200dis1_0004.txt};
+\addplot[thick, smooth, orange] table[x=z, y=y] {figures/data/trajectory_L_dynamique1y200dis1_0005.txt};
+\addplot[thick, smooth, orange] table[x=z, y=y] {figures/data/trajectory_L_dynamique1y200dis1_0006.txt};
+\addplot[thick, smooth, red] table[x=z, y=y] {figures/data/trajectory_L_dynamique1y200dis2_0007.txt};
+\addplot[thick, smooth, red] table[x=z, y=y] {figures/data/trajectory_L_dynamique1y200dis2_0008.txt};
+\addplot[thick, smooth, red] table[x=z, y=y] {figures/data/trajectory_L_dynamique1y200dis2_0009.txt};
+\addplot[only marks, mark=square*] coordinates {(0, 0)};
+\end{axis}
+\begin{axis}[
+      anchor=south east,
+      at = {(0,-10)},
+      xmin = \xmin, xmax = \xmax,
+      ymin = \zmin, ymax = \zmax,
+      y dir = reverse,
+      xticklabels = {},
+      width = .8\figurewidth,
+      height = .3\figurewidth,
+      ylabel =  ${}^w\mathbf{z}$ / \unit{\m},
+      legend style = {fill opacity=.75, text opacity=1, draw=none},
+      legend cell align={left},
+      grid
+]
+\addplot[thick, smooth] table[x=x, y=z] {figures/data/trajectory_L_dynamique1x100dis2_0013.txt};
+\addplot[thick, smooth] table[x=x, y=z] {figures/data/trajectory_L_dynamique1x100dis2_0014.txt};
+\addplot[thick, smooth] table[x=x, y=z] {figures/data/trajectory_L_dynamique1x100dis2_0015.txt};
+\addplot[thick, smooth, violet] table[x=x, y=z] {figures/data/trajectory_L_dynamique1x200dis2_0010.txt};
+\addplot[thick, smooth, violet] table[x=x, y=z] {figures/data/trajectory_L_dynamique1x200dis2_0011.txt};
+\addplot[thick, smooth, violet] table[x=x, y=z] {figures/data/trajectory_L_dynamique1x200dis2_0012.txt};
+
+
+\addplot[thick, smooth, orange] table[x=x, y=z] {figures/data/trajectory_L_dynamique1y200dis1_0004.txt};
+\addplot[thick, smooth, orange] table[x=x, y=z] {figures/data/trajectory_L_dynamique1y200dis1_0005.txt};
+\addplot[thick, smooth, orange] table[x=x, y=z] {figures/data/trajectory_L_dynamique1y200dis1_0006.txt};
+\addplot[thick, smooth, red] table[x=x, y=z] {figures/data/trajectory_L_dynamique1y200dis2_0007.txt};
+\addplot[thick, smooth, red] table[x=x, y=z] {figures/data/trajectory_L_dynamique1y200dis2_0008.txt};
+\addplot[thick, smooth, red] table[x=x, y=z] {figures/data/trajectory_L_dynamique1y200dis2_0009.txt};
+\addplot[only marks, mark=square*] coordinates {(0, 0)};
+\end{axis}
+\end{tikzpicture}
