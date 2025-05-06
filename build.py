@@ -7,15 +7,22 @@ import subprocess
 import argparse
 import platform
 
-# Configuration
 COMPILER = "latexmk"
 LATEX_FLAGS = ["-output-directory=build", "-pdf", "--shell-escape", 
                "-interaction=nonstopmode", "-file-line-error"]
 SILENT_FLAGS = ["-silent"]
 
 def printlog(message: str): 
-    message = " " + message + " "
-    print(f"{message:->{shutil.get_terminal_size().columns}}", flush=True)
+    n_culumns = shutil.get_terminal_size().columns
+    if len(message) < 2 * n_culumns // 3:
+        message = " " + message + " "
+        print(f"{message:->{n_culumns}}", flush=True)
+    else: 
+        n_split = int(len(message) / (2 * n_culumns // 3))
+        for i in range(n_split + 1):
+            submessage = message[i * (2 * n_culumns // 3) : (i + 1) * (2 * n_culumns // 3)]
+            submessage = " " + submessage + " "
+            print(f"{submessage:->{n_culumns}}", flush=True)
 
 def check_latex_installation():
     if platform.system() == "Windows":
@@ -44,7 +51,7 @@ def ensure_output_directories():
     os.makedirs("build/build/figures", exist_ok=True)
     os.makedirs("out", exist_ok=True)
 
-def build_figure(name=None):
+def build_figure(name=None, verbose=False, dry_run=False):
     ensure_output_directories()
     
     if name:
@@ -53,7 +60,6 @@ def build_figure(name=None):
             printlog(f"file {figure_path} does not exist")
             return False
         
-        printlog(f"building figure {name}")
         
         with open("figure.tex", "r") as f:
             content = f.read()
@@ -64,8 +70,13 @@ def build_figure(name=None):
             f.write(modified_content)
         
         try:
-            subprocess.run([COMPILER] + LATEX_FLAGS + ["figure.tex"], check=True)
-            printlog(f"figure {name} compiled")
+            command = [COMPILER] + LATEX_FLAGS + (SILENT_FLAGS if not verbose else []) + ["figure.tex"]
+            printlog(f"building figure {name}")
+            if dry_run:
+                printlog(f"dry run: {command}")
+            else:
+                subprocess.run(command, check=True)
+                printlog(f"figure {name} compiled")
 
         except subprocess.CalledProcessError as e:
             printlog(f"error while building figure {name}: {e}")
@@ -78,25 +89,26 @@ def build_figure(name=None):
         return True
 
     else:
-        printlog("building all figures")
         
         files = [os.path.splitext(os.path.basename(file))[0] for file in glob.glob("figures/*.tex")]
         successes = []
 
+        printlog("building all figures")
         for file in files:
-            successes.append(build_figure(file))
+            successes.append(build_figure(file, verbose=verbose, dry_run=dry_run))
+
+        printlog("summary of figure compilation:")
 
         for success, file in zip(successes, files):
-            printlog(f"{file}: {'compiled' if success else '  failed'}")
+            printlog(f"{file}: {'dry run' if dry_run else ('compiled' if success else '  failed')}")
         
         return all(successes)
         
-def build_chapter(name=None, remake=False, git_description=None):
+def build_chapter(name=None, remake=False, git_description=None, verbose=False, dry_run=False):
     ensure_output_directories()
     
     if not remake:
-        success = build_figure()
-        if not success:
+        if not build_figure(verbose=verbose, dry_run=dry_run):
             return False
     
     if name:
@@ -104,20 +116,19 @@ def build_chapter(name=None, remake=False, git_description=None):
         if not os.path.exists(chapter_path):
             printlog(f"file {chapter_path} does not exist")
             return False
-        
-        gitcommit_path = "gitdescription.tex"
-        with open(gitcommit_path, "r") as f:
-            original_content = f.read()
 
         if git_description is None:
             try:
-                git_description = subprocess.run(["git", "describe", "--dirty"], capture_output=True, check=True).stdout.strip().decode()
+                command = ["git", "describe", "--dirty"]
+                if dry_run:
+                    printlog(f"dry run: {command}")
+                else: 
+                    git_description = subprocess.run(command, capture_output=True, check=True).stdout.strip().decode()
         
             except subprocess.CalledProcessError as e:
                 printlog(f"error while getting git commit info: {e}")
         
-        printlog(f"building chapter {name}")
-        
+        printlog(f"preparing chapter template for {name}")
         with open("chapter.tex", "r") as f:
             content = f.read()
         
@@ -127,7 +138,13 @@ def build_chapter(name=None, remake=False, git_description=None):
             f.write(modified_content)
         
         try:
-            subprocess.run([COMPILER] + LATEX_FLAGS + ["chapter.tex"], check=True)
+            printlog(f"building chapter {name}")
+            command = [COMPILER] + LATEX_FLAGS + (SILENT_FLAGS if not verbose else []) + ["chapter.tex"]
+            if dry_run:
+                printlog(f"dry run: {command}")
+            else:
+                subprocess.run(command, check=True)
+                printlog(f"chapter {name} compiled")
 
         except subprocess.CalledProcessError as e:
             printlog(f"error while building chapter {name}: {e}")
@@ -138,36 +155,40 @@ def build_chapter(name=None, remake=False, git_description=None):
                 f.write(content)
             
         try:
-            shutil.move("build/chapter.pdf", f"out/{name}_{git_description}.pdf")
+            destination = f"out/{name}_{git_description}.pdf"
+            if dry_run:
+                printlog(f"dry run: moving build/chapter.pdf to {destination}")
+            else:
+                shutil.move("build/chapter.pdf", destination)
         except (FileNotFoundError, shutil.Error) as e:
             printlog(f"error moving output file: {e}")
             return False
 
-        printlog(f"chapter {name} compiled to out/{name}.pdf")
+        printlog(f"chapter {name} compiled to out/{name}_{git_description}.pdf")
         return True
     
     else:
-        printlog("building all chapters")
-        
         files = [os.path.splitext(os.path.basename(file))[0] for file in glob.glob("chapters/*.tex")]
         successes = []
-        for file in files:
-            successes.append(build_chapter(name=file, remake=True))
 
+        printlog("building all chapters")
+        for file in files:
+            successes.append(build_chapter(name=file, remake=True, git_description=git_description, verbose=verbose, dry_run=dry_run))
+
+        printlog("summary of chapter compilation:")
         for success, file in zip(successes, files):
-            printlog(f"{file}: {'compiled' if success else '  failed'}")
+            printlog(f"{file}: {'dry run' if dry_run else ('compiled' if success else '  failed')}")
         
         return all(successes)
             
-def build_thesis(remake=False, git_description=None):
+def build_thesis(remake=False, git_description=None, verbose=False, dry_run=False):
     ensure_output_directories()
     
     if not remake:
-        success = build_figure()
+        success = build_figure(verbose=verbose, dry_run=dry_run)
         if not success:
             return False
     
-    printlog("building thesis")
 
     gitcommit_path = "gitdescription.tex"
     with open(gitcommit_path, "r") as f:
@@ -175,16 +196,28 @@ def build_thesis(remake=False, git_description=None):
 
     if git_description is None:
         try:
-            git_description = subprocess.run(["git", "describe", "--dirty"], capture_output=True, check=True).stdout.strip().decode()
+            command = ["git", "describe", "--dirty"]
+            if dry_run:
+                printlog(f"dry run: {command}")
+            else:
+                git_description = subprocess.run(command, capture_output=True, check=True).stdout.strip().decode()
         
         except subprocess.CalledProcessError as e:
             printlog(f"error while getting git commit info: {e}")
     
     with open(gitcommit_path, "w") as f:
-        f.write(git_description)
+        if dry_run:
+            printlog(f"dry run: inserting {git_description} into {gitcommit_path}")
+        else:
+            f.write(git_description)
 
     try:
-        subprocess.run([COMPILER] + LATEX_FLAGS + ["thesis.tex"], check=True)
+        printlog("building thesis")
+        command = [COMPILER] + LATEX_FLAGS + (SILENT_FLAGS if not verbose else []) + ["thesis.tex"]
+        if dry_run:
+            printlog(f"dry run: {command}")
+        else:
+            subprocess.run(command, check=True)
 
     except subprocess.CalledProcessError as e:
         printlog(f"error while building thesis: {e}")
@@ -195,16 +228,21 @@ def build_thesis(remake=False, git_description=None):
             f.write(original_content)
     
     try:
-        shutil.move("build/thesis.pdf", f"out/thesis_{git_description}.pdf")
+        destination = f"out/thesis_{git_description}.pdf"
+        if dry_run:
+            printlog(f"dry run: moving build/thesis.pdf to {destination}")
+        else:
+            shutil.move("build/thesis.pdf", destination)
     except (FileNotFoundError, shutil.Error) as e:
         printlog(f"error moving output file: {e}")
         return False
     
-    printlog("thesis compiled to out/thesis.pdf")
+    printlog(f"thesis compiled to out/thesis_{git_description}.pdf")
     return True
 
 def clean(name=None):
     if name:
+        # TODO: also figure and chapter files
         for pattern in [f"build/{name}.*", f"out/{name}.*", f"build/figures/{name}.*", f"build/build/figures/{name}.*"]:
             for file in glob.glob(pattern):
                 try:
@@ -256,6 +294,7 @@ def main():
     
     parser.add_argument("-H", "--HELP", action="store_true", help="show verbose help message and exit")
     parser.add_argument("-v", "--verbose", action="store_true", help="enable verbose output")
+    parser.add_argument("-d", "--dry-run", action="store_true", help="dry run, do not execute any commands")
 
     help_msg = parser.format_help()
     for subparser in subparsers.choices.values():
@@ -277,23 +316,21 @@ def main():
         return -1
     printlog(f"using {latex_distribution}")
 
-    if not args.verbose:
-        LATEX_FLAGS.extend(SILENT_FLAGS)
     if latex_distribution == "miktex":
         LATEX_FLAGS.extend(["--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000"])
     
     if args.command == "thesis":
-        return build_thesis(remake=args.remake, git_description=args.git_description)
+        return build_thesis(remake=args.remake, git_description=args.git_description, verbose=args.verbose, dry_run=args.dry_run)
     elif args.command == "chapters":
-        return build_chapter(remake=args.remake, git_description=args.git_description)
+        return build_chapter(remake=args.remake, git_description=args.git_description, verbose=args.verbose, dry_run=args.dry_run)
     elif args.command == "chapter":
-        return build_chapter(name=args.name, remake=args.remake, git_description=args.git_description)
+        return build_chapter(name=args.name, remake=args.remake, git_description=args.git_description, verbose=args.verbose, dry_run=args.dry_run)
     elif args.command == "figures":
-        return build_figure()
+        return build_figure(verbose=args.verbose, dry_run=args.dry_run)
     elif args.command == "figure":
-        return build_figure(name=args.name)
+        return build_figure(name=args.name, verbose=args.verbose, dry_run=args.dry_run)
     elif args.command == "all":
-        return build_thesis(remake=args.remake, git_description=args.git_description) and build_chapter(remake=True, git_description=args.git_description)
+        return build_thesis(remake=args.remake, git_description=args.git_description, verbose=args.verbose, dry_run=args.dry_run) and build_chapter(remake=True, git_description=args.git_description, verbose=args.verbose, dry_run=args.dry_run)
     else:
         print(help_msg)
         return True

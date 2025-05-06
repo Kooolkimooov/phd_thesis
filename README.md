@@ -26,7 +26,7 @@
 You can build the thesis using the included Python script:
 
 ```
-usage: build.py [-h] [-H] [-v] {thesis,chapters,chapter,figures,figure,clean,all} ...
+usage: build.py [-h] [-H] [-v] [-d] {thesis,chapters,chapter,figures,figure,clean,all} ...
 
 LaTeX thesis build script
 
@@ -44,6 +44,7 @@ options:
   -h, --help            show this help message and exit
   -H, --HELP            show verbose help message and exit
   -v, --verbose         enable verbose output
+  -d, --dry-run         dry run, do not execute any commands
 
           ==========
 
