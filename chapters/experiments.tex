@@ -27,13 +27,13 @@ are in \cref{ex_catenary_cables_characteristics}.
 
 \begin{figure}
 	\centering
-	\begin{minipage}{.49\textwidth}
+	\begin{minipage}{.49\figurewidth}
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_bluerov_picture_2.jpg}
 		\captionof{figure}{Robot equipped with passive reflective markers.}
 		\label{ex_catenary_robot_markers}
 	\end{minipage}
-	\begin{minipage}{.49\textwidth}
+	\begin{minipage}{.49\figurewidth}
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_bluerov_picture_1.jpg}
 		\captionof{figure}{Robot in the tank.}
@@ -43,13 +43,13 @@ are in \cref{ex_catenary_cables_characteristics}.
 
 \begin{figure}
 	\centering
-	\begin{minipage}{.49\textwidth}
+	\begin{minipage}{.49\figurewidth}
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_robot_cable_attachment_point.jpg}
 		\captionof{figure}{Robot cable attachement.}
 		\label{ex_catenary_robot_cable_attachment_point}
 	\end{minipage}
-	\begin{minipage}{.49\textwidth}
+	\begin{minipage}{.49\figurewidth}
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_rod_cable_attachment_point.jpg}
 		\captionof{figure}{Fixed point cable attachment.}
@@ -77,49 +77,50 @@ In every experiment the robot receives the following commands:
 \begin{figure}
 	\renewcommand\thesubfigure{\arabic{subfigure}}
 	\centering
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{coaxial_cable.jpg}
 		\caption{}
 		\label{ex_catenary_coaxial}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{four_pairs_cable.jpg}
 		\caption{}
 		\label{ex_catenary_four_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{two_pairs_cable.jpg}
 		\caption{}
 		\label{ex_catenary_two_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{floating_cable.jpg}
 		\caption{}
 		\label{ex_catenary_floating}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\\
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{rope_cable.jpg}
 		\caption{}
 		\label{ex_catenary_rope}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{weighted_cable.jpg}
 		\caption{}
 		\label{ex_catenary_weighted}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{chain_cable.jpg}
 		\caption{}
 		\label{ex_catenary_chain}
 	\end{subfigure}
-	\begin{subfigure}{.2 \textwidth}
+	\begin{subfigure}{.2 \figurewidth}
 		\centering
 		\includegraphics[width=\textwidth]{elastic_cable.jpg}
 		\caption{}
@@ -167,45 +168,58 @@ In every experiment the robot receives the following commands:
 
 \subsection{Trajectories for all recorded sequences}
 
-\begin{figure}
+This following \crefrange{ex_catenary_traj_1}{ex_catenary_traj_8} presents all of the recorded
+sequences for the cables shown in \cref{ex_catenary_all_cables}. Note that sequences were captured
+over several days and the motion capture system was calibrated before each session, this results in
+the world frame not being the same day to day. 
+
+\begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_1}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_coaxial}.}
+	\label{ex_catenary_traj_1}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_2}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_four_pairs}.}
+	\label{ex_catenary_traj_2}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_3}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_two_pairs}.}
+	\label{ex_catenary_traj_3}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_4}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_floating}.}
+	\label{ex_catenary_traj_4}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_5}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_rope}.}
+	\label{ex_catenary_traj_5}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_6}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_weighted}.}
+	\label{ex_catenary_traj_6}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_7}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_chain}.}
+	\label{ex_catenary_traj_7}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_8}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_elastic}.}
+	\label{ex_catenary_traj_8}
 \end{figure}
 
 \newpage{}
