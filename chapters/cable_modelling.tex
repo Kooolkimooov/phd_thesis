@@ -78,7 +78,7 @@ distance \catD{}, the horizontal offset \catdD{}, the sag \catH{}, the elevation
 If the cable's endpoints \fpoint{A}{v} and \fpoint{B}{v} are known, the elevation difference
 \catdH{} and horizontal span \catl{} can be deduced geometrically, as depicted in
 \cref{cm_catenary_curve}. With an additional measurement of the total length \catL{}, the catenary
-parameter \catC{} is estimated by solving the following transcendental equation:
+parameter \catC{} is estimated by solving the following equation for \catC{}:
 
 \begin{align}
 	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
@@ -159,8 +159,8 @@ Two valid composition orders may be employed, depending on the chosen modeling c
 \begin{itemize}
 	\item In the \emph{$\gamma$-then-$\theta$} composition, the $\gamma$ rotation is first applied to define
 	      the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for sway-induced
-	      displacements of the cable endpoints. The \thetamodel{} is then constructed within this rotated
-	      configuration by rotating around the normal to \lplane{\gamma}.
+	      displacements of the cable endpoints. The \thetagammamodel{} is then constructed within this
+	      rotated configuration by rotating around the normal to \lplane{\gamma}.
 	\item In the \emph{$\theta$-then-$\gamma$} composition, the \thetamodel{} is first computed within the
 	      initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting curve is
 	      then rotated around the \vect{e}-axis by angle $\gamma$, yielding the final shape in the
@@ -169,19 +169,43 @@ Two valid composition orders may be employed, depending on the chosen modeling c
 
 In both cases, the final curve captures the combined effects of surge and sway motions while
 relying on an analytically tractable formulation. For consistency in implementation, a fixed
-composition order should be adopted, as the two approaches are not commutative in general.
-
-In the following, the \thetagammamodel{} is referred as \llpoint{p}{\theta\gamma}{k} with
-$k\inzeroton$. \llpoint{p}{\theta\gamma}{0} and \llpoint{p}{\theta\gamma}{n} correspond to the
-attachment points \point{a} and \point{b}, respectively.
+composition order should be adopted. In the following, any point belonging to an \thetagammamodel{}
+is referred as \lupoint{p}{\theta\gamma}.
 
 \subsection{Experimental validation}
 \label{cm_experimental_validation}
 
 The experimental validation is done on a dataset whose aquisition is detailed in
-\cref{ex_catenary}.
+\cref{ex_catenary}. The dataset contains \num{129} recording sequences of \num{8} cables being
+moved underwater by a robot. More precisely, the data contains the shape of the cable with \scal{n}
+regularly spaced points along its length from end to end. These points are refered as
+\llpoint{p}{m}{k} in the following, where \scal{k}~\inzeroton{} is the index of the point.
 
-\subsubsection{Minimization}
+For each cable, the dataset possesses sequences with variing experimental parameters:
+\begin{itemize}
+	\item the direction of the robot's motion: surge or sway,
+	\item the speed of the robot: \qty{0.3}{\meter\per\second} or \qty{0.6}{\meter\per\second},
+	\item the initial horizontal distance between the two attachment points: \qty{1.5}{\meter} or
+	      \qty{2.0}{\meter}.
+\end{itemize}
+
+\subsubsection{Curvilinear discretization of the \thetagammamodel{}}
+
+The catenary equation \cref{cm_catenary_equation} is written as a function of \coord{x}{v} which,
+when it is regularly discretized and the corresponding \coord{z}{v} is computed does not yield
+regularly spaced points along the length of the cable that can be compared to the measured points
+\llpoint{p}{m}{k}. This is a consequence of the non-linear nature of the catenary equation. To
+overcome this issue, the \thetagammamodel{} is discretized by computing varring steps of
+\coord{x}{v} beforehand
+\begin{align}
+	\coord{x}{v} = \frac{\sinh^{-1}\left( \scal{s} \catC\right)}{\catC}
+\end{align}
+
+where \scal{s} is the signed length of the cable between the lowest point and the point of
+interest. The then discretized points of the model are reffered as \llpoint{p}{\theta\gamma}{k} in
+the following where \scal{k}~\inzeroton{} is the index of the point.
+
+\subsubsection{Accuracy metric}
 
 In order to quantify the potential accuracy improvement provided by the \thetagammamodel{}, a
 minimization procedure is employed to estimate the values of the augmentation parameters $\theta$
@@ -190,16 +214,94 @@ and $\gamma$.
 The model accuracy is defined by the residual function:
 \begin{align}
 	\res{\theta\gamma}(\theta, \gamma) = \frac{1}{n} \sum_{k=0}^{n} \norm{\fllpoint{p}{w}{m}{k} - \fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)}
+	\label{cm_residual}
 \end{align}
 
-where $\fllpoint{p}{w}{m}{k}$ denotes the measured positions of the cable at discrete points, and
-$\fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)$ are the corresponding points predicted by the
-\thetagammamodel{} for a given pair of parameters $(\theta, \gamma)$.
+where $\fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)$ are the points corresponding to
+\fllpoint{p}{w}{m}{k} predicted by the \thetagammamodel{} based on the attachment points
+\fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n} for a given pair of parameters $(\theta, \gamma)$.
 
 The optimal parameters are then obtained by solving the following minimization problem:
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
 \end{align}
+
+\subsubsection{Statistical results}
+
+In order to assess the performance of the \thetagammamodel{} in terms of accuracy we compare the
+accuracy define in \cref{cm_residual} with the accuracy of the \verticalmodel{}, \gammamodel{} and
+\thetamodel{}:
+\begin{align}
+	\res{v}      & = \frac{1}{n} \sum_{k=0}^{n} \norm{\fllpoint{p}{w}{m}{k} - \fllpoint{p}{w}{v}{k}}      \\
+	\res{\gamma} & = \frac{1}{n} \sum_{k=0}^{n} \norm{\fllpoint{p}{w}{m}{k} - \fllpoint{p}{w}{\gamma}{k}} \\
+	\res{\theta} & = \frac{1}{n} \sum_{k=0}^{n} \norm{\fllpoint{p}{w}{m}{k} - \fllpoint{p}{w}{\theta}{k}}
+\end{align}
+
+where \fllpoint{p}{w}{v}{k}, \fllpoint{p}{w}{\gamma}{k} and \fllpoint{p}{w}{\theta}{k} are the
+points corresponding to \fllpoint{p}{w}{m}{k} predicted by the \verticalmodel{}, \gammamodel{} and
+\thetamodel{} based on the attachment points \fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n}.
+
+We show in \cref{cm_cables_boxplot} the residuals for the three model variants. There is a general
+trend showing that the \thetagammamodel{} has lower residuals than the \verticalmodel{} as well as
+the \gammamodel{} and \thetamodel{}. Over all their sequences, cable \subref{ex_catenary_weighted}
+and \subref{ex_catenary_chain} show lower residuals for all three models, as expected regarding
+their physical properties (\cref{ex_catenary_cables_characteristics}). Indeed, these cables are the
+closer to the hipothesis of the catenary model because they are flexible and negatively buoyant.
+Cables \subref{ex_catenary_rope} and \subref{ex_catenary_elastic} are also negatively buoyant but
+to a lesser extend. The floating cable \subref{ex_catenary_floating} is positively buoyant and
+shows good improvements with the \thetagammamodel{}. For the stiffer cables
+\subref{ex_catenary_coaxial}, \subref{ex_catenary_four_pairs} and \subref{ex_catenary_two_pairs},
+the improvement in accuracy for the \thetagammamodel{} still exists albeit to a lesser extent.
+Indeed, the stiffer the cable, the higher the residuals and lesser the residual gained with the
+\thetagammamodel{}. This is mainly due to them having permanent deformations as a result of being
+coiled. Furthermore they are lightly or neutrally buoyant. As a result, the impact of weight is
+insufficient to generate the catenary shape.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cables_boxplot}
+	\caption{
+		Box plots of the residual when compared to the measured data for each cable. \verticalmodel{} in
+		blue, \gammamodel{} in red, \thetamodel{} in green and \thetagammamodel{} in gray.
+	}
+	\label{cm_cables_boxplot}
+\end{figure}
+
+We now examine the three models in greater details, distinguishing between the experiments
+involving surge and sway motion. We concentrate on cable \subref{ex_catenary_weighted} because it
+has the lowest residuals and cable \subref{ex_catenary_two_pairs} because it has the lowest
+residual among the cables which exhibit plastic deformations. However figures for all other cables
+are in \cref{af_cable_modelling}.
+
+In \cref{cm_cable_3_boxplot,cm_cable_6_boxplot} the box plots of the model residuals for cable
+\subref{ex_catenary_two_pairs} and \subref{ex_catenary_weighted} according to experimental
+parameters are shown. For both cables, the residuals of the models are smaller for slower motion
+and greater distance from the attachment point (i.e.~more tension in the cable). The \gammamodel{}
+displays a higher accuracy for lateral sway motion compared to forward surge motion. Conversely,
+the \thetamodel{} is significantly better for surge motion in comparison of the \gammamodel{}. And
+in all cases, the \thetagammamodel{} has the highest accuracy. The gain in accuracy is greater for
+cable \subref{ex_catenary_weighted}.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
+	\caption{
+		Box plots of the residual for cable \subref{ex_catenary_two_pairs} when compared to the measured
+		data for all parameters. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green and
+		\thetagammamodel{} in gray.
+	}
+	\label{cm_cable_3_boxplot}
+\end{figure}
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
+	\caption{
+		Box plots of the residual for cable \subref{ex_catenary_weighted} when compared to the measured
+		data for all parameters. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green and
+		\thetagammamodel{} in gray.
+	}
+	\label{cm_cable_6_boxplot}
+\end{figure}
 
 \section{Conclusion and perspectives}
 
@@ -207,28 +309,29 @@ The optimal parameters are then obtained by solving the following minimization p
 
 Defining a dynamic model for the proposed degrees of freedom is a nontrivial task, primarily due to
 the intuitive construction of the \thetagammamodel{} and the absence of a straightforward
-physics-based formulation.
+physics-based formulation. However it is indeed essential for the development of a control method
+that would be able to account for a cable's shape; but in a reasonable applicative case the shape
+of the cables is not available for the augmented parameters to be optimized upon.
 
 \subsubsection{Physics-based model}
 
-The proposed physical analogy relies on a pendulum mounted on a horizontally translating cart,
-where the length of the pendulum may either remain constant or vary dynamically based on catenary
-parameters.
+A proposed physical analogy relies on a pendulum mounted on a horizontally translating cart, where
+the length of the pendulum may vary dynamically based on catenary parameters.
 
-The equation governing the angle $\alpha$ in this system is derived in details in
-\cref{mb_pendulum_derivation}
+The equation governing the angle $\alpha$ between the vertical axis and the pendulum is derived in
+details in \cref{mb_pendulum_derivation}
 \begin{align}
-	l\ddot{\alpha} = & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{l} \dot{\alpha}~+ \nonumber \\
+	d\ddot{\alpha} = & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{d} \dot{\alpha}~+ \nonumber \\
 	                 & \frac{1}{2m_2} \rho_{w} A_c C_c
 	\sqrt{
-		\left(\dot{x} + l \dot{\alpha} \cos\left(\alpha\right) + \dot{l} \sin\left(\alpha\right)\right)^2
-		+ \left(l \dot{\alpha} \sin\left(\alpha\right) - \dot{l} \cos\left(\alpha\right)\right)^2
-	} \left(\dot{x} \cos\left(\alpha\right) + l \dot{\alpha}\right)
+		\left(\dot{x} + d \dot{\alpha} \cos\left(\alpha\right) + \dot{d} \sin\left(\alpha\right)\right)^2
+		+ \left(d \dot{\alpha} \sin\left(\alpha\right) - \dot{d} \cos\left(\alpha\right)\right)^2
+	} \left(\dot{x} \cos\left(\alpha\right) + d \dot{\alpha}\right)
 \end{align}
 
 The terms in this expression are defined as follows:
 \begin{itemize}
-	\item $l$: length of the pendulum,
+	\item $d$: length of the pendulum,
 	\item $x$: horizontal position of the cart,
 	\item $m_1$, $m_2$: masses of the cart and the suspended body, respectively,
 	\item $g$: gravitational acceleration,
@@ -239,9 +342,21 @@ The terms in this expression are defined as follows:
 
 This formulation accounts for drag effects. It may serve as a conceptual foundation for the
 development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
-and $\gamma$ under underwater motion.
+and $\gamma$ under underwater motion. However, none of the attempted configurations yielded
+satisfactory results (\cref{cm_dynamics_cables_boxplot}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/dynamics_pendulum_cables_boxplot_diff}
+	\caption{
+		Box plots of the residual using dynamics derived catenary models when compared to the measured data
+		for each cable. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green,
+		\thetagammamodel{} in gray and reminder of \cref{cm_cables_boxplot} in dashed lines.
+	}
+	\label{cm_dynamics_cables_boxplot}
+\end{figure}
 
 \subsubsection{Data based model}
 
-\lipsum[1]
-
+Another approach to determine a more accurate dynamics is the use of data based models such as
+neural networks, model identification, etc. 
