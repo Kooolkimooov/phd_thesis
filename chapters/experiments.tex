@@ -77,57 +77,112 @@ In every experiment the robot receives the following commands:
 \begin{figure}
 	\renewcommand\thesubfigure{\arabic{subfigure}}
 	\centering
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{coaxial_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_coaxial.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_coaxial_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_coaxial}
 	\end{subfigure}
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{four_pairs_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_four_pairs.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_four_pairs_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_four_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{two_pairs_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_two_pairs.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_two_pairs_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_two_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{floating_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_floating.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_floating_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_floating}
 	\end{subfigure}
-	\\
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{rope_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_rope.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_rope_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_rope}
 	\end{subfigure}
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{weighted_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_weighted.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_weighted_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_weighted}
 	\end{subfigure}
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{chain_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_chain.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_chain_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_chain}
 	\end{subfigure}
-	\begin{subfigure}{.2 \figurewidth}
+	\begin{subfigure}{.24 \textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{elastic_cable.jpg}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_elastic.jpg}
+		\end{subfigure}
+		\begin{subfigure}{.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{cable_elastic_top.jpg}
+		\end{subfigure}
 		\caption{}
 		\label{ex_catenary_elastic}
 	\end{subfigure}
 	\caption{
-		Cables ends:
+		Cables:
 		(\subref{ex_catenary_coaxial}) coaxial cable,
 		(\subref{ex_catenary_four_pairs}) four-pair network cable,
 		(\subref{ex_catenary_two_pairs}) two-pair network cable,
@@ -135,7 +190,7 @@ In every experiment the robot receives the following commands:
 		(\subref{ex_catenary_rope}) sail rope,
 		(\subref{ex_catenary_weighted}) leaded seamstress rope,
 		(\subref{ex_catenary_chain}) plain steel chain,
-		(\subref{ex_catenary_elastic}) elastic
+		(\subref{ex_catenary_elastic}) elastic.
 	}
 	\label{ex_catenary_all_cables}
 	\renewcommand\thesubfigure{\alpha{subfigure}}
@@ -168,10 +223,10 @@ In every experiment the robot receives the following commands:
 
 \subsection{Trajectories for all recorded sequences}
 
-This following \crefrange{ex_catenary_traj_1}{ex_catenary_traj_8} presents all of the recorded
+\Cref{ex_catenary_traj_1} as well as \crefrange{ex_catenary_traj_2}{ex_catenary_traj_8} presents all of the recorded
 sequences for the cables shown in \cref{ex_catenary_all_cables}. Note that sequences were captured
 over several days and the motion capture system was calibrated before each session, this results in
-the world frame not being the same day to day. 
+the world frame not being the same day to day.
 
 \begin{figure}[H]
 	\centering
