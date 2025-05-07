@@ -85,7 +85,12 @@ jobs:
         - name: get description
           if: steps.determine_build.outputs.needs_build == 'true'
           id: get_description
-          run: echo "description=${{steps.tag_version.outputs.new_tag}}-$(git log --pretty=format:"%h" -n 1)" >> $GITHUB_OUTPUT
+          run: |
+            if [[ "${{ steps.determine_build.outputs.has_tag }}" == "false" ]]; then
+              echo "description=${{ steps.tag_version.outputs.new_tag }}-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_OUTPUT
+            else
+              echo "description=${{ github.ref_name }}-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_OUTPUT
+            fi
 
         - name: check output
           run: |
