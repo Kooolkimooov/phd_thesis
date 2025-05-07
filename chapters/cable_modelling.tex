@@ -47,8 +47,7 @@ the standard catenary equation:
 	\label{cm_catenary_equation}
 \end{align}
 
-Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the
-cable's curvature.
+Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable's curvature.
 
 \begin{figure}
 	\centering
@@ -299,7 +298,7 @@ the \thetagammamodel{} achieves the highest accuracy. The gain in accuracy is gr
 	\label{cm_cable_6_boxplot}
 \end{figure}
 
-\section{Conclusion and perspectives}
+\section{Perspectives on the augmentation parameters dynamics}
 
 \subsection{Augmentation parameters dynamics}
 
@@ -309,7 +308,7 @@ straightforward physics-based formulation. However, it is essential for the deve
 control method capable of accounting for a cable's shape. In practical applications, the shape of
 the cables is often unavailable for the augmented parameters to be optimized upon.
 
-\subsubsection{Physics-based model}
+\subsection{Physics-based model}
 
 A proposed physical analogy relies on a pendulum mounted on a horizontally translating cart, where
 the length of the pendulum may vary dynamically based on catenary parameters.
@@ -352,9 +351,22 @@ satisfactory results (\cref{cm_dynamics_cables_boxplot}).
 	\label{cm_dynamics_cables_boxplot}
 \end{figure}
 
-\subsubsection{Data-based model}
+\subsection{Data-based model}
 
 Another approach to determine a more accurate dynamic model involves the use of data-based methods
 such as neural networks, model identification, etc. These methods will be explored in future work
 to address the limitations of physics-based models and to realize the predictive accuracy of the
 \thetagammamodel{}.
+
+\section{Conclusion}
+
+This chapter presented a comprehensive approach to modeling underwater cables, focusing on
+balancing computational efficiency and modeling accuracy for integration into control frameworks.
+Starting from the \verticalmodel{}, the chapter introduced an \augmentedmodel{} with additional
+degrees of freedom to account for hydrodynamic effects encountered during robot-induced cable
+motion. Experimental validation demonstrated that the augmented model significantly improves
+accuracy over the standard catenary, particularly in dynamic scenarios. While a physics-based
+dynamic model for the augmentation parameters remains challenging, initial attempts and analogies
+were discussed, and future work will explore data-driven approaches to further enhance predictive
+capabilities. The developed models provide a solid foundation for robust cable-aware control
+strategies in underwater robotics.
