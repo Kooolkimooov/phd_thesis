@@ -93,19 +93,22 @@
 
 \newcommand\shorttableofcontents{
 	{
-			\renewcommand*{\contentsname}{Short contents}
-			\setcounter{tocdepth}{0}
-			\tableofcontents
-			\adjustmtc
-		}
+		\cleardoublepage
+		\ifodd\value{page}\else\hbox{}\newpage\fi
+		\renewcommand*{\contentsname}{Short contents}
+		\setcounter{tocdepth}{0}
+		\tableofcontents
+	}
 }
 \newcommand\longtableofcontents{
 	{
-			\renewcommand*{\contentsname}{Full contents}
-			\setcounter{tocdepth}{10}
-			\hypertarget{table_of_contents}{}
-			\tableofcontents
-		}
+		\cleardoublepage
+		\ifodd\value{page}\else\hbox{}\newpage\fi
+		\renewcommand*{\contentsname}{Full contents}
+		\setcounter{tocdepth}{10}
+		\hypertarget{table_of_contents}{}
+		\tableofcontents
+	}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
