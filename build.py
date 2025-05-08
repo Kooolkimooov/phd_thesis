@@ -209,7 +209,7 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
 
   if git_description is None:
     try:
-      command = [ "git", "describe", "--dirty" ]
+      command = [ "git", "describe", "--dirty", "--long" ]
       if dry_run:
         printlog( f"dry run: {command}" )
       else:
@@ -257,7 +257,7 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
 def clean( name = None ):
   if name:
     # TODO: also figure and chapter files
-    for pattern in [ f"build/{name}.*", f"out/{name}.*", f"build/figures/{name}.*", f"build/build/figures/{name}.*" ]:
+    for pattern in [ f"build/{name}.*", f"build/figures/{name}.*", f"build/build/figures/{name}.*" ]:
       for file in glob.glob( pattern ):
         try:
           os.remove( file )
@@ -267,7 +267,7 @@ def clean( name = None ):
           return False
     printlog( f"build files cleaned for {name}" )
   else:
-    for directory in [ "build", "out" ]:
+    for directory in [ "build" ]:
       if os.path.exists( directory ):
         try:
           shutil.rmtree( directory )
