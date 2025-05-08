@@ -6,15 +6,14 @@
 \section{Introduction}
 
 This chapter addresses the modeling of underwater cables, with a particular focus on accurately
-capturing their shape under various dynamic conditions. With an accurate geometric model, the cable
-serves as a means of estimating the robots' positions and as a constraint element in control
-strategies.
+capturing their shape under various dynamic conditions. With an accurate model, the cable may serve
+as a means of estimating the robots' positions and as a constraint element in control strategies.
 
 The primary objective of this chapter is to develop a cable model that balances computational
 efficiency with modeling accuracy. This balance is necessary because the model will be integrated
-into control frameworks. To achieve this, the model's parameterization is derived solely from data
-acquired by onboard sensors, including inertial measurement units (IMUs), pressure sensors, and
-cameras.
+into control frameworks. To achieve this, the model's parameterization is able to be derived solely
+from data acquired by onboard sensors, including inertial measurement units (IMUs), pressure
+sensors, and cameras.
 
 \Cref{cm_catenary_model} introduces the catenary model, a classical geometric formulation for
 representing the shape of a cable subjected to gravitational forces. Subsequently,
@@ -40,8 +39,8 @@ lowest point of the curve, with the \ldvect{z}{v} axis aligned with the directio
 forces in this frame. The coordinates of any point along the curve are defined as $\fpoint{P}{v} =
 	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
 $\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
-$\fpoint{B}{v}=\left(\catD,~0,~\catdH\right)$. The elevation \coord{z}{v} of each point is given by
-the standard catenary equation:
+$\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
+the standard catenary equation (see \cref{mb_catenary_model_derivation} for details):
 \begin{align}
 	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD+\catdD,~\catD\right]
 	\label{cm_catenary_equation}
@@ -90,9 +89,9 @@ When the underwater cable is moved at sufficient speed, hydrodynamic forces beco
 The drag force dampens the movement with an amplitude proportional to the square of the speed. This
 effect is amplified by the added mass when significant accelerations are present. In the
 steady-state case, where all points on the cable move at the same velocity, they are subjected to
-identical drag forces. Consequently, the resulting uniform acceleration of the cable is tilted, and
-its intensity increased depending on the velocity. To account for this effect, two degrees of
-freedom were added to the cable shape model, extending the \verticalmodel{}.
+identical drag forces. Consequently, the total uniform acceleration of the cable is tilted, and its
+intensity increased depending on the velocity. To account for this effect, two degrees of freedom
+were proposed to the cable shape model, extending the \verticalmodel{}.
 
 \subsection{Definition}
 
@@ -124,10 +123,10 @@ the curve remain unchanged under this transformation.
 \subsubsection{$\theta$ degree of freedom}
 
 The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
-$\theta$ around the normal to the plane \lplane{v} or \lplane{\gamma}. This transformation accounts
-for deformations induced by surge motion, in which the endpoints of the cable move within the plane
-\lplane{v} or \lplane{\gamma}, depending on whether the $\gamma$ rotation has already been applied
-(see \cref{cm_theta_augmented_catenary_curve}).
+$\theta$ around the normal to the plane \lplane{v} or \lplane{\gamma} (see
+\cref{cm_theta_augmented_catenary_curve}). This transformation accounts for deformations induced by
+surge motion, in which the endpoints of the cable move within the plane \lplane{v} or
+\lplane{\gamma}, depending on whether the $\gamma$ rotation has already been applied.
 
 \begin{figure}
 	\centering
@@ -149,10 +148,8 @@ accounting for the inclination induced by surge dynamics.
 
 The degrees of freedom $\theta$ and $\gamma$ can be composed to define a \thetagammamodel{}, which
 represents the cable's shape in more general configurations involving both sway and surge-induced
-deformations. This model retains the computational efficiency and analytic simplicity of the
-standard catenary formulation while incorporating additional dynamic effects.
-
-Two valid composition orders may be employed, depending on the chosen modeling convention:
+deformations. Two valid composition orders may be employed, depending on the chosen modeling
+convention:
 
 \begin{itemize}
 	\item In the \emph{$\gamma$-then-$\theta$} composition, the $\gamma$ rotation is first applied to define
@@ -190,11 +187,11 @@ For each cable, the dataset includes sequences with varying experimental paramet
 \subsubsection{Curvilinear discretization of the \thetagammamodel{}}
 
 The catenary equation \cref{cm_catenary_equation} is written as a function of \coord{x}{v}, which,
-when regularly discretized and the corresponding \coord{z}{v} is computed, does not yield regularly
-spaced points along the length of the cable that can be compared to the measured points
+when it is regularly discretized and the corresponding \coord{z}{v} is computed, does not yield
+regularly spaced points along the length of the cable that can be compared to the measured points
 \llpoint{p}{m}{k}. This is a consequence of the non-linear nature of the catenary equation. To
 address this issue, the \thetagammamodel{} was discretized by computing varying steps of
-\coord{x}{v} beforehand:
+\coord{x}{v} beforehand (see \cref{mb_curvilinear_discretization} for details):
 \begin{align}
 	\coord{x}{v} = \frac{\sinh^{-1}\left( \scal{s} \catC\right)}{\catC}
 \end{align}
@@ -298,9 +295,7 @@ the \thetagammamodel{} achieves the highest accuracy. The gain in accuracy is gr
 	\label{cm_cable_6_boxplot}
 \end{figure}
 
-\section{Perspectives on the augmentation parameters dynamics}
-
-\subsection{Augmentation parameters dynamics}
+\section{Perspectives on augmentation parameters' dynamics}
 
 Defining a dynamic model for the proposed degrees of freedom was identified as a nontrivial task,
 primarily due to the intuitive construction of the \thetagammamodel{} and the absence of a
