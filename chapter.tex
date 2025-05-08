@@ -1,5 +1,6 @@
 \documentclass[english, 12pt]{memoir}
 
+
 \input{preamble}
 
 \begin{document}
@@ -7,6 +8,14 @@
 \frontmatter
 
 \shorttableofcontents{}
+
+\makepagestyle{title}
+\makeoddfoot{title}{
+	\footnotesize{}This document was compiled on \today{} at \currenttime{}
+}{}{
+	\footnotesize{}\input{gitdescription}
+}
+\thispagestyle{title}
 
 \mainmatter
 

@@ -136,6 +136,16 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
 
       except subprocess.CalledProcessError as e:
         printlog( f"error while getting git commit info: {e}" )
+    
+    gitcommit_path = "gitdescription.tex"
+    with open( gitcommit_path, "r" ) as f:
+      original_content = f.read()
+
+    with open( gitcommit_path, "w" ) as f:
+      if dry_run:
+        printlog( f"dry run: inserting {git_description} into {gitcommit_path}" )
+      else:
+        f.write( git_description )
 
     printlog( f"preparing chapter template for {name}" )
     with open( "chapter.tex", "r" ) as f:
@@ -162,6 +172,8 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
     finally:
       with open( "chapter.tex", "w" ) as f:
         f.write( content )
+      with open( gitcommit_path, "w" ) as f:
+        f.write( original_content )
 
     try:
       destination = f"out/{name}_{git_description}.pdf"
@@ -203,9 +215,6 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
     if not success:
       return False
 
-  gitcommit_path = "gitdescription.tex"
-  with open( gitcommit_path, "r" ) as f:
-    original_content = f.read()
 
   if git_description is None:
     try:
@@ -217,6 +226,10 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
 
     except subprocess.CalledProcessError as e:
       printlog( f"error while getting git commit info: {e}" )
+
+  gitcommit_path = "gitdescription.tex"
+  with open( gitcommit_path, "r" ) as f:
+    original_content = f.read()
 
   with open( gitcommit_path, "w" ) as f:
     if dry_run:
