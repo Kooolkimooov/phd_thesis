@@ -1,5 +1,5 @@
 \usepackage[T1]{fontenc}
-\usepackage{babel}
+\usepackage[english]{babel}
 \usepackage{graphics}
 \usepackage{geometry}
 \usepackage{epsfig}
@@ -72,6 +72,15 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newcommand*\clearevenpage{
+	\ifodd\value{page}
+		\thispagestyle{empty}
+		\null\newpage
+	\fi
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \dominitoc{}
 \tightmtctrue{}
 \setcounter{minitocdepth}{1}
@@ -93,28 +102,28 @@
 
 \newcommand\shorttableofcontents{
 	{
-		\cleardoublepage
-		\ifodd\value{page}\else\hbox{}\newpage\fi
-		\renewcommand*{\contentsname}{Short contents}
-		\setcounter{tocdepth}{0}
-		\tableofcontents
-		\adjustmtc
-	}
+			\cleardoublepage
+			\ifodd\value{page}\else\hbox{}\newpage\fi
+			\renewcommand*{\contentsname}{Short contents}
+			\setcounter{tocdepth}{0}
+			\tableofcontents
+			\adjustmtc
+		}
 }
 \newcommand\longtableofcontents{
 	{
-		\cleardoublepage
-		\ifodd\value{page}\else\hbox{}\newpage\fi
-		\renewcommand*{\contentsname}{Full contents}
-		\setcounter{tocdepth}{10}
-		\hypertarget{table_of_contents}{}
-		\tableofcontents
-	}
+			\cleardoublepage
+			\ifodd\value{page}\else\hbox{}\newpage\fi
+			\renewcommand*{\contentsname}{Full contents}
+			\setcounter{tocdepth}{10}
+			\hypertarget{table_of_contents}{}
+			\tableofcontents
+		}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\nouppercaseheads
+\nouppercaseheads{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -144,11 +153,11 @@
 \newcommand\trigsh{
 	\RenewCommandCopy{\cos}{\newcos}
 	\RenewCommandCopy{\sin}{\newsin}
-	}
+}
 \newcommand\trigft{
 	\RenewCommandCopy{\cos}{\oldcos}
 	\RenewCommandCopy{\sin}{\oldsin}
-	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
