@@ -34,6 +34,16 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newcommand{\review}[2]{
+	\begin{xltabular}{\linewidth}{X|X}
+		\toprule
+		\textbf{Retour} & \textbf{Action} \\ \midrule
+		#1              & #2              \\ \bottomrule
+	\end{xltabular}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \addbibresource{bib.bib}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,11 +145,11 @@
 \newcommand\trigsh{
 	\RenewCommandCopy{\cos}{\newcos}
 	\RenewCommandCopy{\sin}{\newsin}
-	}
+}
 \newcommand\trigft{
 	\RenewCommandCopy{\cos}{\oldcos}
 	\RenewCommandCopy{\sin}{\oldsin}
-	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
