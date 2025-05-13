@@ -342,8 +342,15 @@ the cables is often unavailable for the augmented parameters to be optimized upo
 A proposed physical analogy relies on a pendulum mounted on a horizontally translating cart, where
 the length of the pendulum may vary dynamically based on catenary parameters.
 
-The equation governing the angle $\alpha$ between the vertical axis and the pendulum is derived in
-detail in \cref{mb_pendulum_derivation}:
+\begin{figure}
+	\centering
+	\inputtikz{figures/pendulum_derivation_schematic}
+	\caption{Pendulum and parameters.}
+	\label{cm_pendulum_derivation_schematic}
+\end{figure}
+
+The dynamic equation governing the angle $\alpha$ between the vertical axis and the pendulum is
+derived in detail in \cref{mb_pendulum_derivation}:
 \begin{align}
 	d\ddot{\alpha} = & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{d} \dot{\alpha}~+ \nonumber \\
 	                 & \frac{1}{2m_2} \rho_{w} A_c C_c
