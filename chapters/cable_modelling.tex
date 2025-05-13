@@ -1,25 +1,29 @@
-\chapter{Cable modelling}
+\chapter{Fast cable modelling for model-based control}
 \label{cable_modelling}
 
 \minitoc{}
 
 \section{Introduction}
 
-This chapter addresses the modeling of underwater cables, with a particular focus on accurately
-capturing their shape under various dynamic conditions. With an accurate model, the cable may serve
-as a means of estimating the robots' positions and as a constraint element in control strategies.
+This chapter focuses on the development of fast and efficient cable models tailored for integration
+within model-based control frameworks of underwater robotic systems. Accurate cable modeling is
+essential for achieving precise control, as the cable's shape and tension directly influence the
+robot's dynamics and positioning. However, this accuracy must be balanced with computational
+efficiency to ensure real-time applicability.
 
-The primary objective of this chapter is to develop a cable model that balances computational
-efficiency with modeling accuracy. This balance is necessary because the model will be integrated
-into control frameworks. To achieve this, the model's parameterization is able to be derived solely
-from data acquired by onboard sensors, including inertial measurement units (IMUs), pressure
-sensors, and cameras.
+The primary objective of this chapter is to present a cable modeling approach that maintains
+relatively high while remaining computationally lightweight. This is achieved by parameterizing the
+model using data exclusively from onboard sensors, including inertial measurement units (IMUs),
+pressure sensors, and cameras. Such sensor-based parameterization enables real-time updates and
+adaptability to changing conditions.
 
-\Cref{cm_catenary_model} introduces the catenary model, a classical geometric formulation for
-representing the shape of a cable subjected to gravitational forces. Subsequently,
-\cref{cm_augmented_catenary_model} presents an augmented version of this model, designed to
-incorporate hydrodynamic forces that influence the cable when the robot undergoes certain types of
-motion.
+The chapter begins with \cref{cm_catenary_model}, where the classical catenary model is introduced.
+This model provides an analytical representation of a flexible cable under the influence of
+gravity. Although the catenary model is computationally efficient, it is limited to static
+conditions. To overcome this limitation, an augmented version of the model is introduced in
+\cref{cm_augmented_catenary_model}. This augmented model incorporates additional degrees of
+freedom, allowing it to account for the dynamic effects of hydrodynamic forces experienced during
+underwater motion.
 
 \section{Catenary model}
 \label{cm_catenary_model}
