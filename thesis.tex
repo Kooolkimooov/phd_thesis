@@ -9,145 +9,206 @@
 \section*{retours du lun. 12/05/2025 12:32}
 
 \review{
+
 	De manière générale, l'écriture ressemble pas mal à un style article (un max d'info en un minimum
 	de place). C'est un choix qui t'appartient.
+
 }{
+
 	OK
+
 }
 
 \review{
-	je suis surpris que tu appelles le chapitre "cable modelling" et que l'introduction en soit si générale.
-	Je veux dire par là que l'on pourrait s'attendre à une présentation exhaustive des différentes options de modélisation
-	(un état de l'art en somme) alors qu'il n'en est rien vu que l'état de l'art aura été fait ailleurs
-	(à moins que tu ne décide de tout mettre dans ce chapitre-ci, mais dans ce cas).
-	Le sujet étant la caténaire, je comprends mal le choix de ne pas focaliser le chapitre sur la caténaire.
+
+	je suis surpris que tu appelles le chapitre "cable modelling" et que l'introduction en soit si
+	générale. Je veux dire par là que l'on pourrait s'attendre à une présentation exhaustive des
+	différentes options de modélisation (un état de l'art en somme) alors qu'il n'en est rien vu que
+	l'état de l'art aura été fait ailleurs (à moins que tu ne décide de tout mettre dans ce
+	chapitre-ci, mais dans ce cas). Le sujet étant la caténaire, je comprends mal le choix de ne pas
+	focaliser le chapitre sur la caténaire.
+
 }{
+
 	\begin{itemize}
 		\item Titre du chapitre : "Cable Modelling" $\Rightarrow$ "Fast cable modelling for model-based control";
 		\item Réécriture de l'introduction afin d'être plus ciblé sur la chainette.
 	\end{itemize}
+
 }
 
 \review{
-	Quand ce n'est pas trop long, tu mettre un peu plus de maths dans le corps du texte, ce qui évite au lecteur de faire les aller-retours.
+
+	Quand ce n'est pas trop long, tu mettre un peu plus de maths dans le corps du texte, ce qui évite
+	au lecteur de faire les aller-retours.
+
 }{
+
 	OK
+
 }
 
 \subsection{p.2}
 
 \review{
+
 	"For the catenary model to remain [...] must be non-zero" -> l'idée est que si la résultante
 	poids-flottabilité est non-nulle alors on observe une caténaire "vers le haut ou vers le bas" ?
 	Comme dans la suite ta définition de la caténaire est l'équation (1.1) et que tu ne donnes
-	pas plus de précisions dans la phrase citée peut-être que ce que tu veux dire par là mériterait d'être un peu plus explicite.
+	pas plus de précisions dans la phrase citée peut-être que ce que tu veux dire par là mériterait
+	d'être un peu plus explicite.
+
 }{
+
 	Ajout d'une phrase pour préciser qu'on est dans le cas d'une chainette ou le poids est prédominant.
+
 }
 
 \review{
+
 	"with the $z_v$ axis aligned with the direction of gravitational forces in this frame" :
 	j'ai l'impression que ta définition devrait omettre la partie "in this frame" qui sous entend que la
 	direction de la gravité est donnée dans un repère qui est lui même défini par la gravité...
 	ça me paraît être une définition qui se mord la queue.
+
 }{
+
 	Corrigé
+
 }
 
 \subsection{p.3}
 
 \review{
+
 	je trouve que le tout début de la partie "Parameter Derivation" est expédiée un peu vite (façon
 	article, justement). Je parle là de tout ce qui est au dessus des équations (1.2) à (1.4). Je
 	trouve aussi que dans la seconde partie (qui commence par "in scenarios...") tu pourrais expliciter
 	un peu plus pas-à-pas comment une caténaire est tracée enter deux points de $R^3$ quelconques (à
 	partir du moment où leur distance Euclidienne est au plus la longueur de la caténaire).
+
 }{}
 
 \review{
+
 	is moved at sufficient speed : tu veux dire assez vite ou pas trop vite ?
+
 }{
+
 	Reformulé
+
 }
 
 \review{
+
 	"the drag force dampens the movement with an amplitude proportional to the square of the speed" :
 	c'est un fait connu, une de tes observations, basé sur une références ?
+
 }{
-	C'est effectivement la formulation classique de la force de traînée.
-	J'ai tout de même précisé qu'il y a une hypothèse sur le coefficient 
-	de traînée qui ne dépend pas de la vitesse non plus.
+
+	C'est effectivement la formulation classique de la force de traînée. J'ai tout de même précisé
+	qu'il y a une hypothèse sur le coefficient de traînée qui ne dépend pas de la vitesse non plus.
+
 }
 
 \review{
+
 	"in the steady-state case" : à quoi steady-state fait-il référence ?
+
 }{
+
 	"steady state case" $\Rightarrow$ "equilibrium"
+
 }
 
 \subsection{p.4}
 
 \review{
-	la catenary axis e n'est pas défini avant le moment où tu en parles (il est défini implicitement dans la phrase,
-	ce que l'on fait qqfois dans les articles quand on cherche à gagner de la place...)
+
+	la catenary axis e n'est pas défini avant le moment où tu en parles (il est défini implicitement
+	dans la phrase, ce que l'on fait qqfois dans les articles quand on cherche à gagner de la place...)
+
 }{
+
 	Je pense que je vais garder cette formulation
+
 }
 
 \review{
-	"directly in the rotated frame" (tu ne précises pas lequel, comme de plus la rotation $\gamma$ n'est présentée que plus tard,
-	ce n'est pas évident que c'est de cela dont tu parles)
+
+	"directly in the rotated frame" (tu ne précises pas lequel, comme de plus la rotation $\gamma$ n'est
+	présentée que plus tard, ce n'est pas évident que c'est de cela dont tu parles)
+
 }{
+
 	\begin{itemize}
 		\item Précision de la base dont je parle;
 		\item Ajout du nom de la base pour la suite de la phrase.
 	\end{itemize}
+
 }
 
 \subsection{p.6}
 
 \review{
-	"129 recording sequences of 8 cables" : je comprends qu'il s'agit de 129 séquences en tout et que les expériences qui ont menées
-	à ces mesures ont été faites sur 8 câbles. C'est bien ce que tu veux dire ?
+
+	"129 recording sequences of 8 cables" : je comprends qu'il s'agit de 129 séquences en tout et
+	que les expériences qui ont menées à ces mesures ont été faites sur 8 câbles. C'est bien ce que
+	tu veux dire ?
+
 }{}
 
 \review{
-	dans la partie "curvilinear discretization", tu balances l'équations (1.6) avec assez peu d'explications.
-	Tu indique que s est l'abscisse curviligne dont l'origine est prise au point le plus bas -- j'ai un peu de mal à comprendre
-	comment tu détermines à quelle longueur de câble se situe le point le plus bas (ton 0) et donc savoir pour quelles valeurs de s tu retrouves
-	les positions de points de mesure.
-	Cela mériterait peut-être quelque détails.
+
+	dans la partie "curvilinear discretization", tu balances l'équations (1.6) avec assez peu
+	d'explications. Tu indique que s est l'abscisse curviligne dont l'origine est prise au point le
+	plus bas -- j'ai un peu de mal à comprendre comment tu détermines à quelle longueur de câble se
+	situe le point le plus bas (ton 0) et donc savoir pour quelles valeurs de s tu retrouves les
+	positions de points de mesure. Cela mériterait peut-être quelque détails.
+
 }{}
 
 \review{
-	"potential" accuracy : possible accuracy ? (potential me fait penser à l'énergie potentielle ou à "un potentiel" au sens physique,
-	je trouve que l'expression "sonne bizarre", mais c'est peut-être moi).
+
+	"potential" accuracy : possible accuracy ? (potential me fait penser à l'énergie potentielle ou à
+	"un potentiel" au sens physique, je trouve que l'expression "sonne bizarre", mais c'est peut-être moi).
+
 }{}
 
 \subsection{p.7}
 
 \review{
-	dans les équations (1.9), (1.10) et (1.11) je pense que tu n'est pas obligé de redéfinir ces nouvelles métriques,
-	à mon avis elles sont données directement à partir de celle en (1.7). Par exemple : $E_{vertical} =  E_{\theta,\gamma} (0,0)$
+
+	dans les équations (1.9), (1.10) et (1.11) je pense que tu n'est pas obligé de redéfinir ces
+	nouvelles métriques, à mon avis elles sont données directement à partir de celle en (1.7). Par
+	exemple : $E_{vertical} = E_{\theta,\gamma} (0,0)$
+
 }{}
+
 \review{
-	ça vaudrait le coup de regarder si la description et l'analyse de tes boîtes à moustaches pourrait-être moins succincte.
+
+	ça vaudrait le coup de regarder si la description et l'analyse de tes boîtes à moustaches
+	pourrait-être moins succincte.
+
 }{}
 
 \subsection{p.8+}
 
 \review{
-	Toute la partie "perspectives sur la dynamique" me parais un peu rapide aussi.
-	En particulier le modèle physique que tu développes me paraît trop succinct (il
-	manque un schéma explicatif, peut-être quelques éléments de dérivation de
-	l'équation dynamique au lieu du résultat seul, une explication de comment
-	l'angle dont tu modélises la dynamique se rapporte à l'angle $\gamma$, etc.)
-	Il me semble que Claire et toi aviez mis en lumière une relation du type "en
-	première approximation $\gamma$ est proportionnel au carré de la vitesse fois un
-	signe", ce qui donne un modèle d'ordre 0 qui pourrais-être mentionné, non ?
+
+	Toute la partie "perspectives sur la dynamique" me parais un peu rapide aussi. En particulier le
+	modèle physique que tu développes me paraît trop succinct (il manque un schéma explicatif,
+	peut-être quelques éléments de dérivation de l'équation dynamique au lieu du résultat seul, une
+	explication de comment l'angle dont tu modélises la dynamique se rapporte à l'angle $\gamma$, etc.)
+	Il me semble que Claire et toi aviez mis en lumière une relation du type "en première approximation
+	$\gamma$ est proportionnel au carré de la vitesse fois un signe", ce qui donne un modèle d'ordre 0
+	qui pourrais-être mentionné, non ?
+
 }{}
 \review{
+
 	La partie "data based" d'Ether est courte, mais c'est ce que l'on avait dit.
+
 }{}
 
 \cleardoublepage{}
