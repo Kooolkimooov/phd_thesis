@@ -1,25 +1,29 @@
-\chapter{Cable modelling}
+\chapter{Fast cable modelling for model-based control}
 \label{cable_modelling}
 
 \minitoc{}
 
 \section{Introduction}
 
-This chapter addresses the modeling of underwater cables, with a particular focus on accurately
-capturing their shape under various dynamic conditions. With an accurate model, the cable may serve
-as a means of estimating the robots' positions and as a constraint element in control strategies.
+This chapter focuses on the development of fast and efficient cable models tailored for integration
+within model-based control frameworks of underwater robotic systems. Accurate cable modeling is
+essential for achieving precise control, as the cable's shape and tension directly influence the
+robot's dynamics and positioning. However, this accuracy must be balanced with computational
+efficiency to ensure real-time applicability.
 
-The primary objective of this chapter is to develop a cable model that balances computational
-efficiency with modeling accuracy. This balance is necessary because the model will be integrated
-into control frameworks. To achieve this, the model's parameterization is able to be derived solely
-from data acquired by onboard sensors, including inertial measurement units (IMUs), pressure
-sensors, and cameras.
+The primary objective of this chapter is to present a cable modeling approach that maintains
+relatively high while remaining computationally lightweight. This is achieved by parameterizing the
+model using data exclusively from onboard sensors, including inertial measurement units (IMUs),
+pressure sensors, and cameras. Such sensor-based parameterization enables real-time updates and
+adaptability to changing conditions.
 
-\Cref{cm_catenary_model} introduces the catenary model, a classical geometric formulation for
-representing the shape of a cable subjected to gravitational forces. Subsequently,
-\cref{cm_augmented_catenary_model} presents an augmented version of this model, designed to
-incorporate hydrodynamic forces that influence the cable when the robot undergoes certain types of
-motion.
+The chapter begins with \cref{cm_catenary_model}, where the classical catenary model is introduced.
+This model provides an analytical representation of a flexible cable under the influence of
+gravity. Although the catenary model is computationally efficient, it is limited to static
+conditions. To overcome this limitation, an augmented version of the model is introduced in
+\cref{cm_augmented_catenary_model}. This augmented model incorporates additional degrees of
+freedom, allowing it to account for the dynamic effects of hydrodynamic forces experienced during
+underwater motion.
 
 \section{Catenary model}
 \label{cm_catenary_model}
@@ -31,18 +35,19 @@ suspended between two fixed points under the influence of gravity. This shape, i
 \cref{cm_catenary_curve}, is defined when the cable has a fixed length \catL{} and is subject only
 to its own weight. In underwater environments, the cable also experiences a buoyant force acting in
 the opposite direction to weight. For the catenary model to remain valid in such conditions, the
-net vertical force --the sum of weight and buoyancy-- must be non-zero.
+net vertical force --the sum of weight and buoyancy-- must be non-zero. In the following we assume
+that the weight is predominant over the buoyancy.
 
 The resulting curve is confined to a vertical plane, denoted as \lplanefullxz{v}, and is defined
 within a Cartesian reference frame \lframefull{v}. The origin \ldpoint{O}{v} is positioned at the
 lowest point of the curve, with the \ldvect{z}{v} axis aligned with the direction of gravitational
-forces in this frame. The coordinates of any point along the curve are defined as $\fpoint{P}{v} =
+forces. The coordinates of any point along the curve are defined as $\fpoint{P}{v} =
 	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
-$\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
 $\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
 the standard catenary equation (see \cref{mb_catenary_model_derivation} for details):
 \begin{align}
-	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD+\catdD,~\catD\right]
+	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD-\catdD,~\catD\right]
 	\label{cm_catenary_equation}
 \end{align}
 
@@ -60,38 +65,57 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 	\label{cm_catenary_curve}
 \end{figure}
 
-\subsection{Parameter Derivation}
+\subsection{Parameter derivation}
 
-The catenary shape is governed by a combination of geometric parameters: the horizontal half
-distance \catD{}, the horizontal offset \catdD{}, the sag \catH{}, the elevation difference
-\catdH{}, and the cable length \catL{}. These are interrelated through the catenary parameter
-\catC{}, which controls the curvature of the cable:
+The catenary shape is governed by a set of geometric parameters that define its curvature and
+spatial configuration. These parameters include:
+\begin{itemize}
+	\item \catC: the catenary parameter, a critical value that characterizes the curvature of the cable and depends on the tension and weight distribution,
+	\item \catH: the sag, defined as the vertical distance between the lowest point of the cable and the highest endpoint,
+	\item \catdH: the elevation difference between the two endpoints, positive if \point{A} is higher than \point{B} and negative otherwise,
+	\item \catD: the horizontal half-distance, representing the horizontal separation between \point{B} and its projection onto the vertical axis,
+	\item \catdD: the horizontal offset, indicating any lateral asymmetry between the endpoints, positive if \point{A} is further from the origin than the symmetric projection of \point{B} with relation to $(\ldpoint{o}{v}, \ldvect{z}{v})$, negative otherwise,
+	\item \catl: the horizontal distance between the two endpoints, defined as $\catl = 2\catD+\catdD$,
+	\item \catL: the total length of the cable, which is always greater than or equal to the Euclidean distance between the endpoints.
+\end{itemize}
 
+These parameters are interrelated through the following mathematical expressions:
 \begin{align}
 	\catC          & = \frac{4\catH + 2\catdH + 4\catL \sqrt{\frac{\catH(\catH + \catdH)}{\catL^2 - \catdH^2}}}{\catL^2 - \left(2\catH + \catdH\right)^2} \\
 	\catH          & = \frac{\cosh(\catD\catC) - 1}{\catC}                                                                                                \\
 	\catH + \catdH & = \frac{\cosh\left((\catD + \catdD)\catC\right) - 1}{\catC}
 \end{align}
 
-In scenarios where the coordinates of the endpoints \fpoint{A}{v} and \fpoint{B}{v} are known, the
-values of \catdH{} and the horizontal span \catl{} can be determined geometrically, as shown in
-\cref{cm_catenary_curve}. Given an additional measurement of the cable length \catL{}, the catenary
-parameter \catC{} can be determined by solving the following nonlinear equation:
+In practical applications, the shape of a catenary must often be determined between two endpoints
+defined in an arbitrary frame \lframe{f}, where \ldvect{z}{f} is colinear to \ldvect{z}{v}. These
+endpoints, \fpoint{A}{f} and \fpoint{B}{f}, are used to calculate the horizontal distance \catl{}
+and the elevation difference \catdH{}:
 
+\begin{align}
+	\catl  & = \sqrt{(\ldcoord{b}{f}{x} - \ldcoord{a}{f}{x})^2 + (\ldcoord{b}{f}{y} - \ldcoord{a}{f}{y})^2} \\
+	\catdH & = \ldcoord{b}{f}{z} - \ldcoord{a}{f}{z}
+\end{align}
+
+Given these values and the known cable length \catL{}, the catenary parameter is determined by
+solving the following nonlinear equation:
 \begin{align}
 	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
 \end{align}
 
+This equation is solved numerically due to its transcendental nature. Once \catC{} is determined,
+the catenary equation (\cref{cm_catenary_equation}) is used to construct the \catenarymodel{}.
+
 \section{Augmented catenary model}
 \label{cm_augmented_catenary_model}
 
-When the underwater cable is moved at sufficient speed, hydrodynamic forces become non-negligible.
-The drag force dampens the movement with an amplitude proportional to the square of the speed. This
-effect is amplified by the added mass when significant accelerations are present. In the
-steady-state case, where all points on the cable move at the same velocity, they are subjected to
-identical drag forces. Consequently, the total uniform acceleration of the cable is tilted, and its
-intensity increased depending on the velocity. To account for this effect, two degrees of freedom
-were proposed to the cable shape model, extending the \verticalmodel{}.
+When the underwater cable is moved at sufficiently high speed, hydrodynamic forces become
+non-negligible.Indeed, considering a constant drag coefficient, the standard drag force formulation
+dampens the movement with an amplitude proportional to the square of the speed. This effect is
+amplified by the added mass when significant accelerations are present. At equilibrium, where all
+points on the cable move at the same velocity, they are subjected to identical drag forces.
+Consequently, the total uniform acceleration of the cable is tilted, and its intensity increased
+depending on the velocity. To account for this effect, two degrees of freedom were proposed to the
+cable shape model, extending the \verticalmodel{}.
 
 \subsection{Definition}
 
@@ -116,9 +140,9 @@ the cable deviate laterally, i.e., in the direction normal to the original verti
 \lplane{v}, resulting in the rotated frame \lframefull{\gamma} and the plane \lplanefullxz{\gamma},
 respectively.
 
-The catenary curve can be computed either directly within this rotated frame or, equivalently, by
-applying the same rotation to the curve initially defined in \lframe{v}, since the parameters of
-the curve remain unchanged under this transformation.
+The catenary curve can be computed either directly within this rotated frame \lframe{\gamma} or,
+equivalently, by applying the same rotation to the curve initially defined in the vertical frame
+\lframe{v}, since the parameters of the curve remain unchanged under this transformation.
 
 \subsubsection{$\theta$ degree of freedom}
 
@@ -171,9 +195,9 @@ will be referred to as \lupoint{p}{\theta\gamma}.
 \label{cm_experimental_validation}
 
 The experimental validation was conducted on a dataset whose acquisition is detailed in
-\cref{ex_catenary}. The dataset contains \num{129} recording sequences of \num{8} cables being
-moved underwater by a robot. More precisely, the data includes the shape of the cable with \scal{n}
-regularly spaced points along its length from end to end. These points are referred to as
+\cref{ex_catenary}. The dataset contains \num{129} recording sequences spanning \num{8} cables
+being moved underwater by a robot. More precisely, the data includes the shape of the cable with
+\scal{n} regularly spaced points along its length from end to end. These points are referred to as
 \llpoint{p}{m}{k} in the following, where \scal{k}~\inzeroton{} is the index of the point.
 
 For each cable, the dataset includes sequences with varying experimental parameters:
@@ -184,7 +208,7 @@ For each cable, the dataset includes sequences with varying experimental paramet
 	      \qty{2.0}{\meter}.
 \end{itemize}
 
-\subsubsection{Curvilinear discretization of the \thetagammamodel{}}
+\subsubsection{Curvilinear discretization of the \catenarymodel{}}
 
 The catenary equation \cref{cm_catenary_equation} is written as a function of \coord{x}{v}, which,
 when it is regularly discretized and the corresponding \coord{z}{v} is computed, does not yield
@@ -194,15 +218,25 @@ address this issue, the \thetagammamodel{} was discretized by computing varying 
 \coord{x}{v} beforehand (see \cref{mb_curvilinear_discretization} for details):
 \begin{align}
 	\coord{x}{v} = \frac{\sinh^{-1}\left( \scal{s} \catC\right)}{\catC}
+	\label{cm_ev_curvilinear_equation}
 \end{align}
 
 where \scal{s} is the signed length of the cable between the lowest point and the point of
 interest. The discretized points of the model are referred to as \llpoint{p}{\theta\gamma}{k} in
 the following, where \scal{k}~\inzeroton{} is the index of the point.
 
+The length of cable from the curvilinear origin to \llpoint{p}{\theta\gamma}{0} and
+\llpoint{p}{\theta\gamma}{n} are
+\begin{align}
+	\ldscal{s}{0} = -\frac{\sinh{\left(\left(\catD{} + \catdD\right)\catC{}\right)}}{\catC{}} \text{ and } \ldscal{s}{n} = \frac{\sinh{\left(\catD{}\catC{}\right)}}{\catC{}}
+\end{align}
+
+Then the steps of \coord{x}{v} are computed from \ldscal{s}{0} or \ldscal{s}{n} by adding --or
+subtracting-- fractions of \catL{} and using \cref{cm_ev_curvilinear_equation}.
+
 \subsubsection{Accuracy metric}
 
-To quantify the potential accuracy improvement provided by the \thetagammamodel{}, a minimization
+To quantify the achievable accuracy improvement provided by the \thetagammamodel{}, a minimization
 procedure was employed to estimate the values of the augmentation parameters $\theta$ and $\gamma$.
 
 The model accuracy is defined by the residual function:
