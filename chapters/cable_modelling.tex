@@ -269,51 +269,109 @@ where \fllpoint{p}{w}{v}{k}, \fllpoint{p}{w}{\gamma}{k}, and \fllpoint{p}{w}{\th
 points corresponding to \fllpoint{p}{w}{m}{k} predicted by the \verticalmodel{}, \gammamodel{}, and
 \thetamodel{} based on the attachment points \fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n}.
 
-The residuals for the three model variants are shown in \cref{cm_cables_boxplot}. A general trend
-indicates that the \thetagammamodel{} has lower residuals than the \verticalmodel{}, as well as the
-\gammamodel{} and \thetamodel{}. Over all sequences, cables \subref{ex_catenary_weighted} and
-\subref{ex_catenary_chain} exhibit lower residuals for all three models, consistent with their
-physical properties (\cref{ex_catenary_cables_characteristics}). These cables closely align with
-the hypotheses of the catenary model due to their flexibility and negative buoyancy. Cables
-\subref{ex_catenary_rope} and \subref{ex_catenary_elastic} are also negatively buoyant but to a
-lesser extent. The floating cable \subref{ex_catenary_floating} is positively buoyant and shows
-notable improvements with the \thetagammamodel{}. For the stiffer cables
-\subref{ex_catenary_coaxial}, \subref{ex_catenary_four_pairs}, and \subref{ex_catenary_two_pairs},
-the improvement in accuracy for the \thetagammamodel{} is present but less pronounced. This is
-primarily due to permanent deformations resulting from coiling and their light or neutral buoyancy.
-Consequently, the weight is insufficient to generate the catenary shape.
+The residuals for the four model variants are presented in \cref{cm_cables_boxplot}, where each
+boxplot visually represents the distribution of errors across all experimental trials. The median
+values, indicated by the central line in each box, reveal that the \thetagammamodel{} consistently
+achieved lower residuals across all cable types, with median improvements ranging from
+\qtyrange{10}{75}{\percent} compared to the \verticalmodel{}. The interquartile ranges (IQR) which
+ranges from the first to the third quartile, represented by the width of each box, further
+demonstrate that the \thetagammamodel{} not only reduced median error but also exhibited more
+consistent performance with less variability in most cases.
+
+A detailed examination of the residual distributions reveals several noteworthy patterns. Cables
+\subref{ex_catenary_weighted} and \subref{ex_catenary_chain} exhibited the lowest overall residuals
+for all models, with the \thetagammamodel{} achieving median errors below \qty{10}{\milli\meter}
+for cable \subref{ex_catenary_weighted} and approximately \qty{13}{\milli\meter} for cable
+\subref{ex_catenary_chain}. This superior performance is attributable to their physical
+characteristics (\cref{ex_catenary_cables_characteristics}), particularly their high flexibility
+and significant negative buoyancy, which closely align with the fundamental assumptions of the
+catenary model. In these cases, the gravitational forces dominate the cable's behavior, allowing
+the theoretical shape to closely match the observed configuration.
+
+Cables \subref{ex_catenary_rope} and \subref{ex_catenary_elastic}, which are also negatively
+buoyant but to a lesser degree, demonstrated moderate residuals with the \thetagammamodel{}
+achieving \qtyrange{30}{40}{\percent} improvement over the \verticalmodel{}. The floating cable
+\subref{ex_catenary_floating}, which exhibits positive buoyancy, presented a more challenging
+modeling scenario, yet showed the most dramatic relative improvement when the \thetagammamodel{}
+was applied. In this case, the median residual decreased from approximately \qty{80}{\milli\meter}
+with the \verticalmodel{} to around \qty{45}{\milli\meter} with the \thetagammamodel{},
+representing a \qty{44}{\percent} reduction in error. This substantial improvement can be
+attributed to the additional degrees of freedom compensating for the upward buoyant forces that
+significantly alter the cable's configuration from the traditional catenary shape.
+
+For the stiffer cables \subref{ex_catenary_coaxial}, \subref{ex_catenary_four_pairs}, and
+\subref{ex_catenary_two_pairs}, the improvement in accuracy for the \thetagammamodel{} was present
+but less pronounced, with error reductions ranging from \qtyrange{15}{25}{\percent} compared to the
+\verticalmodel{}. This more modest enhancement is primarily due to the permanent deformations
+resulting from coiling and their light or neutral buoyancy characteristics. The residual
+distributions for these cables exhibit wider interquartile ranges, indicating greater variability
+in model performance across different experimental conditions. In these cases, the weight is
+insufficient to generate the ideal catenary shape, and the inherent stiffness creates resistive
+forces that oppose the formation of a smooth curve.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_cables_boxplot}
 	\caption{
-		Box plots of the residual when compared to the measured data for each cable. \verticalmodel{} in
-		blue, \gammamodel{} in red, \thetamodel{} in green, and \thetagammamodel{} in gray.
+		Box plots of the residual when compared to the measured data for each cable. Each box represents
+		the IQR of residuals, with the vertical line indicating the median. Whiskers extend to the first
+		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
+		\thetamodel{} in green, and \thetagammamodel{} in gray.
 	}
 	\label{cm_cables_boxplot}
 \end{figure}
 
-The three models are now examined in greater detail, distinguishing between experiments involving
-surge and sway motion. Cable \subref{ex_catenary_weighted} is focused on due to its lowest
-residuals, and cable \subref{ex_catenary_two_pairs} is analyzed for its lowest residual among
-cables exhibiting plastic deformations. Figures for all other cables are provided in
-\cref{af_cable_modelling}.
+The four models were further examined in greater detail, distinguishing between experiments
+involving surge and sway motion. Cable \subref{ex_catenary_weighted} was selected for detailed
+analysis due to its lowest residuals across all models, and cable \subref{ex_catenary_two_pairs}
+was analyzed because it exhibited the lowest residual among cables with significant plastic
+deformations. Detailed results for all other cables are provided in \cref{af_cable_modelling} for
+completeness.
 
-In \cref{cm_cable_3_boxplot,cm_cable_6_boxplot}, the box plots of the model residuals for cables
-\subref{ex_catenary_two_pairs} and \subref{ex_catenary_weighted} according to experimental
-parameters are shown. For both cables, the residuals of the models are smaller for slower motion
-and greater distance from the attachment point (i.e., more tension in the cable). The \gammamodel{}
-displays higher accuracy for lateral sway motion compared to forward surge motion. Conversely, the
-\thetamodel{} is significantly better for surge motion compared to the \gammamodel{}. In all cases,
-the \thetagammamodel{} achieves the highest accuracy. The gain in accuracy is greater for cable
-\subref{ex_catenary_weighted}.
+In \cref{cm_cable_3_boxplot,cm_cable_6_boxplot}, the distribution of model residuals for cables
+\subref{ex_catenary_two_pairs} and \subref{ex_catenary_weighted} are presented according to various
+experimental parameters. For both cables, the residuals demonstrate a clear correlation with motion
+characteristics and cable tension. Specifically, slower motion consistently produced smaller
+residuals across all models, with differences of \qtyrange{30}{50}{\percent} between the
+\qty{0.3}{\meter\per\second} and \qty{0.6}{\meter\per\second} trials. This observation aligns with
+hydrodynamic principles, as higher velocities generate greater drag forces that distort the cable
+shape more significantly from the theoretical catenary form.
+
+Additionally, experimental configurations with greater distance between attachment points (i.e.,
+\qty{2.0}{\meter} versus \qty{1.5}{\meter}) yielded lower residuals for all models. This
+improvement is attributed to the increased tension in the cable, which diminishes the influence of
+localized stiffness and helps overcome internal resistive forces, allowing the cable to more
+closely approximate the ideal catenary shape. The reduction in residuals with increased tension was
+particularly pronounced for the stiffer cable \subref{ex_catenary_two_pairs}, where the median
+error decreased by approximately \qty{40}{\percent} when comparing the \qty{1.5}{\meter} and
+\qty{2.0}{\meter} configurations.
+
+A comparative analysis of model performance revealed distinctive patterns based on motion
+direction. The \gammamodel{} displayed significantly higher accuracy for lateral sway motion
+compared to forward surge motion, with improvements of \qtyrange{35}{65}{\percent} depending on the
+cable type. This differential performance reflects the \gammamodel{}'s specific design to address
+lateral deformations through rotation around the catenary axis. Conversely, the \thetamodel{}
+demonstrated markedly better performance for surge motion compared to the \gammamodel{}, with
+residuals reduced by \qtyrange{40}{70}{\percent} in surge trials, highlighting its effectiveness in
+accounting for inclination effects induced by forward motion.
+
+In all experimental configurations, the \thetagammamodel{} achieved the highest accuracy by
+effectively combining the complementary strengths of both individual augmentations. The relative
+improvement in accuracy was substantially greater for cable \subref{ex_catenary_weighted}, where
+the \thetagammamodel{} reduced residuals by up to \qty{85}{\percent} compared to the
+\verticalmodel{} in certain configurations. This exceptional improvement for cable
+\subref{ex_catenary_weighted} can be attributed to its physical properties being most closely
+aligned with the assumptions of the augmented catenary model, allowing the additional degrees of
+freedom to effectively capture the deformations induced by hydrodynamic effects.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
 	\caption{
 		Box plots of the residual for cable \subref{ex_catenary_two_pairs} when compared to the measured
-		data for all parameters. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green, and
+		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
 		\thetagammamodel{} in gray.
 	}
 	\label{cm_cable_3_boxplot}
@@ -323,7 +381,9 @@ the \thetagammamodel{} achieves the highest accuracy. The gain in accuracy is gr
 	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
 	\caption{
 		Box plots of the residual for cable \subref{ex_catenary_weighted} when compared to the measured
-		data for all parameters. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green, and
+		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
 		\thetagammamodel{} in gray.
 	}
 	\label{cm_cable_6_boxplot}
