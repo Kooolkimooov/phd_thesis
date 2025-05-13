@@ -43,11 +43,11 @@ within a Cartesian reference frame \lframefull{v}. The origin \ldpoint{O}{v} is 
 lowest point of the curve, with the \ldvect{z}{v} axis aligned with the direction of gravitational
 forces. The coordinates of any point along the curve are defined as $\fpoint{P}{v} =
 	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
-$\fpoint{A}{v}=\left(-\catD+\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
 $\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
 the standard catenary equation (see \cref{mb_catenary_model_derivation} for details):
 \begin{align}
-	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD+\catdD,~\catD\right]
+	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD-\catdD,~\catD\right]
 	\label{cm_catenary_equation}
 \end{align}
 
@@ -190,7 +190,7 @@ For each cable, the dataset includes sequences with varying experimental paramet
 	      \qty{2.0}{\meter}.
 \end{itemize}
 
-\subsubsection{Curvilinear discretization of the \thetagammamodel{}}
+\subsubsection{Curvilinear discretization of the \catenarymodel{}}
 
 The catenary equation \cref{cm_catenary_equation} is written as a function of \coord{x}{v}, which,
 when it is regularly discretized and the corresponding \coord{z}{v} is computed, does not yield
@@ -200,11 +200,21 @@ address this issue, the \thetagammamodel{} was discretized by computing varying 
 \coord{x}{v} beforehand (see \cref{mb_curvilinear_discretization} for details):
 \begin{align}
 	\coord{x}{v} = \frac{\sinh^{-1}\left( \scal{s} \catC\right)}{\catC}
+	\label{cm_ev_curvilinear_equation}
 \end{align}
 
 where \scal{s} is the signed length of the cable between the lowest point and the point of
 interest. The discretized points of the model are referred to as \llpoint{p}{\theta\gamma}{k} in
 the following, where \scal{k}~\inzeroton{} is the index of the point.
+
+The length of cable from the curvilinear origin to \llpoint{p}{\theta\gamma}{0} and
+\llpoint{p}{\theta\gamma}{n} are
+\begin{align}
+	\ldscal{s}{0} = -\frac{\sinh{\left(\left(\catD{} + \catdD\right)\catC{}\right)}}{\catC{}} \text{ and } \ldscal{s}{n} = \frac{\sinh{\left(\catD{}\catC{}\right)}}{\catC{}}
+\end{align}
+
+Then the steps of \coord{x}{v} are computed from \ldscal{s}{0} or \ldscal{s}{n} by adding --or
+substracting-- fractions of \catL{} and using \cref{cm_ev_curvilinear_equation}.
 
 \subsubsection{Accuracy metric}
 
