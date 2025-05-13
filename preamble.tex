@@ -8,7 +8,7 @@
 \usepackage{amssymb}
 \usepackage{bbm}
 \usepackage{datetime}
-\usepackage{color}
+\usepackage[table]{xcolor}
 \usepackage{physics}
 \usepackage{siunitx}
 \usepackage{booktabs}
@@ -35,11 +35,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\review}[2]{
-	\begin{xltabular}{\linewidth}{X|X}
+	\begin{tabularx}{\linewidth}{X|X}
 		\toprule
-		\textbf{Retour} & \textbf{Action} \\ \midrule
-		#1              & #2              \\ \bottomrule
-	\end{xltabular}
+		\textbf{Retour} & \textbf{Action}                \\ \midrule
+		#1              & \if\relax\detokenize{#2}\relax
+			\cellcolor{red!20} #2
+		\else
+			\cellcolor{green!20} #2
+		\fi                                              \\ \bottomrule
+	\end{tabularx}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
