@@ -8,7 +8,7 @@
 \usepackage{amssymb}
 \usepackage{bbm}
 \usepackage{datetime}
-\usepackage{color}
+\usepackage[table]{xcolor}
 \usepackage{physics}
 \usepackage{siunitx}
 \usepackage{booktabs}
@@ -31,6 +31,20 @@
 \usepackage{xltabular}
 \usepackage{multicol}
 \usepackage{float}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\review}[2]{
+	\begin{tabularx}{\linewidth}{X|X}
+		\toprule
+		\textbf{Retour} & \textbf{Action}                \\ \midrule
+		#1              & \if\relax\detokenize{#2}\relax
+			\cellcolor{red!20} #2
+		\else
+			\cellcolor{green!20} #2
+		\fi                                              \\ \bottomrule
+	\end{tabularx}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -135,11 +149,11 @@
 \newcommand\trigsh{
 	\RenewCommandCopy{\cos}{\newcos}
 	\RenewCommandCopy{\sin}{\newsin}
-	}
+}
 \newcommand\trigft{
 	\RenewCommandCopy{\cos}{\oldcos}
 	\RenewCommandCopy{\sin}{\oldsin}
-	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
