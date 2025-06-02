@@ -79,9 +79,13 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\renewcommand\thechapter{\Roman{chapter}}
+
 \dominitoc{}
 \tightmtctrue{}
 \setcounter{minitocdepth}{1}
+
+\setsecnumdepth{subsection}
 
 \titleformat{\chapter}[display]
 {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge\hyperlink{table_of_contents}}
