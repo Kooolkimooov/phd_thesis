@@ -1,0 +1,44 @@
+\begin{tikzpicture}
+	\begin{axis}[
+			xmin=100,
+			xmax=1e8,
+			ymin=1e-12,
+			ymax=1e6,
+			xmode=log,
+			ymode=log,
+			ytick pos=left,
+			xtick pos=bottom,
+			grid,
+			xminorgrids=true,
+			yminorgrids=true,
+			width=\figurewidth,
+			xlabel=Wavelength / \unit{\nano\meter},
+			ylabel=Absorption coefficient / \unit{\per\centi\meter},
+			legend style = {fill opacity=.75, text opacity=1, draw=none},
+			legend cell align={left},
+			legend pos=south east,
+		]
+
+		\pgfdeclarehorizontalshading{visiblespectrum}{1cm}{
+			color(0cm)=(violet);
+			color(0.16cm)=(blue);
+			color(0.33cm)=(cyan);
+			color(0.5cm)=(green);
+			color(0.66cm)=(yellow);
+			color(0.83cm)=(orange);
+			color(1cm)=(red)
+		}
+		\shade[shading=visiblespectrum, opacity=0.5] (axis cs:380,1e-24) rectangle (axis cs:750,1e24);
+		\node at (axis cs:500,1e2) [rotate=90, anchor=south, text=black] {Visible spectrum};
+
+		\addplot [opacity=0.5, fill=black!50, draw=none] coordinates {(1e6,1e-12) (1e8,1e-12) (1e8,1e6) (1e6,1e6)} -- cycle;
+		\node at (axis cs:3e6,1e2) [rotate=90, anchor=south] {Radio spectrum};
+
+		\addplot [red, thick, nomark] table[x=x, y=y] {figures/data/water_absorption_spectrum.txt};
+		\addlegendentry{Liquid water}
+
+		\addplot [blue, thick, nomark] table[x=x, y=y] {figures/data/water_vapor_absorption_spectrum.txt};
+		\addlegendentry{Water vapor}
+
+	\end{axis}
+\end{tikzpicture}
