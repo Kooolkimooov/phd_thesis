@@ -1,40 +1,117 @@
 \chapter{State of the art}
+\label{state_of_the_art}
 
 \minitoc{}
 
 \section{Introduction}
 
-\lipsum[1]
+The study matter of this thesis is the control of a chain of underwater robots connected tethers in
+a known but constraining environment. Two scientific research topics arise form this thesis:
+\begin{itemize}
+	\item The safe control of the underwater robots in the environment,
+	\item The inclusion of the tethers --shape and forces-- in the control of the robots.
+\end{itemize}
+
+Therefore, this chapter first lays out the state of the art in underwater robotics in
+\cref{sota_unmanned_underwater_robots}, focusing on the different type of unmanned underwater
+robots. Then, it discusses the literature on cables in underwater robotics
+(\cref{sota_cables_in_underwater_robotics}) focusing on the cable shape and management strategies.
+Finally, it reviews the state of the art in underwater robot control (\cref{sota_robot_control}),
+focusing on tethered robots and their control strategies.
 
 \section{Unmanned underwater robots}
+\label{sota_unmanned_underwater_robots}
 
 This section provides an overview of unmanned underwater robots, which are essential for various
 applications such as marine research, environmental monitoring, and underwater exploration. These
 robots can generally be classified into two main categories based on their operational modes:
-
 \begin{itemize}
-	\item Remotely operated vehicles use a tether to connect to a surface vessel, allowing for real-time
-	      feedback, control, teleoperation, and power supply.
+	\item Remotely operated vehicles use a tether to connect to a surface vessel, allowing for high
+	      bandwidth, real-time feedback, control, teleoperation, and power supply,
 	\item Autonomous underwater vehicles referred to as ``AUVs'' operate independently, relying on
-	      pre-programmed missions and onboard sensors for navigation and data collection.
+	      pre-programmed missions, sparse communications and onboard sensors for navigation and data
+	      collection.
 \end{itemize}
 
 \subsection{Remotely operated vehicles}
+\label{sota_uuv_remotely_operated_vehicles}
 
-Remotely operated vehicles referred to as ``ROVs'' use a tether to connect to a surface vessel and
-are typically equipped with cameras, sensors, and manipulators for various underwater tasks. The
-use of tethers is necessitated by the absorption of electromagnetic waves in water which prevents
-wireless communications at a range greater than a few meters.
+Remotely operated vehicles also referred to as ``ROVs'' are commonly used in marine research and
+are typically equipped with cameras, sensors, and manipulators for various underwater tasks,
+underwater inspections, and exploration of deep-sea environments. They are usually highly
+maneuverable (honolomous) and can operate at significant depths, making them suitable for tasks
+that are too dangerous or impractical for human divers. ROVs are continuously monitored and given
+instructions by an operator and operate in a limited range.
 
+In order to provide high bandwidth communication, ROVs use a tether to connect to a surface vessel.
+The use of tethers is necessitated by the absorption of electromagnetic waves in water which
+prevents common wireless communications at a range greater than a few meters.
 \begin{figure}
 	\centering
 	\inputtikz{figures/water_absorption_spectrum}
 	\caption{Absorption of electromagnetic waves by water (\cite{downingOpticalConstantsWater1975}) and water vapor (\cite{rothmanHITRAN2004Molecular2005}), the biggest contributor of absorption in the atmosphere.}
-	\label{}
+	\label{sota_uuv_rov_absorption_spectrum}
 \end{figure}
 
-ROVs are commonly used in marine research, underwater inspections, and exploration of deep-sea
-environments. They provide real-time feedback and control, allowing operators to perform tasks
+As \cref{sota_uuv_rov_absorption_spectrum} suggests, the absorption coefficient of water lowers
+with increasing wavelength, which means that lower electromagnetic frequencies (for example, the
+extremely low frequency range: \qtyrange{3}{300}{\hertz}) can travel further in water. However,
+as~\cite{altgeltWorldsLargestRadiostation2005} discusses, such communications would require
+excessively large antennas (on the order of kilometers) and a ludicrous amount of power therefore
+making them impractical for underwater robots.
+
+According to \cite{christROVManualUser2013}, ROVs are typically classified into three categories
+based on their size and capabilities: ``Work class ROVs'' (\cref{sota_uuv_rov_victor_6000}) are
+heavy-duty (more than \qty{1000}{\kilo\gram}) vehicles designed for complex tasks such as
+underwater construction, maintenance, and repair. They are equipped with powerful thrusters and
+manipulators usually powered by hydraulic systems as well as a variety of sensors already
+discussed. These ROVs are capable of operating at significant depths (more than
+\qty{3000}{\meter}). Work class ROVs are deployed from dedicated surface vessels
+(\cref{sota_uuv_rov_atlante_and_victor_6000}). The sheer length of the tether necessitated by this
+class of ROVs requires a correspondingly heavy-duty cable management system that takes up a
+significant amount of space on the surface vessel.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth, trim=350 0 250 0, clip]{victor_6000.png}
+	\caption{
+		A work class ROV: the Victor 6000, used by IFREMER for deep-sea exploration
+		(\cite{FlotteOceanographiqueFrancaise}).
+	}
+	\label{sota_uuv_rov_victor_6000}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth]{atlante_and_victor_6000.png}
+	\caption{
+		The Victor 6000 ROV deployed from IFREMER's research vessel Atlante
+		(\cite{FlotteOceanographiqueFrancaise}).
+	}
+	\label{sota_uuv_rov_atlante_and_victor_6000}
+\end{figure}
+
+``Mid-sized class ROVs'' are similar to work
+class ROVs in a lot of ways, but are smaller and lighter (between
+\qtyrange{100}{1000}{\kilo\gram}), are designed for medium depths operations (between
+\qtyrange{300}{3000}{\meter}) and can be operated by a lesser crew from a smaller vessel. Their
+systems are generally electrically powered.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth, trim=350 200 350 200, clip]{ocean_one_k.png}
+	\caption{
+		A mid-sized class, humanoid, ROV: the Ocean One K, used by the Stanford University for underwater
+		exploration (\cite{StanfordRoboticsLab,khatibOceanOneRobotic2016}).
+	}
+	\label{sota_uuv_rov_ocean_one_k}
+\end{figure}
+
+``Observation class ROVs'' are smaller and lighter
+(less than \qty{100}{\kilo\gram}) vehicles designed for observation and inspection tasks. They are
+typically equipped with cameras and basic sensors, but lack manipulators or other complex systems.
+Observation class ROVs are often used in shallow waters (less than \qty{300}{\meter}) and can be
+operated from small boats or even by divers.
 
 \subsection{Autonomous underwater vehicles}
 
@@ -45,6 +122,7 @@ environments. They provide real-time feedback and control, allowing operators to
 \lipsum[1]
 
 \section{Cables in underwater robotics}
+\label{sota_cables_in_underwater_robotics}
 
 \subsection{Cable shape estimation}
 
@@ -59,6 +137,7 @@ environments. They provide real-time feedback and control, allowing operators to
 \lipsum[1]
 
 \section{Robot control}
+\label{sota_robot_control}
 
 \subsection{Tethered robots}
 
