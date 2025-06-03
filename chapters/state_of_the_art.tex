@@ -24,106 +24,100 @@ techniques. Lastly, the chapter will assess control strategies for underwater ro
 \cref{sota_robot_control}, with particular attention given to tethered configurations and their
 specific control challenges.
 
-\section{Unmanned underwater robots}
+\section{Unmanned Underwater Robots}
 \label{sota_unmanned_underwater_robots}
 
-This section provides an overview of unmanned underwater robots, which are essential for various
-applications such as marine research, environmental monitoring, and underwater exploration. These
-robots can generally be classified into two main categories based on their operational modes:
+Unmanned underwater robots are essential for a broad range of applications, including marine
+research, environmental monitoring, and underwater exploration. These robotic platforms are
+generally categorized into two primary classes according to their operational modes:
+
 \begin{itemize}
-	\item Remotely operated vehicles use a tether to connect to a surface vessel, allowing for high
-	      bandwidth, real-time feedback, control, teleoperation, and power supply,
-	\item Autonomous underwater vehicles referred to as ``AUVs'' operate independently, relying on
-	      pre-programmed missions, sparse communications and onboard sensors for navigation and data
-	      collection.
+	\item \textbf{Remotely operated vehicles (ROVs)} utilize tethers to maintain a physical link with a surface vessel, thereby enabling high-bandwidth, real-time communication and control, teleoperation, and continuous power supply;
+	\item \textbf{Autonomous underwater vehicles (AUVs)} operate independently, relying on pre-programmed missions, limited communications, and onboard sensors for navigation and data acquisition.
 \end{itemize}
 
-\subsection{Remotely operated vehicles}
+\subsection{Remotely Operated Vehicles}
 \label{sota_uuv_remotely_operated_vehicles}
 
-Remotely operated vehicles also referred to as ``ROVs'' are commonly used in marine research and
-are typically equipped with cameras, sensors, and manipulators for various underwater tasks,
-underwater inspections, and exploration of deep-sea environments. They are usually highly
-maneuverable (honolomous) and can operate at significant depths, making them suitable for tasks
-that are too dangerous or impractical for human divers. ROVs are continuously monitored and given
-instructions by an operator and operate in a limited range.
+Remotely operated vehicles (ROVs) are widely deployed in marine science and industrial operations.
+These systems are typically equipped with cameras, environmental sensors, and robotic manipulators,
+facilitating tasks such as underwater inspection, maintenance, and deep-sea exploration. ROVs are
+highly maneuverable and are capable of operating at substantial depths, thus allowing them to
+perform missions deemed hazardous or impractical for human divers. Their operations are
+continuously supervised and controlled by human operators from the surface, which limits their
+range to the tether length.
 
-In order to provide high bandwidth communication, ROVs use a tether to connect to a surface vessel.
-The use of tethers is necessitated by the absorption of electromagnetic waves in water which
-prevents common wireless communications at a range greater than a few meters.
+To ensure reliable high-bandwidth communication, ROVs are connected to surface vessels via tethers.
+This configuration is necessitated by the high absorption of electromagnetic waves in water, which
+precludes conventional wireless communication over distances exceeding a few meters.
+
 \begin{figure}
 	\centering
 	\inputtikz{figures/water_absorption_spectrum}
-	\caption{Absorption of electromagnetic waves by water (\cite{downingOpticalConstantsWater1975}) and water vapor (\cite{rothmanHITRAN2004Molecular2005}), the biggest contributor of absorption in the atmosphere.}
+	\caption{Absorption of electromagnetic waves by water~\cite{downingOpticalConstantsWater1975} and water vapor~\cite{rothmanHITRAN2004Molecular2005}, the dominant contributor to atmospheric absorption.}
 	\label{sota_uuv_rov_absorption_spectrum}
 \end{figure}
 
-As \cref{sota_uuv_rov_absorption_spectrum} suggests, the absorption coefficient of water lowers
-with increasing wavelength, which means that lower electromagnetic frequencies (for example, the
-extremely low frequency range: \qtyrange{3}{300}{\hertz}) can travel further in water. However,
-as~\cite{altgeltWorldsLargestRadiostation2005} discusses, such communications would require
-excessively large antennas (on the order of kilometers) and a ludicrous amount of power therefore
-making them impractical for underwater robots.
+As illustrated in \cref{sota_uuv_rov_absorption_spectrum}, the absorption coefficient of water
+decreases with increasing wavelength. Thus, extremely low-frequency (ELF) electromagnetic waves (in
+the \qtyrange{3}{300}{\hertz} range) can propagate farther underwater. However, as discussed
+in~\cite{altgeltWorldsLargestRadiostation2005}, such frequencies would require impractically large
+antennas --on the order of kilometers-- and high transmission power, rendering them unsuitable for
+use in mobile underwater platforms.
 
-According to \cite{christROVManualUser2013}, ROVs are typically classified into three categories
-based on their size and capabilities: ``Work class ROVs'' (\cref{sota_uuv_rov_victor_6000}) are
-heavy-duty (more than \qty{1000}{\kilo\gram}) vehicles designed for complex tasks such as
-underwater construction, maintenance, and repair. They are equipped with powerful thrusters and
-manipulators usually powered by hydraulic systems as well as a variety of sensors already
-discussed. These ROVs are capable of operating at significant depths (more than
-\qty{3000}{\meter}). Work class ROVs are deployed from dedicated surface vessels
-(\cref{sota_uuv_rov_atlante_and_victor_6000}). The sheer length of the tether necessitated by this
-class of ROVs requires a correspondingly heavy-duty cable management system that takes up a
-significant amount of space on the surface vessel.
+According to~\cite{christROVManualUser2013}, ROVs are classified by size and functionality into
+three main categories:
+
+\begin{itemize}
+	\item Work-class ROVs (\cref{sota_uuv_rov_victor_6000}) exceed \qty{1000}{\kilo\gram} and are designed
+	      for complex tasks such as subsea construction, maintenance, and repair. They are typically equipped
+	      with hydraulic-powered thrusters and manipulators, in addition to a comprehensive suite of sensors.
+	      Work-class ROVs can operate at depths greater than \qty{3000}{\meter} and are launched from
+	      specialized surface support vessels~(\cref{sota_uuv_rov_atlante_and_victor_6000}). The tethering
+	      systems for these vehicles are necessarily large and require substantial cable management
+	      infrastructure aboard the host vessel.
+\end{itemize}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth]{victor_6000.png}
-	\caption{
-		A work class ROV: the Victor 6000, used by IFREMER for deep-sea exploration
-		(\cite{FlotteOceanographiqueFrancaise}).
-	}
+	\caption{A work-class ROV: the Victor 6000, used by IFREMER for deep-sea exploration~\cite{FlotteOceanographiqueFrancaise}.}
 	\label{sota_uuv_rov_victor_6000}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth]{atlante_and_victor_6000.png}
-	\caption{
-		The Victor 6000 ROV deployed from IFREMER's research vessel Atlante
-		(\cite{FlotteOceanographiqueFrancaise}).
-	}
+	\caption{The Victor 6000 ROV deployed from IFREMER's research vessel Atlante~\cite{FlotteOceanographiqueFrancaise}.}
 	\label{sota_uuv_rov_atlante_and_victor_6000}
 \end{figure}
 
-``Mid-sized class ROVs'' are similar to work
-class ROVs in a lot of ways, but are smaller and lighter (between
-\qtyrange{100}{1000}{\kilo\gram}), are designed for medium depths operations (between
-\qtyrange{300}{3000}{\meter}) and can be operated by a lesser crew from a smaller vessel. Their
-systems are generally electrically powered.
+\begin{itemize}
+	\item Mid-sized ROVs typically weigh between \qtyrange{100}{1000}{\kilo\gram} and are designed for
+	      medium-depth operations (between \qtyrange{300}{3000}{\meter}). These systems are generally powered
+	      electrically and are operable from smaller vessels by a reduced crew. Despite their smaller
+	      footprint, they retain many capabilities of work-class systems.
+\end{itemize}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth, trim=350 200 350 200, clip]{ocean_one_k.png}
-	\caption{
-		A mid-sized class, humanoid, ROV: the Ocean One K, used by the Stanford University for underwater
-		exploration (\cite{StanfordRoboticsLab,khatibOceanOneRobotic2016}).
-	}
+	\caption{A mid-sized humanoid ROV: Ocean One K, developed at Stanford University for deep-sea exploration~\cite{StanfordRoboticsLab,khatibOceanOneRobotic2016}.}
 	\label{sota_uuv_rov_ocean_one_k}
 \end{figure}
 
-``Observation class ROVs'' are smaller and lighter
-(less than \qty{100}{\kilo\gram}) vehicles designed for observation and inspection tasks. They are
-typically equipped with cameras and basic sensors, but lack manipulators or other complex systems.
-Observation class ROVs are often used in shallow waters (less than \qty{300}{\meter}) and can be
-operated from small boats or even by divers.
+\begin{itemize}
+	\item Observation-class ROVs are lightweight systems (less than \qty{100}{\kilo\gram}) primarily used for
+	      visual inspection and environmental monitoring. These vehicles are usually equipped with cameras
+	      and simple sensors, lacking manipulator arms or advanced actuation systems. Designed for shallow
+	      water operations (less than \qty{300}{\meter}), they are often deployed from small boats or by
+	      divers.
+\end{itemize}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth]{betty.png}
-	\caption{
-		An observation class ROV: Betty used by COSMER Laboratory, University of Toulon
-	}
+	\caption{An observation-class ROV: Betty, operated by the COSMER Laboratory at the University of Toulon.}
 	\label{sota_uuv_rov_betty}
 \end{figure}
 
