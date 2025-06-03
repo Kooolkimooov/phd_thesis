@@ -5,19 +5,24 @@
 
 \section{Introduction}
 
-The study matter of this thesis is the control of a chain of underwater robots connected tethers in
-a known but constraining environment. Two scientific research topics arise form this thesis:
+The present chapter will provide a comprehensive overview of the current state of the art
+concerning the control of chains of underwater robots interconnected via tethers, operating within
+known but constrained environments. Two primary scientific challenges will be addressed throughout
+this thesis:
+
 \begin{itemize}
-	\item The safe control of the underwater robots in the environment,
-	\item The inclusion of the tethers --shape and forces-- in the control of the robots.
+	\item The safe and reliable control of underwater robots navigating through constrained environments;
+	\item The incorporation of tether dynamics—specifically, their shape and the forces they exert—into the
+	      overall control framework.
 \end{itemize}
 
-Therefore, this chapter first lays out the state of the art in underwater robotics in
-\cref{sota_unmanned_underwater_robots}, focusing on the different type of unmanned underwater
-robots. Then, it discusses the literature on cables in underwater robotics
-(\cref{sota_cables_in_underwater_robotics}) focusing on the cable shape and management strategies.
-Finally, it reviews the state of the art in underwater robot control (\cref{sota_robot_control}),
-focusing on tethered robots and their control strategies.
+Accordingly, this chapter will begin by reviewing developments in unmanned underwater robotics in
+\cref{sota_unmanned_underwater_robots}, emphasizing the various types of unmanned underwater
+vehicles (UUVs). It will then examine research related to cables used in underwater robotics
+(\cref{sota_cables_in_underwater_robotics}), with a focus on cable shape estimation and management
+techniques. Lastly, the chapter will assess control strategies for underwater robots in
+\cref{sota_robot_control}, with particular attention given to tethered configurations and their
+specific control challenges.
 
 \section{Unmanned underwater robots}
 \label{sota_unmanned_underwater_robots}
@@ -118,7 +123,7 @@ operated from small boats or even by divers.
 	\includegraphics[width=\figurewidth]{betty.png}
 	\caption{
 		An observation class ROV: Betty used by COSMER Laboratory, University of Toulon
-		}
+	}
 	\label{sota_uuv_rov_betty}
 \end{figure}
 
