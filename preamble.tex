@@ -25,17 +25,23 @@
 \usepackage[style=authoryear-comp]{biblatex}
 \usepackage{lipsum}
 \usepackage{textcase}
+\usepackage{mfirstuc}
 \usepackage{ltablex}
 \usepackage{xltabular}
 \usepackage{multicol}
 \usepackage{float}
-\usepackage[acronym, shortcuts, toc, numberedsection=autolabel]{glossaries}
+\usepackage{glossaries}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% basic document setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \title{Dynamic control of a chain of underwater robots}
 \author{Martin Filliung}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% bibliography setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \addbibresource{bib.bib}
@@ -43,6 +49,8 @@
 	\clearfield{urlyear}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% glossary setup with acronyms and notations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newglossary{notation}{not}{ntn}{Notations}
@@ -91,9 +99,13 @@
 \setacronymstyle{long-short}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% siunitx setup because it conflicts with physics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \AtBeginDocument{\RenewCommandCopy\qty\SI}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% tikz and figures setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \graphicspath{{figures/}}
@@ -120,6 +132,8 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% typesetting macro setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand*\clearevenpage{
 	\ifodd\value{page}
@@ -128,6 +142,8 @@
 	\fi
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% various title setup and macros
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand\thechapter{\Roman{chapter}}
@@ -174,10 +190,14 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% headings setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \nouppercaseheads{}
 \makeheadrule{headings}{\textwidth}{0.4pt}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% cleveref setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \crefformat{subsection}{Section~#2#1#3}
@@ -196,6 +216,8 @@
 % \Crefmultiformat{figure}{Fig.~#2#1#3}{ and~#2#1#3}{,~#2#1#3}{ and~#2#1#3}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% trigonometrical shorthand macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NewCommandCopy{\oldcos}{\cos}
 \NewCommandCopy{\oldsin}{\sin}
@@ -212,6 +234,8 @@
 	\RenewCommandCopy{\sin}{\oldsin}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% general macros for mathematical notation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \DeclareMathOperator*{\diag}{diag}
@@ -286,6 +310,10 @@
 \newcommand\catD{\scal{D}}
 \newcommand\catdD{\scal{\Delta D}}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% catenary model names macros (just in case)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand\verticalmodel{standard catenary model}
 \newcommand\thetamodel{\ensuremath{\theta}-augmented model}
 \newcommand\gammamodel{\ensuremath{\gamma}-augmented model}
@@ -294,12 +322,17 @@
 \newcommand\catenarymodel{catenary model}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% acronyms definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newacronym{uuv}{UUV}{unmanned underwater vehicle}
 \newacronym{rov}{ROV}{remotely operated vehicle}
 \newacronym{auv}{AUV}{autonomous underwater vehicle}
 \newacronym{ifremer}{IFREMER}{institut français de recherche pour l'exploitation de la mer}
 \newacronym[longplural=extremely low frequencies]{elf}{ELF}{extremely low frequency}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% notations definitions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newglossaryentry{notation:vector}{
@@ -341,6 +374,9 @@
 \glsaddall[types={notation}]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% macro test definition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand\personalizedmacrostest{
 	\begin{xltabular}{\linewidth}{X|X}
 		\multicolumn{2}{l}{List of personalized macros for verification purposes, should not be in releases.} \\ \toprule
