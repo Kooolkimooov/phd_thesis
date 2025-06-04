@@ -36,7 +36,6 @@
 %% basic document setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \title{Dynamic control of a chain of underwater robots}
 \author{Martin Filliung}
 
@@ -53,6 +52,10 @@
 %% glossary setup with acronyms and notations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\MFUnocap{l}
+\MFUnocap{de}
+\MFUnocap{la}
+\MFUhyphentrue{}
 \newglossary{notation}{not}{ntn}{Notations}
 
 \setupglossaries{
@@ -70,7 +73,7 @@
 	\renewcommand*{\glossaryheader}{}
 	\renewcommand*{\glsgroupheading}[1]{}
 	\renewcommand*{\glossentry}[2]{
-		\glstarget{##1}{\glsentryshort{##1}} & \ecapitalisewords{\glsentrylong{##1}} \\[0.5ex]
+		\glstarget{##1}{\glsentryshort{##1}} & \glsentrytitlecase{##1}{long} \\[0.5ex]
 	}
 	\renewcommand*{\glsgroupskip}{}
 	\renewenvironment{theglossary}
@@ -328,7 +331,7 @@
 \newacronym{uuv}{UUV}{unmanned underwater vehicle}
 \newacronym{rov}{ROV}{remotely operated vehicle}
 \newacronym{auv}{AUV}{autonomous underwater vehicle}
-\newacronym{ifremer}{IFREMER}{institut français de recherche pour l'exploitation de la mer}
+\newacronym{ifremer}{IFREMER}{institut français de recherche pour l\MFUwordbreak{'}exploitation de la mer}
 \newacronym[longplural=extremely low frequencies]{elf}{ELF}{extremely low frequency}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
