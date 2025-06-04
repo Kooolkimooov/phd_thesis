@@ -29,6 +29,7 @@
 \usepackage{xltabular}
 \usepackage{multicol}
 \usepackage{float}
+\usepackage[acronym, shortcuts, toc, numberedsection=autolabel]{glossaries}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -39,8 +40,21 @@
 
 \addbibresource{bib.bib}
 \AtEveryBibitem{
-    \clearfield{urlyear}
+	\clearfield{urlyear}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeglossaries
+
+\setacronymstyle{long-short}
+
+\newacronym{uuv}{UUV}{unmanned underwater vehicle}
+\newacronym{rov}{ROV}{remotely operated vehicle}
+\newacronym{auv}{AUV}{autonomous underwater vehicle}
+\newacronym{ifremer}{IFREMER}{institut français de recherche pour l'exploitation de la mer}
+\newacronym[longplural=extremely low frequencies]{elf}{ELF}{extremely low frequency}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,9 +122,9 @@
 \newcommand\shorttableofcontents{
 	{
 			\cleardoublepage
-			\ifodd\value{page}\else\hbox{}\newpage\fi
 			\renewcommand*{\contentsname}{Short contents}
 			\setcounter{tocdepth}{0}
+			\linespread{0.5}
 			\tableofcontents
 			\adjustmtc
 		}
@@ -118,7 +132,6 @@
 \newcommand\longtableofcontents{
 	{
 			\cleardoublepage
-			\ifodd\value{page}\else\hbox{}\newpage\fi
 			\renewcommand*{\contentsname}{Full contents}
 			\setcounter{tocdepth}{10}
 			\hypertarget{table_of_contents}{}
