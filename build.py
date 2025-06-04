@@ -88,6 +88,17 @@ def build_figure( name = None, verbose = False, dry_run = False ):
 
     except subprocess.CalledProcessError as e:
       printlog( f"error while building figure {name}: {e}" )
+      
+      # Save log files before they get overwritten
+      log_file = f"build/figure.log"
+      if os.path.exists(log_file):
+        backup_log = f"build/figure_{name}_error.log"
+        try:
+          shutil.move(log_file, backup_log)
+          printlog(f"saved error log to {backup_log}")
+        except Exception as move_error:
+          printlog(f"failed to save log file: {move_error}")
+      
       return False
 
     finally:
@@ -167,6 +178,17 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
 
     except subprocess.CalledProcessError as e:
       printlog( f"error while building chapter {name}: {e}" )
+      
+      # Save log files before they get overwritten
+      log_file = f"build/chapter.log"
+      if os.path.exists(log_file):
+        backup_log = f"build/chapter_{name}_error.log"
+        try:
+          shutil.move(log_file, backup_log)
+          printlog(f"saved error log to {backup_log}")
+        except Exception as move_error:
+          printlog(f"failed to save log file: {move_error}")
+      
       return False
 
     finally:
@@ -247,6 +269,17 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
 
   except subprocess.CalledProcessError as e:
     printlog( f"error while building thesis: {e}" )
+    
+    # Save log files before they get overwritten
+    log_file = f"build/thesis.log"
+    if os.path.exists(log_file):
+      backup_log = f"build/thesis_error.log"
+      try:
+        shutil.move(log_file, backup_log)
+        printlog(f"saved error log to {backup_log}")
+      except Exception as move_error:
+        printlog(f"failed to save log file: {move_error}")
+    
     return False
 
   finally:
