@@ -5,10 +5,9 @@
 
 \section{Introduction}
 
-The present chapter will provide a comprehensive overview of the current state of the art
-concerning the control of chains of underwater robots interconnected via tethers, operating within
-known but constrained environments. Two primary scientific challenges will be addressed throughout
-this thesis:
+This chapter provides a comprehensive overview of the current state of the art concerning the
+control of chains of underwater robots interconnected via tethers, operating within known but
+constrained environments. Two primary scientific challenges are addressed throughout this thesis:
 
 \begin{itemize}
 	\item The safe and reliable control of underwater robots navigating through constrained environments;
@@ -16,15 +15,15 @@ this thesis:
 	      overall control framework.
 \end{itemize}
 
-Accordingly, this chapter will begin by reviewing developments in unmanned underwater robotics in
-\cref{sota_unmanned_underwater_robots}, emphasizing the various types of \acp{uuv}. It will then
-examine research related to cables used in underwater robotics
+Accordingly, this chapter begins by reviewing developments in unmanned underwater robotics in
+\cref{sota_unmanned_underwater_robots}, emphasizing the various types of \acp{uuv}. Research
+related to cables used in underwater robotics is then examined
 (\cref{sota_cables_in_underwater_robotics}), with a focus on cable shape estimation and management
-techniques. Lastly, the chapter will assess control strategies for underwater robots in
+techniques. Finally, control strategies for underwater robots are assessed in
 \cref{sota_robot_control}, with particular attention given to tethered configurations and their
 specific control challenges.
 
-\section{Unmanned underwater robots}
+\section{\Glsentrylongpl{uuv}}
 \label{sota_unmanned_underwater_robots}
 
 Unmanned underwater robots are essential for a broad range of applications, including marine
@@ -38,7 +37,7 @@ generally categorized into two primary classes according to their operational mo
 	      onboard sensors for navigation and data acquisition.
 \end{itemize}
 
-\subsection{Remotely operated vehicles}
+\subsection{\Glsentrylongpl{rov}}
 \label{sota_uuv_remotely_operated_vehicles}
 
 Remotely operated vehicles \acp{rov} are widely deployed in marine science and industrial
@@ -73,14 +72,14 @@ use in mobile underwater platforms.
 According to~\cite{christROVManualUser2013}, \acp{rov} are classified by size and functionality
 into three main categories:
 
-\begin{itemize}
-	\item Work-class \acp{rov} (\cref{sota_uuv_rov_victor_6000}) exceed \qty{1000}{\kilo\gram} and are
-	      designed for complex tasks such as subsea construction, maintenance, and repair. They are typically
-	      equipped with hydraulic-powered thrusters and manipulators, in addition to a comprehensive suite of
-	      sensors. Work-class \acp{rov} can operate at depths greater than \qty{3000}{\meter} and are
-	      launched from specialized surface support vessels (\cref{sota_uuv_rov_atlante_and_victor_6000}).
-	      Their tether are designed to deliver power to the robot over great distances and require
-	      substantial cable management infrastructure aboard the host vessel due to their weight and length.
+\begin{itemize}	\item Work-class \acp{rov} (\cref{sota_uuv_rov_victor_6000}) exceed \qty{1000}{\kilo\gram} and are
+	      designed for complex tasks such as subsea construction, maintenance, and repair. These systems are
+	      typically equipped with hydraulic-powered thrusters and manipulators, in addition to a
+	      comprehensive suite of sensors. Work-class \acp{rov} can operate at depths greater than
+	      \qty{3000}{\meter} and are launched from specialized surface support vessels
+	      (\cref{sota_uuv_rov_atlante_and_victor_6000}). Their tethers are designed to deliver power to the
+	      robot over great distances and require substantial cable management infrastructure aboard the host
+	      vessel due to their weight and length.
 \end{itemize}
 
 \begin{figure}
@@ -141,7 +140,7 @@ into three main categories:
 	\label{sota_uuv_rov_betty}
 \end{figure}
 
-\subsection{Autonomous underwater vehicles}
+\subsection{\Glsentrylongpl{auv}}
 \label{sota_uuv_autonomous_underwater_vehicles}
 
 An \ac{auv} is an untethered robotic platform capable of operating without real-time communication
@@ -152,9 +151,9 @@ control algorithms, and occasional communication upon surfacing to accomplish ta
 bathymetric mapping, search-and-rescue operations, environmental monitoring, sample collection, and
 seabed surveys (\cite{bechlioulisRobustFormationControl2019, merciSimulatorUnderwaterGlider2023}).
 
-The physical configuration of an AUV is determined by its operational requirements. However most
-are torpedo-shaped \acp{auv} and are optimized for long-range and extended-duration missions. Their
-streamlined form minimizes hydrodynamic drag, enabling efficient travel over large distances.
+The physical configuration of an \ac{auv} is determined by its operational requirements. However,
+most are torpedo-shaped \acp{auv} that are optimized for long-range and extended-duration missions.
+Their streamlined form minimizes hydrodynamic drag, enabling efficient travel over large distances.
 Propulsion may be achieved using conventional thrusters, or, in the case of gliders, through a
 buoyancy-driven system. The latter allows vertical movement by adjusting overall density and
 internal mass distribution. Horizontal motion is then generated by hydrofoils that convert vertical
