@@ -149,55 +149,61 @@
 %% various title setup and macros
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\renewcommand\thechapter{\Roman{chapter}}
+\makeatletter
+\@ifclassloaded{memoir}{
+	\renewcommand\thechapter{\Roman{chapter}}
+	\dominitoc{}
+	\setcounter{minitocdepth}{1}
+	\setsecnumdepth{subsection}
 
-\dominitoc{}
-\tightmtctrue{}
-\setcounter{minitocdepth}{1}
+	\tightmtctrue{}
 
-\setsecnumdepth{subsection}
+	\titleformat{\chapter}[display]
+	{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge\hyperlink{table_of_contents}}
 
-\titleformat{\chapter}[display]
-{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge\hyperlink{table_of_contents}}
+	\titleformat{\section}
+	{\normalfont\Large\bfseries}{\thesection}{1em}{\hyperlink{table_of_contents}}
 
-\titleformat{\section}
-{\normalfont\Large\bfseries}{\thesection}{1em}{\hyperlink{table_of_contents}}
+	\titleformat{\subsection}
+	{\normalfont\large\bfseries}{\thesubsection}{1em}{\hyperlink{table_of_contents}}
 
-\titleformat{\subsection}
-{\normalfont\large\bfseries}{\thesubsection}{1em}{\hyperlink{table_of_contents}}
+	\titleformat{\subsubsection}
+	{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{\hyperlink{table_of_contents}}
 
-\titleformat{\subsubsection}
-{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{\hyperlink{table_of_contents}}
+	\titleformat{\paragraph}
+	{\normalfont\normalsize}{\theparagraph}{1em}{\hyperlink{table_of_contents}}
 
-\titleformat{\paragraph}
-{\normalfont\normalsize}{\theparagraph}{1em}{\hyperlink{table_of_contents}}
-
-\newcommand\shorttableofcontents{
-	{
-			\cleardoublepage
-			\renewcommand*{\contentsname}{Short contents}
-			\setcounter{tocdepth}{0}
-			\linespread{0.5}
-			\tableofcontents
-			\adjustmtc
-		}
-}
-\newcommand\longtableofcontents{
-	{
-			\cleardoublepage
-			\renewcommand*{\contentsname}{Full contents}
-			\setcounter{tocdepth}{10}
-			\hypertarget{table_of_contents}{}
-			\tableofcontents
-		}
-}
+	\newcommand\shorttableofcontents{
+		{
+				\cleardoublepage
+				\renewcommand*{\contentsname}{Short contents}
+				\setcounter{tocdepth}{0}
+				\linespread{0.5}
+				\tableofcontents
+				\adjustmtc
+			}
+	}
+	\newcommand\longtableofcontents{
+		{
+				\cleardoublepage
+				\renewcommand*{\contentsname}{Full contents}
+				\setcounter{tocdepth}{10}
+				\hypertarget{table_of_contents}{}
+				\tableofcontents
+			}
+	}
+}{}
+\makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% headings setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\nouppercaseheads{}
-\makeheadrule{headings}{\textwidth}{0.4pt}
+\makeatletter
+\@ifclassloaded{memoir}{
+	\nouppercaseheads{}
+}{}
+\makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% cleveref setup
