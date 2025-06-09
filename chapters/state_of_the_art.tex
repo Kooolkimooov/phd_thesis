@@ -200,31 +200,91 @@ adaptability. Notable examples include:
 
 \subsection{Cable shape estimation}
 
-\lipsum[1]
-
 \subsection{Cable managment}
 
-\lipsum[1]
-
 \subsection{Robot state estimation}
-
-\lipsum[1]
 
 \section{Robot control}
 \label{sota_robot_control}
 
 \subsection{Tethered robots}
 
-\lipsum[1]
+Control of tethered robots presents unique challenges due to the complex interactions between the
+robot, its tether, and the environment. The tether introduces additional dynamics that must be
+considered in the control design, including cable forces, drag effects, and potential entanglement
+risks.
+
+Research in tethered robot control has focused on developing control strategies that can
+effectively manage these additional complexities. \cite{Kim_2023} presents an innovative
+parent-child underwater robot-based manipulation system where a larger AUV serves as a base
+platform for a smaller, more agile tethered robot. This hierarchical approach demonstrates how
+tethered configurations can be leveraged to combine the advantages of larger platforms (navigation,
+sensors, power) with the precision and maneuverability of smaller systems.
+
+The work incorporates nonlinear time delay controllers and complementary sensing methods to ensure
+robust operation of the child robot while managing the tether dynamics. This approach is
+particularly relevant for underwater structure maintenance tasks where precise manipulation is
+required in constrained environments.
 
 \subsection{Underwater robots}
 
-\lipsum[1]
+Control of underwater robots requires sophisticated algorithms that can handle the complex,
+nonlinear dynamics of underwater systems while managing uncertainties and disturbances. The
+underwater environment presents unique control challenges including hydrodynamic effects, buoyancy
+variations, ocean currents, and limited sensing capabilities.
+
+Model Predictive Control (MPC) has emerged as a particularly effective approach for underwater
+robot control due to its ability to systematically handle constraints while optimizing performance.
+\cite{Wei_2023} provides a comprehensive review of MPC-based motion planning and control for
+autonomous marine vehicles, highlighting how recent advances in communication technologies,
+perception capabilities, and optimization algorithms have enhanced the guidance and control
+capabilities of underwater systems.
+
+\cite{Yan_2020} demonstrates the application of model predictive control for trajectory tracking of autonomous underwater vehicles in the presence of external disturbances, showing the effectiveness of this approach for handling environmental uncertainties.
+
+For underactuated underwater robots, specialized control approaches have been developed.
+\cite{Guo_2022} presents a neural network-based nonsingular terminal sliding mode controller with
+prescribed performance for target tracking. This approach uses radial basis function neural
+networks combined with terminal sliding mode control to handle model uncertainties and external
+disturbances, achieving finite-time convergence with prescribed performance bounds.
+
+Advanced control strategies have also been developed for 3D path following scenarios.
+\cite{Vadapalli_2023} presents a robust state feedback optimal control strategy using a
+backstepping approach that handles hydrodynamic parameter variations through a polytopic approach.
+The control strategy integrates both horizontal and vertical dynamics to achieve 3D path following
+while maintaining robust behavior under uncertain hydrodynamic parameters.
+
+Benchmark simulation environments have been developed to facilitate control algorithm development
+and validation. \cite{Benzon_2022} presents an open-source benchmark simulator for the BlueROV2
+underwater robot, implemented in Simulink and experimentally validated. This simulator includes
+comprehensive models of vehicle kinematics, hydrodynamics, thruster dynamics, and environmental
+effects, providing a standardized platform for evaluating control algorithms.
 
 \subsection{Underwater tethered robots}
 
-\lipsum[1]
+The control of underwater tethered robots combines the challenges of underwater robotics with the
+additional complexity introduced by tether dynamics. These systems must account for cable forces,
+tether-induced disturbances, and the coupling between robot motion and cable configuration.
+
+Recent research has explored various approaches to address these challenges. \cite{Su_2024}
+presents SPH-DEM modeling techniques for cable-controlled ROVs, focusing on underwater mobility and
+path planning. This work demonstrates the importance of considering cable dynamics in the planning
+and control of tethered underwater vehicles.
+
+For multi-robot scenarios, coordination becomes even more complex when tethers are involved.
+\cite{Tymoshyn_2023} addresses the intelligent control of groups of transport underwater robots
+using a coordinator robot, which provides insights into managing multiple tethered vehicles
+operating in uncertain environments.
+
+The development of cooperative control strategies for underwater robotic systems has also advanced
+significantly. \cite{Cai_2023} explores cooperative artificial intelligence approaches for
+underwater robotic swarms, which can inform the development of control strategies for chains of
+tethered vehicles where coordination between multiple robots is essential.
+
+Navigation in human-populated environments presents additional challenges for autonomous systems.
+\cite{Fiasché_2023} develops a universal social force model combined with parametrized MPC for
+autonomous robot navigation, which could be adapted for underwater tethered robots operating in
+environments with multiple agents or obstacles.
 
 \section{Discussion}
 
-\lipsum[1]
