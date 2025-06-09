@@ -288,64 +288,60 @@ introduced by the tether, while ensuring that mission objectives are reliably sa
 sophisticated coordination between the robotic platform and its tethered base.
 
 \subsection{Underwater robots}
+\label{sota_rc_underwater}
 
-Control of underwater robots requires sophisticated algorithms that can handle the complex,
-nonlinear dynamics of underwater systems while managing uncertainties and disturbances. The
-underwater environment presents unique control challenges including hydrodynamic effects, buoyancy
-variations, ocean currents, and limited sensing capabilities.
+The control of underwater robots presents unique challenges due to the complex, nonlinear, and
+uncertain dynamics of the underwater environment. These challenges include hydrodynamic effects,
+buoyancy variations, ocean currents, limited sensing capabilities, and the presence of obstacles.
+To address these, a variety of modeling, estimation, and control strategies have been developed in
+recent years.
 
-Model Predictive Control (MPC) has emerged as a particularly effective approach for underwater
-robot control due to its ability to systematically handle constraints while optimizing performance.
-\cite{Wei_2023} provides a comprehensive review of MPC-based motion planning and control for
-autonomous marine vehicles, highlighting how recent advances in communication technologies,
-perception capabilities, and optimization algorithms have enhanced the guidance and control
-capabilities of underwater systems.
+Underwater manipulation capabilities have been expanded through the use of deployable agent
+vehicles connected by smart cables. Instead of relying on rigid arms, a small, highly maneuverable
+agent ROV can serve as an end effector, with the smart cable providing relative position tracking
+and active buoyancy control~\cite{yuArmlessUnderwaterManipulation2013}. This approach enables
+precise manipulation and monitoring tasks with minimal modifications to the main vehicle.
 
-\cite{Yan_2020} demonstrates the application of model predictive control for trajectory tracking of autonomous underwater vehicles in the presence of external disturbances, showing the effectiveness of this approach for handling environmental uncertainties.
+Robust control strategies are essential for reliable underwater robot operation. \ac{nmpc} has been
+developed to guide vehicles in constrained workspaces, accounting for obstacles, workspace
+boundaries, thruster saturation, and ocean
+currents~\cite{heshmati-alamdariRobustPredictiveControl2020}. Sliding mode control combined with
+Gaussian process regression has been proposed to compensate for unmodeled hydrodynamic effects and
+reduce tracking errors~\cite{limaSlidingModeControl2020}. Adaptive neural network controllers,
+tuned by genetic algorithms, have demonstrated effectiveness in handling uncertainties and
+disturbances, particularly for underwater manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
 
-For underactuated underwater robots, specialized control approaches have been developed.
-\cite{Guo_2022} presents a neural network-based nonsingular terminal sliding mode controller with
-prescribed performance for target tracking. This approach uses radial basis function neural
-networks combined with terminal sliding mode control to handle model uncertainties and external
-disturbances, achieving finite-time convergence with prescribed performance bounds.
-
-Advanced control strategies have also been developed for 3D path following scenarios.
-\cite{Vadapalli_2023} presents a robust state feedback optimal control strategy using a
-backstepping approach that handles hydrodynamic parameter variations through a polytopic approach.
-The control strategy integrates both horizontal and vertical dynamics to achieve 3D path following
-while maintaining robust behavior under uncertain hydrodynamic parameters.
-
-Benchmark simulation environments have been developed to facilitate control algorithm development
-and validation. \cite{Benzon_2022} presents an open-source benchmark simulator for the BlueROV2
-underwater robot, implemented in Simulink and experimentally validated. This simulator includes
-comprehensive models of vehicle kinematics, hydrodynamics, thruster dynamics, and environmental
-effects, providing a standardized platform for evaluating control algorithms.
+Formation control and cooperative behaviors are increasingly important for multi-robot underwater
+missions. Lyapunov-based formation control algorithms enable groups of \acp{auv} to maintain
+desired formations and follow reference paths, improving mission reliability and
+robustness~\cite{khalajiLyapunovBasedFormationControl2020}. Robust state estimation and fault
+detection methods, such as improved robust filtering and sliding-window techniques, have also been
+developed to enhance the safety and autonomy of AUVs in the presence of hydrodynamic uncertainties
+and actuator faults~\cite{songRobustStateEstimation2023}.
 
 \subsection{Underwater tethered robots}
 
-The control of underwater tethered robots combines the challenges of underwater robotics with the
-additional complexity introduced by tether dynamics. These systems must account for cable forces,
-tether-induced disturbances, and the coupling between robot motion and cable configuration.
+State estimation and cable shape reconstruction are critical for the operation of tethered and
+untethered underwater robots. Inertial-measurement-based methods have been proposed for estimating
+the catenary shape of underwater cables, using IMUs attached to the cable to compute local tangents
+and reconstruct the cable profile~\cite{druptInertialmeasurementbasedCatenaryShape2022}. This
+approach improves estimation accuracy and range compared to vision-based methods, and is robust to
+occlusions and limited camera fields of view. Other sensor-based techniques, such as ShapeTape,
+have also been demonstrated for underwater cable detection and shape
+tracking~\cite{xuUnderwaterCableShape2016}.
 
-Recent research has explored various approaches to address these challenges. \cite{Su_2024}
-presents SPH-DEM modeling techniques for cable-controlled ROVs, focusing on underwater mobility and
-path planning. This work demonstrates the importance of considering cable dynamics in the planning
-and control of tethered underwater vehicles.
+Cable and umbilical management remains a significant concern, especially for ROVs operating in
+cluttered or dynamic environments. Passive self-management strategies, such as the use of moving
+ballasts and buoys to maintain cable tautness, have been shown to reduce the risk of entanglement
+and improve predictability of the umbilical shape~\cite{vielSelfmanagementUmbilicalROV2022}. These
+methods adapt to environmental disturbances, such as waves and currents, and can be configured for
+different mission profiles.
 
-For multi-robot scenarios, coordination becomes even more complex when tethers are involved.
-\cite{Tymoshyn_2023} addresses the intelligent control of groups of transport underwater robots
-using a coordinator robot, which provides insights into managing multiple tethered vehicles
-operating in uncertain environments.
-
-The development of cooperative control strategies for underwater robotic systems has also advanced
-significantly. \cite{Cai_2023} explores cooperative artificial intelligence approaches for
-underwater robotic swarms, which can inform the development of control strategies for chains of
-tethered vehicles where coordination between multiple robots is essential.
-
-Navigation in human-populated environments presents additional challenges for autonomous systems.
-\cite{Fiasché_2023} develops a universal social force model combined with parametrized MPC for
-autonomous robot navigation, which could be adapted for underwater tethered robots operating in
-environments with multiple agents or obstacles.
+Finally, the effects of cable perturbations on underwater vehicle guidance and control have been
+studied, with adaptive control systems designed to compensate for disturbances caused by variable
+cable lengths, currents, and waves~\cite{jordanGuidanceUnderwaterVehicles2008}. These systems
+ensure trajectory tracking and position regulation even in the presence of significant
+environmental and cable-induced perturbations.
 
 \section{Discussion}
 
