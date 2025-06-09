@@ -327,28 +327,52 @@ resilience and autonomy under uncertain operational
 conditions~\cite{songRobustStateEstimation2023}.
 
 \subsection{Underwater tethered robots}
+\label{sota_rc_underwater_tethered}
 
-State estimation and cable shape reconstruction are critical for the operation of tethered and
-untethered underwater robots. Inertial-measurement-based methods have been proposed for estimating
-the catenary shape of underwater cables, using IMUs attached to the cable to compute local tangents
-and reconstruct the cable profile~\cite{druptInertialmeasurementbasedCatenaryShape2022}. This
-approach improves estimation accuracy and range compared to vision-based methods, and is robust to
-occlusions and limited camera fields of view. Other sensor-based techniques, such as ShapeTape,
-have also been demonstrated for underwater cable detection and shape
-tracking~\cite{xuUnderwaterCableShape2016}.
+A wide range of control strategies have been developed to address the unique challenges of tethered
+underwater robots, where the dynamic coupling between the vehicle, tether, and environment can
+significantly affect system performance. Early work on tether management systems established
+fundamental approaches for safe deployment, retrieval, and operational reliability of umbilicals
+and tethers~\cite{abelUnderwaterVehicleTether1994}. More recently, advanced modeling and control
+frameworks have been proposed to capture the coupled dynamics of the vehicle-tether system,
+including lumped-mass and rigid-flexible multibody
+models~\cite{soyluDynamicsControlTethered2010,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
+These models enable the design of controllers that actively compensate for cable-induced
+disturbances, such as tension variability, hydrodynamic drag, and oscillatory motion.
 
-Cable and umbilical management remains a significant concern, especially for ROVs operating in
-cluttered or dynamic environments. Passive self-management strategies, such as the use of moving
-ballasts and buoys to maintain cable tautness, have been shown to reduce the risk of entanglement
-and improve predictability of the umbilical shape~\cite{vielSelfmanagementUmbilicalROV2022}. These
-methods adapt to environmental disturbances, such as waves and currents, and can be configured for
-different mission profiles.
+Robust and adaptive control methods have been implemented to ensure trajectory tracking and
+position regulation in the presence of time-varying cable lengths, external disturbances, and model
+uncertainties. For example, sliding-mode controllers and adaptive \(\mathcal{L}_1\) adaptive
+control have demonstrated effectiveness in maintaining vehicle stability and performance during
+manipulator operations and under strong environmental
+perturbations~\cite{soyluDynamicsControlTethered2010,maaloufNovelApplicationMultivariable2012}.
+Experimental results confirm that force feedback at the tether termination and real-time adaptation
+of control gains can significantly improve disturbance rejection and control accuracy.
 
-Finally, the effects of cable perturbations on underwater vehicle guidance and control have been
-studied, with adaptive control systems designed to compensate for disturbances caused by variable
-cable lengths, currents, and waves~\cite{jordanGuidanceUnderwaterVehicles2008}. These systems
-ensure trajectory tracking and position regulation even in the presence of significant
-environmental and cable-induced perturbations.
+Hydrodynamic-aware control strategies have also been explored, where the effects of cable and
+vehicle hydrodynamics are explicitly modeled and incorporated into the control law. Computational
+fluid dynamics (CFD)-based approaches and experimental validation have shown that the interaction
+between tether, vehicle, and flow can be leveraged to optimize maneuverability and energy
+efficiency~\cite{wuManeuverabilityHydrodynamicsTethered2021}.
+
+Recent developments in hybrid and dual-mode vehicles, such as IFREMER's HROV Ariane, have
+introduced new operational paradigms where vehicles can switch between tethered and autonomous
+modes, requiring control architectures that can adapt to both
+scenarios~\cite{brignoneFirstSeaTrials2015}. Dual-robot systems, such as MEDUSA, further expand the
+control problem by integrating aerial and underwater platforms connected by a tether, necessitating
+coordinated control for deployment, sampling, and retrieval
+tasks~\cite{debruynMEDUSAMultiEnvironmentDualRobot2020}.
+
+Visual servoing and sensor-based feedback control have been applied to regulate cable geometry and
+relative positioning in multi-robot underwater systems. Catenary-based visual servoing algorithms
+combine IMU and camera feedback to estimate and control the 3D shape of the tether in real time,
+allowing stable cooperation under visual occlusion and environmental
+disturbance~\cite{laranjeiraCatenarybasedVisualServoing2020}.
+
+Overall, the literature demonstrates that effective control of underwater tethered robots relies on
+a combination of advanced modeling, robust and adaptive control strategies, and integrated
+sensor-based feedback to address the complex, nonlinear, and uncertain dynamics inherent to these
+systems.
 
 \section{Discussion}
 
