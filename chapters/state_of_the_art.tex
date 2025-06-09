@@ -207,24 +207,35 @@ adaptability. Notable examples include:
 \section{Robot control}
 \label{sota_robot_control}
 
-\subsection{Tethered robots}
+\subsection{Tethered Robots}
+\label{sota_rc_tethered_robots}
 
 Control of tethered robots presents unique challenges due to the complex interactions between the
-robot, its tether, and the environment. The tether introduces additional dynamics that must be
-considered in the control design, including cable forces, drag effects, and potential entanglement
-risks.
+vehicle, its tether, and the surrounding environment. The tether introduces additional dynamics
+that must be accounted for in the control design, including cable forces, hydrodynamic drag,
+induced vibrations, and the risk of entanglement with environmental structures or the robot itself.
 
-Research in tethered robot control has focused on developing control strategies that can
-effectively manage these additional complexities. \cite{Kim_2023} presents an innovative
-parent-child underwater robot-based manipulation system where a larger AUV serves as a base
-platform for a smaller, more agile tethered robot. This hierarchical approach demonstrates how
-tethered configurations can be leveraged to combine the advantages of larger platforms (navigation,
-sensors, power) with the precision and maneuverability of smaller systems.
+Research in this domain has focused on developing control strategies capable of managing these
+complexities while ensuring robustness and maneuverability. In~\cite{Kim_2023}, a hierarchical
+parent-child system was proposed, wherein a larger \ac{auv} acts as a mobile base for a smaller
+tethered intervention robot. This configuration enables the integration of high-endurance
+navigation, power, and sensing capabilities from the parent vehicle with the fine manipulation
+abilities of the child unit. Such a division of roles is particularly advantageous for maintenance
+tasks in constrained environments such as underwater infrastructures or pipelines.
 
-The work incorporates nonlinear time delay controllers and complementary sensing methods to ensure
-robust operation of the child robot while managing the tether dynamics. This approach is
-particularly relevant for underwater structure maintenance tasks where precise manipulation is
-required in constrained environments.
+To maintain control stability in the presence of tether-induced disturbances, nonlinear time-delay
+controllers were implemented. Complementary sensing—based on combined inertial and vision
+feedback—was used to estimate the state of the child robot despite the limitations of communication
+and the dynamic influence of the tether. The combination of control and perception techniques
+demonstrates that tethered systems, when properly modeled, can achieve precision tasks
+traditionally reserved for untethered manipulators while benefiting from surface power and
+communication links.
+
+Furthermore, ongoing research has explored the use of tension feedback and dynamic tether models
+within the controller loop. These strategies improve path-following accuracy and reduce oscillatory
+tether behavior, especially in currents or during sharp maneuvers. In some systems, adaptive
+admittance control has been employed to allow compliant interaction with structures while
+maintaining safe tether conditions.
 
 \subsection{Underwater robots}
 
