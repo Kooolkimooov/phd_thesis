@@ -207,6 +207,12 @@ adaptability. Notable examples include:
 \section{Robot control}
 \label{sota_robot_control}
 
+This section reviews control strategies developed for unmanned robotic systems operating with
+tether constraints. Emphasis is placed on methods that account for dynamic coupling with the
+environment, constraints imposed by tethers, and the challenges of limited sensing and delayed
+feedback. The discussion is structured according to the robot’s configuration: tethered,
+untethered, and tethered underwater systems.
+
 \subsection{Tethered robots}
 \label{sota_rc_tethered}
 
@@ -217,14 +223,44 @@ tension, hydrodynamic or aerodynamic drag, oscillatory modes, and risks of entan
 collisions with obstacles.
 
 Although the current work is focused on underwater robots, analogous control challenges are
-observed in other domains such as aerial robotics, wherein tethers are utilized not only for power
-delivery, data transmission, or mechanical stabilization but also as active elements in cooperative
-manipulation tasks. For instance, in~\cite{dantonioCatenaryRobotDesign2021}, a catenary
-robot—consisting of two unmanned aerial vehicles connected by a flexible cable—was designed to
-autonomously locate and transport hook-shaped objects. In that system, the cable's position,
-orientation, and span were actively regulated in real time to execute manipulation tasks without
-prior physical attachment. These observations illustrate that tether dynamics are harnessed to
-provide functionality rather than merely being compensated for.
+observed in other domains such as aerial robotics, wherein tethers may also be utilized not only
+for power delivery, data transmission, or mechanical stabilization but also as active elements in
+cooperative manipulation tasks. For instance, in~\cite{dantonioCatenaryRobotDesign2021}, a catenary
+robot --consisting of two \acp{uav} connected by a flexible cable-- was designed to autonomously
+locate and transport hook-shaped objects. In that system, the cable's position, orientation, and
+span were actively regulated in real time to execute manipulation tasks without prior physical
+attachment. These observations illustrate that tether dynamics are harnessed to provide
+functionality rather than merely being compensated for.
+
+Recent advances in tethered aerial systems have demonstrated sophisticated control architectures
+for multi-vehicle configurations. Systems of tethered multicopters featuring chains of drones
+connected by elastic tethers have been developed, where tether lengths can be dynamically adjusted
+through controlled winches~\cite{fagianoSystemsTetheredMulticopters2017}. These systems employ
+hierarchical control approaches that account for the elastic properties of tethers and their
+ability to transfer only traction loads, providing both extended runtime and operational
+flexibility for various applications.
+
+The modeling and control of tethered drone systems has evolved to include novel mechanical
+configurations such as pulley-gimbal mechanisms that allow drones to move freely along tethers
+while maintaining precise position measurement~\cite{kosarnovskyStringTetheredDrones2019}. These
+systems can be conceptualized as robotic arms where each tether section acts as a variable-length
+link and each drone serves as a joint actuator, enabling complex coordinated motions through
+combined geometric and linear control approaches.
+
+For multi-tethered aerial systems, specialized state estimation techniques have been developed to
+minimize sensor requirements while maintaining full observability. Nonlinear observers based on
+high-gain and Luenberger observer designs can successfully estimate the complete system state from
+minimal sensor configurations, such as two accelerometers and encoders or
+inclinometers~\cite{tognonNonlinearObserverControl2015}. These observers enable precise control of
+both Cartesian position and internal tether forces in bi-tethered multi-aerial robot systems.
+
+Fundamental properties of tethered aerial systems have been thoroughly characterized, revealing
+differential flatness with respect to specific output pairs: the elevation of the link and attitude
+of the vehicle, or the elevation of the link and longitudinal link
+force~\cite{tognonDynamicsControlEstimation2017}. This characterization enables the design of
+almost globally convergent nonlinear controllers and observers that can track smooth time-varying
+trajectories using only onboard accelerometers and gyroscopes, demonstrating robustness against
+nonlinear cross-coupling effects, parameter deviations, and measurement noise.
 
 In the field of space robotics, tether systems have been investigated for their potential in
 momentum exchange, orbital transfer, and energy harvesting. Electrodynamic tethers, for instance,
@@ -233,6 +269,22 @@ systems introduce complex control requirements related to tether deployment, ten
 and oscillation suppression in a microgravity environment. The deployment and retrieval of long
 tethers also entail the challenge of stabilizing multi-body dynamics in the absence of aerodynamic
 damping~\cite{modiDeploymentDynamicsTether1979,huangDexterousTetheredSpace2017}.
+
+Advanced control strategies for tethered space systems address critical challenges such as tether
+tangling around uncooperative tumbling targets. Energy-based control approaches utilizing the
+system's passivity properties have been developed, where potential energy is constructed in terms
+of tension torque to steer target angular velocity toward the tether
+direction~\cite{wangAntitangleControlTethered2019}. These methods employ sliding mode controllers
+optimized through model predictive control to satisfy motion constraints while incorporating
+adaptive weighting mechanisms for enhanced tangle-avoidance capabilities.
+
+Dexterous tethered space robot systems have demonstrated feasibility for geostationary orbit space
+debris removal missions, combining lightweight design with cost-effective operation. These systems
+integrate vision-based pose measurement with coordinated control design to achieve precise
+manipulation of uncooperative targets in space environments~\cite{huangDexterousTetheredSpace2017}.
+The coordination between the tethered robot and its base platform requires sophisticated control
+algorithms that account for the coupling effects introduced by the tether connection while
+maintaining mission objectives.
 
 \subsection{Underwater robots}
 
