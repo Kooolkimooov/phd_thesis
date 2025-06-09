@@ -290,34 +290,41 @@ sophisticated coordination between the robotic platform and its tethered base.
 \subsection{Underwater robots}
 \label{sota_rc_underwater}
 
-The control of underwater robots presents unique challenges due to the complex, nonlinear, and
-uncertain dynamics of the underwater environment. These challenges include hydrodynamic effects,
-buoyancy variations, ocean currents, limited sensing capabilities, and the presence of obstacles.
-To address these, a variety of modeling, estimation, and control strategies have been developed in
-recent years.
+The control of underwater robots entails distinctive challenges arising from the nonlinear,
+uncertain, and dynamic characteristics of the aquatic environment. These challenges include
+hydrodynamic forces, buoyancy variability, unpredictable ocean currents, limited sensory input, and
+the presence of static or dynamic obstacles. To address these issues, a wide array of modeling,
+estimation, and control strategies has been developed in recent years.
 
-Underwater manipulation capabilities have been expanded through the use of deployable agent
-vehicles connected by smart cables. Instead of relying on rigid arms, a small, highly maneuverable
-agent ROV can serve as an end effector, with the smart cable providing relative position tracking
-and active buoyancy control~\cite{yuArmlessUnderwaterManipulation2013}. This approach enables
-precise manipulation and monitoring tasks with minimal modifications to the main vehicle.
+Underwater manipulation has been advanced through the integration of deployable agent vehicles
+connected via smart, flexible tethers. In place of conventional rigid manipulator arms, small and
+highly maneuverable agent remotely operated vehicles (ROVs) have been utilized as mobile
+end-effectors. The smart cable in this configuration provides relative position tracking and active
+buoyancy control, enabling fine manipulation and monitoring with minimal structural modifications
+to the primary platform~\cite{yuArmlessUnderwaterManipulation2013}. This paradigm demonstrates the
+feasibility of distributed manipulation architectures tailored for cluttered or constrained
+underwater environments.
 
-Robust control strategies are essential for reliable underwater robot operation. \ac{nmpc} has been
-developed to guide vehicles in constrained workspaces, accounting for obstacles, workspace
-boundaries, thruster saturation, and ocean
-currents~\cite{heshmati-alamdariRobustPredictiveControl2020}. Sliding mode control combined with
-Gaussian process regression has been proposed to compensate for unmodeled hydrodynamic effects and
-reduce tracking errors~\cite{limaSlidingModeControl2020}. Adaptive neural network controllers,
-tuned by genetic algorithms, have demonstrated effectiveness in handling uncertainties and
-disturbances, particularly for underwater manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
+Robust control approaches remain essential to ensure stable and reliable underwater operation.
+\Acp{nmpc} schemes have been formulated to navigate vehicles in constrained workspaces, accounting
+for environmental obstacles, boundary limitations, thruster saturation, and ocean
+currents~\cite{heshmati-alamdariRobustPredictiveControl2020}. To mitigate the influence of
+unmodeled hydrodynamic phenomena and reduce tracking errors, sliding mode control has been combined
+with Gaussian process regression, producing data-driven compensatory
+mechanisms~\cite{limaSlidingModeControl2020}. Additionally, adaptive neural network-based
+controllers optimized using genetic algorithms have demonstrated resilience against parametric
+uncertainty and external disturbances, particularly in the control of underwater
+manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
 
-Formation control and cooperative behaviors are increasingly important for multi-robot underwater
-missions. Lyapunov-based formation control algorithms enable groups of \acp{auv} to maintain
-desired formations and follow reference paths, improving mission reliability and
-robustness~\cite{khalajiLyapunovBasedFormationControl2020}. Robust state estimation and fault
-detection methods, such as improved robust filtering and sliding-window techniques, have also been
-developed to enhance the safety and autonomy of AUVs in the presence of hydrodynamic uncertainties
-and actuator faults~\cite{songRobustStateEstimation2023}.
+As multi-agent operations gain prominence in subsea applications, formation control and cooperative
+mission planning have become critical. Lyapunov-based control frameworks have been employed to
+ensure that groups of \acp{auv} maintain prescribed formations and track reference trajectories,
+thereby enhancing robustness and mission coherence~\cite{khalajiLyapunovBasedFormationControl2020}.
+Concurrently, advances in robust state estimation and fault diagnosis have addressed issues related
+to sensor noise, hydrodynamic disturbances, and actuator degradation. Notably, hybrid techniques
+combining robust filtering with sliding-window estimation have been developed to improve system
+resilience and autonomy under uncertain operational
+conditions~\cite{songRobustStateEstimation2023}.
 
 \subsection{Underwater tethered robots}
 
