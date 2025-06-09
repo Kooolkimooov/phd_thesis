@@ -207,40 +207,32 @@ adaptability. Notable examples include:
 \section{Robot control}
 \label{sota_robot_control}
 
-\subsection{Tethered Robots}
-\label{sota_robot_control_tethered}
+\subsection{Tethered robots}
+\label{sota_rc_tethered}
 
-Control of tethered robots presents unique challenges due to the complex interactions between the
-vehicle, its tether, and the surrounding environment. The tether introduces additional dynamics
-that must be addressed in the control design, including cable forces, hydrodynamic or aerodynamic
-drag, induced oscillations, and the risk of entanglement or collision with obstacles.
+Control of tethered robots is confronted with distinct challenges owing to the intricate
+interactions among the vehicle, its tether, and the surrounding environment. The tether introduces
+additional dynamic elements that are incorporated into the control architecture, including tether
+tension, hydrodynamic or aerodynamic drag, oscillatory modes, and risks of entanglement or
+collisions with obstacles.
 
-While underwater robots are the subject of this thesis, similar control challenges may arise in
-other fields such as aerial vehicles where a tether may provide power, communication, or mechanical
-stability. In tethered \acp{uav} systems, for instance, the tether may introduce both benefits—such
-as prolonged flight duration and secure localization—and complications, including tension control
-and wind-induced disturbances~\cite{tognonTetheredUAVControl2018}. Similar issues are encountered
-in surface robotics, particularly in maritime port surveillance or oil spill monitoring, where the
-tether links to buoys or ships~\cite{pengSurveySurfaceRobotics2023}.
+Although the current work is focused on underwater robots, analogous control challenges are
+observed in other domains such as aerial robotics, wherein tethers are utilized not only for power
+delivery, data transmission, or mechanical stabilization but also as active elements in cooperative
+manipulation tasks. For instance, in~\cite{dantonioCatenaryRobotDesign2021}, a catenary
+robot—consisting of two unmanned aerial vehicles connected by a flexible cable—was designed to
+autonomously locate and transport hook-shaped objects. In that system, the cable's position,
+orientation, and span were actively regulated in real time to execute manipulation tasks without
+prior physical attachment. These observations illustrate that tether dynamics are harnessed to
+provide functionality rather than merely being compensated for.
 
-In the underwater context, research has focused on developing robust control strategies to mitigate
-tether-induced constraints while enabling accurate motion.
-In~\cite{kimParentchildUnderwaterRobotbased2023}, a hierarchical parent-child robot system was
-presented, where a larger \ac{auv} functions as a navigation and communication base for a smaller, more
-agile tethered intervention robot. This architecture combines endurance and mobility from the
-parent platform with high-precision manipulation from the child unit, an approach particularly
-suited for tasks such as underwater infrastructure maintenance.
-
-To handle tether dynamics and communication latency, nonlinear time-delay controllers and
-complementary sensing strategies were employed. The system integrated inertial and vision-based
-feedback to ensure robust control of the child robot despite environmental uncertainties and tether
-disturbances.
-
-More broadly, across domains, tension-aware control, admittance control, and model-predictive
-approaches have been adopted to maintain safe tether behavior while allowing task execution. Cable
-shape estimation, tether force modeling, and adaptive compensation methods are increasingly
-integrated into tethered robot architectures to enable operation in cluttered or dynamic
-environments.
+In the field of space robotics, tether systems have been investigated for their potential in
+momentum exchange, orbital transfer, and energy harvesting. Electrodynamic tethers, for instance,
+have been proposed as a means of deorbiting satellites or generating artificial gravity. These
+systems introduce complex control requirements related to tether deployment, tension regulation,
+and oscillation suppression in a microgravity environment. The deployment and retrieval of long
+tethers also entail the challenge of stabilizing multi-body dynamics in the absence of aerodynamic
+damping~\cite{modiDeploymentDynamicsTether1979,huangDexterousTetheredSpace2017}.
 
 \subsection{Underwater robots}
 
