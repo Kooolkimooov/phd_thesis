@@ -198,14 +198,14 @@ adaptability. Notable examples include:
 \section{Cables in underwater robotics}
 \label{sota_cables_in_underwater_robotics}
 
-Cable modeling is a foundational aspect of underwater robotics, as the dynamic behavior of tethers
-and umbilicals directly impacts the performance, safety, and operational envelope of remotely
-operated and autonomous underwater vehicles. Accurate cable models are essential for simulation,
-design, and real-time estimation tasks, enabling the prediction of cable shape, tension, and
-interaction with the environment under a variety of operational scenarios. The complexity of
-underwater cable dynamics requires specialized modeling approaches that can capture the coupling
-between the cable, vehicle, and fluid environment while maintaining computational efficiency for
-real-time applications.
+Cable modeling is a foundational aspect of underwater robotics using \acp{rov}, as the dynamic
+behavior of tethers and umbilicals directly impacts the performance, safety, and operational
+envelope of the vehicles. Accurate cable models are essential for simulation, design, and real-time
+estimation tasks, enabling the prediction of cable shape, tension, and interaction with the
+environment under a variety of operational scenarios. The complexity of underwater cable dynamics
+requires specialized modeling approaches that can capture the coupling between the cable, vehicle,
+and fluid environment while maintaining computational efficiency for potential real-time
+applications.
 
 \subsection{Cable shape estimation}
 \label{sota_cable_shape_estimation}
@@ -217,9 +217,8 @@ represent the physical characteristics of submerged cables across varying operat
 
 Classical modeling approaches include lumped-mass and rigid-flexible multibody formulations, which
 approximate cables as a series of interconnected rigid bodies linked via elastic joints. These
-models facilitate real-time simulation of large deformations and dynamic coupling with the vehicle
-while maintaining computational
-efficiency~\cite{soyluDynamicsControlTethered2010,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
+models facilitate simulation of large deformations and dynamic coupling with the
+vehicle~\cite{soyluDynamicsControlTethered2010,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
 The lumped-mass framework has seen widespread application in underwater towing systems, where
 discrete segments capture both bending and elevation
 dynamics~\cite{dasilvagomesNewDynamicModel2021}.
@@ -227,44 +226,46 @@ dynamics~\cite{dasilvagomesNewDynamicModel2021}.
 \Acp{fem} have emerged as high-fidelity alternatives for underwater cable
 simulation. By incorporating Euler-Bernoulli beam theory, \acp{fem} enable accurate modeling of bending
 stiffness and low-tension dynamics—conditions typical in slack cable operations or obstacle contact
-scenarios~\cite{o.aFiniteElementCablemodel2018}. Galerkin-based time integration schemes have been
+scenarios~\cite{o.aFiniteElementCablemodel2018}. Galerkin-based time integration schemes have also been
 employed to resolve the temporal evolution of cable states with high resolution, and experimental
-ocean tank trials have confirmed their predictive capability.
-
-To address localized nonlinearities, specialized numerical schemes have been integrated into
-\ac{fem} frameworks. For instance, Discontinuous Galerkin methods, embedded within
-Lax-Friedrichs-type solvers, have enabled the representation of snap loads and slack events in
-long, deep-sea tethers with exponential convergence rates~\cite{palmInfluenceBendingStiffness2020}.
+ocean tank trials have confirmed their predictive capability~\cite{palmInfluenceBendingStiffness2020}.
 These enhancements account for the transition between axial and bending-dominated regimes, which is
 critical in applications such as \ac{rov} umbilicals or low-tension cable deployment.
 
-For cables undergoing large deformations, geometrically exact beam theories have been employed to
+For cables undergoing large deformations, geometrically exact beam theories has been employed to
 model displacement, rotation, and cross-sectional deformation in a unified
 framework~\cite{dehadraiTransientPlanarDynamics2022}. Such formulations are especially applicable
 to aerial or underwater towed systems, where distributed hydrodynamic or aerodynamic loads are
-integrated across cable segments. Additionally, nonlinear FEMs have been extended to incorporate
-structural degradation effects, including damage localization and strain-induced coupling among
-axial, torsional, and bending modes~\cite{beltranEvaluationCoupledEffect2020}.
+integrated across cable segments. Additionally, nonlinear \acp{fem} have been extended to
+incorporate structural degradation effects, including damage localization and strain-induced
+coupling among axial, torsional, and bending modes~\cite{beltranEvaluationCoupledEffect2020}.
 
-In deep-sea environments, Kirchhoff rod theory has been applied to model the dynamic response of
-umbilical cables under complex sea conditions. Numerical solutions using differential quadrature
-and Newmark methods have revealed that amplitude amplification in cable oscillations scales
-proportionally with ocean current velocity and mother ship motion amplitude, while being inversely
-related to wave period. Peak dynamic amplification was observed at specific cable lengths near
-\qty{3000}{\meter}~\cite{chenDynamicCharacteristicsDeepsea2021}.
+An alternative to dynamic cable modeling has been proposed through the use of an ellipsoid tether
+model, which provides a conservative geometric envelope around the cable based solely on its
+attachment points and length~\cite{vielEllipsoidTetherModel2024a}. This model enables guaranteed
+collision avoidance without requiring knowledge of the tether's shape or dynamics. Initially
+developed for multi-\ac{rov} scenarios, it integrates efficiently with potential field methods and
+tether length management, offering a lightweight and scalable solution for real-time applications
+in cluttered environments.
 
 Beyond modeling, real-time estimation of cable shape has been pursued through various sensing
 strategies. Inertial-measurement-based methods have been developed, wherein \acp{imu} affixed along
 the cable length estimate local tangents, enabling accurate reconstruction of the global cable
-profile~\cite{druptInertialmeasurementbasedCatenaryShape2022}. Compared to vision-based techniques,
-these approaches exhibit superior robustness under occlusions and low-visibility conditions, while
-extending the spatial range of shape reconstruction.
+profile using a simple catenary shape~\cite{druptInertialmeasurementbasedCatenaryShape2022}.
+Compared to vision-based techniques, these approaches exhibit superior robustness under occlusions
+and low-visibility conditions, while extending the spatial range of shape reconstruction.
+
+Catenary-based visual servoing algorithms estimate three-dimensional cable geometry by fitting
+parameterized catenary models to visual and inertial data using nonlinear optimization algorithms
+derived from the Gauss-Newton method~\cite{laranjeiraCatenarybasedVisualServoing2020}. These
+systems demonstrate resilience to partial visibility and high environmental disturbance, making
+them suitable for cooperative multi-robot scenarios.
 
 Recent advances have demonstrated the utility of \ac{imu} networks for monitoring buoy-ballast
 systems through dynamic simulation frameworks. These systems provide orientation and curvature
 amplitude data, supporting safer and more accurate tether
 deployment~\cite{peraudIMUbasedMonitoringBuoyBallast2024}. Complementary sensor modalities, such as
-ShapeTape, have been employed for dynamic tracking of cable shape in underwater
+ShapeTape, have also been employed for dynamic tracking of cable shape in underwater
 conditions~\cite{xuUnderwaterCableShape2016}.
 
 Fiber-optic shape sensing technologies, including distributed fiber Bragg grating systems, have
@@ -272,12 +273,6 @@ enabled continuous three-dimensional cable shape estimation in harsh underwater
 environments~\cite{florisFiberOpticShape2021}. These sensors provide intrinsic safety, immunity to
 electromagnetic interference, and adaptability for long-duration deployment, making them ideal for
 integration with tethered robotic platforms.
-
-Catenary-based visual servoing algorithms estimate three-dimensional cable geometry by fitting
-parameterized catenary models to visual and inertial data using nonlinear optimization algorithms
-derived from the Gauss-Newton method~\cite{laranjeiraCatenarybasedVisualServoing2020}. These
-systems demonstrate resilience to partial visibility and high environmental disturbance, making
-them suitable for cooperative multi-robot scenarios.
 
 Finally, multi-body dynamic simulations have been used to assess the interaction among the vehicle,
 tether, and tether management systems, particularly in deep-sea deployment and reeling
@@ -298,7 +293,7 @@ regulating umbilical geometry. The incorporation of free-moving ballasts and buo
 enables tension maintenance and predictable shape formation without requiring powered
 actuation~\cite{vielSelfManagementROVUmbilical2022}. This approach facilitates integration into
 existing ROV platforms with minimal modification while preserving navigational flexibility.
-Experimental tests conducted in controlled pool environments have validated the method’s efficacy,
+Experimental tests conducted in controlled pool environments have validated the method's efficacy,
 supported by lightweight computational models capable of providing real-time operator feedback.
 
 Specialized umbilical configurations have been proposed to suit diverse mission profiles. For
