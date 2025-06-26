@@ -7,7 +7,7 @@
 
 This chapter provides a comprehensive overview of the current state of the art concerning the
 control of chains of underwater robots interconnected via tethers, operating within known but
-constrained environments. Two primary scientific challenges are addressed throughout this thesis:
+constrained environments. Two primary scientific challenges are addressed throughout this chapter:
 
 \begin{itemize}
 	\item The safe and reliable control of underwater robots navigating through constrained environments;
@@ -195,10 +195,12 @@ adaptability. Notable examples include:
 	      required~\cite{raugelOperationalScientificCapabilities2019}.
 \end{itemize}
 
-\section{Cables in underwater robotics}
-\label{sota_cables_in_underwater_robotics}
+\section{Systems modelling}
 
-Cable modeling is a foundational aspect of underwater robotics using \acp{rov}, as the dynamic
+
+\subsection{Tether modelling}
+
+Tether modeling is a foundational aspect of underwater robotics using \acp{rov}, as the dynamic
 behavior of tethers and umbilicals directly impacts the performance, safety, and operational
 envelope of the vehicles. Accurate cable models are essential for simulation, design, and real-time
 estimation tasks, enabling the prediction of cable shape, tension, and interaction with the
@@ -207,7 +209,9 @@ requires specialized modeling approaches that can capture the coupling between t
 and fluid environment while maintaining computational efficiency for potential real-time
 applications.
 
-\subsection{Cable shape estimation}
+\subsubsection{Force estimation}
+
+\subsubsection{Shape estimation}
 \label{sota_cable_shape_estimation}
 
 The accurate modeling of underwater cable shape remains central to effective tethered robotic
@@ -279,6 +283,21 @@ tether, and tether management systems, particularly in deep-sea deployment and r
 contexts~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
 Incorporation of \acp{ancf} and mixed-coordinate methods allows for precise modeling of nonlinear
 coupling effects and large deformations during real-time mission operations.
+
+
+\subsection{Coupled modelling}
+
+\section{Control}
+
+\subsection{\Ac{uuv} control}
+
+\subsection{Tethered \ac{uuv} control}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Cables in underwater robotics}
+\label{sota_cables_in_underwater_robotics}
+
 
 \subsection{Cable management}
 \label{sota_cable_management}
