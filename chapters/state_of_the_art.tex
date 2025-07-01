@@ -202,10 +202,10 @@ adaptability. Notable examples include:
 The modelling of \acp{uuv} is a critical aspect of underwater robotics, as it provides the basis
 for simulation and model based control. It is however a relatively straightforward rigid body model
 as described in~\cite{fossenHandbookMarineCraft2011} for any seafaring vessel:
-\begin{gather}
-	\dot{\eta} = \matr{T}\left(\eta\right)\nu \\
-	\lrdmatr{M}{rb} \dot{\nu} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r} + \lrdmatr{C}{rb}\left(\nu\right) \nu + \left(\lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right)\right) \ldvect{\nu}{r} + s\left(\vect{\eta}\right) + \vect{b} = \omega + \tau \label{sota_uuv_modeling_dynamics}
-\end{gather}
+\begin{align}
+	\dot{\eta}                                                                                             & = \matr{T}\left(\eta\right)\nu \label{sota_uuv_modeling_kinematics}                                                                                                                                        \\
+	\lrdmatr{M}{rb} \dot{\nu} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r} + \lrdmatr{C}{rb}\left(\nu\right) \nu & + \left(\lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right)\right) \ldvect{\nu}{r} + s\left(\vect{\eta}\right) + \vect{b} = \omega + \tau \label{sota_uuv_modeling_dynamics}
+\end{align}
 
 where \vect{\eta} is the vehicle's position and orientation in the world frame, \vect{\nu} is its
 linear and angular velocity in its own frame, \ldvect{\nu}{r} is the relative velocity of the
@@ -217,10 +217,29 @@ corresponding Coriolis matrices, \matr{D} is the drag matrix, \scal{s} is the hy
 transformation matrix \matr{T} links the vehicle and world frames.
 
 With the assumption that the water current is irrotational and the vehicle is operated underwater
-without ballasts, \cref{sota_uuv_modeling_dynamics} can be simplified (\cite{fossenHandbookMarineCraft2011}) to:
-
+without ballasts, \cref{sota_uuv_modeling_dynamics} can be simplified
+(\cite{fossenHandbookMarineCraft2011}) to:
 \begin{align}
 	\matr{I}\dot{\nu} + \left(\matr{C}\left(\vect{\nu}\right) + \matr{D}\left(\vect{\nu}\right)\right) \vect{\nu} + s\left(\vect{\eta}\right) = \omega + \tau \label{sota_uuv_modeling_dynamics_simple}
+\end{align}
+
+With \matr{I} being the inertia matrix, \matr{C} the Coriolis matrix, and \matr{D} the drag matrix.
+
+furthermore, \cref{sota_uuv_modeling_kinematics,sota_uuv_modeling_dynamics_simple} can be expressed
+as a state-space system with $\vect{x} = \left[\vect{\eta}, \vect{\nu}\right]^T$:
+\begin{align}
+	\begin{bmatrix}
+		\lrdmatr{I}{d} & 0        \\
+		0              & \matr{I}
+	\end{bmatrix} \vect{\dot{x}} =
+	\begin{bmatrix}
+		0 & \matr{T}             \\
+		0 & -\matr{C} - \matr{D}
+	\end{bmatrix} \vect{x} +
+	\begin{bmatrix}
+		0 \\
+		\vect{\omega} + \vect{\tau} - s\left(\vect{\eta}\right)
+	\end{bmatrix}
 \end{align}
 
 \subsection{Tether modelling}
@@ -309,7 +328,6 @@ contexts~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbs
 Incorporation of \acp{ancf} and mixed-coordinate methods allows for precise modeling of nonlinear
 coupling effects and large deformations during real-time mission operations.
 
-
 \subsection{Coupled modelling}
 
 \section{Control}
@@ -322,7 +340,6 @@ coupling effects and large deformations during real-time mission operations.
 
 \section{Cables in underwater robotics}
 \label{sota_cables_in_underwater_robotics}
-
 
 \subsection{Cable management}
 \label{sota_cable_management}
