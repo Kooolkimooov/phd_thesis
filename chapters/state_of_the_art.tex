@@ -253,23 +253,21 @@ requires specialized modeling approaches that can capture the coupling between t
 and fluid environment while maintaining computational efficiency for potential real-time
 applications.
 
-\subsubsection{Force estimation}
-
-\subsubsection{Shape estimation}
-\label{sota_cable_shape_estimation}
-
 The accurate modeling of underwater cable shape remains central to effective tethered robotic
 operations, as the mechanical behavior of cables directly affects vehicle dynamics, energy
 consumption, and mission safety. A diverse range of modeling techniques has been developed to
 represent the physical characteristics of submerged cables across varying operational regimes.
 
-Classical modeling approaches include lumped-mass and rigid-flexible multibody formulations, which
+Classical modeling approaches include lumped-mass and nodal coordinate formulations, which
 approximate cables as a series of interconnected rigid bodies linked via elastic joints. These
 models facilitate simulation of large deformations and dynamic coupling with the
-vehicle~\cite{soyluDynamicsControlTethered2010,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
+vehicle~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
 The lumped-mass framework has seen widespread application in underwater towing systems, where
 discrete segments capture both bending and elevation
-dynamics~\cite{dasilvagomesNewDynamicModel2021}.
+dynamics~\cite{dasilvagomesNewDynamicModel2021}. These methods may be used to compute the shape of
+a tether as well as the forces it exerts on its attachment points, however, in applied cases, they
+are mostly used to compute forces. The computational time of nodal coordinate formulation can be as
+low as \qty{1}{\second} (\cite{westinEfficientSemiimplicitNumerical2023}).
 
 \Acp{fem} have emerged as high-fidelity alternatives for underwater cable
 simulation. By incorporating Euler-Bernoulli beam theory, \acp{fem} enable accurate modeling of bending
