@@ -4,6 +4,7 @@
 \minitoc{}
 
 \section{Introduction}
+\label{sota_introduction}
 
 This chapter provides a comprehensive overview of the current state of the art concerning the
 control of chains of underwater robots interconnected via tethers, operating within known but
@@ -15,13 +16,14 @@ constrained environments. Two primary scientific challenges are addressed throug
 	      overall control framework.
 \end{itemize}
 
-Accordingly, this chapter begins by reviewing developments in unmanned underwater robotics in
-\cref{sota_unmanned_underwater_robots}, emphasizing the various types of \acp{uuv}. Research
-related to cables used in underwater robotics is then examined
-(\cref{sota_cables_in_underwater_robotics}), with a focus on cable shape estimation and management
-techniques. Finally, control strategies for underwater robots are assessed in
-\cref{sota_robot_control}, with particular attention given to tethered configurations and their
-specific control challenges.
+This chapter is structured as follows. First, developments in unmanned underwater robotics are
+reviewed in \cref{sota_unmanned_underwater_robots}, emphasizing the various types of \acp{uuv} and
+their operational characteristics. Subsequently, systems modelling approaches are examined in
+\cref{sota_systems_modelling}, covering \ac{uuv} modelling, tether modelling, and coupled
+vehicle-tether dynamics. Control strategies for underwater robots are then assessed in
+\cref{sota_control}, with particular attention given to both general \ac{uuv} control and the
+specific challenges of tethered configurations. Finally, \cref{sota_discussion} discusses the key
+findings and identifies research gaps relevant to the thesis objectives.
 
 \section{\Glsentrylongpl{uuv}}
 \label{sota_unmanned_underwater_robots}
@@ -196,8 +198,10 @@ adaptability. Notable examples include:
 \end{itemize}
 
 \section{Systems modelling}
+\label{sota_systems_modelling}
 
-\subsection{\Ac{uuv} modelling}
+\subsection{\Ac{uuv} modelling} 
+\label{sota_sm_uuv_modelling}
 
 The modelling of \acp{uuv} is a critical aspect of underwater robotics, as it provides the basis
 for simulation and model based control. It is however a relatively straightforward rigid body model
@@ -243,6 +247,7 @@ as a state-space system with $\vect{x} = \left[\vect{\eta}, \vect{\nu}\right]^T$
 \end{align}
 
 \subsection{Tether modelling}
+\label{sota_sm_tether_modelling}
 
 Tether modeling is a foundational aspect of underwater robotics using \acp{rov}, as the dynamic
 behavior of tethers and umbilicals directly impacts the performance, safety, and operational
@@ -338,7 +343,7 @@ shape under arbitrary external forces and tether
 configurations~\cite{vielSelfmanagementROVUmbilical2024}. These models account for the presence of
 currents, passive and motorized elements on the tether, and the optional inclusion of \acp{tms}.
 Configurations suited for shallow water, deep-sea, near-wall, and cluttered environments can be
-simulated with high flexibility. 
+simulated with high flexibility.
 
 Validation through experimental data remains a key aspect of cable modeling. Ocean tank experiments
 using real \ac{rov} systems have been conducted to verify the accuracy of finite element cable
@@ -349,7 +354,7 @@ effects~\cite{palmInfluenceBendingStiffness2020}.
 For tethered \acp{rov}, innovative methods have been proposed that utilize the umbilical cable as a
 passive sensing element. For instance, by using the \ac{imu}-based estimation of the cable's shape
 presented in \cite{druptInertialmeasurementbasedCatenaryShape2022} the vehicle's position can be
-inferred. 
+inferred.
 
 Subsequent developments introduced advanced dynamic models that incorporate vehicle-tether
 interactions, enabling precise analysis and controller synthesis. Notably, lumped-mass models and
@@ -366,6 +371,7 @@ electromagnetic interference, and adaptability for long-duration deployment, mak
 integration with tethered robotic platforms.
 
 \subsection{Coupled modelling}
+\label{sota_sm_coupled_modelling}
 
 In multi-vehicle systems, cable management has been further refined through the use of smart cables
 with integrated sensing. These cables offer relative positioning capabilities and active buoyancy
@@ -393,9 +399,9 @@ contexts~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbs
 Incorporation of \acp{ancf} and mixed-coordinate methods allows for precise modeling of nonlinear
 coupling effects and large deformations during real-time mission operations.
 
-Alternatively, by incorporating mobile ballasts and buoys along the cable to enforce
-predictable geometries composed of straight-line segments, simple geometric models can be
-constructed. These allow for ROV position estimation through angular measurements at the tether
+Alternatively, by incorporating mobile ballasts and buoys along the cable to enforce predictable
+geometries composed of straight-line segments, simple geometric models can be constructed. These
+allow for ROV position estimation through angular measurements at the tether
 endpoints~\cite{vielROVLocalizationBased2023}. In this configuration, the umbilical itself becomes
 a source of position feedback, transforming a traditional liability into an estimation asset.
 
@@ -405,7 +411,6 @@ estimate the combined state of vehicle-tether systems, accounting for the transm
 tether deformation, and fluid interaction effects~\cite{htunSingularityfreeMultibodyModeling2021}.
 These models recognize that accurate localization and velocity estimation depend on modeling the
 tether's influence on overall vehicle motion.
-
 
 Sensor fusion techniques may be employed to enhance estimation robustness by integrating
 heterogeneous sensor inputs. Common combinations include \acp{imu}, depth sensors, and visual
@@ -461,8 +466,9 @@ reduction, and flow turbulence. These studies provide indispensable calibration 
 benchmarking of estimation algorithms in operational environments.
 
 \section{Control}
+\label{sota_control}
 
-\subsection{\Ac{uuv} control}
+\subsection{\Ac{uuv} control} \label{sota_c_uuv_control}
 
 The control of underwater robots entails distinctive challenges arising from the nonlinear,
 uncertain, and dynamic characteristics of the aquatic environment. These challenges include
@@ -500,8 +506,7 @@ combining robust filtering with sliding-window estimation have been developed to
 resilience and autonomy under uncertain operational
 conditions~\cite{songRobustStateEstimation2023}.
 
-
-\subsection{Tethered \ac{uuv} control}
+\subsection{Tethered \ac{uuv} control} \label{sota_c_tethered_uuv_control}
 
 A broad spectrum of control strategies has been formulated to address the unique challenges
 associated with underwater tethered robotic systems, wherein dynamic coupling among the vehicle,
@@ -536,9 +541,9 @@ functions as a variable-length link and each \ac{uav} acts as an articulated joi
 perspective facilitates complex coordinated motion through hybrid geometric and linear control
 strategies.
 
-Traditional \acp{tms} have evolved from mechanical winch-based
-deployment to actively controlled architectures. Dynamic mooring models have been introduced to
-simulate tether response to hydrodynamic loading, cable tension, and anchor-point
+Traditional \acp{tms} have evolved from mechanical winch-based deployment to actively controlled
+architectures. Dynamic mooring models have been introduced to simulate tether response to
+hydrodynamic loading, cable tension, and anchor-point
 movement~\cite{aaseModelingControlCatenary2018}. These systems often incorporate safety mechanisms
 such as tension constraints and alarm protocols, alerting operators when operational limits are
 exceeded.
@@ -625,5 +630,6 @@ coupled, and uncertain dynamics that characterize tethered marine robotics and e
 operation in complex environments.
 
 \section{Discussion}
+\label{sota_discussion}
 
 \lipsum[1]
