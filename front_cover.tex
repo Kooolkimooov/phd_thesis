@@ -4,34 +4,35 @@
 }{}{
 	\footnotesize{}\input{gitdescription}
 }
+
 \thispagestyle{title}
-\newgeometry{centering}
+\newgeometry{left=2cm,right=2cm,top=2cm}
 
 \begin{vplace}
 
 	\begin{center}
-
-		\textsc{\LARGE Doctoral Thesis}
-		\relax{}
-
-		\rule{\textwidth}{1pt}
-		\relax{}
-
-		\textbf{\HUGE
-			\thetitle{}
-		}
-
-		\relax{}
-
-		\rule{\textwidth}{1pt}
-		\relax{}
-
-	\end{center}
-
-	\begin{center}
 		\begin{minipage}[t]{0.75\textwidth}
 
-			presented by \theauthor{}
+			\begin{center}
+
+				\textsc{\LARGE Doctoral Thesis}
+				\relax{}
+
+				\rule{\textwidth}{1pt}
+				\relax{}
+
+				\textbf{\HUGE
+					\thetitle{}
+				}
+
+				\relax{}
+
+				\rule{\textwidth}{1pt}
+				\relax{}
+
+			\end{center}
+
+			by \theauthor{}
 
 			\begin{center}
 				\textit{under the supervision of}
@@ -45,8 +46,8 @@
 
 			at
 			\begin{itemize}[topsep=0pt,itemsep=2pt,partopsep=4pt, parsep=0pt]
-				\item[]\textsc{Mechanical and robotic systems design laboratory (COSMER)} 	% TODO: acronym
-				\item[]\textsc{Computer sciences and systems laboratory (LIS)}				% TODO: acronym
+				\item[]\textsc{\Ac{cosmer} laboratory}
+				\item[]\textsc{\Ac{lis}}
 				\item[]\textsc{Doctoral school 548 --- Sea and sciences}
 				\item[]\textsc{University of Toulon}
 			\end{itemize}
@@ -54,29 +55,26 @@
 
 			% Defended on \formatdate{1}{11}{2025} in front of a jury composed of:
 			to be defended in front of a jury composed of:
-
-			\vspace{.1cm}
-
-			% Dr. Prodan
-			% Pr. D'Andrea-Novel
-			% Dr. CR-CNRS Talj
-			% Pr. Fossen
-			% Dr. HDR Kermorgant
-			% Bertrand
-			% Dr. DR-CNRS HDR Marchand
+			\begin{tabularx}{.9\linewidth}{lll}
+				Pr. Éric Busvelle,           & president,  & \ac{lis}, University of Toulon    \\
+				Pr. Luc Jaulin,              & reviewer,   & Lab-STICC, ENSTA Bretagne         \\
+				Dr. Ionella Prodan,          & reviewer,   & LCIS, Grenoble INP                \\
+				Pr. Brigitte d'Andrea-Novel, & examiner,   & Mines Paris                       \\
+				Pr. Guillaume Allibert,      & examiner,   & I3S, Côte d'Azur University       \\
+				Dr. Nicolas Boizot,          & supervisor, & \ac{lis}, University of Toulon    \\
+				Dr. Claire Dune,             & advisor,    & \ac{cosmer}, University of Toulon \\
+			\end{tabularx}
+			\vspace{.5cm}
 
 			\begin{center}
-				\begin{tabularx}{.9\linewidth}{lll}
-					Pr. Éric Busvelle           & president,  & LIS, University of Toulon    \\
-					Pr. Luc Jaulin              & reviewer,   & Lab-STICC, ENSTA Bretagne    \\
-					Dr. Ionella Prodan          & reviewer,   & LCIS, Grenoble INP           \\
-					Pr. Brigitte d'Andrea-Novel & examiner,   & Mines Paris                  \\
-					Pr. Guillaume Allibert      & examiner,   & I3S, Côte d'Azur University  \\
-					Dr. Nicolas Boizot,         & supervisor, & LIS, University of Toulon    \\
-					Dr. Claire Dune,            & advisor,    & COSMER, University of Toulon \\
-				\end{tabularx}
+				\raisebox{-.5\height}{\includegraphics[width=.22\textwidth]{logo-cosmer-200.jpg}}
+				\hspace{1em}
+				\raisebox{-.5\height}{\includegraphics[width=.15\textwidth]{logo-lis.pdf}}
+				\hspace{1em}
+				\raisebox{-.5\height}{\includegraphics[width=.22\textwidth]{ed548.jpg}}
+				\hspace{1em}
+				\raisebox{-.5\height}{\includegraphics[width=.22\textwidth]{logo_univ_toulon_RVB.png}}
 			\end{center}
-			\vspace{.1cm}
 
 		\end{minipage}
 

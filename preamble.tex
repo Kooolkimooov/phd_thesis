@@ -1,7 +1,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+\usepackage{csquotes}
 \usepackage{graphics}
-\usepackage{geometry}
+\usepackage[
+	% showframe
+]{geometry}
 \usepackage{epsfig}
 \usepackage{mathptmx}
 \usepackage{amsmath}
@@ -177,7 +180,7 @@
 	\newcommand\shorttableofcontents{
 		{
 				\cleardoublepage
-				\renewcommand*{\contentsname}{Short contents}
+				\renewcommand*{\contentsname}{Short Contents}
 				\setcounter{tocdepth}{0}
 				\linespread{0.5}
 				\tableofcontents
@@ -187,7 +190,7 @@
 	\newcommand\longtableofcontents{
 		{
 				\cleardoublepage
-				\renewcommand*{\contentsname}{Full contents}
+				\renewcommand*{\contentsname}{Full Contents}
 				\setcounter{tocdepth}{10}
 				\hypertarget{table_of_contents}{}
 				\tableofcontents
@@ -334,6 +337,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% acronyms definitions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newacronym{cosmer}{COSMER}{mechanical and robotic systems}
+\newacronym{lis}{LIS}{computer science and systems laboratory}
 
 \newacronym{uuv}{UUV}{unmanned underwater vehicle}
 \newacronym{rov}{ROV}{remotely operated vehicle}
