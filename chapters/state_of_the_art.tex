@@ -267,129 +267,122 @@ With \lrdmatr{I}{d} the identity matrix. This representation serves as the found
 range of control strategies, including model predictive, adaptive, and robust approaches commonly
 employed in underwater robotics.
 
-\subsection{Tether modelling}
+\subsection{Tether Modelling}
 \label{sota_sm_tether_modelling}
 
-Tether modeling is a foundational aspect of underwater robotics using \acp{rov}, as the dynamic
-behavior of tethers and umbilicals directly impacts the performance, safety, and operational
-envelope of the vehicles. Accurate cable models are essential for simulation, design, and real-time
-estimation tasks, enabling the prediction of cable shape, tension, and interaction with the
-environment under a variety of operational scenarios. The complexity of underwater cable dynamics
-requires specialized modeling approaches that can capture the coupling between the cable, vehicle,
-and fluid environment while maintaining computational efficiency for potential real-time
-applications.
+The modeling of tethers constitutes a fundamental aspect of underwater robotics involving
+\acp{rov}, as the dynamic response of tethers and umbilicals critically influences vehicle
+performance, mission safety, and operational reliability. Accurate tether models are essential for
+simulation, control design, and real-time state estimation, providing predictive insights into
+cable geometry, tension, and environmental interactions across diverse operating conditions. The
+intrinsic complexity of underwater tether dynamics necessitates modeling frameworks that capture
+the coupled behavior between the tether, vehicle, and surrounding fluid, while ensuring
+computational tractability for real-time implementation.
 
-The accurate modeling of underwater cable shape remains central to effective tethered robotic
-operations, as the mechanical behavior of cables directly affects vehicle dynamics, energy
-consumption, and mission safety. A diverse range of modeling techniques has been developed to
-represent the physical characteristics of submerged cables across varying operational regimes.
+Accurately characterizing underwater cable shape remains pivotal for effective tethered operations,
+as the mechanical configuration of the cable directly impacts vehicle maneuverability, energy
+consumption, and mission integrity. Consequently, a variety of modeling techniques have been
+introduced to represent submerged cable mechanics across operational regimes.
 
-Classical modeling approaches include lumped-mass and nodal coordinate formulations, which
-approximate cables as a series of interconnected rigid bodies linked via elastic joints. These
-models facilitate simulation of large deformations and dynamic coupling with the
+Early modeling approaches adopted lumped-mass and nodal coordinate formulations, treating cables as
+discrete segments interconnected by elastic joints. These methods supported the simulation of large
+deformations and dynamic interactions with the host
 vehicle~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
-The lumped-mass framework has seen widespread application in underwater towing systems, where
-discrete segments capture both bending and elevation
-dynamics~\cite{dasilvagomesNewDynamicModel2021}. These methods may be used to compute the shape of
-a tether as well as the forces it exerts on its attachment points, however, in applied cases, they
-are mostly used to compute forces. The computational time of nodal coordinate formulation can be as
-low as \qty{1}{\second} (\cite{westinEfficientSemiimplicitNumerical2023}).
+The lumped-mass approach, in particular, has been widely applied in underwater towing systems,
+offering efficient capture of bending and elevation
+behavior~\cite{dasilvagomesNewDynamicModel2021}. Although capable of estimating both cable shape
+and force transmission at attachment points, these models are predominantly employed for force
+prediction in applied contexts. The nodal coordinate method has demonstrated execution times as
+short as \qty{1}{\second}~\cite{westinEfficientSemiimplicitNumerical2023}.
 
-\Acp{fem} have emerged as high-fidelity alternatives for underwater cable
-simulation. By incorporating Euler-Bernoulli beam theory, \acp{fem} enable accurate modeling of bending
-stiffness and low-tension dynamics—conditions typical in slack cable operations or obstacle contact
-scenarios~\cite{o.aFiniteElementCablemodel2018}. Galerkin-based time integration schemes have also been
-employed to resolve the temporal evolution of cable states with high resolution, and experimental
-ocean tank trials have confirmed their predictive capability~\cite{palmInfluenceBendingStiffness2020}.
-These enhancements account for the transition between axial and bending-dominated regimes, which is
-critical in applications such as \ac{rov} umbilicals or low-tension cable deployment.
+High-fidelity alternatives emerged in the form of \acp{fem} for cable simulation, enabling accurate
+modeling of bending stiffness and slack cable behavior by integrating Euler-Bernoulli beam
+theory~\cite{o.aFiniteElementCablemodel2018}. These models are particularly effective under
+low-tension conditions and during interactions with obstacles. Time-domain resolution of the
+cable's evolution has been achieved using Galerkin-based integration schemes, whose accuracy has
+been validated through ocean tank experiments~\cite{palmInfluenceBendingStiffness2020}. The ability
+of these methods to transition between axial-dominated and bending-dominated regimes is especially
+critical in modeling \ac{rov} umbilicals and compliant cable deployment.
 
-For cables undergoing large deformations, geometrically exact beam theories has been employed to
-model displacement, rotation, and cross-sectional deformation in a unified
-framework~\cite{dehadraiTransientPlanarDynamics2022}. Such formulations are especially applicable
-to aerial or underwater towed systems, where distributed hydrodynamic or aerodynamic loads are
-integrated across cable segments. Additionally, nonlinear \acp{fem} have been extended to
-incorporate structural degradation effects, including damage localization and strain-induced
-coupling among axial, torsional, and bending modes~\cite{beltranEvaluationCoupledEffect2020}.
+\todo{add time consideration}
 
-An alternative to dynamic cable modeling has been proposed through the use of an ellipsoid tether
-model, which provides a conservative geometric envelope around the cable based solely on its
-attachment points and length~\cite{vielEllipsoidTetherModel2024a}. This model enables guaranteed
-collision avoidance without requiring knowledge of the tether's shape or dynamics. Initially
-developed for multi-\ac{rov} scenarios, it integrates efficiently with potential field methods and
-tether length management, offering a lightweight and scalable solution for real-time applications
-in cluttered environments.
+For scenarios involving large deformations, geometrically exact beam theories have been implemented
+to model coupled translational, rotational, and cross-sectional deformations within a unified
+framework~\cite{dehadraiTransientPlanarDynamics2022}. These models are well-suited to underwater
+towed systems experiencing distributed hydrodynamic loads. Nonlinear \acp{fem} have further been
+extended to capture structural degradation effects, such as damage localization and strain-induced
+coupling between axial, bending, and torsional modes~\cite{beltranEvaluationCoupledEffect2020}.
 
-Beyond modeling, real-time estimation of cable shape has been pursued through various sensing
-strategies. Inertial-measurement-based methods have been developed, wherein \acp{imu} affixed along
-the cable length estimate local tangents, enabling accurate reconstruction of the global cable
-profile using a simple catenary shape~\cite{druptInertialmeasurementbasedCatenaryShape2022}.
-Compared to vision-based techniques, these approaches exhibit superior robustness under occlusions
-and low-visibility conditions, while extending the spatial range of shape reconstruction.
+\todo{add time consideration}
 
-Catenary-based visual servoing algorithms estimate three-dimensional cable geometry by fitting
-parameterized catenary models to visual and inertial data using nonlinear optimization algorithms
-derived from the Gauss-Newton method~\cite{laranjeiraCatenarybasedVisualServoing2020}. These
-systems demonstrate resilience to partial visibility and high environmental disturbance, making
-them suitable for cooperative multi-robot scenarios.
+A non-dynamic alternative has been proposed through the ellipsoid tether model, which provides a
+conservative geometric envelope enclosing the possible tether volume, based solely on endpoint
+positions and cable length~\cite{vielEllipsoidTetherModel2024a}. Initially conceived for
+multi-\ac{rov} coordination, this model facilitates guaranteed collision avoidance and integrates
+efficiently with potential-field-based navigation and tether-length control, offering real-time
+scalability in cluttered operational domains.
 
-Recent advances have demonstrated the utility of \ac{imu} networks for monitoring buoy-ballast
-systems through dynamic simulation frameworks. These systems provide orientation and curvature
-amplitude data, supporting safer and more accurate tether
-deployment~\cite{peraudIMUbasedMonitoringBuoyBallast2024}. Complementary sensor modalities, such as
-ShapeTape, have also been employed for dynamic tracking of cable shape in underwater
-conditions~\cite{xuUnderwaterCableShape2016}.
+\todo{add time consideration}
 
-Effective cable management remains a critical requirement in underwater robotic operations, as
-tethers and umbilicals introduce complexities including entanglement risks, unpredictable geometry,
-and intricate interactions with the environment. A variety of strategies have been developed to
-address these challenges, ranging from passive self-regulation to active control frameworks.
+Beyond model-based prediction, real-time estimation of cable shape has been pursued using embedded
+sensing. Inertial measurement-based strategies employing distributed \acp{imu} along the cable have
+been developed to estimate local tangents, from which the global cable profile is reconstructed
+using a parameterized catenary shape~\cite{druptInertialmeasurementbasedCatenaryShape2022}. These
+methods have shown resilience in occluded and low-visibility conditions and outperform vision-based
+approaches in spatial coverage and robustness.
 
-Passive self-management strategies have provided a low-complexity yet effective solution for
-regulating umbilical geometry. The incorporation of free-moving ballasts and buoys along the tether
-enables tension maintenance and predictable shape formation without requiring powered
-actuation~\cite{vielSelfManagementROVUmbilical2022}. This approach facilitates integration into
-existing ROV platforms with minimal modification while preserving navigational flexibility.
-Experimental tests conducted in controlled pool environments have validated the method's efficacy,
-supported by lightweight computational models capable of providing real-time operator feedback.
+\todo{add time consideration}
 
-Specialized umbilical configurations have been proposed to suit diverse mission profiles. For
-example, specific arrangements have been designed for near-surface surveys, seafloor exploration,
-and navigation through obstacle-dense areas~\cite{vielSelfmanagementUmbilicalROV2022}. These
-strategies consider hydrodynamic forces from waves and currents, enabling adaptability across
-varying operational conditions.
+A simulation-validated approach has been proposed to monitor a neutrally buoyant tether using a
+compliant buoy-ballast system equipped with distributed
+\acp{imu}~\cite{peraudIMUbasedMonitoringBuoyBallast2024}. The system estimates inter-buoy distance,
+local curvature, and pulling direction through finite-difference-based dynamics and inertial
+sensing. Simulation and experimental validation confirm high precision and reveal utility for winch
+control and \ac{usv} trajectory adjustment, especially under complex \ac{rov} maneuvers.
 
-More recently, general-purpose three-dimensional models have been developed to predict umbilical
-shape under arbitrary external forces and tether
-configurations~\cite{vielSelfmanagementROVUmbilical2024}. These models account for the presence of
-currents, passive and motorized elements on the tether, and the optional inclusion of \acp{tms}.
-Configurations suited for shallow water, deep-sea, near-wall, and cluttered environments can be
-simulated with high flexibility.
+Effective tether management is essential in underwater robotics due to the potential for
+entanglement, complex geometries, and uncertain interactions with the environment. Solutions span
+both passive and active management strategies. Passive self-management methods utilize mobile buoys
+and ballasts affixed along the cable to maintain tension and enforce shape predictability,
+requiring no active actuation~\cite{vielSelfManagementROVUmbilical2022}. These methods are amenable
+to integration with existing platforms, offer minimal hardware overhead, and support real-time
+operator feedback via lightweight computational models. Their effectiveness has been validated
+through controlled pool trials.
 
-Validation through experimental data remains a key aspect of cable modeling. Ocean tank experiments
-using real \ac{rov} systems have been conducted to verify the accuracy of finite element cable
-models~\cite{o.aFiniteElementCablemodel2018}. Field validation has emphasized the importance of
-bending stiffness in short-tether dynamics and in capturing snap load
-effects~\cite{palmInfluenceBendingStiffness2020}.
+Custom tether configurations have been tailored for specific operational settings, including
+near-surface surveys, bottom-following missions, and confined-space
+navigation~\cite{vielSelfmanagementUmbilicalROV2022}. These designs accommodate variable
+hydrodynamic forces arising from currents and waves, allowing adaptability across diverse
+underwater environments.
 
-For tethered \acp{rov}, innovative methods have been proposed that utilize the umbilical cable as a
-passive sensing element. For instance, by using the \ac{imu}-based estimation of the cable's shape
-presented in \cite{druptInertialmeasurementbasedCatenaryShape2022} the vehicle's position can be
-inferred.
+Recent developments have introduced general-purpose three-dimensional umbilical models capable of
+simulating cable response under arbitrary force fields and tethered
+configurations~\cite{vielSelfmanagementROVUmbilical2024}. These models account for hydrodynamic
+currents, the presence of passive or motorized tether elements, and optional tether management
+systems (\acp{tms}). Configurations appropriate for shallow-water, deep-sea, near-wall, and
+obstacle-rich settings can be simulated efficiently.
 
-Subsequent developments introduced advanced dynamic models that incorporate vehicle-tether
-interactions, enabling precise analysis and controller synthesis. Notably, lumped-mass models and
-rigid-flexible multibody formulations have been employed to capture the complex motion of tethered
-systems under various environmental and operational
-conditions~\cite{soyluDynamicsControlTethered2010,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
-These models support the design of control algorithms capable of compensating for disturbances
-arising from cable tension fluctuations, hydrodynamic loads, and oscillatory tether-induced forces.
+Experimental validation has remained central to advancing cable models. Ocean tank experiments with
+\ac{rov} systems have confirmed the accuracy of high-fidelity finite element
+simulations~\cite{o.aFiniteElementCablemodel2018}. Field trials have emphasized the importance of
+bending stiffness, particularly in short-tether scenarios and in capturing phenomena such as snap
+loads~\cite{palmInfluenceBendingStiffness2020}.
 
-Fiber-optic shape sensing technologies, including distributed fiber Bragg grating systems, have
-enabled continuous three-dimensional cable shape estimation in harsh underwater
-environments~\cite{florisFiberOpticShape2021}. These sensors provide intrinsic safety, immunity to
-electromagnetic interference, and adaptability for long-duration deployment, making them ideal for
-integration with tethered robotic platforms.
+In certain implementations, the umbilical itself has been exploited as a passive sensing structure.
+For example, vehicle position has been inferred from real-time reconstruction of tether shape using
+distributed \acp{imu}~\cite{druptInertialmeasurementbasedCatenaryShape2022}.
+
+Dynamic models incorporating vehicle-tether coupling have enabled refined control design by
+capturing the motion of the combined system under operational and environmental variability.
+Notably, lumped-mass and rigid-flexible multibody formulations have supported the design of
+controllers that compensate for tether-induced oscillations, tension fluctuations, and hydrodynamic
+loads~\cite{soyluDynamicsControlTethered2010,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
+
+Finally, recent advances in fiber-optic sensing technologies, particularly those based on fiber
+Bragg gratings, have allowed for continuous shape estimation of submerged cables in harsh
+conditions~\cite{florisFiberOpticShape2021}. These sensors offer electromagnetic immunity,
+intrinsic safety, and long-duration reliability, aligning well with the demands of tethered robotic
+applications.
 
 \subsection{Coupled modelling}
 \label{sota_sm_coupled_modelling}
