@@ -211,7 +211,7 @@ for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}:
 	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
 	                  & + \lrdmatr{C}{rb}\left(\vect{\nu}\right) \vect{\nu}
 	+ \left( \lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right) \right) \ldvect{\nu}{r}
-	+ \vect{s}\left(\vect{\eta}\right) + \vect{b} = \vect{\omega} + \vect{\tau}
+	+ \vect{s}\left(\vect{\eta}\right) = \vect{\omega} + \vect{\tau}
 	\label{sota_uuv_modeling_dynamics}
 \end{align}
 
@@ -225,7 +225,6 @@ In these equations:
 	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are their associated Coriolis matrices.
 	\item \matr{D} is the hydrodynamic damping matrix.
 	\item $\vect{s}\left(\vect{\eta}\right)$ represents the hydrostatic restoring force.
-	\item \vect{b} is the constant ballast-induced force.
 	\item \vect{\omega} includes environmental disturbances such as wind and wave loads.
 	\item \vect{\tau} is the control input.
 \end{itemize}
@@ -244,19 +243,24 @@ Here, \matr{I} is the generalized inertia matrix, \matr{C} is the Coriolis matri
 the damping matrix.
 
 Furthermore, \cref{sota_uuv_modeling_kinematics,sota_uuv_modeling_dynamics_simple} may be combined
-into a state-space representation with the composite state vector $\vect{x} = \left[\vect{\eta},
-		\vect{\nu}\right]^T$:
+into a state-space representation:
 \begin{align}
 	\begin{bmatrix}
 		\lrdmatr{I}{d} & 0        \\
 		0              & \matr{I}
 	\end{bmatrix}
-	\dot{\vect{x}} & =
+	\begin{bmatrix}
+		\dot{\vect{\eta}} \\
+		\dot{\vect{\nu}}
+	\end{bmatrix} & =
 	\begin{bmatrix}
 		0 & \matr{T}(\vect{\eta})                        \\
 		0 & -\matr{C}(\vect{\nu}) - \matr{D}(\vect{\nu})
 	\end{bmatrix}
-	\vect{x}
+	\begin{bmatrix}
+		\vect{\eta} \\
+		\vect{\nu}
+	\end{bmatrix}
 	+
 	\begin{bmatrix}
 		0 \\
@@ -264,7 +268,8 @@ into a state-space representation with the composite state vector $\vect{x} = \l
 	\end{bmatrix}
 \end{align}
 
-With \lrdmatr{I}{d} the identity matrix.
+With \lrdmatr{I}{d} the identity matrix. The state vector is $\vect{x} = \left[\vect{\eta},
+		\vect{\nu}\right]^T$.
 
 \subsection{Tether Modelling}
 \label{sota_sm_tether_modelling}
@@ -473,8 +478,7 @@ environments.
 \section{Control}
 \label{sota_control}
 
-\subsection{\Ac{uuv} control}
-\label{sota_c_uuv_control}
+\subsection{\Ac{uuv} control} \label{sota_c_uuv_control}
 
 The control of underwater robots entails distinctive challenges arising from the nonlinear,
 uncertain, and dynamic characteristics of the aquatic environment. These challenges include
@@ -484,12 +488,12 @@ estimation, and control strategies has been developed in recent years.
 
 Underwater manipulation has been advanced through the integration of deployable agent vehicles
 connected via smart, flexible tethers. In place of conventional rigid manipulator arms, small and
-highly maneuverable agent remotely operated vehicles (ROVs) have been utilized as mobile
-end-effectors. The smart cable in this configuration provides relative position tracking and active
-buoyancy control, enabling fine manipulation and monitoring with minimal structural modifications
-to the primary platform~\cite{yuArmlessUnderwaterManipulation2013}. This paradigm demonstrates the
-feasibility of distributed manipulation architectures tailored for cluttered or constrained
-underwater environments.
+highly maneuverable agent \acp{rov} have been utilized as mobile end-effectors. The smart cable in
+this configuration provides relative position tracking and active buoyancy control, enabling fine
+manipulation and monitoring with minimal structural modifications to the primary
+platform~\cite{yuArmlessUnderwaterManipulation2013}. This paradigm demonstrates the feasibility of
+distributed manipulation architectures tailored for cluttered or constrained underwater
+environments.
 
 Robust control approaches remain essential to ensure stable and reliable underwater operation.
 \Acp{nmpc} schemes have been formulated to navigate vehicles in constrained workspaces, accounting
