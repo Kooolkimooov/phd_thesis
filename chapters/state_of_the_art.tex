@@ -284,27 +284,28 @@ as the mechanical configuration of the cable directly impacts vehicle maneuverab
 consumption, and mission integrity. Consequently, a variety of modeling techniques have been
 introduced to represent submerged cable mechanics across operational regimes.
 
-Early modeling approaches adopted lumped-mass and nodal coordinate formulations, treating cables as
-discrete segments interconnected by elastic joints. These methods supported the simulation of large
-deformations and dynamic interactions with the host
-vehicle~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
-The lumped-mass approach, in particular, has been widely applied in underwater towing systems,
-offering efficient capture of bending and elevation
-behavior~\cite{dasilvagomesNewDynamicModel2021}. Although capable of estimating both cable shape
-and force transmission at attachment points, these models are predominantly employed for force
-prediction in applied contexts. The nodal coordinate method has demonstrated execution times as
-short as \qty{1}{\second}~\cite{westinEfficientSemiimplicitNumerical2023}.
+Early dynamic modeling approaches adopted lumped-mass formulation, this method links rigid bodies
+together in various ways including ball joints, springs, and dampers, to simulate the shape of a
+cable~\cite{banerjeeDeploymentControlCable1995,hallValidationLumpedmassMooring2015}. Later
+extensions to this method added \ac{fem} approaches to model bending and torsion. Accuracy and
+computational efficiency are proportional to the number of elements used to represent the tether.
 
-High-fidelity alternatives emerged in the form of \acp{fem} for cable simulation, enabling accurate
-modeling of bending stiffness and slack cable behavior by integrating Euler-Bernoulli beam
+Incorporation of \acp{ancf} in beam theory allows for precise modeling of nonlinear coupling
+effects and large
+deformations~\cite{htunDynamicModelingRadially2020,htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022}.
+Although capable of estimating both cable shape and force transmission at attachment points, these
+models are predominantly employed for force prediction in applied contexts. The nodal coordinate
+method has demonstrated execution times as short as
+\qty{1}{\second}~\cite{westinEfficientSemiimplicitNumerical2023}.
+
+Alternatives emerged in the form of \acp{fem} for cable simulation, enabling accurate modeling of
+bending stiffness and slack cable behavior by integrating Euler-Bernoulli beam
 theory~\cite{o.aFiniteElementCablemodel2018}. These models are particularly effective under
 low-tension conditions and during interactions with obstacles. Time-domain resolution of the
 cable's evolution has been achieved using Galerkin-based integration schemes, whose accuracy has
 been validated through ocean tank experiments~\cite{palmInfluenceBendingStiffness2020}. The ability
 of these methods to transition between axial-dominated and bending-dominated regimes is especially
 critical in modeling \ac{rov} umbilicals and compliant cable deployment.
-
-\todo{add time consideration}
 
 For scenarios involving large deformations, geometrically exact beam theories have been implemented
 to model coupled translational, rotational, and cross-sectional deformations within a unified
