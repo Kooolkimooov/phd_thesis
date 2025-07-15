@@ -339,41 +339,17 @@ Finite element models typically require seconds to minutes for evaluation, depen
 resolution and nonlinearity, making them more suitable for offline analysis and detailed design
 studies rather than real-time control applications.
 
-The most sophisticated tether modeling approaches employ advanced continuum mechanics formulations
-to capture complex fluid-structure interactions and material
-nonlinearities.~\cite{wuIntegratedHydrodynamicsControl2018} developed \ac{cfd}-based methods
-solving Navier-Stokes equations coupled with finite difference cable models, providing detailed
-insights into flow-structure interactions.
+Finite element models typically require seconds to minutes for evaluation, depending on mesh
+resolution and nonlinearity, making them more suitable for offline analysis and detailed design
+studies rather than real-time control applications.
 
-In~\cite{xuHydrodynamicAnalysisTethered2022, xuNumericalSimulationHydrodynamics2022} comprehensive
-hydrodynamic analysis was employed incorporating both cable and vehicle dynamics under various sea
-conditions. These approaches offer the highest accuracy but require substantial computational
-resources, often necessitating high-performance computing clusters for practical implementation.
+For applications requiring real-time performance, computational efficiency remains a critical
+consideration in tether modeling. Simple geometric models enable control loop frequencies exceeding
+\qty{100}{\hertz}, while lumped parameter models typically operate at \qtyrange{10}{50}{\hertz}.
+Finite element approaches are generally limited to \qtyrange{1}{10}{\hertz}, making them more
+suitable for supervisory control or offline trajectory planning.
 
-\cite{suSPHDEMModelingCablecontrolled2024} introduced novel \ac{sph}-\ac{dem} modeling approaches for cable-controlled systems, enabling detailed particle-scale simulation of cable-environment interactions.
-
-Several specialized modeling approaches have been developed for specific operational
-scenarios.~\cite{abreuMarineVehiclesStreamers2016} addressed marine vehicles with streamers for
-geotechnical surveys, employing Kane's method for coupled streamer-vehicle
-dynamics.~\cite{banerjeeDeploymentControlCable1995} focused on deployment control scenarios,
-developing variable mass cable models subject to motion constraints and hydrodynamic forces.
-
-For multi-agent systems,~\cite{htunSingularityfreeMultibodyModeling2021,
-	htunTheoryApplicationAbsolute2022} developed sophisticated multi-body dynamic models using
-\acp{ancf} and mixed-coordinate methods to assess vehicle-tether-management system interactions
-during deployment and retrieval operations.
-
-In~\cite{palmInfluenceBendingStiffness2020, florisFiberOpticShape2021} the influence of bending
-stiffness and fiber-optic shape sensing was investigated on tether behavior, providing insights
-into cable material properties and sensing capabilities.
-
-The choice of tether modeling approach significantly impacts real-time implementation feasibility.
-Simple geometric models enable control loop frequencies exceeding \qty{100}{\hertz}, while lumped
-parameter models typically operate at \qtyrange{10}{50}{\hertz}. Finite element approaches are
-generally limited to \qtyrange{1}{10}{\hertz}, making them more suitable for supervisory control or
-offline trajectory planning.
-
-\cite{westinEfficientSemiimplicitNumerical2023} addressed computational efficiency through semi-implicit numerical methods, achieving improved stability and reduced computational requirements for real-time applications. The development of efficient numerical schemes remains an active area of research, particularly for applications requiring both high fidelity and real-time performance.
+~\cite{westinEfficientSemiimplicitNumerical2023} addressed computational efficiency through semi-implicit numerical methods, achieving improved stability and reduced computational requirements for real-time applications. The development of efficient numerical schemes remains an active area of research, particularly for applications requiring both high fidelity and real-time performance.
 
 Contemporary tether modeling research increasingly focuses on balancing accuracy with computational
 tractability, recognizing that the optimal modeling approach depends strongly on the specific
@@ -384,102 +360,121 @@ performance~\cite{hongDynamicsModelingMotion2020, htunDynamicModelingRadially202
 \subsection{Coupled modelling}
 \label{sota_sm_coupled_modelling}
 
-In multi-vehicle systems, cable management has been further refined through the use of smart cables
-with integrated sensing. These cables offer relative positioning capabilities and active buoyancy
-control without the need for separate localization
-devices~\cite{yuArmlessUnderwaterManipulation2013}. This has enabled deployment of small, agile
-ROVs as manipulative end-effectors tethered to a primary platform, enhancing the operational range
-and dexterity in constrained environments.
+The modeling of coupled vehicle-tether systems represents a critical advancement in underwater
+robotics, as the dynamic interactions between flexible cables and underwater vehicles significantly
+influence overall system behavior. Unlike standalone tether or vehicle models, coupled approaches
+explicitly account for the bidirectional force transmission, hydrodynamic interactions, and
+constrained motion that characterize tethered underwater systems.
 
-Simulation platforms have been developed to analyze cable-robot-environment interactions. The
-\ac{uuv} Simulator, based on the Gazebo framework, supports modeling of hydrodynamic effects,
-thruster dynamics, and environmental disturbances~\cite{manhaesUUVSimulatorGazebobased2016}. In
-parallel, class-specific simulators such as the BlueROV2 model implemented in
-Simulink\texttrademark{} offer benchmarks for control algorithm development and
-validation~\cite{vonbenzonOpenSourceBenchmarkSimulator2022}.
+The most sophisticated coupled modeling approaches employ advanced continuum mechanics formulations
+to capture complex fluid-structure interactions between the tether, vehicle, and surrounding
+fluid.~\cite{wuIntegratedHydrodynamicsControl2018} developed \ac{cfd}-based methods solving
+Navier-Stokes equations coupled with finite difference cable models, providing detailed insights
+into flow-structure interactions. These integrated simulation environments model the complete
+dynamics between \acp{rov}, tethers, and propulsion systems, offering detailed insights into
+flow-structure interactions.
 
-Integrated simulation environments have been constructed to model coupled dynamics between
-\acp{rov}, tethers, and propulsion systems. \Ac{cfd}-based methods have been employed to solve
-Navier-Stokes equations, with cable behavior modeled using finite difference
-techniques~\cite{wuIntegratedHydrodynamicsControl2018}. These coupled hydrodynamic models offer
-detailed insights into flow-structure interactions.
+In~\cite{xuHydrodynamicAnalysisTethered2022, xuNumericalSimulationHydrodynamics2022} comprehensive
+hydrodynamic analysis were employed incorporating both cable and vehicle dynamics under various sea
+conditions. These approaches offer high accuracy in representing coupled behaviors but require
+substantial computational resources, often necessitating high-performance computing clusters for
+practical implementation.
 
-Finally, multi-body dynamic simulations have been used to assess the interaction among the vehicle,
-tether, and tether management systems, particularly in deep-sea deployment and reeling
-contexts~\cite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995}.
-Incorporation of \acp{ancf} and mixed-coordinate methods allows for precise modeling of nonlinear
-coupling effects and large deformations during real-time mission operations.
+In~\cite{suSPHDEMModelingCablecontrolled2024} novel \ac{sph}-\ac{dem} modeling approaches were
+introduced for cable-controlled systems, enabling detailed particle-scale simulation of
+cable-environment interactions while maintaining computational tractability for coupled system
+analysis.
 
-Alternatively, by incorporating mobile ballasts and buoys along the cable to enforce predictable
-geometries composed of straight-line segments, simple geometric models can be constructed. These
-allow for ROV position estimation through angular measurements at the tether
-endpoints~\cite{vielROVLocalizationBased2023}. In this configuration, the umbilical itself becomes
-a source of position feedback, transforming a traditional liability into an estimation asset.
+Multi-body dynamic simulations have emerged as powerful tools for modeling
+vehicle-tether-management system interactions, particularly in deployment and retrieval
+scenarios.~\cite{htunSingularityfreeMultibodyModeling2021, htunTheoryApplicationAbsolute2022}
+developed sophisticated multi-body dynamic models using \acp{ancf} and mixed-coordinate methods to
+assess vehicle-tether-management system interactions during deployment and retrieval operations.
+These approaches enable precise modeling of nonlinear coupling effects and large deformations
+during real-time mission operations.
 
-In tethered configurations, state estimation is particularly complex due to the tight dynamic
-coupling between the vehicle and the cable. Multi-body dynamic models have been developed to
-estimate the combined state of vehicle-tether systems, accounting for the transmission of forces,
-tether deformation, and fluid interaction effects~\cite{htunSingularityfreeMultibodyModeling2021}.
-These models recognize that accurate localization and velocity estimation depend on modeling the
+In~\cite{banerjeeDeploymentControlCable1995}, the focus was on deployment control scenarios,
+developing variable mass cable models subject to motion constraints and hydrodynamic forces. Their
+approach addresses the iterative coupling between cable dynamics and vehicle motion, where
+constraint forces depend nonlinearly on both systems.
+
+Advanced coupled systems incorporate smart cables with integrated sensing and actuation
+capabilities. These systems transform the traditional passive tether into an active component of
+the robotic system.~\cite{yuArmlessUnderwaterManipulation2013} demonstrated the use of smart cables
+offering relative positioning capabilities and active buoyancy control, enabling the deployment of
+small, agile \acp{rov} as manipulative end-effectors tethered to a primary platform.
+
+For specialized applications,~\cite{abreuMarineVehiclesStreamers2016} addressed marine vehicles
+with sensor-equipped cables (streamer) for geotechnical surveys, employing Kane's method for
+coupled streamer-vehicle dynamics. This approach demonstrates the adaptability of multi-body
+methods to specific operational configurations while maintaining computational efficiency.
+
+The integration of controllable elements along the tether enables predictable geometric
+configurations.~\cite{vielROVLocalizationBased2023} proposed methods where the umbilical is
+equipped with moving ballasts and buoys to enforce straight-line segments, transforming the cable
+into a position sensing element. In this configuration, the umbilical becomes a source of position
+feedback, converting a traditional constraint into an estimation asset.
+
+Similarly,~\cite{vielSelfManagementROVUmbilical2022} introduced sliding buoys for passive cable
+management, maintaining tension and preventing self-entanglement while providing predictable
+configurations suitable for coupled system modeling.
+
+State estimation in tethered configurations presents unique challenges due to tight dynamic
+coupling between vehicle and cable. Multi-body dynamic models have been developed to estimate the
+combined state of vehicle-tether systems, accounting for force transmission, tether deformation,
+and fluid interaction effects~\cite{htunSingularityfreeMultibodyModeling2021}. These models
+recognize that accurate localization and velocity estimation depend fundamentally on modeling the
 tether's influence on overall vehicle motion.
 
-Sensor fusion techniques may be employed to enhance estimation robustness by integrating
-heterogeneous sensor inputs. Common combinations include \acp{imu}, depth sensors, and visual
-sensors, with fusion frameworks designed to mitigate the limitations of each
-modality~\cite{laranjeiraCatenarybasedVisualServoing2020}. These systems operate effectively under
-adverse conditions such as turbidity, current disturbances, or low lighting.
-
-Vision-based estimation methods have demonstrated particular efficacy in underwater robotics.
-Through the use of onboard cameras, geometric and kinematic information about the robot's pose and
-its surrounding environment can be extracted. In tethered scenarios, visual servoing approaches
-have been employed to simultaneously estimate the vehicle pose and tether shape by optimizing
-parameterized catenary models through nonlinear least-squares methods adapted from Gauss-Newton
-algorithms~\cite{laranjeiraCatenarybasedVisualServoing2020}. These techniques remain effective even
+Vision-based estimation methods have demonstrated particular effectiveness in coupled systems.
+Visual servoing approaches simultaneously estimate vehicle pose and tether shape by optimizing
+parameterized catenary models through nonlinear least-squares
+methods~\cite{laranjeiraCatenarybasedVisualServoing2020}. These techniques remain effective even
 with partial cable visibility or environmental perturbations.
 
-To improve estimation accuracy under uncertainty, advanced filtering and hybrid observer designs
-have been introduced. Robust state estimation algorithms have been developed to address sensor
-noise, actuator degradation, and hydrodynamic disturbances~\cite{songRobustStateEstimation2023}.
-Techniques combining high-gain filtering with sliding-window estimators have been shown to improve
-system resilience in real-time operations under unpredictable conditions.
+Sensor fusion techniques enhance estimation robustness by integrating heterogeneous sensor inputs
+from both vehicle and tether systems. Common combinations include \acp{imu}, depth sensors, and
+visual sensors, with fusion frameworks designed to mitigate the limitations of each
+modality~\cite{laranjeiraCatenarybasedVisualServoing2020}.
 
-Distributed state estimation has been explored in the context of cooperative multi-robot underwater
-systems. These methods allow multiple \acp{auv} to share state information while maintaining
-individual observability, supporting collaborative behaviors such as formation keeping and
-coordinated path tracking~\cite{khalajiLyapunovBasedFormationControl2020}. The decentralized
-structure of these algorithms enhances robustness to communication delays and sensor failures.
-
-Parent-child robotic configurations, where a large carrier vehicle deploys one or more smaller
-tethered agents, introduce additional complexities. Estimation frameworks for such systems must
-account for nonlinear hydrodynamic coupling, tether forces, and the time delays introduced by
-flexible link dynamics~\cite{kimParentchildUnderwaterRobotbased2023}. Hybrid approaches have been
-developed that combine mechanical models with complementary sensing strategies adapted to the
-specific range and resolution requirements of the task.
-
-For systems involving multiple tethers, specialized state estimation techniques have been proposed
-to reduce sensor dependency while preserving observability. Nonlinear observer designs, including
-high-gain and Luenberger observers, have been shown to accurately estimate full system states using
-minimal instrumentation --such as dual accelerometers, encoders, or
+For systems involving multiple tethers, specialized estimation techniques reduce sensor dependency
+while preserving observability. Nonlinear observer designs have been shown to accurately estimate
+full system states using minimal instrumentation such as dual accelerometers, encoders, or
 inclinometers~\cite{tognonNonlinearObserverControl2015}. These observers support precise regulation
 of both Cartesian position and internal tether forces in bi-tethered multi-agent systems.
 
+Comprehensive simulation platforms have been developed to analyze cable-robot-environment
+interactions in coupled systems. The \ac{uuv} Simulator, based on the Gazebo framework, supports
+modeling of hydrodynamic effects, thruster dynamics, and environmental disturbances for tethered
+vehicles~\cite{manhaesUUVSimulatorGazebobased2016}. Class-specific simulators such as the BlueROV2
+model implemented in Simulink\texttrademark{} offer benchmarks for coupled system algorithm
+development and validation~\cite{vonbenzonOpenSourceBenchmarkSimulator2022}.
+
+Parent-child robotic configurations, where large carrier vehicles deploy smaller tethered agents,
+introduce additional modeling complexities. Estimation frameworks for such systems must account for
+nonlinear hydrodynamic coupling, tether forces, and time delays introduced by flexible link
+dynamics~\cite{kimParentchildUnderwaterRobotbased2023}. Hybrid approaches combine mechanical models
+with complementary sensing strategies adapted to specific operational requirements.
+
 Integration of state estimation with cable shape reconstruction has emerged as a critical
 capability for real-time control in tethered systems. Joint estimation frameworks utilize
-parameterized cable models in conjunction with vehicle state estimation to provide a unified
-understanding of the robot-cable configuration. These models support both motion planning and
-disturbance rejection by maintaining sufficient real-time accuracy while ensuring computational
+parameterized cable models in conjunction with vehicle state estimation to provide unified
+understanding of robot-cable configurations. These models support both motion planning and
+disturbance rejection while maintaining sufficient real-time accuracy and computational
 tractability.
 
-Experimental validation remains an essential aspect of estimator development for underwater
-robotics. Controlled tank experiments and open-water field trials have been conducted to evaluate
-algorithm performance under realistic disturbances such as wave-induced motion, visibility
-reduction, and flow turbulence. These studies provide indispensable calibration data and allow
-benchmarking of estimation algorithms in operational environments.
+Experimental validation remains essential for coupled system development. Controlled tank
+experiments and open-water field trials evaluate algorithm performance under realistic disturbances
+such as wave-induced motion, visibility reduction, and flow
+turbulence~\cite{laranjeiraCatenarybasedVisualServoing2020}. These studies provide calibration data
+and benchmarking capabilities for coupled estimation and control algorithms in operational
+environments.
 
 \section{Control}
 \label{sota_control}
 
-\subsection{\Ac{uuv} control} \label{sota_c_uuv_control}
+\subsection{\Ac{uuv} control}
+\label{sota_c_uuv_control}
 
 The control of underwater robots entails distinctive challenges arising from the nonlinear,
 uncertain, and dynamic characteristics of the aquatic environment. These challenges include
