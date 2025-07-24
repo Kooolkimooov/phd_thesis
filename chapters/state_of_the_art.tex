@@ -281,41 +281,41 @@ requirements, and accuracy, ranging from simple geometric approximations to soph
 mechanics formulations.
 
 The simplest approach to tether modeling employs geometric approximations, where the cable shape is
-described by analytical functions. The most commonly adopted model is the catenary curve, which
-assumes a static equilibrium configuration under the influence of gravity and buoyancy forces. This
-approach has been extensively validated for quasi-static
-conditions~\cite{druptValidityCatenaryModel2022, laranjeiraCatenarybasedVisualServoing2020}.
-Catenary-based models offer excellent computational efficiency, typically requiring only a few
-milliseconds for evaluation, making them suitable for real-time applications. However, their
-accuracy is limited to scenarios with low cable dynamics and minimal hydrodynamic loading.
+described by analytical functions. A common approach is the hyperbolic catenary curve, which
+assumes a static equilibrium configuration under the influence of gravity and buoyancy forces;
+Although parabolic curves may also be used~\cite{smolentsevShapeVisualServoing2023}. This approach
+has been extensively validated for quasi-static conditions~\cite{druptValidityCatenaryModel2022,
+	laranjeiraCatenarybasedVisualServoing2020}. Catenary-based models offer excellent computational
+efficiency, typically requiring only a few milliseconds for evaluation, making them suitable for
+real-time applications. However, their accuracy is limited to scenarios with low cable dynamics and
+minimal hydrodynamic loading~\cite{filliungAugmentedCatenaryModel2024}.
 
-For scenarios requiring more predictable cable configurations, simplified geometric models with
-active shape control have been developed.~\cite{vielROVLocalizationBased2023} proposed a method
-where the umbilical is equipped with moving ballasts and buoys to enforce straight-line segments,
-enabling analytical position estimation based on angular measurements.
-Similarly,~\cite{vielSelfManagementROVUmbilical2022} introduced sliding buoys to maintain cable
-tension and prevent self-entanglement, resulting in predictable geometric configurations suitable
-for real-time navigation feedback.
+Another geometric approximations is the use of active shape
+control.~\cite{vielROVLocalizationBased2023} proposed a method where the umbilical is equipped with
+moving ballasts and buoys to enforce straight-line segments, enabling analytical position
+estimation based on angular measurements. Similarly,~\cite{vielSelfManagementROVUmbilical2022}
+introduced sliding buoys to maintain cable tension and prevent self-entanglement, resulting in
+predictable geometric configurations suitable for real-time navigation feedback.
 
-For collision avoidance applications,~\cite{vielEllipsoidTetherModel2024,
-	vielEllipsoidTetherModel2024a} developed an ellipsoid model that provides conservative bounds on
-the tether's spatial occupation. This approach offers computational efficiency with guaranteed
-collision-free motion, requiring only the knowledge of attachment points and cable length.
+Finally,~\cite{vielEllipsoidTetherModel2024, vielEllipsoidTetherModel2024a} developed an ellipsoid
+model that provides conservative geometric bounds on the tether's spatial occupation. This approach
+offers computational efficiency with guaranteed collision-free motion, requiring only the knowledge
+of attachment points and cable length.
 
-Lumped parameter approaches discretize the continuous cable into a finite number of rigid segments
-connected by elastic joints.~\cite{dasilvagomesNewDynamicModel2021} proposed a formalism using the
-Euler-Lagrange method to model towing systems with two to four rigid links connected by fictitious
-elastic joints. This approach demonstrated scalable algorithmic procedures capable of generating
-dynamic models for arbitrary numbers of segments.
+The lumped mass approaches discretizes the continuous cable into a finite number of rigid segments
+connected by joints.~\cite{dasilvagomesNewDynamicModel2021} proposed a formalism using the
+Euler-Lagrange method to model towing systems with rigid links connected by fictitious elastic
+joints. This approach demonstrated scalable algorithmic procedures capable of generating dynamic
+models for arbitrary numbers of segments.
 
-In~\cite{bagheriTrackingPerformanceControl2010} lumped parameter models were employed for
-controller design, incorporating accurate representations of cable dynamic effects in
-four-degree-of-freedom vehicle simulations. The model proved effective for adaptive neural network
-controller development, demonstrating robustness against cable length variations.
+% In~\cite{bagheriTrackingPerformanceControl2010} lumped parameter models were employed for
+% controller design, incorporating accurate representations of cable dynamic effects in
+% four-degree-of-freedom vehicle simulations. The model proved effective for adaptive neural network
+% controller development, demonstrating robustness against cable length variations.
 
-These models strike a balance between computational efficiency and accuracy, typically requiring
-tens to hundreds of milliseconds for evaluation depending on the number of segments. They capture
-essential dynamic characteristics while remaining tractable for control applications.
+This modelling approach strikes a balance between computational efficiency and accuracy, typically
+having an inverse relation between accuracy and computation time, meaning more segments yield more
+accuracy but require more computation.
 
 Finite element approaches provide the highest fidelity in tether modeling by discretizing the
 continuous cable into numerous elements, each governed by fundamental mechanics
@@ -344,23 +344,11 @@ Finite element models typically require seconds to minutes for evaluation, depen
 resolution and nonlinearity, making them more suitable for offline analysis and detailed design
 studies rather than real-time control applications.
 
-Finite element models typically require seconds to minutes for evaluation, depending on mesh
-resolution and nonlinearity, making them more suitable for offline analysis and detailed design
-studies rather than real-time control applications.
-
-For applications requiring real-time performance, computational efficiency remains a critical
-consideration in tether modeling. Simple geometric models enable control loop frequencies exceeding
-\qty{100}{\hertz}, while lumped parameter models typically operate at \qtyrange{10}{50}{\hertz}.
-Finite element approaches are generally limited to \qtyrange{1}{10}{\hertz}, making them more
-suitable for supervisory control or offline trajectory planning.
-
-~\cite{westinEfficientSemiimplicitNumerical2023} addressed computational efficiency through semi-implicit numerical methods, achieving improved stability and reduced computational requirements for real-time applications. The development of efficient numerical schemes remains an active area of research, particularly for applications requiring both high fidelity and real-time performance.
-
-Contemporary tether modeling research increasingly focuses on balancing accuracy with computational
-tractability, recognizing that the optimal modeling approach depends strongly on the specific
-application requirements, available computational resources, and desired control
-performance~\cite{hongDynamicsModelingMotion2020, htunDynamicModelingRadially2020,
-	guoNumericalInvestigationQuasistatic2021}.
+Computational efficiency is addressed in~\cite{westinEfficientSemiimplicitNumerical2023} through
+semi-implicit numerical methods on finite element representation of flexible bodies, achieving
+improved stability and reduced computational requirements for real-time applications. The
+development of efficient numerical schemes remains an active area of research, particularly for
+applications requiring both high fidelity and real-time performance.
 
 \subsection{Coupled modelling}
 \label{sota_sm_coupled_modelling}
