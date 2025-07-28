@@ -350,6 +350,33 @@ improved stability and reduced computational requirements for real-time applicat
 development of efficient numerical schemes remains an active area of research, particularly for
 applications requiring both high fidelity and real-time performance.
 
+\cref{sota_tether_modeling_comparison} provides a comparative analysis of the different tether modeling approaches in terms of computational requirements and accuracy characteristics. The table illustrates the fundamental trade-off between model fidelity and computational efficiency that characterizes tether modeling approaches.
+
+
+\begin{table}[htbp]
+	\centering
+	\caption{Comparison of tether modeling approaches: computational requirements and accuracy characteristics}
+	\label{sota_tether_modeling_comparison}
+	\begin{tabular}{@{}llcc@{}}
+		\toprule
+		\textbf{Approach}                        & \textbf{Method}          & \textbf{Computation Time}         & \textbf{Accuracy} \\
+		\midrule
+		\multirow{3}{*}{\textbf{Geometric}}      & Catenary                 & $< \qty{1}{\milli\second}$        & Low -- Medium     \\
+		                                         & Straight-line segments   & $< \qty{1}{\milli\second}$        & High              \\
+		                                         & Ellipsoid bounds         & $< \qty{1}{\milli\second}$        & Low               \\
+		\midrule
+		\textbf{Lumped Mass}                     & Rigid segments + joints  & \qtyrange{10}{100}{\milli\second} & Medium -- High    \\
+		\midrule
+		\multirow{3}{*}{\textbf{Finite Element}} & 3rd-order elements       & \qtyrange{1}{10}{\second}         & High              \\
+		                                         & Kirchhoff rod theory     & \qtyrange{1}{30}{\second}         & High              \\
+		                                         & Geometrically exact beam & \qtyrange{10}{60}{\second}        & Very High         \\
+		\midrule
+		\multirow{2}{*}{\textbf{Continuum}}      & CFD + cable coupling     & \qtyrange{1}{10}{\minute}         & Very High         \\
+		                                         & SPH-DEM methods          & \qtyrange{10}{60}{\minute}        & Very High         \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \subsection{Coupled modelling}
 \label{sota_sm_coupled_modelling}
 
