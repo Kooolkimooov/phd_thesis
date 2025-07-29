@@ -11,15 +11,17 @@ estimating the shape of tethers in water under dynamic conditions. This model is
 model-based control of tethered underwater vehicles, such as obstacle avoidance.
 
 \subsection{Description of the experiment}
+\label{ex_c_description}
 
-The experiment was conducted in a 7.2 m long, 4.2 m wide, and 3 m deep tank
-(Figure~\ref{ex_catenary_robot_in_tank}). The cable's and robot's positions were recorded by a
-5-camera, \qty{100}{\Hz} \emph{Qualisys}\footnote{\url{www.qualisys.com/cameras/underwater}}
-underwater motion capture system. The calibration of this system provided a standard deviation of
-\qty{2.2}{\mm} across the tank's volume for a known object's length. The robot and each cable were
-equipped with passive reflective markers (\cref{ex_catenary_robot_markers,ex_catenary_all_cables}),
-and the cable's markers were evenly spaced out by \qty{20}{\centi\meter}. The cables were attached
-to the robot and to a fixed point on the side of the tank with thin wire
+The experiment was conducted in a \qty{7.2}{\meter} long, \qty{4.2}{\meter} wide, and
+\qty{3}{\meter} deep tank (\cref{ex_catenary_robot_in_tank}). The cable's and robot's positions
+were recorded by a 5-camera, \qty{100}{\Hz}
+\emph{Qualisys}\footnote{\url{www.qualisys.com/cameras/underwater}} underwater motion capture
+system. The calibration of this system provided a standard deviation of \qty{2.2}{\mm} across the
+tank's calibrated volume for a known object's length. The robot and each cable were equipped with
+passive reflective markers (\cref{ex_catenary_robot_markers,ex_catenary_all_cables}), and the
+cable's markers were evenly spaced out by \qty{20}{\centi\meter}. The cables were attached to the
+robot and to a fixed point on the side of the tank with thin wire
 (\cref{ex_catenary_robot_cable_attachment_point,ex_catenary_rod_cable_attachment_point}) so that
 the joint between the tether and its attachment point closely approximated a theoretical spherical
 joint. The cables used are shown in \cref{ex_catenary_all_cables}, and their characteristics are
@@ -77,7 +79,7 @@ In every experiment, the robot received the following commands:
 \begin{figure}
 	\renewcommand\thesubfigure{\arabic{subfigure}}
 	\centering
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -90,7 +92,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_coaxial}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -103,7 +105,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_four_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -116,7 +118,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_two_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -129,7 +131,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_floating}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -142,7 +144,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_rope}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -155,7 +157,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_weighted}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -168,7 +170,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{ex_catenary_chain}
 	\end{subfigure}
-	\begin{subfigure}{.24 \textwidth}
+	\begin{subfigure}{.48 \textwidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -222,13 +224,14 @@ In every experiment, the robot received the following commands:
 \end{table}
 
 \subsection{Trajectories of recorded sequences}
+\label{ex_c_trajectories}
 
 \Cref{ex_catenary_traj_1} as well as \crefrange{ex_catenary_traj_2}{ex_catenary_traj_8} present all of the recorded
 sequences for the cables shown in \cref{ex_catenary_all_cables}. It should be noted that sequences were captured
 over several days, and the motion capture system was calibrated before each session. This resulted in
 the world frame differing from day to day.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_1}
 	\caption{Trajectories of all sequences for cable \subref{ex_catenary_coaxial}.}
