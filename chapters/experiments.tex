@@ -241,14 +241,21 @@ the world frame differing from day to day.
 \section{Robot chain control experiment}
 \label{ex_robot_chain_control}
 
-\subsection{Controller configuration}
+\subsection{Closing the control loop}
+\label{ex_rcc_closing}
 
-\lipsum[1]
+A prerequisite of any experimental application of a control system is the availability of a
+measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
+the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
+on the control of a robot chain, it was decided to use the already available and supremely accurate
+\emph{Qualisys} underwater motion capture system in the previous experiment (\cref{ex_catenary})
+and its real-time capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
 
-\subsection{Experimental setup}
+% \begin{figure}
+% 	\centering
+% 	\inputtikz{figures/closed_loop_diagram}
+% 	\caption{Closed-loop control diagram.}
+% 	\label{ex_rcc_c_closed_loop_diagram}
+% \end{figure}
 
-\lipsum[1]
-
-\subsection{Results}
-
-\lipsum[1]
+% \cite{filliungKooolkimooovQtm_interface2025}
