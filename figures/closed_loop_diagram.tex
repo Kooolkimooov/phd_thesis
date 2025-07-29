@@ -1,0 +1,23 @@
+\begin{tikzpicture}[node distance=3cm]
+
+	\tikzset{
+	device/.style={
+			rectangle, draw, rounded corners, thick,
+			minimum width=3cm, minimum height=1cm,
+			text centered, fill=blue!10
+		},
+	connection/.style={
+	-{Stealth}, thick
+	}
+	}
+
+	% Nodes
+	\node[device] (win) {Windows PC};
+	\node[device, right=of win] (router) {Router};
+	\node[device, right=of router] (ubuntu) {Ubuntu PC};
+
+	% Arrows
+	\draw[connection] (win) -- (router);
+	\draw[connection] (ubuntu) -- (router);
+
+\end{tikzpicture}
