@@ -8,9 +8,10 @@ import shutil
 import subprocess
 
 COMPILER = "latexmk"
-LATEX_FLAGS = [ "-output-directory=build", "-pdf", "--shell-escape", "-interaction=nonstopmode", "-file-line-error" ]
-SILENT_FLAGS = [ "-silent" ]
 
+LATEX_FLAGS = [ "-output-directory=build", "-pdf", "--shell-escape", "-interaction=nonstopmode", "-file-line-error" ]
+MIKTEX_FLAGS = [ "--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000" ]
+SILENT_FLAGS = [ "-silent" ]
 
 def printlog( message: str ):
   n_culumns = shutil.get_terminal_size().columns
@@ -386,7 +387,7 @@ def main():
   printlog( f"using {latex_distribution}" )
 
   if latex_distribution == "miktex":
-    LATEX_FLAGS.extend( [ "--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000" ] )
+    LATEX_FLAGS.extend( MIKTEX_FLAGS )
 
   if args.command == "thesis":
     return build_thesis(
