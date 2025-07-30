@@ -1,4 +1,4 @@
-\begin{tikzpicture}[node distance=3cm]
+\begin{tikzpicture}
 
 	\tikzset{
 	device/.style={
@@ -11,13 +11,29 @@
 	}
 	}
 
-	% Nodes
-	\node[device] (win) {Windows PC};
-	\node[device, right=of win] (router) {Router};
-	\node[device, right=of router] (ubuntu) {Ubuntu PC};
+	\node[device] (windows) at (1,0.5) {Windows PC};
 
-	% Arrows
-	\draw[connection] (win) -- (router);
-	\draw[connection] (ubuntu) -- (router);
+	\node[device] (cam0) at (-3,0.5) {Camera 0};
+	\node[device] (camn) at (-3,-1.0) {Camera \scal{n}};
+
+	\node[device] (ubuntu) at (5,0.5) {Ubuntu PC};
+
+	\node[device] (br0) at (9,0.5) {Bluerov 0};
+	\node[device] (brn) at (9,-1.0) {Bluerov \scal{n}};
+
+	\begin{pgfonlayer}{background}
+		\node[draw, thick, rounded corners, fill=orange!25, fill opacity=0.5, fit=(windows)(cam0)(camn), label=above:Camera Network] (cam_network) {};
+	\end{pgfonlayer}
+
+	\begin{pgfonlayer}{background}
+		\node[draw, thick, rounded corners, fill=olive!25, fill opacity=0.5, fit=(windows)(ubuntu)(br0)(brn), label=above:ROS Network] (ros_network) {};
+	\end{pgfonlayer}
+
+	\draw[connection,<->] (windows) -- (ubuntu);
+
+	\draw[connection,<->] (windows) -- (cam0);
+	\draw[connection,<->] (windows) -- (camn);
+	\draw[connection,<->] (ubuntu) -- (br0);
+	\draw[connection,<->] (ubuntu) -- (brn);
 
 \end{tikzpicture}

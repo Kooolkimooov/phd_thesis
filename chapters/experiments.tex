@@ -251,11 +251,20 @@ on the control of a robot chain, it was decided to use the already available and
 \emph{Qualisys} underwater motion capture system in the previous experiment (\cref{ex_catenary})
 and its real-time capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
 
-% \begin{figure}
-% 	\centering
-% 	\inputtikz{figures/closed_loop_diagram}
-% 	\caption{Closed-loop control diagram.}
-% 	\label{ex_rcc_c_closed_loop_diagram}
-% \end{figure}
+From a technical point of view, the cameras operate in a network with a computer running
+specialized software -\ac{qtm} - for recording. Additionnally, \ac{qtm} exposes a server which can
+be queryed to obtain scene data in real time; this data can be two dimensional position in camera
+frames, three dimensional position in the world frame, or even a six dimensional pose of a group of
+markers called rigid body.
 
-% \cite{filliungKooolkimooovQtm_interface2025}
+A \ac{ros} package was implemented in \cite{filliungQtm_interface2025} to obtain the pose of a
+predetermined robot and publish it in a \ac{ros} topic. This topic was then be used as a close to
+perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
+loop (\cref{ex_rcc_c_closed_loop_diagram}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/closed_loop_diagram}
+	\caption{Closed-loop control diagram.}
+	\label{ex_rcc_c_closed_loop_diagram}
+\end{figure}
