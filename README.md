@@ -4,18 +4,15 @@
 
 ### Thesis
 
-- [ ] Acknowledgements
-  - [ ] completed
-  - [ ] reviewed
 - [ ] Introduction
   - [ ] completed
   - [ ] reviewed
 - [ ] State of the art
   - [ ] completed
   - [ ] reviewed
-- [ ] Cable modelling
+- [x] Cable modelling
   - [x] completed
-  - [ ] reviewed
+  - [x] reviewed
 - [ ] Robot chain control
   - [ ] completed
   - [ ] reviewed
