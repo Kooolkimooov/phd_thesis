@@ -116,7 +116,7 @@ jobs:
       if: needs.check.outputs.needs_build == 'true'
       runs-on: ubuntu-latest
       container:
-        image: ghcr.io/xu-cheng/texlive-full:latest
+        image: ghcr.io/xu-cheng/texlive-full:20230601
       steps:
         - name: check input
           run: |
