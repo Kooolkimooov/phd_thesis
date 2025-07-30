@@ -3,7 +3,7 @@
 \usepackage{csquotes}
 \usepackage{graphics}
 \usepackage[
-	% showframe
+	% showframe % /!\ this produces artefacts on figures
 ]{geometry}
 \usepackage{epsfig}
 \usepackage{mathptmx}
@@ -35,13 +35,26 @@
 \usepackage{multicol}
 \usepackage{float}
 \usepackage{glossaries}
+\usepackage{marginnote}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% basic document setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Dynamic control of a chain of underwater robots}
+\title{Dynamic Control of a Chain of Underwater Robots}
 \author{Martin Filliung}
+
+\makeatletter
+\@ifclassloaded{memoir}{
+	\hypersetup{
+		hidelinks={true},
+		pdfauthor={\theauthor{}},
+		pdftitle={\thetitle{}},
+		pdfsubject={PhD thesis},
+		pdfpagelayout={TwoColumnRight},
+	}
+}{}
+\makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% bibliography setup
@@ -156,7 +169,9 @@
 
 \makeatletter
 \@ifclassloaded{memoir}{
+
 	\renewcommand\thechapter{\Roman{chapter}}
+	\nouppercaseheads{}
 	\dominitoc{}
 	\setcounter{minitocdepth}{1}
 	\setsecnumdepth{subsubsection}
@@ -197,16 +212,7 @@
 				\tableofcontents
 			}
 	}
-}{}
-\makeatother
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% headings setup
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\makeatletter
-\@ifclassloaded{memoir}{
-	\nouppercaseheads{}
 }{}
 \makeatother
 
@@ -401,7 +407,7 @@
 
 \newglossaryentry{notation:vectornd}{
 	name={\fvectn{v}{f}{m}},
-	description={A vector with its coordinates expressed in a $m$-dimensional frame $f$},
+	description={A vector with its coordinates expressed in a $n$-dimensional frame $f$},
 	type=notation
 }
 
