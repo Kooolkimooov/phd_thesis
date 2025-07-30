@@ -227,16 +227,21 @@ In every experiment, the robot received the following commands:
 \subsection{Trajectories of recorded sequences}
 \label{ex_c_trajectories}
 
-\Cref{ex_catenary_traj_1} as well as \crefrange{ex_catenary_traj_2}{ex_catenary_traj_8} present all of the recorded
-sequences for the cables shown in \cref{ex_catenary_all_cables}. It should be noted that sequences were captured
-over several days, and the motion capture system was calibrated before each session. This resulted in
-the world frame differing from day to day.
+All of the recorded sequences for the cables shown in \cref{ex_catenary_all_cables} are shown in
+\cref{ex_catenary_traj_6} as well as
+\cref{ex_catenary_traj_1,ex_catenary_traj_2,ex_catenary_traj_3,ex_catenary_traj_4,ex_catenary_traj_5,ex_catenary_traj_7,ex_catenary_traj_8}.
+It should be noted that sequences were captured over several days, and the motion capture system
+was calibrated before each session. This resulted in the world frame differing from day to day.
+
+The open loop characteristic of the robot's motion is clearly visible in \cref{ex_catenary_traj_6},
+the trajectories are relatively straight but are not pure surge and sway motion with relation to
+the fixed point.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/catenary_experiment_trajectories_1}
-	\caption{Trajectories of all sequences for cable \subref{ex_catenary_coaxial}.}
-	\label{ex_catenary_traj_1}
+	\inputtikz{figures/catenary_experiment_trajectories_6}
+	\caption{Trajectories of all sequences for cable \subref{ex_catenary_weighted}.}
+	\label{ex_catenary_traj_6}
 \end{figure}
 
 \section{Robot chain control experiment}
@@ -269,3 +274,4 @@ loop (\cref{ex_rcc_c_closed_loop_diagram}).
 	\caption{Principle diagram of the implementation of the closed loop.}
 	\label{ex_rcc_c_closed_loop_diagram}
 \end{figure}
+
