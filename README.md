@@ -28,7 +28,7 @@
 - [ ] Fix figures in Additionnal figures
   - [ ] Boxplots bounds
   - [ ] Trajectories equal axis
-- [ ] Homogenize all labels
+- [x] Homogenize all labels
 - [ ] Use `\scal{_}` instead of raw `$_$` 
 
 

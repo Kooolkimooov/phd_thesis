@@ -207,12 +207,12 @@ the basis for both simulation and model-based control frameworks. The dynamics o
 vehicles are commonly described by the classical six-degree-of-freedom rigid body model formulated
 for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}:
 \begin{align}
-	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{sota_uuv_modeling_kinematics} \\
+	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{sota_sm_um_kinematics} \\
 	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
 	                  & + \lrdmatr{C}{rb}\left(\vect{\nu}\right) \vect{\nu}
 	+ \left( \lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right) \right) \ldvect{\nu}{r}
 	+ \vect{s}\left(\vect{\eta}\right) = \vect{\omega} + \vect{\tau}
-	\label{sota_uuv_modeling_dynamics}
+	\label{sota_sm_um_dynamics}
 \end{align}
 
 In these equations:
@@ -236,14 +236,14 @@ systems, the dynamic model simplifies to the following form~\cite{fossenHandbook
 	+ \left( \matr{C}(\vect{\nu}) + \matr{D}(\vect{\nu}) \right) \vect{\nu}
 	+ \vect{s}(\vect{\eta})
 	= \vect{\omega} + \vect{\tau}
-	\label{sota_uuv_modeling_dynamics_simple}
+	\label{sota_sm_um_dynamics_simple}
 \end{align}
 
 Here, \matr{I} is the generalized inertia matrix, \matr{C} is the Coriolis matrix, and \matr{D} is
 the damping matrix.
 
-Furthermore, \cref{sota_uuv_modeling_kinematics,sota_uuv_modeling_dynamics_simple} may be combined
-into a state-space representation:
+Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} may be combined into a
+state-space representation:
 \begin{align}
 	\begin{bmatrix}
 		\lrdmatr{I}{d} & 0        \\
@@ -350,13 +350,15 @@ improved stability and reduced computational requirements for real-time applicat
 development of efficient numerical schemes remains an active area of research, particularly for
 applications requiring both high fidelity and real-time performance.
 
-\cref{sota_tether_modeling_comparison} provides a comparative analysis of the different tether modeling approaches in terms of computational requirements and accuracy characteristics. The table illustrates the fundamental trade-off between model fidelity and computational efficiency that characterizes tether modeling approaches.
-
+A comparative analysis of the different tether modeling approaches is provided in
+\cref{sota_sm_tm_comparison} in terms of computational requirements and accuracy characteristics.
+The table illustrates the fundamental trade-off between model fidelity and computational efficiency
+that characterizes tether modeling approaches.
 
 \begin{table}[htbp]
 	\centering
 	\caption{Comparison of tether modeling approaches: computational requirements and accuracy characteristics}
-	\label{sota_tether_modeling_comparison}
+	\label{sota_sm_tm_comparison}
 	\begin{tabular}{@{}llcc@{}}
 		\toprule
 		\textbf{Approach}                        & \textbf{Method}          & \textbf{Computation Time}         & \textbf{Accuracy} \\
@@ -493,7 +495,8 @@ environments.
 \section{Control}
 \label{sota_control}
 
-\subsection{\Ac{uuv} control} \label{sota_c_uuv_control}
+\subsection{\Ac{uuv} control} 
+\label{sota_c_uuv_control}
 
 The control of underwater robots entails distinctive challenges arising from the nonlinear,
 uncertain, and dynamic characteristics of the aquatic environment. These challenges include
@@ -531,7 +534,8 @@ combining robust filtering with sliding-window estimation have been developed to
 resilience and autonomy under uncertain operational
 conditions~\cite{songRobustStateEstimation2023}.
 
-\subsection{Tethered \ac{uuv} control} \label{sota_c_tethered_uuv_control}
+\subsection{Tethered \ac{uuv} control} 
+\label{sota_c_tethered_uuv_control}
 
 A broad spectrum of control strategies has been formulated to address the unique challenges
 associated with underwater tethered robotic systems, wherein dynamic coupling among the vehicle,

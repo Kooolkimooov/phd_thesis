@@ -4,28 +4,28 @@
 \minitoc{}
 
 \section{Augmented catenary model experimental validation}
-\label{ex_catenary}
+\label{e_augmented_catenary_model_experimental_validation}
 
 The motivation and objective of these experiments were to study the accuracy of catenary models in
 estimating the shape of tethers in water under dynamic conditions. This model is required for
 model-based control of tethered underwater vehicles, such as obstacle avoidance.
 
-\subsection{Description of the experiment}
-\label{ex_c_description}
+\subsection{Experimental setup}
+\label{e_acmev_experimental_setup}
 
 The experiment was conducted in a \qty{7.2}{\meter} long, \qty{4.2}{\meter} wide, and
-\qty{3}{\meter} deep tank (\cref{ex_catenary_robot_in_tank}). The cable's and robot's positions
-were recorded by a 5-camera, \qty{100}{\Hz}
+\qty{3}{\meter} deep tank (\cref{e_acmev_es_robot_in_tank}). The cable's and robot's positions were
+recorded by a 5-camera, \qty{100}{\Hz}
 \emph{Qualisys}\footnote{\url{www.qualisys.com/cameras/underwater}} underwater motion capture
 system. The calibration of this system provided a standard deviation of \qty{2.2}{\mm} across the
 tank's calibrated volume for a known object's length. The robot and each cable were equipped with
-passive reflective markers (\cref{ex_catenary_robot_markers,ex_catenary_all_cables}), and the
-cable's markers were evenly spaced out by \qty{20}{\centi\meter}. The cables were attached to the
-robot and to a fixed point on the side of the tank with thin wire
-(\cref{ex_catenary_robot_cable_attachment_point,ex_catenary_rod_cable_attachment_point}) so that
-the joint between the tether and its attachment point closely approximated a theoretical spherical
-joint. The cables used are shown in \cref{ex_catenary_all_cables}, and their characteristics are
-listed in \cref{ex_catenary_cables_characteristics}.
+passive reflective markers (\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), and the cable's
+markers were evenly spaced out by \qty{20}{\centi\meter}. The cables were attached to the robot and
+to a fixed point on the side of the tank with thin wire
+(\cref{e_acmev_es_robot_cable_attachment_point,e_acmev_es_rod_cable_attachment_point}) so that the
+joint between the tether and its attachment point closely approximated a theoretical spherical
+joint. The cables used are shown in \cref{e_acmev_es_all_cables}, and their characteristics are
+listed in \cref{e_acmev_es_cables_characteristics}.
 
 \begin{figure}
 	\centering
@@ -33,13 +33,13 @@ listed in \cref{ex_catenary_cables_characteristics}.
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_bluerov_picture_2.jpg}
 		\captionof{figure}{Robot equipped with passive reflective markers.}
-		\label{ex_catenary_robot_markers}
+		\label{e_acmev_es_robot_markers}
 	\end{minipage}
 	\begin{minipage}{.49\figurewidth}
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_bluerov_picture_1.jpg}
 		\captionof{figure}{Robot in the tank.}
-		\label{ex_catenary_robot_in_tank}
+		\label{e_acmev_es_robot_in_tank}
 	\end{minipage}
 	\marginnote{Brice performed admirably during the two weeks of experiments.}
 \end{figure}
@@ -50,13 +50,13 @@ listed in \cref{ex_catenary_cables_characteristics}.
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_robot_cable_attachment_point.jpg}
 		\captionof{figure}{Robot cable attachment.}
-		\label{ex_catenary_robot_cable_attachment_point}
+		\label{e_acmev_es_robot_cable_attachment_point}
 	\end{minipage}
 	\begin{minipage}{.49\figurewidth}
 		\centering
 		\includegraphics[width=.9\textwidth]{catenary_experiment_rod_cable_attachment_point.jpg}
 		\captionof{figure}{Fixed point cable attachment.}
-		\label{ex_catenary_rod_cable_attachment_point}
+		\label{e_acmev_es_rod_cable_attachment_point}
 	\end{minipage}
 \end{figure}
 
@@ -91,7 +91,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_coaxial_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_coaxial}
+		\label{e_acmev_es_coaxial}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -104,7 +104,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_four_pairs_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_four_pairs}
+		\label{e_acmev_es_four_pairs}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -117,7 +117,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_two_pairs_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_two_pairs}
+		\label{e_acmev_es_two_pairs}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -130,7 +130,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_floating_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_floating}
+		\label{e_acmev_es_floating}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -143,7 +143,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_rope_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_rope}
+		\label{e_acmev_es_rope}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -156,7 +156,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_weighted_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_weighted}
+		\label{e_acmev_es_weighted}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -169,7 +169,7 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_chain_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_chain}
+		\label{e_acmev_es_chain}
 	\end{subfigure}
 	\begin{subfigure}{.48 \textwidth}
 		\centering
@@ -182,20 +182,20 @@ In every experiment, the robot received the following commands:
 			\includegraphics[width=\textwidth]{cable_elastic_top.jpg}
 		\end{subfigure}
 		\caption{}
-		\label{ex_catenary_elastic}
+		\label{e_acmev_es_elastic}
 	\end{subfigure}
 	\caption{
 		Cables:
-		(\subref{ex_catenary_coaxial}) coaxial cable,
-		(\subref{ex_catenary_four_pairs}) four-pair network cable,
-		(\subref{ex_catenary_two_pairs}) two-pair network cable,
-		(\subref{ex_catenary_floating}) floating braided rope,
-		(\subref{ex_catenary_rope}) sail rope,
-		(\subref{ex_catenary_weighted}) leaded seamstress rope,
-		(\subref{ex_catenary_chain}) plain steel chain,
-		(\subref{ex_catenary_elastic}) elastic.
+		(\subref{e_acmev_es_coaxial}) coaxial cable,
+		(\subref{e_acmev_es_four_pairs}) four-pair network cable,
+		(\subref{e_acmev_es_two_pairs}) two-pair network cable,
+		(\subref{e_acmev_es_floating}) floating braided rope,
+		(\subref{e_acmev_es_rope}) sail rope,
+		(\subref{e_acmev_es_weighted}) leaded seamstress rope,
+		(\subref{e_acmev_es_chain}) plain steel chain,
+		(\subref{e_acmev_es_elastic}) elastic.
 	}
-	\label{ex_catenary_all_cables}
+	\label{e_acmev_es_all_cables}
 	\renewcommand\thesubfigure{\alpha{subfigure}}
 \end{figure}
 
@@ -208,70 +208,81 @@ In every experiment, the robot received the following commands:
 	\caption{Cables characteristics}
 	\begin{tabular}{@{}l|SSSS@{}}
 		\toprule
-		cable \#                    & \subref{ex_catenary_coaxial} & \subref{ex_catenary_four_pairs} & \subref{ex_catenary_two_pairs} & \subref{ex_catenary_floating} \\ \midrule
-		diameter / \unit{\m}        & 0.0068                       & 0.005                           & 0.0042                         & 0.0077                        \\
-		weight / \unit{\N}          & 1.0791                       & 0.6867                          & 0.3924                         & 0.2943                        \\
-		weight in water / \unit{\N} & 0.04905                      & 0.14715                         & -0.04905                       & -0.4905                       \\
-		wet weight / \unit{\N}      & 1.0791                       & 0.6867                          & 0.3924                         & 0.981                         \\
-		plastic deformation         & {\checkmark}                 & {\checkmark}                    & {\checkmark}                   & {$\cross$}                    \\ \midrule[1pt]
-		cable \#                    & \subref{ex_catenary_rope}    & \subref{ex_catenary_weighted}   & \subref{ex_catenary_chain}     & \subref{ex_catenary_elastic}  \\ \midrule
-		diameter / \unit{\m}        & 0.0055                       & 0.0035                          & {---}                          & 0.0054                        \\
-		weight / \unit{\N}          & 1.0791                       & 1.3734                          & 3.11958                        & 0.5886                        \\
-		weight in water / \unit{\N} & 0.24525                      & 1.1772                          & 2.70756                        & 0.0981                        \\
-		wet weight / \unit{\N}      & 1.5696                       & 1.52055                         & 3.11958                        & 0.6867                        \\
-		plastic deformation         & {$\cross$}                   & {$\cross$}                      & {$\cross$}                     & {$\cross$}                    \\ \bottomrule
+		cable \#                    & \subref{e_acmev_es_coaxial} & \subref{e_acmev_es_four_pairs} & \subref{e_acmev_es_two_pairs} & \subref{e_acmev_es_floating} \\ \midrule
+		diameter / \unit{\m}        & 0.0068                      & 0.005                          & 0.0042                        & 0.0077                       \\
+		weight / \unit{\N}          & 1.0791                      & 0.6867                         & 0.3924                        & 0.2943                       \\
+		weight in water / \unit{\N} & 0.04905                     & 0.14715                        & -0.04905                      & -0.4905                      \\
+		wet weight / \unit{\N}      & 1.0791                      & 0.6867                         & 0.3924                        & 0.981                        \\
+		plastic deformation         & {\checkmark}                & {\checkmark}                   & {\checkmark}                  & {$\cross$}                   \\ \midrule[1pt]
+		cable \#                    & \subref{e_acmev_es_rope}    & \subref{e_acmev_es_weighted}   & \subref{e_acmev_es_chain}     & \subref{e_acmev_es_elastic}  \\ \midrule
+		diameter / \unit{\m}        & 0.0055                      & 0.0035                         & {---}                         & 0.0054                       \\
+		weight / \unit{\N}          & 1.0791                      & 1.3734                         & 3.11958                       & 0.5886                       \\
+		weight in water / \unit{\N} & 0.24525                     & 1.1772                         & 2.70756                       & 0.0981                       \\
+		wet weight / \unit{\N}      & 1.5696                      & 1.52055                        & 3.11958                       & 0.6867                       \\
+		plastic deformation         & {$\cross$}                  & {$\cross$}                     & {$\cross$}                    & {$\cross$}                   \\ \bottomrule
 	\end{tabular}
-	\label{ex_catenary_cables_characteristics}
+	\label{e_acmev_es_cables_characteristics}
 \end{table}
 
 \subsection{Trajectories of recorded sequences}
-\label{ex_c_trajectories}
+\label{e_acmev_trajectories_of_recorded_sequences}
 
-All of the recorded sequences for the cables shown in \cref{ex_catenary_all_cables} are shown in
-\cref{ex_catenary_traj_6} as well as
-\cref{ex_catenary_traj_1,ex_catenary_traj_2,ex_catenary_traj_3,ex_catenary_traj_4,ex_catenary_traj_5,ex_catenary_traj_7,ex_catenary_traj_8}.
+All of the recorded sequences for the cables shown in \cref{e_acmev_es_all_cables} are shown in
+\cref{e_acmev_tors_trajectory_6} as well as
+\cref{af_e_trajectory_1,af_e_trajectory_2,af_e_trajectory_3,af_e_trajectory_4,af_e_trajectory_5,af_e_trajectory_7,af_e_trajectory_8}.
 It should be noted that sequences were captured over several days, and the motion capture system
 was calibrated before each session. This resulted in the world frame differing from day to day.
 
-The open loop characteristic of the robot's motion is clearly visible in \cref{ex_catenary_traj_6},
-the trajectories are relatively straight but are not pure surge and sway motion with relation to
-the fixed point.
+The open loop characteristic of the robot's motion is clearly visible in
+\cref{e_acmev_tors_trajectory_6}: the trajectories are relatively straight but are not pure surge
+and sway motion with relation to the fixed point.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_6}
-	\caption{Trajectories of all sequences for cable \subref{ex_catenary_weighted}.}
-	\label{ex_catenary_traj_6}
+	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_weighted}.}
+	\label{e_acmev_tors_trajectory_6}
 \end{figure}
 
 \section{Robot chain control experiment}
-\label{ex_robot_chain_control}
+\label{e_robot_chain_control_experiment}
 
 \subsection{Closing the control loop}
-\label{ex_rcc_closing}
+\label{e_rcce_closing_the_control_loop}
 
 A prerequisite of any experimental application of a control system is the availability of a
 measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
 the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
 on the control of a robot chain, it was decided to use the already available and supremely accurate
-\emph{Qualisys} underwater motion capture system in the previous experiment (\cref{ex_catenary})
-and its real-time capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
+\emph{Qualisys} underwater motion capture system in the previous experiment
+(\cref{e_augmented_catenary_model_experimental_validation}) and its real-time
+capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
 
 From a technical point of view, the cameras operate in a network with a computer running
 specialized software -\ac{qtm} - for recording. Additionnally, \ac{qtm} exposes a server which can
-be queryed to obtain scene data in real time; this data can be two dimensional position in camera
+be queried to obtain scene data in real time; this data can be two dimensional position in camera
 frames, three dimensional position in the world frame, or even a six dimensional pose of a group of
 markers called rigid body.
 
 A \ac{ros} package was implemented in \cite{filliungQtm_interface2025} to obtain the pose of a
 predetermined robot and publish it in a \ac{ros} topic. This topic was then be used as a close to
 perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
-loop (\cref{ex_rcc_c_closed_loop_diagram}).
+loop (\cref{e_rcce_ctcl_closed_loop_diagram}).
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/closed_loop_diagram}
 	\caption{Principle diagram of the implementation of the closed loop.}
-	\label{ex_rcc_c_closed_loop_diagram}
+	\label{e_rcce_ctcl_closed_loop_diagram}
 \end{figure}
+
+The sampling rate of the \ac{qtm} is of \qty{100}{\Hz} and the \ac{ros} node is able to run at the
+same rate. This frequency is sufficient for the control of the Bluerov, which has a relatively slow
+dynamics.
+
+\subsection{Controller implementation}
+\label{ex_rcce_controller_implementation}
+
+\subsection{Experiment setup}
+\label{ex_rcce_experiment_setup}
 
