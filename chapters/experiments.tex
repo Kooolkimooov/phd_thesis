@@ -264,7 +264,7 @@ be queried to obtain scene data in real time; this data can be two dimensional p
 frames, three dimensional position in the world frame, or even a six dimensional pose of a group of
 markers called rigid body.
 
-A \ac{ros} package was implemented in \cite{filliungQtm_interface2025} to obtain the pose of a
+A \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to obtain the pose of a
 predetermined robot and publish it in a \ac{ros} topic. This topic was then be used as a close to
 perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
 loop (\cref{e_rcce_ctcl_closed_loop_diagram}).
@@ -280,8 +280,28 @@ The sampling rate of the \ac{qtm} is of \qty{100}{\Hz} and the \ac{ros} node is 
 same rate. This frequency is sufficient for the control of the Bluerov, which has a relatively slow
 dynamics.
 
+Additionally, a simulation twin of the node was implemented with identical interface with \ac{ros}
+in order to facilitate testing of control systems relying on the \emph{Qualisys} system.
+
 \subsection{Controller implementation}
 \label{ex_rcce_controller_implementation}
+
+The \ac{mpc} controller discussed in \cref{robot_chain_control} is interfaced with \ac{ros} in
+\citeurl{filliungBluerov2025}. The two experimental implementations are of a single Bluerov with a
+pose target, and a follower Bluerov with joystick controlled leader Bluerov and constraints related
+to the whole chain, mainly the cable between leader and follower and the pool's dimensions.
+
+In the two Bluerov implementation, the leader's trajectory still needs to be predicted even though
+it is controlled by a human in order to compute constraints on the follower's trajectory. This is
+done with the pose data available in the same way as for the follower and the leader's control
+input broadcasted with \ac{ros}.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/leader_follower_diagram}
+	\caption{}
+	\label{e_rcce_ctcl_leader_follower_diagram}
+\end{figure}
 
 \subsection{Experiment setup}
 \label{ex_rcce_experiment_setup}
