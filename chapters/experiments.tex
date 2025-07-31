@@ -254,12 +254,12 @@ A prerequisite of any experimental application of a control system is the availa
 measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
 the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
 on the control of a robot chain, it was decided to use the already available and supremely accurate
-\emph{Qualisys} underwater motion capture system in the previous experiment
+Qualisys underwater motion capture system in the previous experiment
 (\cref{e_augmented_catenary_model_experimental_validation}) and its real-time
 capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
 
 From a technical point of view, the cameras operate in a network with a computer running
-specialized software -\ac{qtm} - for recording. Additionnally, \ac{qtm} exposes a server which can
+specialized software - \ac{qtm} - for recording. Additionnally, \ac{qtm} exposes a server which can
 be queried to obtain scene data in real time; this data can be two dimensional position in camera
 frames, three dimensional position in the world frame, or even a six dimensional pose of a group of
 markers called rigid body.
@@ -294,12 +294,12 @@ to the whole chain, mainly the cable between leader and follower and the pool's 
 In the two Bluerov implementation, the leader's trajectory still needs to be predicted even though
 it is controlled by a human in order to compute constraints on the follower's trajectory. This is
 done with the pose data available in the same way as for the follower and the leader's control
-input broadcasted with \ac{ros}.
+input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_leader_follower_diagram}).
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/leader_follower_diagram}
-	\caption{}
+	\caption{Software schematic of the leader-follower Bluerov experiment.}
 	\label{e_rcce_ctcl_leader_follower_diagram}
 \end{figure}
 
