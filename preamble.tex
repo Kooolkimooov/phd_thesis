@@ -11,7 +11,7 @@
 \usepackage{amssymb}
 \usepackage{bbm}
 \usepackage{datetime}
-\usepackage[table]{xcolor}
+\usepackage{color}
 \usepackage{physics}
 \usepackage{siunitx}
 \usepackage{booktabs}
@@ -31,6 +31,7 @@
 \usepackage{textcase}
 \usepackage{mfirstuc}
 \usepackage{ltablex}
+\usepackage{tabularx}
 \usepackage{xltabular}
 \usepackage{multicol}
 \usepackage{float}
@@ -41,17 +42,6 @@
 %% basic document setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\review}[2]{
-	\begin{tabularx}{\linewidth}{X|X}
-		\toprule
-		\textbf{Retour} & \textbf{Action}                \\ \midrule
-		#1              & \if\relax\detokenize{#2}\relax
-			\cellcolor{red!20} #2
-		\else
-			\cellcolor{green!20} #2
-		\fi                                              \\ \bottomrule
-	\end{tabularx}
-}
 \title{Dynamic Control of a Chain of Underwater Robots}
 \author{Martin Filliung}
 
@@ -66,6 +56,18 @@
 	}
 }{}
 \makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% review macro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\review}[2]{
+	\begin{tabularx}{\linewidth}{X|X}
+		\toprule
+		\textbf{Retour} & \textbf{Action} \\ \midrule
+		#1              & #2              \\ \bottomrule
+	\end{tabularx}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% bibliography setup
