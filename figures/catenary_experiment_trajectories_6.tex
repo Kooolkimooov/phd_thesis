@@ -10,11 +10,12 @@
 			at = {(0,0)},
 			xmin = \xmin, xmax = \xmax,
 			ymin = \ymin, ymax = \ymax,
-			width = \figurewidth,
-			height = \figurewidth,
-			ylabel =  ${}^w\mathbf{y}$ / \unit{\m},
-			xlabel =  ${}^w\mathbf{x}$ / \unit{\m},
-			legend style = {fill opacity=.75, text opacity=1, draw=none},
+			width = 0.7\figurewidth,
+			height = 0.7\figurewidth,
+			ylabel =  \fvect{y}{w} / \unit{\m},
+			xlabel =  \fvect{x}{w} / \unit{\m},
+			legend columns=3,
+			legend style = {draw=none, at={(0.5,-0.2)}, anchor=north},
 			legend cell align={left},
 			grid
 		]
@@ -32,6 +33,49 @@
 		\label{y200dis2}
 		\addplot[only marks, mark=square*] coordinates {(0, 0)};
 		\label{origin}
+		\addplot[only marks, mark=triangle*, color=blue] coordinates {
+				(-1.923, -0.340)
+				(-2.202, -0.400)
+				(-1.407, -0.095)
+				(-1.995, -0.066)
+				(-1.377, -0.276)
+				(-2.057, -0.471)
+				(-1.774, -0.241)
+				(-1.903, -0.195)
+				(-1.815, -0.380)
+				(-1.814, -0.256)
+				(-1.338, -0.252)
+				(-1.436, -0.184)
+				(-2.097, -0.039)
+				(-1.991, -0.280)
+				(-1.417, -0.259)
+				(-1.398, -0.316)
+				(-2.041, -0.126)
+				(-2.037, -0.440)
+			};
+		\label{starts}
+		\addplot[only marks, mark=*, color=orange] coordinates {
+				(-1.211, -0.513)
+				(-0.790, -0.658)
+				(-1.248, 0.540)
+				(-1.867, 0.450)
+				(-1.244, 1.011)
+				(-1.686, 0.738)
+				(-0.380, -0.633)
+				(-0.366, -0.513)
+				(-1.221, 0.352)
+				(-1.285, 0.390)
+				(-1.877, 0.498)
+				(-1.800, 0.259)
+				(-1.675, 1.060)
+				(-1.693, 0.726)
+				(-1.030, -0.269)
+				(-1.215, -0.303)
+				(-1.097, 1.024)
+				(-1.439, 0.874)
+			};
+		\label{ends}
+
 		\addlegendimage{/pgfplots/refstyle=x100dis2}\addlegendentry{surge, \qty{0.3}{\m\per\s}, \qty{2}{\m}}
 		\addlegendimage{/pgfplots/refstyle=x200dis2}\addlegendentry{surge, \qty{0.6}{\m\per\s}, \qty{2}{\m}}
 		\addlegendimage{/pgfplots/refstyle=y100dis1}\addlegendentry{sway, \qty{0.3}{\m\per\s}, \qty{1.5}{\m}}
@@ -39,6 +83,9 @@
 		\addlegendimage{/pgfplots/refstyle=y200dis1}\addlegendentry{sway, \qty{0.6}{\m\per\s}, \qty{1.5}{\m}}
 		\addlegendimage{/pgfplots/refstyle=y200dis2}\addlegendentry{sway, \qty{0.6}{\m\per\s}, \qty{2}{\m}}
 		\addlegendimage{/pgfplots/refstyle=origin}\addlegendentry{fixed point}
+		\addlegendimage{/pgfplots/refstyle=starts}\addlegendentry{starts}
+		\addlegendimage{/pgfplots/refstyle=ends}\addlegendentry{ends}
+
 		\addplot[thick, smooth] table[x=x, y=y] {figures/data/trajectory_L_dynamique6x100dis2_0034.txt};
 		\addplot[thick, smooth] table[x=x, y=y] {figures/data/trajectory_L_dynamique6x100dis2_0035.txt};
 		\addplot[thick, smooth, violet] table[x=x, y=y] {figures/data/trajectory_L_dynamique6x200dis2_0031.txt};
@@ -59,9 +106,9 @@
 			ymin = \ymin, ymax = \ymax,
 			x dir = reverse,
 			yticklabels = {},
-			width = .3\figurewidth,
-			height = \figurewidth,
-			xlabel =  ${}^w\mathbf{z}$ / \unit{\m},
+			width = 0.3\figurewidth,
+			height = 0.7\figurewidth,
+			xlabel = \fvect{z}{w} / \unit{\m},
 			xticklabel style={rotate=90},
 			xticklabel pos=upper,
 			grid
@@ -93,9 +140,9 @@
 			ymin = \zmin, ymax = \zmax,
 			y dir = reverse,
 			xticklabels = {},
-			width = \figurewidth,
-			height = .3\figurewidth,
-			ylabel =  ${}^w\mathbf{z}$ / \unit{\m},
+			width = 0.7\figurewidth,
+			height = 0.3\figurewidth,
+			ylabel =  \fvect{z} / \unit{\m},
 			grid
 		]
 		\addplot[thick, smooth] table[x=x, y=z] {figures/data/trajectory_L_dynamique6x100dis2_0033.txt};
