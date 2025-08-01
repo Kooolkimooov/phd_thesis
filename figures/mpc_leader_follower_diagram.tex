@@ -5,9 +5,9 @@
 			text centered, fill=blue!10
 		},
 	rosnode/.style={
-		rectangle, draw, rounded corners, thick,
-		text centered, fill=red!10
-	},
+			rectangle, draw, rounded corners, thick,
+			text centered, fill=red!10
+		},
 	connection/.style={
 	-{Stealth}, very thick
 	}
@@ -28,7 +28,8 @@
 		\node[device] (br0) at (axis cs:0.5, -0.75) {Leader Bluerov};
 		\node[device] (br1) at (axis cs:-0.5, -0.75) {Follower Bluerov};
 
-		\node[device] (joystick) at (axis cs:0.75, 0.75) {Joystick};
+		\node[device] (js0) at (axis cs:0.9, 0.75) {Joystick};
+		\node[device] (js1) at (axis cs:0.5, 0.75) {Joystick};
 		\node[device] (qtm) at (axis cs:-0.65, 0.75) {Windows PC};
 
 		\node (A) at (axis cs:-0.3, -1.1) {Visual data};
@@ -38,25 +39,27 @@
 		\node (A2) at (axis cs:-0.9, -1.4);
 		\node (B) at (axis cs:-1.3, 0.5);
 
-		\node[rosnode] (joy_controller) at (axis cs:0.6, -0.25) {\texttt{joy\_controller}};
+		\node[rosnode] (pid_controller) at (axis cs:0.6, -0.25) {\texttt{pid\_controller}};
 		\node[rosnode] (mpc_controller) at (axis cs:-0.3, -0.25) {\texttt{mpc\_controller}};
 		\node[rosnode] (qtm_interface) at (axis cs:-0.6, 0.25) {\texttt{qtm\_interface}};
 
-		\draw[connection, ->] (joystick) -- (joy_controller);
-		\draw[connection, ->] (joy_controller) -- (mpc_controller);
-		\draw[connection, ->] (joy_controller) -- (br0);
-		
+		\draw[connection, ->] (js0) -- (pid_controller);
+		\draw[connection, ->] (js1) -- (mpc_controller);
+		\draw[connection, ->] (pid_controller) -- (mpc_controller);
+		\draw[connection, ->] (pid_controller) -- (br0);
+
 		\draw[connection, ->] (qtm) -- (qtm_interface);
+		\draw[connection, ->] (qtm_interface) -- (pid_controller);
 		\draw[connection, ->] (qtm_interface) -- (mpc_controller);
 		\draw[connection, ->] (mpc_controller) -- (br1);
 
-        \draw[connection, ->, dotted] (br0) .. controls (A1) and (B) .. (qtm);
-        \draw[connection, ->, dotted] (br1) .. controls (A2) and (B) .. (qtm);
+		\draw[connection, ->, dotted] (br0) .. controls (A1) and (B) .. (qtm);
+		\draw[connection, ->, dotted] (br1) .. controls (A2) and (B) .. (qtm);
 
 		\begin{pgfonlayer}{background}
 			\node[
 				draw, thick, rounded corners, fill=red, fill opacity=0.5,
-				fit=(qtm_interface)(joy_controller)(mpc_controller),
+				fit=(qtm_interface)(pid_controller)(mpc_controller),
 				label={[fill=red, fill opacity=0.5]above:Ubuntu PC}
 			] {};
 		\end{pgfonlayer}

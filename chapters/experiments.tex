@@ -3,6 +3,23 @@
 
 \minitoc{}
 
+\section{Introduction}
+
+Experimental validation of theorical work is a crucial step in the development of new technologies
+and methods. This chapter presents the experiments conducted to validate the theoretical work
+presented in \cref{cable_modelling,robot_chain_control}.
+
+The first experimental campaign presented in
+\cref{e_augmented_catenary_model_experimental_validation} was conducted to gather the dataset used
+in \cref{cm_acm_experimental_validation} in order to quantify the accuracy of the proposed model in
+comparaison to actual cables in underwater conditions. In addition to using a varied set of cables
+changes experimental conditions such as the speed of the robot and the direction of motion.
+
+The second experimental campaign presented in \cref{e_robot_chain_control_experiment} was conducted
+to validate the feasability of the proposed control methods and simulations presented in
+\cref{robot_chain_control}. The robot chain used was scaled down from the three Bluerovs with a
+surface vehicle to a pair of Bluerovs for practical reasons.
+
 \section{Augmented catenary model experimental validation}
 \label{e_augmented_catenary_model_experimental_validation}
 
@@ -15,13 +32,13 @@ model-based control of tethered underwater vehicles, such as obstacle avoidance.
 
 The experiment was conducted in a \qty{7.2}{\meter} long, \qty{4.2}{\meter} wide, and
 \qty{3}{\meter} deep tank (\cref{e_acmev_es_robot_in_tank}). The cable's and robot's positions were
-recorded by a 5-camera, \qty{100}{\Hz}
-\emph{Qualisys}\footnote{\url{www.qualisys.com/cameras/underwater}} underwater motion capture
-system. The calibration of this system provided a standard deviation of \qty{2.2}{\mm} across the
-tank's calibrated volume for a known object's length. The robot and each cable were equipped with
-passive reflective markers (\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), and the cable's
-markers were evenly spaced out by \qty{20}{\centi\meter}. The cables were attached to the robot and
-to a fixed point on the side of the tank with thin wire
+recorded by a 5-camera, \qty{100}{\Hz} Qualisys\footnote{\url{www.qualisys.com/cameras/underwater}}
+underwater motion capture system. The calibration of this system provided a standard deviation of
+\qty{2.2}{\mm} across the tank's calibrated volume for a known object's length. The robot and each
+cable were equipped with passive reflective markers
+(\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), and the cable's markers were evenly spaced
+out by \qty{20}{\centi\meter}. The cables were attached to the robot and to a fixed point on the
+side of the tank with thin wire
 (\cref{e_acmev_es_robot_cable_attachment_point,e_acmev_es_rod_cable_attachment_point}) so that the
 joint between the tether and its attachment point closely approximated a theoretical spherical
 joint. The cables used are shown in \cref{e_acmev_es_all_cables}, and their characteristics are
@@ -80,7 +97,7 @@ In every experiment, the robot received the following commands:
 \begin{figure}
 	\renewcommand\thesubfigure{\arabic{subfigure}}
 	\centering
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -93,7 +110,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_coaxial}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -106,7 +123,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_four_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -119,7 +136,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_two_pairs}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -132,7 +149,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_floating}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48 \figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -145,7 +162,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_rope}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -158,7 +175,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_weighted}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -171,7 +188,7 @@ In every experiment, the robot received the following commands:
 		\caption{}
 		\label{e_acmev_es_chain}
 	\end{subfigure}
-	\begin{subfigure}{.48 \textwidth}
+	\begin{subfigure}{.48\figurewidth}
 		\centering
 		\begin{subfigure}{.48\textwidth}
 			\centering
@@ -212,14 +229,12 @@ In every experiment, the robot received the following commands:
 		diameter / \unit{\m}        & 0.0068                      & 0.005                          & 0.0042                        & 0.0077                       \\
 		weight / \unit{\N}          & 1.0791                      & 0.6867                         & 0.3924                        & 0.2943                       \\
 		weight in water / \unit{\N} & 0.04905                     & 0.14715                        & -0.04905                      & -0.4905                      \\
-		wet weight / \unit{\N}      & 1.0791                      & 0.6867                         & 0.3924                        & 0.981                        \\
-		plastic deformation         & {\checkmark}                & {\checkmark}                   & {\checkmark}                  & {$\cross$}                   \\ \midrule[1pt]
+		wet weight / \unit{\N}      & 1.0791                      & 0.6867                         & 0.3924                        & 0.981                        \\ \midrule[1pt]
 		cable \#                    & \subref{e_acmev_es_rope}    & \subref{e_acmev_es_weighted}   & \subref{e_acmev_es_chain}     & \subref{e_acmev_es_elastic}  \\ \midrule
 		diameter / \unit{\m}        & 0.0055                      & 0.0035                         & {---}                         & 0.0054                       \\
 		weight / \unit{\N}          & 1.0791                      & 1.3734                         & 3.11958                       & 0.5886                       \\
 		weight in water / \unit{\N} & 0.24525                     & 1.1772                         & 2.70756                       & 0.0981                       \\
-		wet weight / \unit{\N}      & 1.5696                      & 1.52055                        & 3.11958                       & 0.6867                       \\
-		plastic deformation         & {$\cross$}                  & {$\cross$}                     & {$\cross$}                    & {$\cross$}                   \\ \bottomrule
+		wet weight / \unit{\N}      & 1.5696                      & 1.52055                        & 3.11958                       & 0.6867                       \\ \bottomrule
 	\end{tabular}
 	\label{e_acmev_es_cables_characteristics}
 \end{table}
@@ -233,16 +248,16 @@ All of the recorded sequences for the cables shown in \cref{e_acmev_es_all_cable
 It should be noted that sequences were captured over several days, and the motion capture system
 was calibrated before each session. This resulted in the world frame differing from day to day.
 
-The open loop characteristic of the robot's motion is clearly visible in
-\cref{e_acmev_tors_trajectory_6}: the trajectories are relatively straight but are not pure surge
-and sway motion with relation to the fixed point.
-
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_6}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_weighted}.}
 	\label{e_acmev_tors_trajectory_6}
 \end{figure}
+
+The open loop characteristic of the robot's motion is clearly visible in
+\cref{e_acmev_tors_trajectory_6}: the trajectories are relatively straight but are not pure surge
+and sway motion with relation to the fixed point.
 
 \section{Robot chain control experiment}
 \label{e_robot_chain_control_experiment}
@@ -260,14 +275,9 @@ capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
 
 From a technical point of view, the cameras operate in a network with a computer running
 specialized software - \ac{qtm} - for recording. Additionnally, \ac{qtm} exposes a server which can
-be queried to obtain scene data in real time; this data can be two dimensional position in camera
-frames, three dimensional position in the world frame, or even a six dimensional pose of a group of
-markers called rigid body.
-
-A \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to obtain the pose of a
-predetermined robot and publish it in a \ac{ros} topic. This topic was then be used as a close to
-perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
-loop (\cref{e_rcce_ctcl_closed_loop_diagram}).
+be queried to obtain scene data in real time; this data can be two dimensional position of a marker
+in camera frames, three dimensional position of a marker in the world frame, or even a six
+dimensional pose of a group of markers called rigid body.
 
 \begin{figure}
 	\centering
@@ -276,33 +286,76 @@ loop (\cref{e_rcce_ctcl_closed_loop_diagram}).
 	\label{e_rcce_ctcl_closed_loop_diagram}
 \end{figure}
 
+A \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to obtain the pose of a
+predetermined robot and publish it in a \ac{ros} topic. This topic was then be used as a close to
+perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
+loop (\cref{e_rcce_ctcl_closed_loop_diagram}).
+
 The sampling rate of the \ac{qtm} is of \qty{100}{\Hz} and the \ac{ros} node is able to run at the
 same rate. This frequency is sufficient for the control of the Bluerov, which has a relatively slow
 dynamics.
 
 Additionally, a simulation twin of the node was implemented with identical interface with \ac{ros}
-in order to facilitate testing of control systems relying on the \emph{Qualisys} system.
+in order to facilitate testing of control systems relying on the Qualisys system.
 
 \subsection{Controller implementation}
 \label{ex_rcce_controller_implementation}
 
 The \ac{mpc} controller discussed in \cref{robot_chain_control} is interfaced with \ac{ros} in
-\citeurl{filliungBluerov2025}. The two experimental implementations are of a single Bluerov with a
-pose target, and a follower Bluerov with joystick controlled leader Bluerov and constraints related
-to the whole chain, mainly the cable between leader and follower and the pool's dimensions.
-
-In the two Bluerov implementation, the leader's trajectory still needs to be predicted even though
-it is controlled by a human in order to compute constraints on the follower's trajectory. This is
-done with the pose data available in the same way as for the follower and the leader's control
-input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_leader_follower_diagram}).
+\citeurl{filliungBluerov2025}. The first experimental implementation is of a single Bluerov with a
+pose target (\cref{e_rcce_ctcl_mpc_diagram}).
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/leader_follower_diagram}
-	\caption{Software schematic of the leader-follower Bluerov experiment.}
-	\label{e_rcce_ctcl_leader_follower_diagram}
+	\inputtikz{figures/mpc_diagram}
+	\caption{Software schematic of the \ac{mpc} Bluerov experiment.}
+	\label{e_rcce_ctcl_mpc_diagram}
+\end{figure}
+
+The second experimental implementation is of a follower Bluerov reacting to a leader Bluerov and
+constraints related to the whole chain, mainly the cable between leader and follower and the pool's
+dimensions. In the two Bluerov implementation, the leader's trajectory still needs to be predicted
+even though it is controlled by a human in order to compute constraints on the follower's
+trajectory. This is done with the pose data available in the same way as for the follower and the
+leader's control input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_mpc_leader_follower_diagram}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_leader_follower_diagram}
+	\caption{Software schematic of the leader-follower \ac{mpc} Bluerov experiment.}
+	\label{e_rcce_ctcl_mpc_leader_follower_diagram}
 \end{figure}
 
 \subsection{Experiment setup}
 \label{ex_rcce_experiment_setup}
 
+The experiment takes place in the same tank as described in \cref{e_acmev_experimental_setup}
+(\cref{e_acmev_es_robot_in_tank}). We used a larger 8-cameras Qualisys setup in order to cover a
+larger volume as previously. The cable of the chain system is a \qty{1.5}{\meter} and at first only
+considered as a constraint and not physically implemented.
+
+Since several Bluerovs are used, the set of visual markers attached to a robot and used to compute
+its pose must be unique with respect to the others (\cref{e_rcce_es_rovs}). This is achieved on a
+trial and error basis.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=900 600 2300 600, clip]{mpc_experiment_rovs.jpg}
+		\caption{Basile, the leader Bluerov.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\includegraphics[width=\textwidth]{mpc_experiment_betty.jpg}
+		\caption{Betty, the follower Bluerov.}
+	\end{subfigure}
+	\caption{Bluerovs used in the experiment.}
+	\label{e_rcce_es_rovs}
+\end{figure}
+
+\subsection{Complications due to experimental conditions}
+\label{ex_rcce_complications_due_to_experimental_conditions}
+
+\section{Conclusion}
+\label{e_conclusion}
