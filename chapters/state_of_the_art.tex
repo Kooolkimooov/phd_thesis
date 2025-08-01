@@ -74,7 +74,8 @@ use in mobile underwater platforms.
 According to~\cite{christROVManualUser2013}, \acp{rov} are classified by size and functionality
 into three main categories:
 
-\begin{itemize}	\item Work-class \acp{rov} (\cref{sota_uuv_rov_victor_6000}) exceed \qty{1000}{\kilo\gram} and are
+\begin{itemize}
+	\item Work-class \acp{rov} (\cref{sota_uuv_rov_victor_6000}) exceed \qty{1000}{\kilo\gram} and are
 	      designed for complex tasks such as subsea construction, maintenance, and repair. These systems are
 	      typically equipped with hydraulic-powered thrusters and manipulators, in addition to a
 	      comprehensive suite of sensors. Work-class \acp{rov} can operate at depths greater than
@@ -86,22 +87,26 @@ into three main categories:
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\figurewidth]{victor_6000.png}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=300 0 200 0, clip]{victor_6000.png}
+		\caption{
+			Victor in the ocean.
+		}
+		\label{sota_uuv_rov_victor_6000}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=100 0 100 0, clip]{atlante_and_victor_6000.png}
+		\caption{
+			Victor deployed from \acs{ifremer}'s research vessel Atlante.
+		}
+		\label{sota_uuv_rov_atlante_and_victor_6000}
+	\end{subfigure}
 	\caption{
 		A work-class \ac{rov}: the Victor 6000, used by \ac{ifremer} for deep-sea
 		exploration (\cite{FlotteOceanographiqueFrancaise}).
 	}
-	\label{sota_uuv_rov_victor_6000}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=\figurewidth]{atlante_and_victor_6000.png}
-	\caption{
-		The Victor 6000 \ac{rov} deployed from \ac{ifremer}'s research vessel
-		Atlante~\cite{FlotteOceanographiqueFrancaise}.
-	}
-	\label{sota_uuv_rov_atlante_and_victor_6000}
 \end{figure}
 
 \begin{itemize}
@@ -115,7 +120,7 @@ into three main categories:
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\figurewidth, trim=350 200 350 200, clip]{ocean_one_k.png}
+	\includegraphics[width=\figurewidth, trim=250 100 250 100, clip]{ocean_one_k.png}
 	\caption{
 		A mid-sized humanoid \ac{rov}: Ocean One K, developed at Stanford University for deep-sea
 		exploration (\cite{StanfordRoboticsLab,khatibOceanOneRobotic2016}).
@@ -495,8 +500,7 @@ environments.
 \section{Control}
 \label{sota_control}
 
-\subsection{\Ac{uuv} control} 
-\label{sota_c_uuv_control}
+\subsection{\Ac{uuv} control} \label{sota_c_uuv_control}
 
 The control of underwater robots entails distinctive challenges arising from the nonlinear,
 uncertain, and dynamic characteristics of the aquatic environment. These challenges include
@@ -534,8 +538,7 @@ combining robust filtering with sliding-window estimation have been developed to
 resilience and autonomy under uncertain operational
 conditions~\cite{songRobustStateEstimation2023}.
 
-\subsection{Tethered \ac{uuv} control} 
-\label{sota_c_tethered_uuv_control}
+\subsection{Tethered \ac{uuv} control} \label{sota_c_tethered_uuv_control}
 
 A broad spectrum of control strategies has been formulated to address the unique challenges
 associated with underwater tethered robotic systems, wherein dynamic coupling among the vehicle,
