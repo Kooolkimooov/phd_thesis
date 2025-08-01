@@ -14,8 +14,11 @@ jobs:
     check:
       runs-on: ubuntu-latest
       steps:
+        
         - name: checkout 
           uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
 
         - name: determine if build is needed
           id: determine_build
@@ -113,7 +116,7 @@ jobs:
       if: needs.check.outputs.needs_build == 'true'
       runs-on: ubuntu-latest
       container:
-        image: ghcr.io/xu-cheng/texlive-full:latest
+        image: ghcr.io/xu-cheng/texlive-full:20230601
       steps:
         - name: check input
           run: |
@@ -132,7 +135,26 @@ jobs:
             python-version: '>3.10'
             
         - name: build
+          id: build
           run: python3 ./build.py thesis -gd ${{ needs.check.outputs.description }}
+          continue-on-error: true
+            
+        - name: upload logs on failure
+          if: steps.build.outcome == 'failure'
+          uses: actions/upload-artifact@v4
+          with:
+            name: latex-logs-${{ github.run_number }}
+            path: |
+              build/**/*.log
+              build/**/*.err
+              build/**/*.out
+              build/**/*.aux
+              build/**/*.blg
+            retention-days: 30
+
+        - name: fail workflow if build failed
+          if: steps.build.outcome == 'failure'
+          run: exit 1
 
         - name: release
           uses: softprops/action-gh-release@v2

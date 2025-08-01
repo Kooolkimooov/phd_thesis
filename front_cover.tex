@@ -1,0 +1,85 @@
+\makepagestyle{title}
+\makeoddfoot{title}{
+	\footnotesize{}This document was compiled on \today{} at \currenttime{}
+}{}{
+	\footnotesize{}\input{gitdescription}
+}
+
+\thispagestyle{title}
+\newgeometry{left=2cm,right=2cm,top=2cm}
+
+\begin{vplace}
+
+	\begin{center}
+		\begin{minipage}[t]{0.75\textwidth}
+
+			\begin{center}
+
+				\textsc{\LARGE Doctoral Thesis}
+				\relax{}
+
+				\rule{\textwidth}{1pt}
+				\relax{}
+
+				\textbf{\HUGE
+					\thetitle{}
+				}
+
+				\relax{}
+
+				\rule{\textwidth}{1pt}
+				\relax{}
+
+			\end{center}
+
+			by \theauthor{}
+
+			\begin{center}
+				\textit{under the supervision of}
+			\end{center}
+
+			\begin{flushright}
+				Dr. Claire Dune    \\
+				Dr. Nicolas Boizot \\
+			\end{flushright}
+			\relax{}
+
+			at
+			\begin{itemize}[topsep=0pt,itemsep=2pt,partopsep=4pt, parsep=0pt]
+				\item[]\textsc{\Ac{cosmer} laboratory}
+				\item[]\textsc{\Ac{lis}}
+				\item[]\textsc{Doctoral school 548 --- Sea and sciences}
+				\item[]\textsc{University of Toulon}
+			\end{itemize}
+			\vspace{1cm}
+
+			% Defended on \formatdate{1}{11}{2025} in front of a jury composed of:
+			to be defended in front of a jury composed of:
+			\begin{tabularx}{.9\linewidth}{lll}
+				Pr. Éric Busvelle,           & president,  & \ac{lis}, University of Toulon    \\
+				Pr. Luc Jaulin,              & reviewer,   & Lab-STICC, ENSTA Bretagne         \\
+				Dr. Ionella Prodan,          & reviewer,   & LCIS, Grenoble INP                \\
+				Pr. Brigitte d'Andréa-Novel, & examiner,   & Mines Paris                       \\
+				Pr. Guillaume Allibert,      & examiner,   & I3S, Côte d'Azur University       \\
+				Dr. Nicolas Boizot,          & supervisor, & \ac{lis}, University of Toulon    \\
+				Dr. Claire Dune,             & advisor,    & \ac{cosmer}, University of Toulon \\
+			\end{tabularx}
+			\vspace{.5cm}
+
+			\begin{center}
+				\raisebox{-.5\height}{\includegraphics[width=.22\textwidth]{logo-cosmer-200.jpg}}
+				\hspace{1em}
+				\raisebox{-.5\height}{\includegraphics[width=.15\textwidth]{logo-lis.pdf}}
+				\hspace{1em}
+				\raisebox{-.5\height}{\includegraphics[width=.22\textwidth]{ed548.jpg}}
+				\hspace{1em}
+				\raisebox{-.5\height}{\includegraphics[width=.22\textwidth]{logo_univ_toulon_RVB.png}}
+			\end{center}
+
+		\end{minipage}
+
+	\end{center}
+
+\end{vplace}
+
+\restoregeometry{}

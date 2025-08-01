@@ -1,4 +1,4 @@
-\documentclass[english, 12pt]{memoir}
+\documentclass[english, 12pt, a4paper]{memoir}
 
 \input{preamble}
 
@@ -6,15 +6,15 @@
 
 \frontmatter{}
 
-\input{title}
+\input{front_cover}
 
 \shorttableofcontents{}
 
 \input{chapters/acknowledgements}
-\input{chapters/introduction}
 
 \mainmatter{}
 
+\input{chapters/introduction}
 \input{chapters/state_of_the_art}
 \input{chapters/cable_modelling}
 \input{chapters/robot_chain_control}
@@ -23,22 +23,26 @@
 
 \appendix{}
 
-\input{chapters/notations}
+\printallglossaries{}
+
 \input{chapters/mathematical_background}
 \input{chapters/additionnal_figures}
 \input{chapters/summary_in_french}
 
 \backmatter{}
 
-\printbibliography{}
-
-\clearpage{}
 \longtableofcontents{}
 
-\clearpage{}
+\printbibliography{}
+
+\cleardoublepage{}
 \listoffigures{}
 
-\clearpage{}
+\cleardoublepage{}
 \listoftables{}
+
+\cleardoublepage{}
+\clearevenpage{}
+\input{back_cover}
 
 \end{document}

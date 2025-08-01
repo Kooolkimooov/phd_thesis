@@ -1,5 +1,37 @@
 # My PhD Thesis repository
 
+## TODO list
+
+### Thesis
+
+- [ ] Introduction
+  - [ ] completed
+  - [ ] reviewed
+- [ ] State of the art
+  - [ ] completed
+  - [ ] reviewed
+- [x] Cable modelling
+  - [x] completed
+  - [x] reviewed
+- [ ] Robot chain control
+  - [ ] completed
+  - [ ] reviewed
+- [ ] Experiments
+  - [x] completed
+  - [ ] reviewed
+- [ ] Conclusion
+  - [ ] completed
+  - [ ] reviewed
+
+### Miscellaneous
+
+- [ ] Fix figures in Additionnal figures
+  - [ ] Boxplots bounds
+  - [ ] Trajectories equal axis
+- [x] Homogenize all labels
+- [ ] Use `\scal{_}` instead of raw `$_$` 
+
+
 ## Project Structure
 
 - `build.py` - Python script for building the thesis
