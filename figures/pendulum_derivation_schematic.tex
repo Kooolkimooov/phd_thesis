@@ -1,9 +1,9 @@
 \begin{tikzpicture}
 
 	\def\length{1.0}
-	\def\angle{25.0}
+	\def\angle{45.0}
 
-	\def\xzero{0.5}
+	\def\xzero{0.25}
 	\def\yzero{0.0}
 
 	\pgfmathsetmacro{\xmin}{\xzero - \length*sin(\angle)}
@@ -48,11 +48,11 @@
 		\draw[->, thick] (O) -- (x) node[above right] {\ldvect{x}{v}};
 		\draw[->, thick] (O) -- (z) node[above right] {\ldvect{z}{v}};
 
-		\filldraw[gray] (A) circle (8pt) node[black, above right=7pt] {\fpoint{A}{v}, $m_1$};
-		\filldraw[gray] (B) circle (8pt) node[black, above left=7pt] {\fpoint{B}{v}, $m_2$};
+		\filldraw[gray] (A) circle (8pt) node[black, above right] {\fpoint{A}{v}, \ldscal{m}{1}};
+		\filldraw[gray] (B) circle (8pt) node[black, left] {\fpoint{B}{v}, \ldscal{m}{2}};
 
-		\draw[<->] (axis cs: \xzero+0.02, \yzero) -- (axis cs: \xmax+0.02, \ymin) node[midway, right] {$l$};
-		\draw[<->] (Om) -- (Am) node[midway, above] {$x$};
+		\draw[<->] (axis cs: \xzero+0.03, \yzero) -- (axis cs: \xmax+0.03, \ymin) node[midway, above right] {\scal{d}};
+		\draw[<->] (Om) -- (Am) node[midway, above] {\scal{x}};
         \pic[draw, "${\alpha}$", ->, angle radius=3.5cm, angle eccentricity=0.9] {angle=Ab--A--B};
 
 	\end{axis}
