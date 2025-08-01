@@ -47,8 +47,8 @@
 		\draw[connection, <->] (ubuntu) -- (br0);
 		\draw[connection, <->] (ubuntu) -- (brn);
 
-		\draw[connection, ->, dotted] (brn) -- (camn) node [midway, rounded corners, fill=gray, text opacity=1.0, fill opacity=0.5] {Visual data};
-		\draw[connection, ->, dotted] (brn) -- (cam0);
+		\draw[connection, ->, dotted] (brn) -- (camn);
+		\draw[connection, ->, dotted] (brn) -- (cam0) node [midway, rounded corners, fill=gray, text opacity=1.0, fill opacity=0.65] {Visual data};
 		\draw[connection, ->, dotted] (br0) -- (camn);
 		\draw[connection, ->, dotted] (br0) -- (cam0);
 	\end{axis}
