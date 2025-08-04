@@ -193,16 +193,36 @@ the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct th
 \label{cm_augmented_catenary_model}
 
 When the underwater cable is moved at sufficiently high speed, hydrodynamic forces become
-non-negligible.Indeed, considering a constant drag coefficient, the standard drag force formulation
-dampens the movement with an amplitude proportional to the square of the speed. This effect is
-amplified by the added mass when significant accelerations are present. At equilibrium, where all
-points on the cable move at the same velocity, they are subjected to identical drag forces.
-Consequently, the total uniform acceleration of the cable is tilted, and its intensity increased
-depending on the velocity. To account for this effect, two degrees of freedom were proposed to the
-cable shape model, extending the \verticalmodel{}.
+non-negligible. Indeed, considering a constant drag coefficient, the standard drag force
+formulation dampens the movement with an amplitude proportional to the square of the speed. This
+effect is amplified by the added mass when significant accelerations are present. At equilibrium,
+where all points on the cable move at the same velocity, they are subjected to identical drag
+forces. Consequently, the total uniform acceleration of the cable is tilted, and its intensity
+increased depending on the velocity. To account for this effect, two degrees of freedom were
+proposed to the cable shape model, extending the \verticalmodel{}.
 
 \subsection{Definition}
 \label{cm_acm_definition}
+
+The proposed augmented catenary model is based on intuitions while observing a cable's behavior
+during during experiments: The cable would sway when the robot in the direction normal to the
+cable's plane while staying in a plane while in steady state, with a relatively short out-of-plane
+transition beforehand; and during in-plane motion, the cable would take on a shape similar to the
+catenary curve, but in a tilted frame (\cref{cm_acm_picture_theta}). again with a short transition
+beforehand.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth]{catenary_experiment_bluerov_picture_0.png}
+	\caption{
+		Picture of a cable during in-plane motion of the robot, the cable has a catenary-like shape in a
+		tilted frame.
+	}
+	\label{cm_acm_picture_theta}
+\end{figure}
+
+This intuitive model will now be formalized by introducing two additional degrees of freedom to the
+\catenarymodel{}.
 
 \subsubsection{$\gamma$ degree of freedom}
 \label{cm_acm_d_gamma_degree_of_freedom}
