@@ -399,6 +399,18 @@ where \fllpoint{p}{w}{v}{k}, \fllpoint{p}{w}{\gamma}{k}, and \fllpoint{p}{w}{\th
 points corresponding to \fllpoint{p}{w}{m}{k} predicted by the \verticalmodel{}, \gammamodel{}, and
 \thetamodel{} based on the attachment points \fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n}.
 
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cables_boxplot}
+	\caption{
+		Box plots of the residual when compared to the measured data for each cable. Each box represents
+		the IQR of residuals, with the vertical line indicating the median. Whiskers extend to the first
+		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
+		\thetamodel{} in green, and \thetagammamodel{} in gray.
+	}
+	\label{cm_acm_ev_sr_cables_boxplot}
+\end{figure}
+
 The residuals for the four model variants are presented in \cref{cm_acm_ev_sr_cables_boxplot},
 where each boxplot visually represents the distribution of errors across all experimental trials.
 The median values, indicated by the central line in each box, reveal that the \thetagammamodel{}
@@ -441,14 +453,15 @@ forces that oppose the formation of a smooth curve.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/catenary_experiment_cables_boxplot}
+	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
 	\caption{
-		Box plots of the residual when compared to the measured data for each cable. Each box represents
-		the IQR of residuals, with the vertical line indicating the median. Whiskers extend to the first
-		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
-		\thetamodel{} in green, and \thetagammamodel{} in gray.
+		Box plots of the residual for cable \subref{e_acmev_es_two_pairs} when compared to the measured
+		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
+		\thetagammamodel{} in gray.
 	}
-	\label{cm_acm_ev_sr_cables_boxplot}
+	\label{cm_acm_ev_sr_cable_3_boxplot}
 \end{figure}
 
 The four models were further examined in greater detail, distinguishing between experiments
@@ -457,6 +470,19 @@ analysis due to its lowest residuals across all models, and cable \subref{e_acme
 analyzed because it exhibited the lowest residual among cables with significant plastic
 deformations. Detailed results for all other cables are provided in \cref{af_cable_modelling} for
 completeness.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
+	\caption{
+		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured
+		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
+		\thetagammamodel{} in gray.
+	}
+	\label{cm_acm_ev_sr_cable_6_boxplot}
+\end{figure}
 
 In \cref{cm_acm_ev_sr_cable_3_boxplot,cm_acm_ev_sr_cable_6_boxplot}, the distribution of model
 residuals for cables \subref{e_acmev_es_two_pairs} and \subref{e_acmev_es_weighted} are presented
@@ -494,31 +520,27 @@ be attributed to its physical properties being most closely aligned with the ass
 augmented catenary model, allowing the additional degrees of freedom to effectively capture the
 deformations induced by hydrodynamic effects.
 
-\begin{figure}
-	\centering
-	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
-	\caption{
-		Box plots of the residual for cable \subref{e_acmev_es_two_pairs} when compared to the measured
-		data across all experimental parameters. Each box represents the IQR of residuals, with the
-		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
-		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
-		\thetagammamodel{} in gray.
-	}
-	\label{cm_acm_ev_sr_cable_3_boxplot}
-\end{figure}
+\subsubsection{Comparaision to a fully dynamic model}
+\label{cm_acm_ev_comparaision_to_a_fully_dynamic_model}
+
+Here we compare the accuracy of the \thetagammamodel{} to a fully dynamic model presented in
+\cite{peraudIMUbasedMonitoringBuoyBallast2024} using cable \subref{e_acmev_es_weighted}.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
+	\inputtikz{figures/catenary_experiment_cable_6_boxplot_diff_dynamic}
 	\caption{
-		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured
-		data across all experimental parameters. Each box represents the IQR of residuals, with the
-		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
-		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
-		\thetagammamodel{} in gray.
+		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured data
+		across all experimental parameters. Each box represents the IQR of residuals, with the vertical
+		line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\thetagammamodel{} is shown in gray and the dynamic model is shown in orange. The arrow and number
+		indicate the value of the lower whisker which is not visible.
 	}
-	\label{cm_acm_ev_sr_cable_6_boxplot}
+	\label{cm_acm_ev_sr_cables_boxplot_dynamic_diff}
 \end{figure}
+
+The dynamic model has medians in the same range as the \augmentedmodel{} but with lower first
+quartile and extremely low first percentile -- way below the measurement accuracy of the dataset.
 
 \section{Perspectives on augmentation parameters' dynamics}
 \label{cm_perspectives_on_augmentation_parameters_dynamics}
