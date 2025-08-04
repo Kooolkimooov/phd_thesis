@@ -1,60 +1,44 @@
 \begin{tikzpicture}
 
-	\def\length{1.0}
-	\def\angle{45.0}
+    \def\ang {10};
+    \def\size {.5};
+    \def\l {5};
 
-	\def\xzero{0.25}
-	\def\yzero{0.0}
+    \coordinate (O) at (0, 0);
+    \coordinate (OU) at (0, -\l);
+    \coordinate (Oe) at (\l, 0);
 
-	\pgfmathsetmacro{\xmin}{\xzero - \length*sin(\angle)}
-	\pgfmathsetmacro{\xmax}{\xzero + \length*sin(\angle)}
-	\pgfmathsetmacro{\arrowlength}{(\xmax -\xmin)/12.5}
+    \coordinate (A) at (.5*\l, 0);
+    \coordinate (B) at ($ (A) + {cos(\ang)}*(0, -\l) + {sin(\ang)}*(\l, 0) $);
 
-	\pgfmathsetmacro{\ymin}{\yzero - \length*cos(\angle)}
-	\pgfmathsetmacro{\ymax}{\yzero + \arrowlength}
+    \coordinate (AU) at ($ (A) + (0, -\l) $);
 
-	\begin{axis}[
-			xmin = \xmin,
-			xmax = \xmax,
-			ymin = \ymin,
-			ymax = \ymax,
-			width = \figurewidth,
-			axis equal,
-			clip = false,
-			axis x line=none,
-			axis y line=none
-		]
+    \coordinate (b1) at ($ (A) + \size*(-1, 1) $);
+    \coordinate (b2) at ($ (A) + \size*(1, 1) $);
+    \coordinate (b3) at ($ (A) + \size*(1, 0) $);
+    \coordinate (b4) at ($ (A) + \size*(-1, 0) $);
 
-		\coordinate (O) at (axis cs: 0.0, 0.0);
-		\coordinate (x) at (axis cs: \arrowlength, 0.0);
-		\coordinate (z) at (axis cs: 0.0, \arrowlength);
+    \draw[dashed] (O) -- (Oe);
 
-		\coordinate (A) at (axis cs: \xzero, \yzero);
-		\coordinate (B) at (axis cs: \xmax, \ymin);
+    \draw[->, thick, gray] (O) -- ($ (O) + (0, 1) $) node[above right] {\ldvect{e}{y}};
+    \draw[->, thick, gray] (O) -- ($ (O) + (1, 0) $) node[above right] {\ldvect{e}{x}};
 
-		\coordinate (Ob) at (axis cs: 0.0, \ymin);
-        \coordinate (Om) at ($(O)!.5!(Ob)$);
-		\coordinate (Ab) at (axis cs: \xzero, \ymin);
-        \coordinate (Am) at ($(A)!.5!(Ab)$);
-		\coordinate (Cu) at (axis cs: \xmax, 0.0);
+    \draw[dashed] (A) -- (AU);
+    \draw[dashed] (O) -- (OU);
 
-		\draw[thick] (A) -- (B);
+    \draw[<->] ($(O) - (0, 1) $)  -- ($(A) - (0, 1) $) node[below, midway] {\scal{x}};
 
-		\draw[densely dotted, thick] (O) -- (Ob);
-		\draw[densely dotted, thick] (A) -- (Ab);
-		\draw[densely dotted, thick] (O) -- (Cu);
+    \draw[thick] (A) -- (B);
+    \fill[blue!20, opacity=.8] (b1) -- (b2) -- (b3) -- (b4) -- cycle;
+    \pic[draw, "${\alpha}$", ->, angle radius = 3cm, angle eccentricity=1.15] {angle=AU--A--B};
+    \filldraw (B) circle (5pt);
 
-		\filldraw (O) circle (2pt) node[below right] {\ldpoint{O}{v}};
-		\draw[->, thick] (O) -- (x) node[above right] {\ldvect{x}{v}};
-		\draw[->, thick] (O) -- (z) node[above right] {\ldvect{z}{v}};
+    \node[above] at (A) {\ldscal{m}{1}};
+    \node[below left] at (A) {\point{A}};
+    \node[below=.25] at (B) {\ldscal{m}{2}};
+    \node[left=.25] at (B) {\point{B}};
 
-		\filldraw[gray] (A) circle (8pt) node[black, above right] {\fpoint{A}{v}, \ldscal{m}{1}};
-		\filldraw[gray] (B) circle (8pt) node[black, left] {\fpoint{B}{v}, \ldscal{m}{2}};
-
-		\draw[<->] (axis cs: \xzero+0.03, \yzero) -- (axis cs: \xmax+0.03, \ymin) node[midway, above right] {\scal{d}};
-		\draw[<->] (Om) -- (Am) node[midway, above] {\scal{x}};
-        \pic[draw, "${\alpha}$", ->, angle radius=3.5cm, angle eccentricity=0.9] {angle=Ab--A--B};
-
-	\end{axis}
+    \draw[<->] ($(A) + {sin(\ang)}*(0, .25) + {cos(\ang)}*(.25, 0) $) 
+     -- ($(B) + {sin(\ang)}*(0, .25) + {cos(\ang)}*(.25, 0) $) node[above=2] {\scal{d}};
 
 \end{tikzpicture}

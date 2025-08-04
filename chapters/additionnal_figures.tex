@@ -5,82 +5,180 @@
 
 \newpage{}
 
-\section{Cable modelling}
-\label{af_cable_modelling}
+\section{Experimental validation of the \augmentedmodel{}}
+\label{af_rtdtecxperimental_validation_of_the_augmented_catenary_model}
 
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_1_boxplot}
-	\caption{Box plots of the catenaries residual when compared to the measured data  for all parameters for cable 1. $\gamma$ in red and $\theta$ in green.}
+	\caption{
+		Box plots of the catenaries residual when compared to the measured data for all parameters for
+		cable 1. $\gamma$ in red and $\theta$ in green.
+	}
+	\label{af_rtdtecvotacm_cable_1_boxplot}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_2_boxplot}
-	\caption{Box plots of the catenaries residual when compared to the measured data  for all parameters for cable 2. $\gamma$ in red and $\theta$ in green.}
+	\caption{
+		Box plots of the catenaries residual when compared to the measured data for all parameters for
+		cable 2. $\gamma$ in red and $\theta$ in green.
+	}
+	\label{af_rtdtecvotacm_cable_2_boxplot}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_4_boxplot}
-	\caption{Box plots of the catenaries residual when compared to the measured data  for all parameters for cable 4. $\gamma$ in red and $\theta$ in green.}
+	\caption{
+		Box plots of the catenaries residual when compared to the measured data for all parameters for
+		cable 4. $\gamma$ in red and $\theta$ in green.
+	}
+	\label{af_rtdtecvotacm_cable_4_boxplot}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_5_boxplot}
-	\caption{Box plots of the catenaries residual when compared to the measured data  for all parameters for cable 5. $\gamma$ in red and $\theta$ in green.}
+	\caption{
+		Box plots of the catenaries residual when compared to the measured data for all parameters for
+		cable 5. $\gamma$ in red and $\theta$ in green.
+	}
+	\label{af_rtdtecvotacm_cable_5_boxplot}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_7_boxplot}
-	\caption{Box plots of the catenaries residual when compared to the measured data  for all parameters for cable 7. $\gamma$ in red and $\theta$ in green.}
+	\caption{
+		Box plots of the catenaries residual when compared to the measured data for all parameters for
+		cable 7. $\gamma$ in red and $\theta$ in green.
+	}
+	\label{af_rtdtecvotacm_cable_7_boxplot}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_8_boxplot}
-	\caption{Box plots of the catenaries residual when compared to the measured data  for all parameters for cable 8. $\gamma$ in red and $\theta$ in green.}
+	\caption{
+		Box plots of the catenaries residual when compared to the measured data for all parameters for
+		cable 8. $\gamma$ in red and $\theta$ in green.
+	}
+	\label{af_rtdtecvotacm_cable_8_boxplot}
 \end{figure}
 
-\section{Experiments}
-\label{af_experiments}
+\section{Accuracy of dynamics-driven \augmentedmodel{}}
+\label{af_accuracy_of_dynamics_driven_augmented_catenary_model}
+
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_1_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 1.
+	}
+	\label{af_aoddacm_dynamics_cable_1_boxplot_compare}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_2_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 2.
+	}
+	\label{af_aoddacm_dynamics_cable_2_boxplot_compare}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_3_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 3.
+	}
+	\label{af_aoddacm_dynamics_cable_3_boxplot_compare}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_4_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 4.
+	}
+	\label{af_aoddacm_dynamics_cable_4_boxplot_compare}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_5_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 5.
+	}
+	\label{af_aoddacm_dynamics_cable_5_boxplot_compare}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_7_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 7.
+	}
+	\label{af_aoddacm_dynamics_cable_7_boxplot_compare}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\inputtikz{figures/pendulum_cable_8_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 8.
+	}
+	\label{af_aoddacm_dynamics_cable_8_boxplot_compare}
+\end{figure}
+
+\section{Robot's trajectories during the experimental campaign}
+\label{af_robots_trajectories_during_the_experimental_campaign}
 
 \begin{figure}[H]
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_1}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_coaxial}.}
-	\label{af_e_trajectory_1}
+	\label{af_rtdtec_trajectory_1}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_2}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_four_pairs}.}
-	\label{af_e_trajectory_2}
+	\label{af_rtdtec_trajectory_2}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_3}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_two_pairs}.}
-	\label{af_e_trajectory_3}
+	\label{af_rtdtec_trajectory_3}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_4}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_floating}.}
-	\label{af_e_trajectory_4}
+	\label{af_rtdtec_trajectory_4}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_5}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_rope}.}
-	\label{af_e_trajectory_5}
+	\label{af_rtdtec_trajectory_5}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_7}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_chain}.}
-	\label{af_e_trajectory_7}
+	\label{af_rtdtec_trajectory_7}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_trajectories_8}
 	\caption{Trajectories of all sequences for cable \subref{e_acmev_es_elastic}.}
-	\label{af_e_trajectory_8}
+	\label{af_rtdtec_trajectory_8}
 \end{figure}

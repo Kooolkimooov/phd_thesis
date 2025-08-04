@@ -468,8 +468,8 @@ The four models were further examined in greater detail, distinguishing between 
 involving surge and sway motion. Cable \subref{e_acmev_es_weighted} was selected for detailed
 analysis due to its lowest residuals across all models, and cable \subref{e_acmev_es_two_pairs} was
 analyzed because it exhibited the lowest residual among cables with significant plastic
-deformations. Detailed results for all other cables are provided in \cref{af_cable_modelling} for
-completeness.
+deformations. Detailed results for all other cables are provided in
+\cref{af_rtdtecxperimental_validation_of_the_augmented_catenary_model} for completeness.
 
 \begin{figure}
 	\centering
@@ -580,17 +580,61 @@ attachment points. Moreover, if the attachment points are close, this distance m
 to be half of the tether length:
 \begin{align}
 	l = \frac{\catL}{4}
+	\label{cm_poapd_pbm_dotpd_l_4}
 \end{align}
 
 However this first approximation does not take into account cases like the attachment points being
-spaced out or a tether that is not symmetrical. Some of these methods may be more feasible in a
-real application than others. In any of these cases, the pendulum's length is time dependant as a
-function of the robots' position:
+spaced out or a tether that is not symmetrical. Some of these methods
+(\cref{cm_poapd_pbm_dotpd_computation_of_l}) may be more feasible in a real application than
+others. In any of these cases, the pendulum's length is time dependant as a function of the robots'
+position:
 \begin{align}
 	l = f\left(t, L, \ldpoint{P}{0}(t), \ldpoint{P}{n}(t)\right)
+	\label{cm_poapd_pbm_dotpd_function_l}
 \end{align}
 
 with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v1}
+		\caption{Vertical distance between the lowest point and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v2}
+		\caption{Euclidean distance between the lowest point and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v3}
+		\caption{Distance between the lowest point and average height of the attachment points.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v4}
+		\caption{The greatest distance between the catenary curve and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v5}
+		\caption{Distance between the lowest point and the lower of the two attachment points.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v6}
+		\caption{Distance between the lowest point and the higher of the two attachment points.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v7}
+		\caption{Distance between the barycenter and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\caption{Approximate schematics of different definitions of $l$.}
+	\label{cm_poapd_pbm_dotpd_computation_of_l}
+\end{figure}
 
 In any case the dynamics of the pendulum is derived in the next section with the criteria $l>0$
 since $l=0$ would mean that the tether is perfectly taunt and out of the scope of this model.
@@ -663,20 +707,35 @@ Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
 \subsubsection{Accuracy and discussion}
 \label{cm_poapd_pbm_aad_accuracy_and_discussion}
 
-This formulation accounts for drag effects and serves as a conceptual foundation for the
-development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
-and $\gamma$ under underwater motion. However, none of the attempted configurations yielded
-satisfactory results (\cref{cm_poapd_pbm_aad_dynamics_cables_boxplot}).
-
 \begin{figure}
 	\centering
 	\inputtikz{figures/dynamics_pendulum_cables_boxplot_diff}
 	\caption{
-		Box plots of the residual using dynamics-derived catenary models when compared to the measured data
-		for each cable. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green,
-		\thetagammamodel{} in gray, and the reminder of \cref{cm_acm_ev_sr_cables_boxplot} in dashed lines.
+		Box plots of the residual using dynamics-driven (with \cref{cm_poapd_pbm_dotpd_l_4}) catenary
+		models when compared to the measured data for each cable. \verticalmodel{} in blue, \gammamodel{}
+		in red, \thetamodel{} in green, \thetagammamodel{} in gray, and the reminder of
+		\cref{cm_acm_ev_sr_cables_boxplot} in dashed lines.
 	}
 	\label{cm_poapd_pbm_aad_dynamics_cables_boxplot}
+\end{figure}
+
+This formulation accounts for drag effects and serves as a conceptual foundation for the
+development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
+and $\gamma$ under underwater motion. However, none of the attempted configurations yielded
+satisfactory results (\cref{cm_poapd_pbm_aad_dynamics_cables_boxplot}). The other methods described
+in \cref{cm_poapd_pbm_dotpd_computation_of_l} were also tested but, similarly to before, they do
+not yield satisfactory results
+(\cref{cm_poapd_pbm_aad_dynamics_cable_6_boxplot_compare,af_aoddacm_dynamics_cable_1_boxplot_compare,af_aoddacm_dynamics_cable_2_boxplot_compare,af_aoddacm_dynamics_cable_3_boxplot_compare,af_aoddacm_dynamics_cable_4_boxplot_compare,af_aoddacm_dynamics_cable_5_boxplot_compare,af_aoddacm_dynamics_cable_7_boxplot_compare,af_aoddacm_dynamics_cable_8_boxplot_compare}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/pendulum_cable_6_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 6.
+	}
+	\label{cm_poapd_pbm_aad_dynamics_cable_6_boxplot_compare}
 \end{figure}
 
 \subsection{Data-based model}
