@@ -31,6 +31,7 @@
 \usepackage{textcase}
 \usepackage{mfirstuc}
 \usepackage{ltablex}
+\usepackage{tabularx}
 \usepackage{xltabular}
 \usepackage{multicol}
 \usepackage{float}
@@ -55,6 +56,18 @@
 	}
 }{}
 \makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% review macro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\review}[2]{
+	\begin{tabularx}{\linewidth}{X|X}
+		\toprule
+		\textbf{Retour} & \textbf{Action} \\ \midrule
+		#1              & #2              \\ \bottomrule
+	\end{tabularx}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% bibliography setup

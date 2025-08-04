@@ -1,0 +1,646 @@
+\begin{tikzpicture}
+\def\boxwidth{.2}
+\begin{axis}[
+    xmode=log,
+    ymin=.5,
+    ymax=17.5,
+    height = 17*.075\textwidth,
+    width  = .75\figurewidth,
+    ytick pos = left,
+    xtick pos = bottom,
+    ytick distance=1,
+    grid,
+    xminorgrids=true,
+    yminorgrids=true,
+    major x grid style={draw=black},
+    major y grid style={draw=none},
+    minor y tick num=1,
+    minor x tick num=9,
+    xtick style={draw=none},
+    ytick style={draw=none},
+    ytick={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17},
+    yticklabels={Best,Barycenter to $\mathbf{e}$ - euclidean,Catenary to $\mathbf{e}$ - greatest,$H$,$H + \Delta H$,$H + \Delta H / 2$,Learning with $H$10105,Learning with $H$1015,Learning with $H$2105,Learning with $H$215,$H$ with file specific $\mathbf{z}_w$,$L / 4$,$L / 4$ with implicit runge kutta 3,$L / 4$ with optimized drag coefficients,$L / 4$ with robot speed halved,Low to $\mathbf{e}$ - euclidean,Low to $\mathbf{e}$ - vertical},
+    xtick={1, 10, 100, 1000},
+    xlabel=error / \unit{\mm},
+    area legend,
+    legend style={fill opacity=.75, text opacity=1},
+    minor xtick={2, 3, 4, 5, 6, 7, 8, 9, 20, 30, 40, 50, 60, 70, 80, 90, 200, 300, 400, 500, 600, 700, 800, 900}
+]
+\addplot[fill=blue, boxplot prepared={
+      draw position=1+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.69407530666719,
+      upper quartile=168.5656267698244,
+      median=194.23231794580056,
+      lower quartile=257.59504913402725,
+      lower whisker=388.00982447967783
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=1+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=122.27045019237303,
+      upper quartile=152.28215977887626,
+      median=171.9213157555027,
+      lower quartile=199.35706059502837,
+      lower whisker=355.8753778561862
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=1+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=121.10340328464461,
+      upper quartile=164.01303725900192,
+      median=183.6813611878338,
+      lower quartile=241.11107683692006,
+      lower whisker=365.23638199643176
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=1+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=113.45677450470048,
+      upper quartile=139.8378409825255,
+      median=161.58608072991996,
+      lower quartile=183.8606273185578,
+      lower whisker=245.39146409044508
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=2+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=2+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=133.36228423995888,
+      upper quartile=164.65106257152658,
+      median=182.13797855688654,
+      lower quartile=210.11848365037483,
+      lower whisker=414.99884527787583
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=2+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.03617391091754,
+      upper quartile=169.39227289730138,
+      median=206.06338908950582,
+      lower quartile=271.1737565137717,
+      lower whisker=379.4359241091579
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=2+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=132.0982604145966,
+      upper quartile=162.4461352182472,
+      median=186.0704998643008,
+      lower quartile=233.7867029837131,
+      lower whisker=379.0060146093652
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=3+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=3+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.8090794534986,
+      upper quartile=163.13528526065838,
+      median=179.9358251409517,
+      lower quartile=207.76087250592283,
+      lower whisker=395.6710203202385
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=3+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.98899289714214,
+      upper quartile=169.19915652296453,
+      median=198.1775485143931,
+      lower quartile=273.8906697930996,
+      lower whisker=373.5650594662879
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=3+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.6453112141456,
+      upper quartile=159.7909407815252,
+      median=180.42562635226318,
+      lower quartile=215.93092460690218,
+      lower whisker=375.16345480624005
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=4+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=4+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.68751930306803,
+      upper quartile=163.1088640502402,
+      median=179.8533912110909,
+      lower quartile=206.55120422655938,
+      lower whisker=395.63553465674664
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=4+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.01319278326837,
+      upper quartile=169.28014369732668,
+      median=198.36748038480266,
+      lower quartile=273.5914579259458,
+      lower whisker=373.4181994051781
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=4+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.54555608341813,
+      upper quartile=159.61333387834412,
+      median=180.3580640593319,
+      lower quartile=216.4965865036212,
+      lower whisker=367.2944090059449
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=5+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=5+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.68751930306803,
+      upper quartile=163.1088640502402,
+      median=179.8533912110909,
+      lower quartile=206.55120422655938,
+      lower whisker=395.63553465674664
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=5+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.01319278326837,
+      upper quartile=169.28014369732668,
+      median=198.36748038480266,
+      lower quartile=273.5914579259458,
+      lower whisker=373.4181994051781
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=5+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.54555608341813,
+      upper quartile=159.61333387834412,
+      median=180.3580640593319,
+      lower quartile=216.4965865036212,
+      lower whisker=367.2944090059449
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=6+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=6+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.68751930306803,
+      upper quartile=163.1088640502402,
+      median=179.8533912110909,
+      lower quartile=206.55120422655938,
+      lower whisker=395.63553465674664
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=6+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.01319278326837,
+      upper quartile=169.28014369732668,
+      median=198.36748038480266,
+      lower quartile=273.5914579259458,
+      lower whisker=373.4181994051781
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=6+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.54555608341813,
+      upper quartile=159.61333387834412,
+      median=180.3580640593319,
+      lower quartile=216.4965865036212,
+      lower whisker=367.2944090059449
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=7+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=7+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=161.55702124600109,
+      upper quartile=328.0393109132027,
+      median=387.4084834456453,
+      lower quartile=477.4640370777888,
+      lower whisker=644.9388363260559
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=7+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=149.682547963666,
+      upper quartile=176.57409677809832,
+      median=210.42058818602527,
+      lower quartile=301.33158816615355,
+      lower whisker=521.0166617788946
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=7+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=156.64860834248782,
+      upper quartile=343.584056585825,
+      median=414.0884950297399,
+      lower quartile=506.75000131069567,
+      lower whisker=646.0689887113434
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=8+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=8+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=139.61537021545772,
+      upper quartile=210.29735633196438,
+      median=262.88233086925527,
+      lower quartile=363.8861733480122,
+      lower whisker=510.5558252255268
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=8+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=126.38517014026928,
+      upper quartile=171.88419654608174,
+      median=220.46614108972904,
+      lower quartile=309.8625666002283,
+      lower whisker=634.4023285768546
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=8+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=132.363757867479,
+      upper quartile=195.98765820175754,
+      median=265.95948977662545,
+      lower quartile=415.5471249382902,
+      lower whisker=686.2664689639681
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=9+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=9+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=143.84826742005612,
+      upper quartile=177.82881214052864,
+      median=214.74032060057814,
+      lower quartile=288.4462438289924,
+      lower whisker=454.94977683936924
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=9+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.3440465546889,
+      upper quartile=175.76416332680003,
+      median=231.26806701621263,
+      lower quartile=314.4395735230836,
+      lower whisker=625.2603652073436
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=9+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=139.45159039790445,
+      upper quartile=177.1861835792688,
+      median=207.8823386883487,
+      lower quartile=337.95951919824813,
+      lower whisker=674.0749828386203
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=10+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=10+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=142.9612183232815,
+      upper quartile=183.30974547096662,
+      median=237.92856484686533,
+      lower quartile=366.3843562902331,
+      lower whisker=484.11684762095126
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=10+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=156.31660110998203,
+      upper quartile=225.99067862895805,
+      median=283.8517526450131,
+      lower quartile=347.53864131168456,
+      lower whisker=457.1477199076176
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=10+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=139.80499037845192,
+      upper quartile=222.82556625891664,
+      median=285.8269870873277,
+      lower quartile=380.4855511838304,
+      lower whisker=510.92229715011666
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=11+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=147.52085623171916,
+      upper quartile=184.47055276904885,
+      median=217.7688974683993,
+      lower quartile=275.2658502718708,
+      lower whisker=416.2757001328816
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=11+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=142.8782896073262,
+      upper quartile=164.983179491736,
+      median=187.98501902008786,
+      lower quartile=228.08813155608988,
+      lower whisker=392.21368296148006
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=11+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=152.94786732568087,
+      upper quartile=184.68934770285617,
+      median=208.19195502203917,
+      lower quartile=291.90122895801113,
+      lower whisker=405.1295766924164
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=11+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=142.6429250505088,
+      upper quartile=163.95544780805577,
+      median=187.04585750503566,
+      lower quartile=221.65245499034378,
+      lower whisker=373.1669167877797
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=12+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=12+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=127.91664801394506,
+      upper quartile=163.57753474122396,
+      median=181.14359926989852,
+      lower quartile=207.57161182151714,
+      lower whisker=404.8989362043055
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=12+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.98671095926338,
+      upper quartile=169.351105363094,
+      median=202.40946303115243,
+      lower quartile=273.04067867841843,
+      lower whisker=377.566611339023
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=12+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=123.25432596070203,
+      upper quartile=160.84261961813695,
+      median=182.23948440305725,
+      lower quartile=226.97961633929208,
+      lower whisker=369.1760458025852
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=13+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=13+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.83812465236326,
+      upper quartile=164.51923769711635,
+      median=181.82854009222538,
+      lower quartile=215.2380500709536,
+      lower whisker=398.4536896107867
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=13+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.05105165981144,
+      upper quartile=169.83806112493846,
+      median=204.70509892191154,
+      lower quartile=258.7989248768155,
+      lower whisker=377.39141129085516
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=13+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=126.196415659569,
+      upper quartile=162.06812552720424,
+      median=185.71996159848524,
+      lower quartile=236.12447901762465,
+      lower whisker=332.7415126729335
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=14+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=14+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.5923802016902,
+      upper quartile=179.28815291002024,
+      median=222.7651675633553,
+      lower quartile=308.7973565226476,
+      lower whisker=649.7540996613648
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=14+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=125.70574165660555,
+      upper quartile=175.5642389800161,
+      median=212.411133218008,
+      lower quartile=278.6788366159163,
+      lower whisker=431.41353940759035
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=14+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=135.61422993091003,
+      upper quartile=184.52059434495786,
+      median=246.38185186817446,
+      lower quartile=326.39637635549616,
+      lower whisker=650.5428743249413
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=15+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=15+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.62262771840574,
+      upper quartile=179.4350304548984,
+      median=214.505388289338,
+      lower quartile=300.5233026895907,
+      lower whisker=570.4587709805426
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=15+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=126.73665298537033,
+      upper quartile=175.23866644697182,
+      median=208.23296947722798,
+      lower quartile=265.8969658922909,
+      lower whisker=402.60939609414095
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=15+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=136.12815081566652,
+      upper quartile=183.1263976299198,
+      median=226.53053978849272,
+      lower quartile=303.1850835051612,
+      lower whisker=571.213132669937
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=16+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addplot[fill=red, boxplot prepared={
+      draw position=16+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=128.86362943583615,
+      upper quartile=163.50085251004418,
+      median=180.8025290960909,
+      lower quartile=211.44560048529544,
+      lower whisker=395.97575756987885
+}] coordinates {};
+\addplot[fill=olive, boxplot prepared={
+      draw position=16+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.95761079603908,
+      upper quartile=169.18921466155342,
+      median=198.09170540946104,
+      lower quartile=268.4423139683182,
+      lower whisker=376.17832044641773
+}] coordinates {};
+\addplot[fill=gray, boxplot prepared={
+      draw position=16+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.68761752501253,
+      upper quartile=160.0204744737225,
+      median=181.24427184542986,
+      lower quartile=214.7228139023416,
+      lower whisker=384.5704783965756
+}] coordinates {};
+\addplot[fill=blue, boxplot prepared={
+      draw position=17+(-1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=129.002468812114,
+      upper quartile=171.53931071346267,
+      median=196.65927810244887,
+      lower quartile=259.9836832324446,
+      lower whisker=390.26794031019335
+}] coordinates {};
+\addlegendentry{$\varepsilon_{\textbf{P}}^{v}$}
+\addplot[fill=red, boxplot prepared={
+      draw position=17+(-0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=133.9198085408074,
+      upper quartile=163.01616202962325,
+      median=179.16657762211037,
+      lower quartile=202.36910123944617,
+      lower whisker=379.0118183274503
+}] coordinates {};
+\addlegendentry{$\varepsilon_{\textbf{P}}^{\gamma}$}
+\addplot[fill=olive, boxplot prepared={
+      draw position=17+(0.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=124.9719106347441,
+      upper quartile=169.1626053403239,
+      median=198.2105320964971,
+      lower quartile=272.35661378759994,
+      lower whisker=374.4709530647527
+}] coordinates {};
+\addlegendentry{$\varepsilon_{\textbf{P}}^{\theta}$}
+\addplot[fill=gray, boxplot prepared={
+      draw position=17+(1.5)*\boxwidth,
+      box extend=\boxwidth,
+      upper whisker=131.6792657718705,
+      upper quartile=158.7999334553309,
+      median=179.06399121541614,
+      lower quartile=213.92587349661335,
+      lower whisker=367.8419332382274
+}] coordinates {};
+\addlegendentry{$\varepsilon_{\textbf{P}}^{\theta\gamma}$}
+\end{axis}
+\end{tikzpicture}
