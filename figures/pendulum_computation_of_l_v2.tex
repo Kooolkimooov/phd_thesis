@@ -1,33 +1,35 @@
 \begin{tikzpicture}
-    \def\a{1.3} 
-    \def\h{1} 
-    \def\offsetx{-1.76}
-    \def\offsetxdt{-2.96}
-    \def\offsetxdtv{-1.9}
-    \coordinate (A) at (0.01, 2.05);
-    \coordinate (B) at (3, 1.5);
-    \coordinate (D0) at (-\offsetx, 1);
-    \coordinate (D1) at (2.9, 1.34);
-    \coordinate (D2) at (1.525, -0.475);
 
-    \coordinate (a) at ($(A) + (-\offsetx, 0) + (-90:.3) + (0, .4)$) {};
-    \coordinate (b) at ($(A) + (-\offsetx, 0) + (0, .4)$) {};
-    \coordinate (c) at ($(A) + (-\offsetx, 0) + (-45:.37) + (0, .4)$) {};
+	\def\a{1.3}
+	\def\h{1}
+	\def\offsetx{-1.76}
 
-    \draw[smooth, domain=0:3, samples=100, thick, red]
-    plot (\x, {\h*cosh((\x + \offsetx)/\a)});
+	\begin{axis}[
+			width = 1.2\textwidth,
+			axis equal,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
 
-    \filldraw (A) circle (.5pt);
-    \filldraw (B) circle (.5pt);
+		\coordinate (A) at (axis cs: 0.01, 2.05);
+		\coordinate (B) at (axis cs: 3, 1.5);
+		\coordinate (LP) at (axis cs:-\offsetx, 1);
+		\coordinate (LPE) at (axis cs:-\offsetx+.125, 1.71);
 
-    \draw[thick, ->] (A) -- ($(A)!.25!(B)$) node[above, midway] {$\mathbf{e}$};
-    \draw[dashed] (A) -- (B);
+		\addplot[smooth, domain=0:3, samples=100, thick, red]
+		plot ({\x}, {\h*cosh((\x + \offsetx)/\a)});
 
-    \draw[dashed, thick] ($(-\offsetx+.125, 1.71)$) -- ($(-\offsetx, 1)$);
+		\filldraw (A) circle (.5pt);
+		\filldraw (B) circle (.5pt);
+		\filldraw (LPE) circle (.5pt);
+		\filldraw (LP) circle (.5pt);
 
-    \filldraw ($(-\offsetx+.125, 1.71)$) circle (.5pt);
-    \filldraw ($(-\offsetx, 1)$) circle (.5pt);
+		\draw[dashed, thick] (LPE) -- (LP);
+		\draw[thick, ->] (A) -- ($(A)!.25!(B)$) node[above, midway] {\vect{e}};
+		\draw[dashed] (A) -- (B);
+		\draw[<->] ($(LP) - (5.0, 0.0)$) -- ($(LPE) - (5.0, 0.0)$) node[midway, left] {\scal{l}};
 
-    \draw[<->] ($(-\offsetx+.025, 1.725)$) -- ($(-\offsetx-.1, 1.025)$) node[midway, left] {$l$};
+	\end{axis}
 
 \end{tikzpicture}

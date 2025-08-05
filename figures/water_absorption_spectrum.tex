@@ -13,7 +13,7 @@
 			xminorgrids=true,
 			yminorgrids=true,
 			width=\figurewidth,
-			height=\figurewidth,
+			height=0.75\figurewidth,
 			xlabel=Wavelength / \unit{\nano\meter},
 			ylabel=Absorption coefficient / \unit{\per\centi\meter},
 			legend style = {fill opacity=.75, text opacity=1, draw=none},
@@ -52,7 +52,7 @@
 			hide y axis,
 			axis x line=top,
 			width=\figurewidth,
-			height=\figurewidth,
+			height=0.75\figurewidth,
 			xtick={1e2,1e4,1e6,1e8,1e9},
 			xticklabels={
 					\num{3e6},
@@ -66,6 +66,6 @@
 			tick style={draw=none},
 		]
 
-		\addplot [opacity=0.0, draw=none] coordinates {(1e2,1) (1e8,1) (1e2,2) (1e_2,2)} -- cycle;
+		\addplot [opacity=0.0, draw=none] coordinates {(1e2,1) (1e8,1) (1e2,2) (1e2,2)} -- cycle;
 	\end{axis}
 \end{tikzpicture}

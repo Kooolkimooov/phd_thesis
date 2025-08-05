@@ -41,7 +41,7 @@
 
 		\node[rosnode] (pid_controller) at (axis cs:0.6, -0.25) {\texttt{pid\_controller}};
 		\node[rosnode] (mpc_controller) at (axis cs:-0.3, -0.25) {\texttt{mpc\_controller}};
-		\node[rosnode] (qtm_interface) at (axis cs:-0.6, 0.25) {\texttt{qtm\_interface}};
+		\node[rosnode] (qtm_interface) at (axis cs:-0.4, 0.25) {\texttt{qtm\_interface}};
 
 		\draw[connection, ->] (js0) -- (pid_controller);
 		\draw[connection, ->] (js1) -- (mpc_controller);
