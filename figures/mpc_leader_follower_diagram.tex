@@ -30,7 +30,7 @@
 
 		\node[device] (js0) at (axis cs:0.9, 0.75) {Joystick};
 		\node[device] (js1) at (axis cs:0.5, 0.75) {Joystick};
-		\node[device] (qtm) at (axis cs:-0.65, 0.75) {Windows PC};
+		\node[device] (qtm) at (axis cs:-0.65, 0.75) {\acs{qtm} PC};
 
 		\node (A) at (axis cs:-0.3, -1.1) {Visual data};
 
@@ -60,7 +60,7 @@
 			\node[
 				draw, thick, rounded corners, fill=red, fill opacity=0.5,
 				fit=(qtm_interface)(pid_controller)(mpc_controller),
-				label={[fill=red, fill opacity=0.5]above:Ubuntu PC}
+				label={[fill=red, fill opacity=0.5]above:\acs{ros} PC}
 			] {};
 		\end{pgfonlayer}
 
