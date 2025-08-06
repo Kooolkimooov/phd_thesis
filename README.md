@@ -29,8 +29,7 @@
   - [ ] Boxplots bounds
   - [ ] Trajectories equal axis
 - [x] Homogenize all labels
-- [ ] Use `\scal{_}` instead of raw `$_$` 
-
+- [ ] Use `\scal{_}` instead of raw `$_$`
 
 ## Project Structure
 
