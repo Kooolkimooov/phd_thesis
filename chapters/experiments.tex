@@ -397,9 +397,9 @@ of the actuation not considered in the \ac{mpc}. Furthermore, the actuation is c
 horizon. After some trial, the robot's models are fine tuned in buoyancy to match the actual
 Bluerovs used.
 
-The follower robot's pose is weighted at \num{0.0} because a specific pose is of no interest, only
-the relative position with the leader. Additionally, a objective function is also added to minimize
-the speed of the follower this time with a weight of \num{10.0}. The actuation is weighted at
+The follower robot's pose is weighted at zero because a specific pose is of no interest, only the
+relative position with the leader. Additionally, a objective function is also added to minimize the
+speed of the follower this time with a weight of \num{10.0}. The actuation is weighted at
 \num{1e-6} with the exception of the yaw actuation which is weighted at \num{1.0} in order to limit
 unwanted yaw motion.
 
