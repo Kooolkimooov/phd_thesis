@@ -71,6 +71,18 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% review macro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\review}[2]{
+	\begin{tabularx}{\linewidth}{X|X}
+		\toprule
+		\textbf{Retour} & \textbf{Action} \\ \midrule
+		#1              & #2              \\ \bottomrule
+	\end{tabularx}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% bibliography setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -148,7 +160,7 @@
 \usetikzlibrary{external, angles, quotes, calc, positioning, pgfplots.statistics, patterns, fit, backgrounds}
 
 \newdimen\figurewidth
-\figurewidth=0.7\textwidth
+\figurewidth=0.8\textwidth
 
 \tikzset{external/system call={
 			pdflatex
@@ -188,7 +200,7 @@
 	\nouppercaseheads{}
 	\dominitoc{}
 	\setcounter{minitocdepth}{1}
-	\setsecnumdepth{subsubsection}
+	\setsecnumdepth{subsection}
 
 	\tightmtctrue{}
 
@@ -365,9 +377,11 @@
 \newacronym{lis}{LIS}{computer science and systems laboratory}
 \newacronym{ifremer}{IFREMER}{institut français de recherche pour l\MFUwordbreak{'}exploitation de la mer}
 
-\newacronym{qtm}{QTM}{Qualisys track manager}
+\newacronym{qtm}{QTM}{qualisys track manager}
 \newacronym{ros}{ROS}{robot operating system}
+\newacronym{ekf}{EKF}{extended kalman filter}
 
+\newacronym{pwm}{PWM}{pulse width modulation}
 \newacronym{uuv}{UUV}{unmanned underwater vehicle}
 \newacronym{usv}{USV}{unmanned surface vehicle}
 \newacronym{rov}{ROV}{remotely operated vehicle}

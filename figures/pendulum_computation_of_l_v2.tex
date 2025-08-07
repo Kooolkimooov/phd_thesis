@@ -1,0 +1,35 @@
+\begin{tikzpicture}
+
+	\def\a{1.3}
+	\def\h{1}
+	\def\offsetx{-1.76}
+
+	\begin{axis}[
+			width = 1.2\textwidth,
+			axis equal,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+
+		\coordinate (A) at (axis cs: 0.01, 2.05);
+		\coordinate (B) at (axis cs: 3, 1.5);
+		\coordinate (LP) at (axis cs:-\offsetx, 1);
+		\coordinate (LPE) at (axis cs:-\offsetx+.125, 1.71);
+
+		\addplot[smooth, domain=0:3, samples=100, thick, red]
+		plot ({\x}, {\h*cosh((\x + \offsetx)/\a)});
+
+		\filldraw (A) circle (.5pt);
+		\filldraw (B) circle (.5pt);
+		\filldraw (LPE) circle (.5pt);
+		\filldraw (LP) circle (.5pt);
+
+		\draw[dashed, thick] (LPE) -- (LP);
+		\draw[thick, ->] (A) -- ($(A)!.25!(B)$) node[above, midway] {\vect{e}};
+		\draw[dashed] (A) -- (B);
+		\draw[<->] ($(LP) - (5.0, 0.0)$) -- ($(LPE) - (5.0, 0.0)$) node[midway, left] {\scal{l}};
+
+	\end{axis}
+
+\end{tikzpicture}

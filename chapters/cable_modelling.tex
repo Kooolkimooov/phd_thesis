@@ -47,7 +47,7 @@ forces. The coordinates of any point along the curve are defined as $\fpoint{P}{
 	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
 $\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
 $\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
-the standard catenary equation (see \cref{mb_catenary_model_derivation} for details):
+the standard catenary equation:
 \begin{align}
 	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD-\catdD,~\catD\right]
 	\label{cm_cm_d_catenary_equation}
@@ -66,6 +66,88 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 	}
 	\label{cm_cm_d_catenary_curve}
 \end{figure}
+
+\subsection{Derivation of the catenary equation}
+\label{cm_cm_derivation_of_the_catenary_equation}
+
+In order to derive the shape of a homogeneous, infinitely flexible, non-elastic cable subjected
+solely to its own weight, which is uniformly distributed along its length, a cable of length
+\catL{} and mass per unit length $\lambda_m$ is considered. The cable is assumed to hang between
+two fixed points, \fpoint{A}{v} and \fpoint{B}{v}, whose coordinates are expressed in the plane
+\lplanefullxz{v}, where \ldpoint{O}{v} is defined as both the origin of the coordinate system and
+the lowest point of the cable.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_derivation_schematic_0}
+	\caption{
+		Cable of length \catL{} hanging between \fpoint{A}{v} and \fpoint{B}{v}.
+	}
+	\label{cm_cm_dotcm_schematic}
+\end{figure}
+
+The overall weight \scal{W} of the cable is given by:
+\begin{align}
+	W = \lambda_m \catL g
+	\label{cm_cm_dotcm_weight_equation}
+\end{align}
+
+At \ldpoint{O}{v}, the tension in the cable is purely horizontal, as the tangent to the cable at
+this point is horizontal, and the infinite flexibility of the cable prevents any vertical load
+transfer.
+
+At a general point $\fldpoint{P}{v}{1}$ (\cref{cm_cm_dotcm_schematic}) along the cable, the tension
+is composed of both vertical and horizontal components, and its magnitude $T_1$ is expressed as:
+\begin{align}
+	T_1 = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}
+	\label{cm_cm_dotcm_tension_equation}
+\end{align}
+
+where $L_1$ denotes the arc-length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
+
+Considering an infinitesimal cable element of length $dL$, the infinitesimal horizontal
+displacement $dx$ is given by:
+\begin{align}
+	dx = \cos{\left(\omega\right)} dL
+\end{align}
+
+where $\cos{\omega} = \frac{T_h}{T_1}$. Substituting this yields:
+\begin{align}
+	dx = \frac{T_h}{T_1} dL = \frac{T_h}{\sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}} dL
+\end{align}
+
+Introducing the change of variable $\catC = \frac{\lambda_m g}{T_h}$, the expression simplifies to:
+\begin{align}
+	dx & = \frac{\frac{\lambda_m g}{\catC}}{\sqrt{\left(\frac{\lambda_m g}{\catC}\right)^2 + \left(\lambda_m L_1 g\right)^2}} dL \\
+	   & = \frac{1}{\sqrt{1 + \left(L_1 \catC\right)^2}} dL
+\end{align}
+
+Integration from \ldpoint{O}{v} to \fldpoint{P}{v}{1} leads to:
+\begin{align}
+	x & = \int_0^{L_1} \frac{1}{\sqrt{1 + \left(L_1 \catC\right)^2}} dL \\
+	  & = \frac{\sinh^{-1}\left(L_1 \catC\right)}{\catC}
+\end{align}
+
+Next, the vertical displacement $dz$ is related to $dx$ via:
+\begin{align}
+	dz = \tan{\left(\omega\right)} dx
+\end{align}
+
+where $\tan{\omega} = \frac{W_1}{T_h}$, with $W_1$ being the weight of the cable segment between
+\ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
+\begin{align}
+	dz & = \frac{W_1}{T_h} dx = \frac{\lambda_m L_1 g}{T_h} dx \\
+	   & = L_1 \catC dx                                        \\
+	   & = \sinh\left(x \catC\right) dx
+\end{align}
+
+Integration from \ldpoint{O}{v} to $\fldpoint{P}{v}{1}$ yields:
+\begin{align}
+	z & = \int_0^x \sinh\left(x \catC\right) dx       \\
+	  & = \frac{\cosh\left(x \catC\right) - 1}{\catC}
+\end{align}
+
+thus obtaining the standard catenary equation described previously in \cref{cm_cm_definition}.
 
 \subsection{Parameter derivation}
 \label{cm_cm_parameter_derivation}
@@ -111,16 +193,36 @@ the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct th
 \label{cm_augmented_catenary_model}
 
 When the underwater cable is moved at sufficiently high speed, hydrodynamic forces become
-non-negligible.Indeed, considering a constant drag coefficient, the standard drag force formulation
-dampens the movement with an amplitude proportional to the square of the speed. This effect is
-amplified by the added mass when significant accelerations are present. At equilibrium, where all
-points on the cable move at the same velocity, they are subjected to identical drag forces.
-Consequently, the total uniform acceleration of the cable is tilted, and its intensity increased
-depending on the velocity. To account for this effect, two degrees of freedom were proposed to the
-cable shape model, extending the \verticalmodel{}.
+non-negligible. Indeed, considering a constant drag coefficient, the standard drag force
+formulation dampens the movement with an amplitude proportional to the square of the speed. This
+effect is amplified by the added mass when significant accelerations are present. At equilibrium,
+where all points on the cable move at the same velocity, they are subjected to identical drag
+forces. Consequently, the total uniform acceleration of the cable is tilted, and its intensity
+increased depending on the velocity. To account for this effect, two degrees of freedom were
+proposed to the cable shape model, extending the \verticalmodel{}.
 
 \subsection{Definition}
 \label{cm_acm_definition}
+
+The proposed augmented catenary model is based on intuitions while observing a cable's behavior
+during during experiments: The cable would sway when the robot in the direction normal to the
+cable's plane while staying in a plane while in steady state, with a relatively short out-of-plane
+transition beforehand; and during in-plane motion, the cable would take on a shape similar to the
+catenary curve, but in a tilted frame (\cref{cm_acm_picture_theta}). again with a short transition
+beforehand.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth]{catenary_experiment_bluerov_picture_0.png}
+	\caption{
+		Picture of a cable during in-plane motion of the robot, the cable has a catenary-like shape in a
+		tilted frame.
+	}
+	\label{cm_acm_picture_theta}
+\end{figure}
+
+This intuitive model will now be formalized by introducing two additional degrees of freedom to the
+\catenarymodel{}.
 
 \subsubsection{$\gamma$ degree of freedom}
 \label{cm_acm_d_gamma_degree_of_freedom}
@@ -223,15 +325,33 @@ which, when it is regularly discretized and the corresponding \coord{z}{v} is co
 yield regularly spaced points along the length of the cable that can be compared to the measured
 points \llpoint{p}{m}{k}. This is a consequence of the non-linear nature of the catenary equation.
 To address this issue, the \thetagammamodel{} was discretized by computing varying steps of
-\coord{x}{v} beforehand (see \cref{mb_curvilinear_discretization} for details):
+\coord{x}{v} beforehand:
+
+From the catenary equation, the infinitesimal signed arc-length \scal{ds} of the cable between the
+origin (lowest point) and the point of interest is expressed as:
 \begin{align}
-	\coord{x}{v} = \frac{\sinh^{-1}\left( \scal{s} \catC\right)}{\catC}
-	\label{cm_acm_ev_cdotcm_equation}
+	ds = \sqrt{dx^2 + dz^2}
 \end{align}
 
-where \scal{s} is the signed length of the cable between the lowest point and the point of
-interest. The discretized points of the model are referred to as \llpoint{p}{\theta\gamma}{k} in
-the following, where \scal{k}~\inzeroton{} is the index of the point.
+Since $\frac{dz}{dx} = \sinh\left(x\catC\right)$, it follows that:
+\begin{align}
+	ds & = \sqrt{dx^2 + \left(\sinh\left(x\catC\right) dx\right)^2} \\
+	   & = \sqrt{1 + \sinh^2\left(x\catC\right)} dx
+\end{align}
+
+Integrating over a given horizontal distance $\Delta x$ from the origin, the corresponding
+arc-length $\Delta s$ is:
+\begin{align}
+	\Delta s & = \int_{0}^{\Delta x} \sqrt{1 + \sinh^2\left(x\catC\right)} dx \\
+	         & = \frac{\sinh\left(\Delta x \catC\right)}{\catC}
+\end{align}
+
+This relation leads to the expression of the horizontal distance from the origin $\Delta x$ as a
+function of the arc-length distance $\Delta s$ from the same origin:
+\begin{align}
+	\Delta x = \frac{\sinh^{-1}\left(\Delta s \catC\right)}{\catC}
+	\label{cm_acm_ev_cdotcm_equation}
+\end{align}
 
 The length of cable from the curvilinear origin to \llpoint{p}{\theta\gamma}{0} and
 \llpoint{p}{\theta\gamma}{n} are
@@ -279,6 +399,18 @@ where \fllpoint{p}{w}{v}{k}, \fllpoint{p}{w}{\gamma}{k}, and \fllpoint{p}{w}{\th
 points corresponding to \fllpoint{p}{w}{m}{k} predicted by the \verticalmodel{}, \gammamodel{}, and
 \thetamodel{} based on the attachment points \fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n}.
 
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cables_boxplot}
+	\caption{
+		Box plots of the residual when compared to the measured data for each cable. Each box represents
+		the IQR of residuals, with the vertical line indicating the median. Whiskers extend to the first
+		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
+		\thetamodel{} in green, and \thetagammamodel{} in gray.
+	}
+	\label{cm_acm_ev_sr_cables_boxplot}
+\end{figure}
+
 The residuals for the four model variants are presented in \cref{cm_acm_ev_sr_cables_boxplot},
 where each boxplot visually represents the distribution of errors across all experimental trials.
 The median values, indicated by the central line in each box, reveal that the \thetagammamodel{}
@@ -321,22 +453,36 @@ forces that oppose the formation of a smooth curve.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/catenary_experiment_cables_boxplot}
+	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
 	\caption{
-		Box plots of the residual when compared to the measured data for each cable. Each box represents
-		the IQR of residuals, with the vertical line indicating the median. Whiskers extend to the first
-		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
-		\thetamodel{} in green, and \thetagammamodel{} in gray.
+		Box plots of the residual for cable \subref{e_acmev_es_two_pairs} when compared to the measured
+		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
+		\thetagammamodel{} in gray.
 	}
-	\label{cm_acm_ev_sr_cables_boxplot}
+	\label{cm_acm_ev_sr_cable_3_boxplot}
 \end{figure}
 
 The four models were further examined in greater detail, distinguishing between experiments
 involving surge and sway motion. Cable \subref{e_acmev_es_weighted} was selected for detailed
 analysis due to its lowest residuals across all models, and cable \subref{e_acmev_es_two_pairs} was
 analyzed because it exhibited the lowest residual among cables with significant plastic
-deformations. Detailed results for all other cables are provided in \cref{af_cable_modelling} for
-completeness.
+deformations. Detailed results for all other cables are provided in
+\cref{af_rtdtecxperimental_validation_of_the_augmented_catenary_model} for completeness.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
+	\caption{
+		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured
+		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
+		\thetagammamodel{} in gray.
+	}
+	\label{cm_acm_ev_sr_cable_6_boxplot}
+\end{figure}
 
 In \cref{cm_acm_ev_sr_cable_3_boxplot,cm_acm_ev_sr_cable_6_boxplot}, the distribution of model
 residuals for cables \subref{e_acmev_es_two_pairs} and \subref{e_acmev_es_weighted} are presented
@@ -374,31 +520,27 @@ be attributed to its physical properties being most closely aligned with the ass
 augmented catenary model, allowing the additional degrees of freedom to effectively capture the
 deformations induced by hydrodynamic effects.
 
-\begin{figure}
-	\centering
-	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
-	\caption{
-		Box plots of the residual for cable \subref{e_acmev_es_two_pairs} when compared to the measured
-		data across all experimental parameters. Each box represents the IQR of residuals, with the
-		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
-		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
-		\thetagammamodel{} in gray.
-	}
-	\label{cm_acm_ev_sr_cable_3_boxplot}
-\end{figure}
+\subsubsection{Comparaision to a fully dynamic model}
+\label{cm_acm_ev_comparaision_to_a_fully_dynamic_model}
+
+Here we compare the accuracy of the \thetagammamodel{} to a fully dynamic model presented in
+\cite{peraudIMUbasedMonitoringBuoyBallast2024} using cable \subref{e_acmev_es_weighted}.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
+	\inputtikz{figures/catenary_experiment_cable_6_boxplot_diff_dynamic}
 	\caption{
-		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured
-		data across all experimental parameters. Each box represents the IQR of residuals, with the
-		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
-		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
-		\thetagammamodel{} in gray.
+		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured data
+		across all experimental parameters. Each box represents the IQR of residuals, with the vertical
+		line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\thetagammamodel{} is shown in gray and the dynamic model is shown in orange. The arrow and number
+		indicate the value of the lower whisker which is not visible.
 	}
-	\label{cm_acm_ev_sr_cable_6_boxplot}
+	\label{cm_acm_ev_sr_cables_boxplot_dynamic_diff}
 \end{figure}
+
+The dynamic model has medians in the same range as the \augmentedmodel{} but with lower first
+quartile and extremely low first percentile -- way below the measurement accuracy of the dataset.
 
 \section{Perspectives on augmentation parameters' dynamics}
 \label{cm_perspectives_on_augmentation_parameters_dynamics}
@@ -413,52 +555,187 @@ the cables is often unavailable for the augmented parameters to be optimized upo
 \label{cm_poapd_physics_based_model}
 
 A proposed physical analogy relies on a pendulum mounted on a horizontally translating cart
-(\cref{cm_poapd_pendulum_schematic}), where the length of the pendulum may vary dynamically based
+(\cref{cm_poapd_pbm_dotpd_schematic}), where the length of the pendulum may vary dynamically based
 on catenary parameters.
+
+\subsubsection{Derivation of the pendulum's dynamics}
+\label{cm_poapd_pbm_derivation_of_the_pendulums_dynamics}
+
+To describe the dynamics of the augmented catenary model with a moving cart pendulum. Let $\dot{x}$
+be the speed of the moving cart $m_1$ its mass, $m_2$ the pendulum's mass, $\alpha$ its tilt angle
+and finally $l=f(L, \dots)$ the length of the pendulum (\cref{cm_poapd_pbm_dotpd_schematic}).
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pendulum_derivation_schematic}
 	\caption{Pendulum and parameters.}
-	\label{cm_poapd_pendulum_schematic}
+	\label{cm_poapd_pbm_dotpd_schematic}
 \end{figure}
 
-The dynamic equation governing the angle $\alpha$ between the vertical axis and the pendulum is
-derived in detail in \cref{mb_moving_pendulum_as_dynamic_for_the_augmented_catenary_model}:
+The angle $\alpha$ is then used in the augmented catenary model. The speed $\dot{x}$ corresponds to
+the average of the two endpoints' speeds. While the mass $m_1$ is the mass of the robots attached
+to the endpoints. If the tether forms a symmetrical catenary curve, its weight and drag can be
+integrated to be applied to a point halfway between the the height of lowest point and of the
+attachment points. Moreover, if the attachment points are close, this distance may be approximated
+to be half of the tether length:
 \begin{align}
-	d\ddot{\alpha} = & -\ddot{x} \cos\left(\alpha\right) + g \sin\left(\alpha\right) + 2\dot{d} \dot{\alpha}~+ \nonumber \\
-	                 & \frac{1}{2m_2} \rho_{w} A_c C_c
-	\sqrt{
-		\left(\dot{x} + d \dot{\alpha} \cos\left(\alpha\right) + \dot{d} \sin\left(\alpha\right)\right)^2
-		+ \left(d \dot{\alpha} \sin\left(\alpha\right) - \dot{d} \cos\left(\alpha\right)\right)^2
-	} \left(\dot{x} \cos\left(\alpha\right) + d \dot{\alpha}\right)
+	l = \frac{\catL}{4}
+	\label{cm_poapd_pbm_dotpd_l_4}
 \end{align}
 
-The terms in this expression are defined as follows:
-\begin{itemize}
-	\item $d$: length of the pendulum,
-	\item $x$: horizontal position of the cart,
-	\item $m_1$, $m_2$: masses of the cart and the suspended body, respectively,
-	\item $g$: gravitational acceleration,
-	\item $\rho_{w}$: water density,
-	\item $A_c$: cross-sectional area of the suspended mass,
-	\item $C_c$: hydrodynamic drag coefficient.
-\end{itemize}
+However this first approximation does not take into account cases like the attachment points being
+spaced out or a tether that is not symmetrical. Some of these methods
+(\cref{cm_poapd_pbm_dotpd_computation_of_l}) may be more feasible in a real application than
+others. In any of these cases, the pendulum's length is time dependant as a function of the robots'
+position:
+\begin{align}
+	l = f\left(t, L, \ldpoint{P}{0}(t), \ldpoint{P}{n}(t)\right)
+	\label{cm_poapd_pbm_dotpd_function_l}
+\end{align}
 
-This formulation accounts for drag effects and serves as a conceptual foundation for the
-development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
-and $\gamma$ under underwater motion. However, none of the attempted configurations yielded
-satisfactory results (\cref{cm_poapd_pbm_dynamics_cables_boxplot}).
+with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v1}
+		\caption{Vertical distance between the lowest point and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v2}
+		\caption{Euclidean distance between the lowest point and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v3}
+		\caption{Distance between the lowest point and average height of the attachment points.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v4}
+		\caption{The greatest distance between the catenary curve and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v5}
+		\caption{Distance between the lowest point and the lower of the two attachment points.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v6}
+		\caption{Distance between the lowest point and the higher of the two attachment points.}
+	\end{subfigure}
+	\begin{subfigure}{.48\figurewidth}
+		\centering
+		\inputtikz{figures/pendulum_computation_of_l_v7}
+		\caption{Distance between the barycenter and the $\mathbf{e}$-axis.}
+	\end{subfigure}
+	\caption{Approximate schematics of different definitions of $l$.}
+	\label{cm_poapd_pbm_dotpd_computation_of_l}
+\end{figure}
+
+In any case the dynamics of the pendulum is derived in the next section with the criteria $l>0$
+since $l=0$ would mean that the tether is perfectly taunt and out of the scope of this model.
+
+Note that $l$ and $x$ \textbf{are considered as parameters and not variables}. Let $\vect{A} =
+	\left(x, 0, 0\right)$ be the attach point of the support, the position of $m_2$ is $\vect{B} =
+	\left(x + l \sin{\alpha}, 0, -l \cos{\alpha}\right)$ (\cref{cm_poapd_pbm_dotpd_schematic}).
+
+The speed of $m_2$ is:
+\begin{align}
+	\dot{\vect{B}} =
+	\begin{pmatrix}
+		\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \\
+		0                                                          \\
+		l \dot{\alpha}\sin{\alpha} - \dot{l}\cos{\alpha}
+	\end{pmatrix}
+\end{align}
+
+We use the shorthands $\cos{\ast} = \newcos{\ast}$ and $\sin{\ast} = \newsin{\ast}$. \trigsh{}
+
+Kinetic energy is written:
+\begin{align}
+	E_k & = \frac{1}{2} m_1 \norm{\dot{\vect{A}}}^2 + \frac{1}{2} m_1 \norm{\dot{\vect{B}}}^2 \nonumber                                                                                                              \\
+	    & =\frac{1}{2}  \left(m_1 \dot{x}^2 + m_2 \left(\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \right)^2 + \left(l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}\right)^2\right) \right)
+\end{align}
+
+And potential energy is written:
+\begin{align}
+	E_p & = m_1 g \vect{A}\cdot\ldvect{z}{v} + m_2 g \vect{B}\cdot\ldvect{z}{v} \nonumber \\
+	    & = - m_2gl\cos{\alpha}
+\end{align}
+
+The Lagrangian operator is:
+\begin{align}
+	L & = E_k - E_p \nonumber                                                                                                                                                                                                            \\
+	  & = \frac{1}{2}  \left( m_1 \dot{x}^2 + m_2 \left(\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \right)^2 + \left(l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}\right)^2\right) \right) + m_2gl\cos{\alpha}
+\end{align}
+
+In addition, we have the non-conservative drag force:
+\begin{align}
+	\vec{F}_D & = - \frac{1}{2} \rho_{w} A_c C_c \norm{\dot{\vect{B}}}\dot{\vect{B}}     \nonumber                                                                                                 \\
+	          & = - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}
+	\begin{pmatrix}
+		\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \\
+		0                                                          \\
+		l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}
+	\end{pmatrix}
+\end{align}
+
+With the Lagrange principle:
+\begin{align}
+	\frac{d}{dt} \frac{\partial L}{\partial \dot{\alpha}}
+	 & = \frac{\partial L}{\partial \alpha}
+	+ \frac{\partial \vect{B} \cdot \ldvect{x}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{x}{v}
+	+ \frac{\partial \vect{B} \cdot \ldvect{y}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{y}{v}
+	+ \frac{\partial \vect{B} \cdot \ldvect{z}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{z}{v} \label{cm_poapd_pbm_dotpd_lagrange}
+\end{align}
+
+Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
+\begin{align*}
+	 & m_2l^2\ddot{\alpha} + 2m_2l\dot{l}\dot{\alpha} + m_2l\ddot{x} \cos{\alpha} - m_2l\dot{x} \dot{\alpha} \sin{\alpha} + m_2\dot{l}\dot{x}\cos{\alpha}                                                                                                                    \\
+	 & = - m_2l\dot{\alpha}\dot{x}\sin{\alpha} + m_2\dot{x}\dot{l}\cos{\alpha} - m_2gl\sin{\alpha}                                                                                                                                                                           \\
+	 & - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right) l\cos{\alpha} \\
+	 & - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(l \dot{\alpha}\sin{\alpha} -\dot{l} \cos{\alpha}\right) l\sin{\alpha}
+\end{align*}
+\begin{align}
+	\Leftrightarrow~ & \ddot{\alpha} = -\frac{1}{l}\left( \ddot{x} \cos{\alpha} + g\sin{\alpha} + 2\dot{l}\dot{\alpha} + \frac{1}{2m_2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(\dot{x}\cos{\alpha} + l\dot{\alpha}\right)\right)
+\end{align}
+
+\subsubsection{Accuracy and discussion}
+\label{cm_poapd_pbm_aad_accuracy_and_discussion}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/dynamics_pendulum_cables_boxplot_diff}
 	\caption{
-		Box plots of the residual using dynamics-derived catenary models when compared to the measured data
-		for each cable. \verticalmodel{} in blue, \gammamodel{} in red, \thetamodel{} in green,
-		\thetagammamodel{} in gray, and the reminder of \cref{cm_acm_ev_sr_cables_boxplot} in dashed lines.
+		Box plots of the residual using dynamics-driven (with \cref{cm_poapd_pbm_dotpd_l_4}) catenary
+		models when compared to the measured data for each cable. \verticalmodel{} in blue, \gammamodel{}
+		in red, \thetamodel{} in green, \thetagammamodel{} in gray, and the reminder of
+		\cref{cm_acm_ev_sr_cables_boxplot} in dashed lines.
 	}
-	\label{cm_poapd_pbm_dynamics_cables_boxplot}
+	\label{cm_poapd_pbm_aad_dynamics_cables_boxplot}
+\end{figure}
+
+This formulation accounts for drag effects and serves as a conceptual foundation for the
+development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
+and $\gamma$ under underwater motion. However, none of the attempted configurations yielded
+satisfactory results (\cref{cm_poapd_pbm_aad_dynamics_cables_boxplot}). The other methods described
+in \cref{cm_poapd_pbm_dotpd_computation_of_l} were also tested but, similarly to before, they do
+not yield satisfactory results
+(\cref{cm_poapd_pbm_aad_dynamics_cable_6_boxplot_compare,af_aoddacm_dynamics_cable_1_boxplot_compare,af_aoddacm_dynamics_cable_2_boxplot_compare,af_aoddacm_dynamics_cable_3_boxplot_compare,af_aoddacm_dynamics_cable_4_boxplot_compare,af_aoddacm_dynamics_cable_5_boxplot_compare,af_aoddacm_dynamics_cable_7_boxplot_compare,af_aoddacm_dynamics_cable_8_boxplot_compare}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/pendulum_cable_6_boxplot_compare}
+	\caption{
+		Boxplot comparing the residuals of the catenaries computed with different variations of
+		\cref{cm_poapd_pbm_dotpd_function_l} (\cref{cm_poapd_pbm_dotpd_computation_of_l}) along with the
+		optimized (Best) residuals for cable 6.
+	}
+	\label{cm_poapd_pbm_aad_dynamics_cable_6_boxplot_compare}
 \end{figure}
 
 \subsection{Data-based model}

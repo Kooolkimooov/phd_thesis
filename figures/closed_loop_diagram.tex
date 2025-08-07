@@ -21,12 +21,12 @@
 			axis y line=none
 		]
 
-		\node[device] (windows) at (axis cs:1,1.5) {Windows PC};
+		\node[device] (windows) at (axis cs:1,1.5) {\acs{qtm} PC};
 
 		\node[device] (cam0) at (axis cs:-5,0.6) {Camera 0};
 		\node[device] (camn) at (axis cs:-5,-0.5) {Camera \scal{n}};
 
-		\node[device] (ubuntu) at (axis cs:7,1.5) {Ubuntu PC};
+		\node[device] (ubuntu) at (axis cs:7,1.5) {\acs{ros} PC};
 
 		\node[device] (br0) at (axis cs:10,0.5) {Bluerov 0};
 		\node[device] (brn) at (axis cs:8,-0.5) {Bluerov \scal{n}};
@@ -36,7 +36,7 @@
 		\end{pgfonlayer}
 
 		\begin{pgfonlayer}{background}
-			\node[draw, thick, rounded corners, fill=red, fill opacity=0.5, fit=(windows)(ubuntu)(br0)(brn), label={[fill=red, fill opacity=0.5]above:ROS Network}] (ros_network) {};
+			\node[draw, thick, rounded corners, fill=red, fill opacity=0.5, fit=(windows)(ubuntu)(br0)(brn), label={[fill=red, fill opacity=0.5]above:\acs{ros} Network}] (ros_network) {};
 		\end{pgfonlayer}
 
 		\draw[connection, ->] (windows) -- (ubuntu);
@@ -48,8 +48,8 @@
 		\draw[connection, <->] (ubuntu) -- (brn);
 
 		\draw[connection, ->, dotted] (brn) -- (camn);
-		\draw[connection, ->, dotted] (brn) -- (cam0) node [midway, rounded corners, fill=gray, text opacity=1.0, fill opacity=0.65] {Visual data};
 		\draw[connection, ->, dotted] (br0) -- (camn);
 		\draw[connection, ->, dotted] (br0) -- (cam0);
+		\draw[connection, ->, dotted] (brn) -- (cam0) node [midway, rounded corners, fill=gray, text opacity=1.0, fill opacity=0.85, text=white] {Visual data};
 	\end{axis}
 \end{tikzpicture}

@@ -1,0 +1,169 @@
+\begin{tabular}{l>{\hspace{-.5cm}}l<{\hspace{-.32cm}}}
+	\toprule
+	Experimental parameters                   & \hspace{.6cm}Box plot \\ \midrule
+	surge, \qty{0.3}{\m\per\s}, \qty{2.0}{\m} &
+	\multirow{7}{*}{
+		\begin{tikzpicture}[baseline=(current bounding box.center)]
+			\def\boxwidth{.4}
+			\begin{axis}[
+					xmode=log,
+					ymin=.5,
+					ymax=6.5,
+					xmin=0.6,
+					ytick pos = left,
+					xtick pos = bottom,
+					ytick distance=1,
+					grid,
+					xminorgrids=true,
+					yminorgrids=true,
+					major x grid style={draw=black},
+					minor y grid style={draw=black},
+					major y grid style={draw=none},
+					minor y tick num=1,
+					minor x tick num=9,
+					xtick style={draw=none},
+					ytick style={draw=none},
+					width = .6\figurewidth,
+					height = .72\figurewidth,
+					axis line style={draw=none},
+					ytick={1, 2, 3, 4, 5, 6},
+					yticklabels=\empty,
+					area legend,
+					legend style={fill opacity=.75, text opacity=1, at={(1,0.5)}, anchor=east},
+					x tick label style={yshift={-4pt}},
+					minor xtick={0.009, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 2, 3, 4, 5, 6, 7, 8, 9, 20, 30, 40, 50, 60, 70, 80, 90, 200, 300, 400, 500},
+				]
+
+				\addplot[fill=orange, boxplot prepared={
+							draw position=6-(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=0.08,
+							upper quartile=3.96,
+							median=9.32,
+							lower quartile=13.31,
+							lower whisker=18.98
+						}] coordinates {};
+				\draw[<-] (axis cs: 0.6, 6.1) -- (axis cs: 0.8, 6.2) node[right] {\qty{0.08}{\mm}};
+
+				\addplot[fill=gray, boxplot prepared={
+							draw position=6+(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=7.261272463463021,
+							upper quartile=7.6576470037987825,
+							median=8.187514433376236,
+							lower quartile=10.303214504463174,
+							lower whisker=20.31487565593218
+						}] coordinates {};
+
+				\addplot[fill=orange, boxplot prepared={
+							draw position=5-(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=0.01,
+							upper quartile=8.16,
+							median=12.91,
+							lower quartile=16.5,
+							lower whisker=24.26
+						}] coordinates {};
+				\draw[<-] (axis cs: 0.6, 5.1) -- (axis cs: 0.8, 5.2) node[right] {\qty{0.01}{\mm}};
+
+				\addplot[fill=gray, boxplot prepared={
+							draw position=5+(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=7.103234421846211,
+							upper quartile=7.666722026645414,
+							median=9.04225818031929,
+							lower quartile=29.317583750310547,
+							lower whisker=90.94293815962709
+						}] coordinates {};
+
+				\addplot[fill=orange, boxplot prepared={
+							draw position=4-(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=0.09,
+							upper quartile=3.86,
+							median=10.62,
+							lower quartile=15.40,
+							lower whisker=21.85
+						}] coordinates {};
+				\draw[<-] (axis cs: 0.6, 4.1) -- (axis cs: 0.8, 4.2) node[right] {\qty{0.09}{\mm}};
+				\addplot[fill=gray, boxplot prepared={
+							draw position=4+(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=7.5092632515955735,
+							upper quartile=8.280495398529288,
+							median=8.687314055836994,
+							lower quartile=9.322861506623603,
+							lower whisker=18.51160370105693
+						}] coordinates {};
+
+				\addplot[fill=orange, boxplot prepared={
+							draw position=3-(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=0.08,
+							upper quartile=3.78,
+							median=12.24,
+							lower quartile=15.63,
+							lower whisker=22.10
+						}] coordinates {};
+				\draw[<-] (axis cs: 0.6, 3.1) -- (axis cs: 0.8, 3.2) node[right] {\qty{0.08}{\mm}};
+				\addplot[fill=gray, boxplot prepared={
+							draw position=3+(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=6.7215298755863255,
+							upper quartile=7.571603177179638,
+							median=7.873288988657041,
+							lower quartile=8.469567275949277,
+							lower whisker=12.460865251481561
+						}] coordinates {};
+
+				\addplot[fill=orange, boxplot prepared={
+							draw position=2-(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=0.47,
+							upper quartile=5.85,
+							median=12.38,
+							lower quartile=15.8,
+							lower whisker=22.59
+						}] coordinates {};
+				\draw[<-] (axis cs: 0.6, 2.1) -- (axis cs: 0.8, 2.2) node[right] {\qty{0.47}{\mm}};
+				\addplot[fill=gray, boxplot prepared={
+							draw position=2+(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=7.403561788852204,
+							upper quartile=7.835173617218357,
+							median=8.417072365632206,
+							lower quartile=20.18546186157632,
+							lower whisker=53.937502798187
+						}] coordinates {};
+
+				\addplot[fill=orange, boxplot prepared={
+							draw position=1-(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=0.13,
+							upper quartile=6.95,
+							median=12.02,
+							lower quartile=14.94,
+							lower whisker=21.34
+						}] coordinates {};
+				\draw[<-] (axis cs: 0.6, 1.1) -- (axis cs: 0.8, 1.2) node[right] {\qty{0.13}{\mm}};
+				\addlegendentry{\res{\text{dyn}}}
+				\addplot[fill=gray, boxplot prepared={
+							draw position=1+(0.5)*\boxwidth,
+							box extend=\boxwidth,
+							upper whisker=6.727410814658407,
+							upper quartile=7.505247809229168,
+							median=8.300739665545175,
+							lower quartile=17.121664444521716,
+							lower whisker=44.78453322954975
+						}] coordinates {};
+				\addlegendentry{\res{\theta\gamma}}
+			\end{axis}
+		\end{tikzpicture}
+	}                                                                 \\[18.25pt]
+	surge, \qty{0.6}{\m\per\s}, \qty{2.0}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.3}{\m\per\s}, \qty{1.5}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.3}{\m\per\s}, \qty{2.0}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.6}{\m\per\s}, \qty{1.5}{\m} &                       \\[18.25pt]
+	sway,  \qty{0.6}{\m\per\s}, \qty{2.0}{\m} &                       \\[18.25pt] \midrule
+	error / \unit{\mm}                        &                       \\ \bottomrule
+\end{tabular}
