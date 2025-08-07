@@ -416,7 +416,35 @@ number of iteration of \num{100}.
 \subsection{Complications due to experimental conditions}
 \label{ex_rcce_complications_due_to_experimental_conditions}
 
-% \cite{mooreGeneralizedExtendedKalman2016}
+Some time after the experiment described in
+\cref{e_augmented_catenary_model_experimental_validation} the pool's water circulation and
+filtration system stopped working and the water became turbid (\cref{e_rcce_es_tre_robot_in_pool}).
+Mitigations were attempted but to no great success. The turbidity of the water made the cameras'
+configuration complicated and ephemeral; and the robot's tracking was not as continuous as
+expected.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth, trim=0 300 0 500, clip]{mpc_experiment_robot_in_pool.png}
+	\marginnote{Very turbid water.}
+	\caption{Robot in the pool during the experiment.}
+	\label{e_rcce_es_tre_robot_in_pool}
+\end{figure}
+
+\todo{add figure of blinking trajectory}
+
+In order to mitigate this unexpected unreliability, the data from \ac{qtm} was fed into an \ac{ekf}
+implemented in the ros
+\texttt{robot\_localization}\footnote{\url{https://docs.ros.org/en/melodic/api/robot_localization/html/index.html}}
+package (\cite{mooreGeneralizedExtendedKalman2016}). The \ac{ekf} was also given inertial data from
+the robot as well as its depth sensor data.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_leader_follower_kalman_diagram}
+	\caption{Software schematic of the leader-follower \ac{mpc} Bluerov experiment with the \ac{ekf}.}
+	\label{e_rcce_ctcl_mpc_leader_follower_diagram}
+\end{figure}
 
 \section{Conclusion}
 \label{e_conclusion}
