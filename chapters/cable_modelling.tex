@@ -322,10 +322,10 @@ For each cable, the dataset includes sequences with varying experimental paramet
 
 The catenary equation \cref{cm_cm_d_catenary_equation} is written as a function of \coord{x}{v},
 which, when it is regularly discretized and the corresponding \coord{z}{v} is computed, does not
-yield regularly spaced points along the length of the cable that can be compared to the measured
-points \llpoint{p}{m}{k}. This is a consequence of the non-linear nature of the catenary equation.
-To address this issue, the \thetagammamodel{} was discretized by computing varying steps of
-\coord{x}{v} beforehand:
+yield regularly spaced points along the curve that can be compared to the measured points
+\llpoint{p}{m}{k}. This is a consequence of the non-linear nature of the catenary equation. To
+address this issue, the \thetagammamodel{} was discretized by computing varying steps of
+\coord{x}{v} beforehand.
 
 From the catenary equation, the infinitesimal signed arc-length \scal{ds} of the cable between the
 origin (lowest point) and the point of interest is expressed as:
@@ -339,17 +339,17 @@ Since $\frac{dz}{dx} = \sinh\left(x\catC\right)$, it follows that:
 	   & = \sqrt{1 + \sinh^2\left(x\catC\right)} dx
 \end{align}
 
-Integrating over a given horizontal distance $\Delta x$ from the origin, the corresponding
-arc-length $\Delta s$ is:
+Integrating over a given horizontal distance \scal{x} from the origin, the corresponding arc-length
+\scal{s} is:
 \begin{align}
-	\Delta s & = \int_{0}^{\Delta x} \sqrt{1 + \sinh^2\left(x\catC\right)} dx \\
-	         & = \frac{\sinh\left(\Delta x \catC\right)}{\catC}
+	s & = \int_{0}^{\Delta x} \sqrt{1 + \sinh^2\left(x\catC\right)} dx \\
+	  & = \frac{\sinh\left(x \catC\right)}{\catC}
 \end{align}
 
 This relation leads to the expression of the horizontal distance from the origin $\Delta x$ as a
-function of the arc-length distance $\Delta s$ from the same origin:
+function of the arc-length distance \scal{s} from the same origin:
 \begin{align}
-	\Delta x = \frac{\sinh^{-1}\left(\Delta s \catC\right)}{\catC}
+	x = \frac{\sinh^{-1}\left(s \catC\right)}{\catC}
 	\label{cm_acm_ev_cdotcm_equation}
 \end{align}
 
@@ -382,6 +382,29 @@ The optimal parameters were obtained by solving the following minimization probl
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
 \end{align}
+
+\subsubsection{Statistical metric}
+\label{cm_acm_ev_statistical_metric}
+
+To assess the statistical significance of the accuracy improvement provided by the
+\augmentedmodel{}, the resituals were studied with medians, quartiles and percentiles instead of
+the more common mean and standard deviation. This choice is motivated the statistical distribution
+of the residuals not being a normal distribution. \Cref{cm_acm_ev_sm_distribution} shows an example
+of the distribution of the residuals for a sequence of the dataset which does not have the shape of
+a normal distribution. More importantly, the $\text{mean}-2\text{ standard deviation}$ metric below
+which \qty{2.5}{\percent} of the residuals are found is \emph{below} \qty{0}{\mm} which is not
+physically possible for values computed using \cref{cm_acm_ev_am_residual}.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/catenary_experiment_distribution}
+	\caption{
+		Histogram in blue, mean and $\text{mean}\pm 2\text{standard deviation}$ in red, and median, quartiles,
+		1\textsuperscript{st} and 99\textsuperscript{th} percentiles in black of the residual of a sequence
+		of the dataset.
+	}
+	\label{cm_acm_ev_sm_distribution}
+\end{figure}
 
 \subsubsection{Statistical results}
 \label{cm_acm_ev_statistical_results}
