@@ -365,9 +365,6 @@ subtracting-- fractions of \catL{} and using \cref{cm_acm_ev_cdotcm_equation}.
 \subsubsection{Accuracy metric}
 \label{cm_acm_ev_accuracy_metric}
 
-To quantify the achievable accuracy improvement provided by the \thetagammamodel{}, a minimization
-procedure was employed to estimate the values of the augmentation parameters $\theta$ and $\gamma$.
-
 The model accuracy is defined by the residual function:
 \begin{align}
 	\res{\theta\gamma}(\theta, \gamma) = \frac{1}{n} \sum_{k=0}^{n} \norm{\fllpoint{p}{w}{m}{k} - \fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)}
@@ -378,10 +375,18 @@ where $\fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)$ are the points correspo
 \fllpoint{p}{w}{m}{k} predicted by the \thetagammamodel{} based on the attachment points
 \fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n} for a given pair of parameters $(\theta, \gamma)$.
 
+To quantify the achievable accuracy improvement provided by the \thetagammamodel{}, a minimization
+procedure was employed to estimate the values of the augmentation parameters $\theta$ and $\gamma$.
 The optimal parameters were obtained by solving the following minimization problem:
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
 \end{align}
+
+To go into more details about the minimization cost: an \augmentedmodel{} was computed with the
+candidate \scal{\theta} and \scal{\gamma} and the norm of the distance from the computed points
+\fllpoint{p}{w}{\theta\gamma}{k} to the measured points \fllpoint{p}{w}{m}{k} was computed and then
+averaged on a frame by frame basis. This means that there is no relation between two consecutive
+values of \scal{theta} and \scal{\gamma} and that their continuity is not enforced.
 
 \subsubsection{Statistical results}
 \label{cm_acm_ev_statistical_results}
