@@ -566,9 +566,10 @@ on catenary parameters.
 \subsubsection{Derivation of the pendulum's dynamics}
 \label{cm_poapd_pbm_derivation_of_the_pendulums_dynamics}
 
-To describe the dynamics of the augmented catenary model with a moving cart pendulum. Let $\dot{x}$
-be the speed of the moving cart $m_1$ its mass, $m_2$ the pendulum's mass, $\alpha$ its tilt angle
-and finally $l=f(L, \dots)$ the length of the pendulum (\cref{cm_poapd_pbm_dotpd_schematic}).
+To describe the dynamics of the augmented catenary model with a moving cart pendulum. Let
+\scal{\dot{x}} be the speed of the moving cart \ldscal{m}{1} its mass, \ldscal{m}{2} the pendulum's
+mass, \scal{\alpha} the angle between the vertical axis and the pendulum and finally
+$\scal{l}=f(\catL, \dots)$ the length of the pendulum (\cref{cm_poapd_pbm_dotpd_schematic}).
 
 \begin{figure}
 	\centering
@@ -577,12 +578,12 @@ and finally $l=f(L, \dots)$ the length of the pendulum (\cref{cm_poapd_pbm_dotpd
 	\label{cm_poapd_pbm_dotpd_schematic}
 \end{figure}
 
-The angle $\alpha$ is then used in the augmented catenary model. The speed $\dot{x}$ corresponds to
-the average of the two endpoints' speeds. While the mass $m_1$ is the mass of the robots attached
-to the endpoints. If the tether forms a symmetrical catenary curve, its weight and drag can be
-integrated to be applied to a point halfway between the the height of lowest point and of the
-attachment points. Moreover, if the attachment points are close, this distance may be approximated
-to be half of the tether length:
+The angle \scal{\alpha} is then used in the augmented catenary model. The speed \scal{\dot{x}}
+corresponds to the average of the two endpoints' speeds. While the mass \ldscal{m}{1} is the mass
+of the robots attached to the endpoints. If the tether forms a symmetrical catenary curve, its
+weight and drag can be integrated to be applied to a point halfway between the the height of lowest
+point and of the attachment points. Moreover, if the attachment points are close, this distance may
+be approximated to be half of the tether length:
 \begin{align}
 	l = \frac{\catL}{4}
 	\label{cm_poapd_pbm_dotpd_l_4}
@@ -594,7 +595,7 @@ spaced out or a tether that is not symmetrical. Some of these methods
 others. In any of these cases, the pendulum's length is time dependant as a function of the robots'
 position:
 \begin{align}
-	l = f\left(t, L, \ldpoint{P}{0}(t), \ldpoint{P}{n}(t)\right)
+	\scal{l} = f\left(\scal{t}, \catL{}, \ldpoint{P}{0}(t), \ldpoint{P}{n}(t)\right)
 	\label{cm_poapd_pbm_dotpd_function_l}
 \end{align}
 
@@ -604,57 +605,66 @@ with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
 	\centering
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v1}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v1}
 		\caption{Vertical distance between the lowest point and the $\mathbf{e}$-axis.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v2}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v2}
 		\caption{Euclidean distance between the lowest point and the $\mathbf{e}$-axis.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v3}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v3}
 		\caption{Distance between the lowest point and average height of the attachment points.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v4}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v4}
 		\caption{The greatest distance between the catenary curve and the $\mathbf{e}$-axis.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v5}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v5}
 		\caption{Distance between the lowest point and the lower of the two attachment points.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v6}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v6}
 		\caption{Distance between the lowest point and the higher of the two attachment points.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\inputtikz{figures/pendulum_computation_of_l_v7}
+		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
+		\input{figures/pendulum_computation_of_l_v7}
 		\caption{Distance between the barycenter and the $\mathbf{e}$-axis.}
 	\end{subfigure}
 	\caption{Approximate schematics of different definitions of $l$.}
 	\label{cm_poapd_pbm_dotpd_computation_of_l}
 \end{figure}
 
-In any case the dynamics of the pendulum is derived in the next section with the criteria $l>0$
-since $l=0$ would mean that the tether is perfectly taunt and out of the scope of this model.
+The dynamics of the pendulum is then derived with the criteria $\scal{l}>0$ since $\scal{l}=0$
+would mean that the tether is perfectly taunt and out of the scope of this model.
 
-Note that $l$ and $x$ \textbf{are considered as parameters and not variables}. Let $\vect{A} =
-	\left(x, 0, 0\right)$ be the attach point of the support, the position of $m_2$ is $\vect{B} =
-	\left(x + l \sin{\alpha}, 0, -l \cos{\alpha}\right)$ (\cref{cm_poapd_pbm_dotpd_schematic}).
+Note that \scal{l} and \scal{x} \emph{are considered as parameters and not variables}. Let
+$\vect{A} = \left(\scal{x}, 0, 0\right)$ be the attachment point of the support whose mass is
+\ldscal{m}{1} with \scal{x} the horizontal distance between it and the origin. The position of
+\ldscal{m}{2} is $\vect{B} = \left(\scal{x} + \scal{l} \sin{\scal{\alpha}}, 0, -\scal{l}
+	\cos{\scal{\alpha}}\right)$ (\cref{cm_poapd_pbm_dotpd_schematic}).
 
-The speed of $m_2$ is:
+The speed of \ldscal{m}{2} is:
 \begin{align}
-	\dot{\vect{B}} =
+	\vect{\dot{B}} =
 	\begin{pmatrix}
-		\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \\
-		0                                                          \\
-		l \dot{\alpha}\sin{\alpha} - \dot{l}\cos{\alpha}
+		\scal{\dot{x}} + \scal{l} \dot{\scal{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}} \\
+		0                                                                                                    \\
+		\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}} - \scal{\dot{l}}\cos{\scal{\alpha}}
 	\end{pmatrix}
 \end{align}
 
@@ -662,37 +672,37 @@ We use the shorthands $\cos{\ast} = \newcos{\ast}$ and $\sin{\ast} = \newsin{\as
 
 Kinetic energy is written:
 \begin{align}
-	E_k & = \frac{1}{2} m_1 \norm{\dot{\vect{A}}}^2 + \frac{1}{2} m_1 \norm{\dot{\vect{B}}}^2 \nonumber                                                                                                              \\
-	    & =\frac{1}{2}  \left(m_1 \dot{x}^2 + m_2 \left(\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \right)^2 + \left(l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}\right)^2\right) \right)
+	\ldscal{E}{k} & = \frac{1}{2} \ldscal{m}{1} \norm{\vect{\dot{A}}}^2 + \frac{1}{2} \ldscal{m}{2} \norm{\vect{\dot{B}}}^2 nonumber                                                                                                                                                                                                   \\
+	              & =\frac{1}{2}  \left(\ldscal{m}{1} \scal{\dot{x}}^2 + \ldscal{m}{2} \left(\left(\scal{\dot{x}} + \scal{l} \dot{\scal{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}} \right)^2 + \left(\scal{l} \dot{\scal{\alpha}}\sin{\scal{\alpha}} - \scal{\dot{l}} \cos{\scal{\alpha}}\right)^2\right) \right)
 \end{align}
 
 And potential energy is written:
 \begin{align}
-	E_p & = m_1 g \vect{A}\cdot\ldvect{z}{v} + m_2 g \vect{B}\cdot\ldvect{z}{v} \nonumber \\
-	    & = - m_2gl\cos{\alpha}
+	\ldscal{E}{p} & = \ldscal{m}{1} \scal{g}~\vect{A}\cdot\ldvect{z}{v} + \ldscal{m}{2} \scal{g}~\vect{B}\cdot\ldvect{z}{v} \nonumber \\
+	              & = - \ldscal{m}{2}\scal{g}\scal{l}\cos{\alpha}
 \end{align}
 
 The Lagrangian operator is:
 \begin{align}
-	L & = E_k - E_p \nonumber                                                                                                                                                                                                            \\
-	  & = \frac{1}{2}  \left( m_1 \dot{x}^2 + m_2 \left(\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \right)^2 + \left(l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}\right)^2\right) \right) + m_2gl\cos{\alpha}
+	\lagr{} & = \ldscal{E}{k} - \ldscal{E}{p} \nonumber                                                                                                                                                                                                                                                                                                                        \\
+	        & = \frac{1}{2}  \left( \ldscal{m}{1} \scal{\dot{x}}^2 + \ldscal{m}{2} \left(\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}} \right)^2 + \left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}} - \scal{\dot{l}} \cos{\scal{\alpha}}\right)^2\right) \right) + \ldscal{m}{2}\scal{g}\scal{l}\cos{\alpha}
 \end{align}
 
 In addition, we have the non-conservative drag force:
 \begin{align}
-	\vec{F}_D & = - \frac{1}{2} \rho_{w} A_c C_c \norm{\dot{\vect{B}}}\dot{\vect{B}}     \nonumber                                                                                                 \\
-	          & = - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}
+	\ldvect{F}{D} & = - \frac{1}{2} \ldscal{\rho}{w} \ldscal{A}{c} \scal{C}{c} \norm{\vect{\dot{B}}}\vect{\dot{B}}     \nonumber                                                                                                                                                                              \\
+	              & = - \frac{1}{2} \ldscal{\rho}{w} \ldscal{A}{c} \scal{C}{c} \sqrt{\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}}\right)^2 + \left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}}-\scal{\dot{l}} \cos{\scal{\alpha}}\right)^2}
 	\begin{pmatrix}
-		\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha} \\
-		0                                                          \\
-		l \dot{\alpha}\sin{\alpha} - \dot{l} \cos{\alpha}
+		\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}} \\
+		0                                                                                                    \\
+		\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}} - \scal{\dot{l}} \cos{\scal{\alpha}}
 	\end{pmatrix}
 \end{align}
 
 With the Lagrange principle:
 \begin{align}
-	\frac{d}{dt} \frac{\partial L}{\partial \dot{\alpha}}
-	 & = \frac{\partial L}{\partial \alpha}
+	\frac{d}{dt} \frac{\partial \lagr{}}{\partial \scal{\dot{\alpha}}}
+	 & = \frac{\partial \lagr{}}{\partial \scal{\alpha}}
 	+ \frac{\partial \vect{B} \cdot \ldvect{x}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{x}{v}
 	+ \frac{\partial \vect{B} \cdot \ldvect{y}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{y}{v}
 	+ \frac{\partial \vect{B} \cdot \ldvect{z}{v}}{\partial \alpha} \ldvect{F}{D} \cdot \ldvect{z}{v} \label{cm_poapd_pbm_dotpd_lagrange}
@@ -700,13 +710,13 @@ With the Lagrange principle:
 
 Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
 \begin{align*}
-	 & m_2l^2\ddot{\alpha} + 2m_2l\dot{l}\dot{\alpha} + m_2l\ddot{x} \cos{\alpha} - m_2l\dot{x} \dot{\alpha} \sin{\alpha} + m_2\dot{l}\dot{x}\cos{\alpha}                                                                                                                    \\
-	 & = - m_2l\dot{\alpha}\dot{x}\sin{\alpha} + m_2\dot{x}\dot{l}\cos{\alpha} - m_2gl\sin{\alpha}                                                                                                                                                                           \\
-	 & - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right) l\cos{\alpha} \\
-	 & - \frac{1}{2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(l \dot{\alpha}\sin{\alpha} -\dot{l} \cos{\alpha}\right) l\sin{\alpha}
+	 & \ldscal{m}{2}\scal{l}^2\scal{\ddot{\alpha}} + 2\ldscal{m}{2}\scal{l}\scal{\dot{l}}\scal{\dot{\alpha}} + \ldscal{m}{2}\scal{l}\scal{\ddot{x}} \cos{\scal{\alpha}} - \ldscal{m}{2}\scal{l}\scal{\dot{x}} \scal{\dot{\alpha}} \sin{\scal{\alpha}} + \ldscal{m}{2}\scal{\dot{l}}\scal{\dot{x}}\cos{\scal{\alpha}}                                                                                                                 \\
+	 & = - \ldscal{m}{2}\scal{l}\scal{\dot{\alpha}}\scal{\dot{x}}\sin{\scal{\alpha}} + \ldscal{m}{2}\scal{\dot{x}}\scal{\dot{l}}\cos{\scal{\alpha}} - \ldscal{m}{2}\scal{g}\scal{l}\sin{\scal{\alpha}}                                                                                                                                                                                                                               \\
+	 & - \frac{1}{2} \ldscal{\rho}{w} \ldscal{A}{c} \scal{C}{c} \sqrt{\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}}\right)^2 + \left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}}-\scal{\dot{l}} \cos{\scal{\alpha}}\right)^2}\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}}\right) l\cos{\scal{\alpha}} \\
+	 & - \frac{1}{2} \ldscal{\rho}{w} \ldscal{A}{c} \scal{C}{c} \sqrt{\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}}\right)^2 + \left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}}-\scal{\dot{l}} \cos{\scal{\alpha}}\right)^2}\left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}} -\scal{\dot{l}} \cos{\scal{\alpha}}\right) \scal{l}\sin{\scal{\alpha}}
 \end{align*}
 \begin{align}
-	\Leftrightarrow~ & \ddot{\alpha} = -\frac{1}{l}\left( \ddot{x} \cos{\alpha} + g\sin{\alpha} + 2\dot{l}\dot{\alpha} + \frac{1}{2m_2} \rho_{w} A_c C_c \sqrt{\left(\dot{x} + l \dot{\alpha}\cos{\alpha} + \dot{l}\sin{\alpha}\right)^2 + \left(l \dot{\alpha}\sin{\alpha}-\dot{l} \cos{\alpha}\right)^2}\left(\dot{x}\cos{\alpha} + l\dot{\alpha}\right)\right)
+	\Leftrightarrow~ & \scal{\ddot{\alpha}} = -\frac{1}{\scal{l}}\left( \scal{\ddot{x}} \cos{\scal{\alpha}} + \scal{g}\sin{\scal{\alpha}} + 2\scal{\dot{l}}\scal{\dot{\alpha}} + \frac{1}{2\ldscal{m}{2}} \ldscal{\rho}{w} \ldscal{A}{c} \scal{C}{c} \sqrt{\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}}\right)^2 + \left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}}-\scal{\dot{l}} \cos{\scal{\alpha}}\right)^2}\left(\scal{\dot{x}}\cos{\scal{\alpha}} + \scal{l}\scal{\dot{\alpha}}\right)\right)
 \end{align}
 
 \subsubsection{Accuracy and discussion}
