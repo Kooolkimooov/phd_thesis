@@ -1,0 +1,57 @@
+\begin{tikzpicture}
+	\tikzset{
+	device/.style={
+			rectangle, draw, rounded corners, thick,
+			text centered, fill=blue!10
+		},
+	rosnode/.style={
+			rectangle, draw, rounded corners, thick,
+			text centered, fill=red!10
+		},
+	connection/.style={
+	-{Stealth}, very thick,
+	every node/.style={rounded corners, fill=gray, text opacity=1.0, fill opacity=0.85, text=white}
+	}
+	}
+
+	\begin{axis}[
+			xmin = -1.0,
+			xmax = 1.0,
+			ymin = -1.0,
+			ymax = 1.0,
+			width=\figurewidth,
+			height=0.75\figurewidth,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+
+		\node[device] (qtm) at (axis cs:0.0, 1.0) {\acs{qtm} PC};
+
+		\node[rosnode] (qtm_interface) at (axis cs:0.0, 0.55) {\texttt{qtm\_interface}};
+
+		\node[rosnode] (kalman_mpc) at (axis cs:0.0, 0.15) {\texttt{ekf\_localization\_node}};
+
+		\node[rosnode] (mpc_controller) at (axis cs:0.0, -0.25) {\texttt{mpc\_controller}};
+
+		\node[device] (br) at (axis cs:-0.35, -0.75) {Bluerov};
+		\node[device] (js) at (axis cs:0.35, -0.75) {Joystick};
+
+		\draw[connection, ->] (qtm) -- (qtm_interface) node[pos=0.4] {Bluerovs poses};
+		\draw[connection, ->] (qtm_interface) -- (kalman_mpc) node[midway] {Pose};
+		\draw[connection, ->] (br) -- (axis cs: -0.35, -0.1) node[near end, left, align=center] (imu) {\acs{imu}\\Depth} -- (kalman_mpc);
+		\draw[connection, ->] (kalman_mpc) -- (mpc_controller) node[midway, rignt] {Odometry};
+		\draw[connection, ->] (mpc_controller) -- (br) node[pos=0.65] {Control};
+		\draw[connection, ->] (js) -- (mpc_controller) node[pos=0.35] {Command};
+		\draw[connection, ->] (br) -- (axis cs: -0.75, -0.75) -- (axis cs: -0.75, 1.0) node[below right] {Visual data} -- (qtm);
+
+		\begin{pgfonlayer}{background}
+			\node[
+				draw, thick, rounded corners, fill=red, fill opacity=0.5,
+				fit=(qtm_interface)(mpc_controller)(kalman_mpc)(imu),
+				label={[fill=red, fill opacity=0.5]above right:\acs{ros} PC}
+			] {};
+		\end{pgfonlayer}
+
+	\end{axis}
+\end{tikzpicture}

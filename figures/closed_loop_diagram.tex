@@ -10,10 +10,10 @@
 	}
 
 	\begin{axis}[
-			xmin = -7.5,
-			xmax = 12.5,
+			xmin = -1.0,
+			xmax = 1.0,
 			ymin = -1.0,
-			ymax = 2.5,
+			ymax = 1.0,
 			width=\figurewidth,
 			height=.5\figurewidth,
 			clip = false,
@@ -21,15 +21,15 @@
 			axis y line=none
 		]
 
-		\node[device] (windows) at (axis cs:1,1.5) {\acs{qtm} PC};
+		\node[device] (windows) at (axis cs:0,0.9) {\acs{qtm} PC};
 
-		\node[device] (cam0) at (axis cs:-5,0.6) {Camera 0};
-		\node[device] (camn) at (axis cs:-5,-0.5) {Camera \scal{n}};
+		\node[device] (cam0) at (axis cs:-0.85,0.5) {Camera 0};
+		\node[device] (camn) at (axis cs:-0.85,-0.5) {Camera \scal{n}};
 
-		\node[device] (ubuntu) at (axis cs:7,1.5) {\acs{ros} PC};
+		\node[device] (ubuntu) at (axis cs:0.5,0.9) {\acs{ros} PC};
 
-		\node[device] (br0) at (axis cs:10,0.5) {Bluerov 0};
-		\node[device] (brn) at (axis cs:8,-0.5) {Bluerov \scal{n}};
+		\node[device] (br0) at (axis cs:0.85,0.5) {Bluerov 0};
+		\node[device] (brn) at (axis cs:0.85,-0.5) {Bluerov \scal{n}};
 
 		\begin{pgfonlayer}{background}
 			\node[draw, thick, rounded corners, fill=green, fill opacity=0.5, fit=(windows)(cam0)(camn), label={[fill=green, fill opacity=0.5]above:Camera Network}] (cam_network) {};
