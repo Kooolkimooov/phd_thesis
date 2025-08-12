@@ -11,7 +11,7 @@
 \usepackage{amssymb}
 \usepackage{bbm}
 \usepackage{datetime}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{physics}
 \usepackage{siunitx}
 \usepackage{booktabs}
@@ -57,17 +57,16 @@
 }{}
 \makeatother
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% review macro
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\review}[2]{
+\newcommand{\review}[2]{%
 	\begin{tabularx}{\linewidth}{X|X}
 		\toprule
-		\textbf{Retour} & \textbf{Action} \\ \midrule
-		#1              & #2              \\ \bottomrule
-	\end{tabularx}
+		\textbf{Retour} & \textbf{Action}                                                                        \\ \midrule
+		#1              & \if\relax\detokenize{#2}\relax\colorbox{red}{\Huge\textsc{Not Actionned}} \else #2 \fi \\ \bottomrule
+	\end{tabularx}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
