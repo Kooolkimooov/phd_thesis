@@ -409,7 +409,7 @@ points corresponding to \fllpoint{p}{w}{m}{k} predicted by the \verticalmodel{},
 	\inputtikz{figures/catenary_experiment_cables_boxplot}
 	\caption{
 		Box plots of the residual when compared to the measured data for each cable. Each box represents
-		the IQR of residuals, with the vertical line indicating the median. Whiskers extend to the first
+		the \ac{iqr} of residuals, with the vertical line indicating the median. Whiskers extend to the first
 		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
 		\thetamodel{} in green, and \thetagammamodel{} in gray.
 	}
@@ -420,10 +420,10 @@ The residuals for the four model variants are presented in \cref{cm_acm_ev_sr_ca
 where each boxplot visually represents the distribution of errors across all experimental trials.
 The median values, indicated by the central line in each box, reveal that the \thetagammamodel{}
 consistently achieved lower residuals across all cable types, with median improvements ranging from
-\qtyrange{10}{75}{\percent} compared to the \verticalmodel{}. The interquartile ranges (IQR) which
-ranges from the first to the third quartile, represented by the width of each box, further
-demonstrate that the \thetagammamodel{} not only reduced median error but also exhibited more
-consistent performance with less variability in most cases.
+\qtyrange{10}{75}{\percent} compared to the \verticalmodel{}. The \ac{iqr} which ranges from the
+first to the third quartile, represented by the width of each box, further demonstrate that the
+\thetagammamodel{} not only reduced median error but also exhibited more consistent performance
+with less variability in most cases.
 
 A detailed examination of the residual distributions reveals several noteworthy patterns. Cables
 \subref{e_acmev_es_weighted} and \subref{e_acmev_es_chain} exhibited the lowest overall residuals
@@ -461,7 +461,7 @@ forces that oppose the formation of a smooth curve.
 	\inputtikz{figures/catenary_experiment_cable_3_boxplot}
 	\caption{
 		Box plots of the residual for cable \subref{e_acmev_es_two_pairs} when compared to the measured
-		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		data across all experimental parameters. Each box represents the \ac{iqr} of residuals, with the
 		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
 		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
 		\thetagammamodel{} in gray.
@@ -481,7 +481,7 @@ deformations. Detailed results for all other cables are provided in
 	\inputtikz{figures/catenary_experiment_cable_6_boxplot}
 	\caption{
 		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured
-		data across all experimental parameters. Each box represents the IQR of residuals, with the
+		data across all experimental parameters. Each box represents the \ac{iqr} of residuals, with the
 		vertical line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
 		\verticalmodel{} is shown in blue, \gammamodel{} in red, \thetamodel{} in green, and
 		\thetagammamodel{} in gray.
@@ -528,24 +528,54 @@ deformations induced by hydrodynamic effects.
 \subsubsection{Comparaision to a fully dynamic model}
 \label{cm_acm_ev_comparaision_to_a_fully_dynamic_model}
 
-Here we compare the accuracy of the \thetagammamodel{} to a fully dynamic model presented in
-\cite{peraudIMUbasedMonitoringBuoyBallast2024} using cable \subref{e_acmev_es_weighted}.
+To further assess the performance of the \thetagammamodel{}, we compare its accuracy to that of a
+fully dynamic model, as presented in \cite{peraudIMUbasedMonitoringBuoyBallast2024}. This
+comparison focuses on cable \subref{e_acmev_es_weighted}, which is representative due to its high
+flexibility and negative buoyancy.
+
+The fully dynamic model used models the dynamics of a variable-length underwater cable. It is able
+to incorporate discrete elements like buoys, ballast, and virtual \ac{imu} at any point along its
+length. Using a finite difference method, the cable is discretized into segments whose mechanical
+properties, hydrodynamic forces, and motion are computed based on force balance, compatibility, and
+angular momentum equations, with boundary conditions set by the robots' positions and winch
+operation. Cable length changes are handled by dynamically adding or removing points, while
+Newton-Raphson iterations advance the simulation from a physically valid starting configuration.
+
+Both models were evaluated on the same dataset, which includes a range of experimental conditions
+presented in \cref{cm_acm_experimental_validation}. The residuals were computed for each trial, and
+the distributions are summarized in \cref{cm_acm_ev_sr_cables_boxplot_dynamic_diff}. The comparison
+reveals several key points:
+\begin{itemize}
+	\item Both the \thetagammamodel{} and the dynamic model achieve similar median residuals across all
+	      experimental conditions, indicating that the simplified model can match the dynamic model's typical
+	      accuracy for this cable type.
+	\item The dynamic model exhibits extremely low first percentile and lower whisker values, in some cases
+	      below \qty{0.1}{\milli\meter}. These values are well below the measurement accuracy of the dataset,
+	      suggesting that the dynamic model can occasionally fit the data almost perfectly.
+	\item The spread of the residuals is comparable between the two models, indicating similar consistency in
+	      performance across trials.
+	\item Both models show a small number of higher residuals, but the dynamic model's lower bound is
+	      consistently lower, as highlighted by the arrows in the figure.
+\end{itemize}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_cable_6_boxplot_diff_dynamic}
 	\caption{
-		Box plots of the residual for cable \subref{e_acmev_es_weighted} when compared to the measured data
-		across all experimental parameters. Each box represents the IQR of residuals, with the vertical
-		line indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
-		\thetagammamodel{} is shown in gray and the dynamic model is shown in orange. The arrow and number
-		indicate the value of the lower whisker which is not visible.
+		Box plots of the residuals for cable \subref{e_acmev_es_weighted} across all experimental
+		parameters. Each box represents the \ac{iqr} of residuals, with the vertical line
+		indicating the median. Whiskers extend to the first and ninety-ninth percentile. The
+		\thetagammamodel{} is shown in gray and the dynamic model in orange. The arrow and number indicate
+		the value of the lower whisker that are not visible.
 	}
 	\label{cm_acm_ev_sr_cables_boxplot_dynamic_diff}
 \end{figure}
 
-The dynamic model has medians in the same range as the \augmentedmodel{} but with lower first
-quartile and extremely low first percentile -- way below the measurement accuracy of the dataset.
+The fully dynamic model, by accounting for the full physics of the cable, can achieve extremely low
+errors in favorable conditions. However, the \thetagammamodel{} provides nearly equivalent median
+accuracy and similar robustness, while being much simpler and more tractable for control and
+estimation tasks. The extremely low errors of the dynamic model may not be practically significant,
+as they are below the noise floor of the measurement system.
 
 \section{Perspectives on augmentation parameters' dynamics}
 \label{cm_perspectives_on_augmentation_parameters_dynamics}
