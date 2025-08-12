@@ -264,6 +264,9 @@ and sway motion with relation to the fixed point.
 \subsection{Closing the control loop}
 \label{e_rcce_closing_the_control_loop}
 
+\subsubsection{Real time feedback from the Qualisys system}
+\label{e_rcce_ctcl_real_time_feedback_from_qualisys_system}
+
 A prerequisite of any experimental application of a control system is the availability of a
 measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
 the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
@@ -283,18 +286,49 @@ body.
 	\centering
 	\inputtikz{figures/closed_loop_diagram}
 	\caption{Principle diagram of the implementation of the closed loop.}
-	\label{e_rcce_ctcl_closed_loop_diagram}
+	\label{e_rcce_ctcl_rtfftqs_closed_loop_diagram}
 \end{figure}
 
 A \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to obtain the pose of a
 predetermined robot and publish it in a \ac{ros} topic. This topic was then used as a close to
 perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
-loop (\cref{e_rcce_ctcl_closed_loop_diagram}). The \ac{ros} node matches the \qty{100}{\Hz}
+loop (\cref{e_rcce_ctcl_rtfftqs_closed_loop_diagram}). The \ac{ros} node matches the \qty{100}{\Hz}
 sampling rate of \ac{qtm} which is sufficient for the control of a Bluerov, which has a relatively
 slow dynamics. \marginnote{Shannon can rest easy, we are sampling fast enough.}
 
 Additionally, a simulation twin of the node was implemented with identical interface with \ac{ros}
 in order to facilitate testing of control systems relying on the Qualisys system.
+
+\subsubsection{State estimation with \acl{ekf}}
+\label{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}
+
+The experimental conditions revealed limitations in the motion capture system's coverage. While the
+underwater Qualisys system was initially assumed to provide convex coverage of the experimental
+volume (\cref{e_rcce_ctcl_sewekf_trajectories}), the reality showed gaps in the tracking dependent
+on the robot's orientation and the intersection geometry of the cameras as well as the visibility
+in the pool (\cref{e_rcce_ctcl_sewekf_robot_in_pool}). To address these tracking discontinuities,
+an \ac{ekf} was implemented using the \texttt{robot\_localization} package from
+\cite{mooreGeneralizedExtendedKalman2016}.
+
+\begin{figure}
+	\centering
+	\todo{add figure of coverage from qtm trajectories \label{e_rcce_ctcl_sewekf_trajectories}}
+	\caption{Coverage of the experimental volume by the cameras of the Qualisys system.}
+	\label{e_rcce_ctcl_sewekf_trajectories}
+\end{figure}
+
+The filter combines position and orientation measurements from the Qualisys system, inertial
+measurements from the robot's \ac{imu}, depth measurements from the robot's pressure sensor. This
+sensor fusion approach provides continuous state estimation during short loss of tracking of the
+cameras, however, during prolonged loss of tracking, the filter becomes less accurate and
+eventually fails to converge.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth, trim=0 300 0 500, clip]{mpc_experiment_robot_in_pool.png}
+	\caption{Robot in the pool during the experiment.}
+	\label{e_rcce_ctcl_sewekf_robot_in_pool}
+\end{figure}
 
 \subsection{Controller implementation}
 \label{ex_rcce_controller_implementation}
@@ -310,7 +344,8 @@ pathfind the chain of \acp{rov} implementation as well as working parameters for
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/mpc_diagram}
+	% \inputtikz{figures/mpc_diagram}
+	\todo{add figure mpc\_diagram\_kalman}
 	\caption{Software schematic of the single \ac{mpc} Bluerov experiment.}
 	\label{e_rcce_ctcl_mpc_diagram}
 \end{figure}
@@ -324,7 +359,7 @@ leader's control input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_mpc_leader_f
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/mpc_leader_follower_diagram}
+	\inputtikz{figures/mpc_leader_follower_kalman_diagram}
 	\caption{Software schematic of the leader-follower \ac{mpc} Bluerov experiment.}
 	\label{e_rcce_ctcl_mpc_leader_follower_diagram}
 \end{figure}
@@ -412,39 +447,6 @@ pool's size.
 
 Finally the optimization problem is solved -as before- with a tolerance of \num{1e-6} and a maximum
 number of iteration of \num{100}.
-
-\subsection{Complications due to experimental conditions}
-\label{ex_rcce_complications_due_to_experimental_conditions}
-
-Some time after the experiment described in
-\cref{e_augmented_catenary_model_experimental_validation} the pool's water circulation and
-filtration system stopped working and the water became turbid (\cref{e_rcce_es_tre_robot_in_pool}).
-Mitigations were attempted but to no great success. The turbidity of the water made the cameras'
-configuration complicated and ephemeral; and the robot's tracking was not as continuous as
-expected.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=\figurewidth, trim=0 300 0 500, clip]{mpc_experiment_robot_in_pool.png}
-	\marginnote{Very turbid water.}
-	\caption{Robot in the pool during the experiment.}
-	\label{e_rcce_es_tre_robot_in_pool}
-\end{figure}
-
-\todo{add figure of blinking trajectory}
-
-In order to mitigate this unexpected unreliability, the data from \ac{qtm} was fed into an \ac{ekf}
-implemented in the ros
-\texttt{robot\_localization}\footnote{\url{https://docs.ros.org/en/melodic/api/robot_localization/html/index.html}}
-package (\cite{mooreGeneralizedExtendedKalman2016}). The \ac{ekf} was also given inertial data from
-the robot as well as its depth sensor data.
-
-\begin{figure}
-	\centering
-	\inputtikz{figures/mpc_leader_follower_kalman_diagram}
-	\caption{Software schematic of the leader-follower \ac{mpc} Bluerov experiment with the \ac{ekf}.}
-	\label{e_rcce_ctcl_mpc_leader_follower_diagram}
-\end{figure}
 
 \section{Conclusion}
 \label{e_conclusion}

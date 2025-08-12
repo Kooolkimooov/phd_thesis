@@ -11,7 +11,7 @@
 \usepackage{amssymb}
 \usepackage{bbm}
 \usepackage{datetime}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{physics}
 \usepackage{siunitx}
 \usepackage{booktabs}
@@ -61,12 +61,12 @@
 %% review macro
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\review}[2]{
+\newcommand{\review}[2]{%
 	\begin{tabularx}{\linewidth}{X|X}
 		\toprule
-		\textbf{Retour} & \textbf{Action} \\ \midrule
-		#1              & #2              \\ \bottomrule
-	\end{tabularx}
+		\textbf{Retour} & \textbf{Action}                                                                        \\ \midrule
+		#1              & \if\relax\detokenize{#2}\relax\colorbox{red}{\Huge\textsc{Not Actionned}} \else #2 \fi \\ \bottomrule
+	\end{tabularx}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -345,6 +345,8 @@
 \newcommand\catD{\scal{D}}
 \newcommand\catdD{\scal{\Delta D}}
 
+\newcommand\lagr{\ensuremath{\mathcal{L}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% catenary model names macros (just in case)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -367,6 +369,7 @@
 \newacronym{qtm}{QTM}{qualisys track manager}
 \newacronym{ros}{ROS}{robot operating system}
 \newacronym{ekf}{EKF}{extended kalman filter}
+\newacronym{iqr}{IQR}{interquartile range}
 
 \newacronym{pwm}{PWM}{pulse width modulation}
 \newacronym{uuv}{UUV}{unmanned underwater vehicle}
