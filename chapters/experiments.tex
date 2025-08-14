@@ -550,5 +550,24 @@ operations in confined and partially observable environments.
 	\label{e_rcce_r_mpc_2_placeholder}
 \end{figure}
 
-\section{Conclusion}
-\label{e_conclusion}
+\subsection{Conclusion}
+\label{e_rcce_conclusion}
+
+The experiments presented in this chapter demonstrated the feasibility of controlling a robot chain
+in an underwater environment using real-time motion capture data. A preliminary \ac{pd} integration
+test confirmed the correct operation of the sensing, estimation, and actuation pipeline. The
+subsequent single-robot \ac{mpc} experiment validated the control framework under constrained and
+observable conditions. Finally, the two-robot \ac{mpc} experiment provided insights into the
+additional challenges posed by inter-robot constraints, limited tracking space, and complex
+environmental geometry.
+
+The results show that reliable state estimation and constraint handling are absolutely essential
+for robust operation in multi-robot underwater systems. It is also evident that the accuracy and
+continuity of external tracking strongly influence controller performance, particularly in
+leader-follower configurations.
+
+Future work will focus on performing new experiments in improved conditions, including larger and
+less turbid environments with enhanced tracking coverage, in order to mitigate the limitations
+observed in the present setup. Additionally, the control framework will be extended and validated
+on a three-robot chain system, enabling the study of more complex coordination strategies and the
+scalability of the proposed approach.
