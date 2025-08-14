@@ -484,7 +484,8 @@ Results from the preliminary integration test described in \cref{e_rcce_es_one_r
 are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy.
 A small offset was consistently observed in the \vect{z} direction, which resulted from imperfect
 buoyancy compensation. In addition, a steady orientation error was present, caused by imperfect
-balance of the robot and the absence of integral action in the \ac{pd} controller.
+balance. Both of these residuals could be compensated by the addition of integral action in the
+controller.
 
 For the selected trajectory, the Qualisys system experienced only a few short tracking losses, as
 indicated by the covariance spikes in \cref{e_rcce_r_pd_placeholder}. These losses did not
