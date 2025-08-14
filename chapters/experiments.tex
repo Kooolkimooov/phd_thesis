@@ -481,10 +481,10 @@ The optimization problem was solved with the same tolerance of \num{1e-6} and a 
 \subsubsection{Single Bluerov \acs{pd} experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
 
 Results from the preliminary integration test described in \cref{e_rcce_es_one_robot_pd_experiment}
-are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy,
-although a small offset was consistently observed in the \vect{z} direction. This deviation is
-attributed to imperfect buoyancy compensation and to residual orientation bias, which resulted from
-the robot's imperfect balance and the absence of integral action in the \ac{pd} controller.
+are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy.
+A small offset was consistently observed in the \vect{z} direction, which resulted from imperfect
+buoyancy compensation. In addition, a steady orientation error was present, caused by imperfect
+balance of the robot and the absence of integral action in the \ac{pd} controller.
 
 For the selected trajectory, the Qualisys system experienced only a few short tracking losses, as
 indicated by the covariance spikes in \cref{e_rcce_r_pd_placeholder}. These losses did not
