@@ -339,23 +339,23 @@ estimation error rendered the filter inaccurate.
 \subsection{Controller implementation}
 \label{ex_rcce_controller_implementation}
 
-The \ac{mpc} controller described in \cref{robot_chain_control} was interfaced with \ac{ros} as
-detailed in \citeurl{filliungBluerov2025}. In particular, a conversion function was implemented to
-translate the force actuation computed by the \ac{mpc} into the \ac{pwm} commands expected by the
-Bluerov. This conversion relied on the robot's theoretical maximum thrust force.
+The experiments started by employing a single Bluerov controlled by a \ac{pd} controller. This
+configuration was chosen for its simplicity and robustness, making it suitable for validating the
+end-to-end control pipeline. The \ac{pd} controller used real-time pose feedback from the Qualisys
+system, processed through the \ac{ekf}, to drive the robot along a predefined trajectory. This step
+ensured that the measurement, estimation, and actuation components of the system operated reliably
+before deploying the more complex \ac{mpc} controller.
 
-The earliest closed-loop implementation employed a single Bluerov controlled by a \ac{pd}
-controller. This configuration was chosen for its simplicity and robustness, making it suitable for
-validating the end-to-end control pipeline. The \ac{pd} controller used real-time pose feedback
-from the Qualisys system, processed through the \ac{ekf}, to drive the robot along a predefined
-trajectory. This step ensured that the measurement, estimation, and actuation components of the
-system operated reliably before deploying the more complex \ac{mpc} controller.
+Then, the \ac{mpc} controller described in \cref{robot_chain_control} was interfaced with \ac{ros}
+as detailed in \citeurl{filliungBluerov2025}. In particular, a conversion function was implemented
+to translate the force actuation computed by the \ac{mpc} into the \ac{pwm} commands expected by
+the Bluerov. This conversion relied on the robot's theoretical maximum thrust force.
 
-The first experimental implementation of the \ac{mpc} architecture involved a single Bluerov
-commanded to track a target pose (\cref{e_rcce_ctcl_mpc_diagram}). Building on the validated
-infrastructure from the \ac{pd} test, this configuration served as a demonstrator of the \ac{mpc}
-interface. It was employed to identify suitable controller parameters and to guide the subsequent
-development of the robot chain implementation.
+First, an implementation of the \ac{mpc} architecture involving a single Bluerov commanded to track
+a target pose (\cref{e_rcce_ctcl_mpc_diagram}) was used. Building on the validated infrastructure
+from the \ac{pd} test, this configuration served as a demonstrator of the \ac{mpc} interface. It
+was employed to identify suitable controller parameters and to guide the subsequent development of
+the robot chain implementation.
 
 \begin{figure}
 	\centering
@@ -364,8 +364,8 @@ development of the robot chain implementation.
 	\label{e_rcce_ctcl_mpc_diagram}
 \end{figure}
 
-The second experimental implementation consisted of a follower Bluerov responding to a leader
-Bluerov, while respecting constraints imposed by the entire chain. These constraints were primarily
+Then, an implementation consisting of a follower Bluerov responding to a leader Bluerov, while
+respecting constraints imposed by the entire chain was deployed. These constraints were primarily
 determined by the cable between the leader and the follower, and by the pool's physical dimensions.
 In the two-Bluerov setup, the leader’s trajectory was still required to be predicted, even though
 it was controlled manually, in order to compute constraints for the follower’s motion. This
@@ -414,11 +414,10 @@ Heavy configuration (\cref{e_rcce_es_rovs}).
 
 \subsubsection{One robot \acs{pd} experiment} \label{e_rcce_es_one_robot_pd_experiment}
 
-As a preliminary integration test, the \ac{qtm} interface and the Kalman filter were validated
-using a single Bluerov controlled by a \ac{pd} controller (see the leader side of
-\cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The objective of this step was to verify the
-correct operation of the measurement pipeline, state estimation, and control actuation under simple
-closed-loop conditions before deploying the \ac{mpc} controller.
+The preliminary integration test using a single Bluerov controlled by a \ac{pd} controller (see the
+leader side of \cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The objective of this step was to
+verify the correct operation of the measurement pipeline, state estimation, and control actuation
+under simple closed-loop conditions before deploying the \ac{mpc} controller.
 
 The target trajectory was a straight line at a constant depth and low speed, similar to the
 open-loop trajectories executed in \cref{e_augmented_catenary_model_experimental_validation}.
