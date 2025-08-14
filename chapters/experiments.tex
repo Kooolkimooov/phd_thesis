@@ -313,9 +313,10 @@ obscuration, and the visibility conditions in the pool (\cref{e_rcce_ctcl_sewekf
 To mitigate these issues, an \ac{ekf} was implemented using the \texttt{robot\_localization}
 package from \cite{mooreGeneralizedExtendedKalman2016}. The filter fused position and orientation
 data from the Qualisys system with inertial measurements from the robot's \ac{imu} and depth
-measurements from the pressure sensor. This sensor fusion approach provided continuous state
-estimation during short-term losses of camera tracking. However, during prolonged losses, the
-accumulated estimation error rendered the filter inaccurate.
+measurements from the pressure sensor. This sensor fusion approach is comparable to the
+literature's \ac{usbl}-\ac{imu}-depth standard odometry and provided continuous state estimation
+during short-term losses of camera tracking. However, during prolonged losses, the accumulated
+estimation error rendered the filter inaccurate.
 
 \begin{figure}
 	\centering
