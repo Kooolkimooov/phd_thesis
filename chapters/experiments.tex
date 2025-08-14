@@ -378,12 +378,12 @@ were stopped to prevent unsafe operation.
 \subsection{Experiment setup}
 \label{ex_rcce_experiment_setup}
 
-The experiment takes place in the same tank as described in \cref{e_acmev_experimental_setup}
-(\cref{e_acmev_es_robot_in_tank}). A larger 8-cameras Qualisys setup was used in order to cover a
-larger volume than previously. The two computers running \ac{qtm} and \ac{ros} are connected via a
-wireless network as opposed to a wired network because the Ethernet port of the \ac{qtm} computer
-is taken by the camera network. The robots used are two Bluerovs in the Heavy configuration
-\ref{e_rcce_es_rovs}.
+The experiments were conducted in the same tank described in \cref{e_acmev_experimental_setup}
+(\cref{e_acmev_es_robot_in_tank}). A larger eight-camera Qualisys configuration was deployed to
+cover a greater tracking volume than in previous experiments. The computers running \ac{qtm} and
+\ac{ros} were connected via a wireless network, as the Ethernet port of the \ac{qtm} computer was
+already used by the camera network. The experimental platform consisted of two Bluerovs in the
+Heavy configuration (\cref{e_rcce_es_rovs}).
 
 \begin{figure}
 	\centering
@@ -403,72 +403,65 @@ is taken by the camera network. The robots used are two Bluerovs in the Heavy co
 
 \subsubsection{One robot \acs{pd} experiment} \label{e_rcce_es_one_robot_pd_experiment}
 
-As a simple first experiment, in order to test the \ac{qtm} interfacing as well as the Kalman
-filter, a single Bluerov is deployed with a \ac{pd} controller (see leader side of
-\cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The target is a simple trajectory of a straight
-line at a fixed depth and slow speed, it was designed similarly to the open loop trajectories
-carried out in \cref{e_augmented_catenary_model_experimental_validation}.
+As an initial validation step, the \ac{qtm} interface and the Kalman filter were tested using a
+single Bluerov controlled by a \ac{pd} controller (see the leader side of
+\cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The target trajectory was a straight line at a
+constant depth and low speed, similar to the open-loop trajectories executed in
+\cref{e_augmented_catenary_model_experimental_validation}.
 
-The proportional gain is set to \num{1} in translation and \num{0.05} in orientation, the
-derivative gain is set to \num{10} in the \vect{x}-\vect{y} plane, \num{1} vertically and
-\num{0.01} in orientation. Furthermore, an offset of \num{-0.55} is applied to the \vect{z}
-component of the control output in order to compensate for the buoyancy of the Bluerov.
+The proportional gain was set to \num{1} in translation and \num{0.05} in orientation. The
+derivative gain was set to \num{10} in the \vect{x}-\vect{y} plane, \num{1} in the vertical
+direction, and \num{0.01} in orientation. An offset of \num{-0.55} was applied to the \vect{z}
+component of the control output to compensate for the Bluerov's buoyancy.
 
 \subsubsection{One robot \acs{mpc} experiment} \label{e_rcce_es_one_robot_mpc_experiment}
 
-In this experiment, the rate of the \ac{ros} node is set to \qty{10}{\Hz} with an horizon of
-\qty{0.5}{\s}. The model of the Bluerov is set to an underactuated configuration with the pitch and
-roll components of the actuation not considered in the \ac{mpc}. Furthermore, the actuation is
-constant over the horizon.
+In this configuration, the \ac{ros} node operated at a rate of \qty{10}{\Hz} with a prediction
+horizon of \qty{0.5}{\s}. The Bluerov model was configured as underactuated, with pitch and roll
+actuation excluded from the \ac{mpc}. Actuation was held constant over the horizon.
 
-The robot's pose is weighted at \num{7.5} for the position and \num{10.0} for the yaw angle. The
-final pose over the horizon is additionally weighted at \num{3.0}. Additionally, a objective
-function is also added to minimize the speed of the robot with a weight of \num{1.0}. The robot's
-actuation is weighted at \num{2e-4} with the exception of the vertical (depth) actuation which is
-weighted at \num{1e-4}.
+The robot's pose tracking was weighted at \num{7.5} for position and \num{10.0} for yaw. The final
+pose over the horizon was given an additional weight of \num{3.0}. An objective term to minimize
+speed was included with a weight of \num{1.0}. Actuation was weighted at \num{2e-4}, except for
+vertical actuation, which was weighted at \num{1e-4}.
 
-The actuation computed by the \ac{mpc} is bound to half the maximum theoretical actuation force
-that the robot is capable of. The pose of the robot is constrained to pool's size and the camera's
-captation volume and the linear speed of the robot is further constrained to \qty{0.5}{\m\per\s} on
-top of the objective function.
+The computed actuation was limited to half the theoretical maximum thrust. The robot's pose was
+constrained to remain within the pool's physical boundaries and the camera tracking volume. The
+linear speed was further constrained to \qty{0.5}{\m\per\s}, in addition to the minimization
+objective.
 
-Finally the optimization problem is solved with a tolerance of \num{1e-6} and a maximum number of
-iteration of \num{100}.
+The optimization problem was solved with a tolerance of \num{1e-6} and a maximum of \num{100}
+iterations.
 
 \subsubsection{Two robots \acs{mpc} experiment} \label{e_rcce_es_two_robots_mpc_experiment}
 
-In this experiment the cable of the two robots chain system is a \qty{1.5}{\meter} weighted cable
-(\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}) and at first only considered as a
-constraint and not physically attached to the robots.
+In this experiment, the cable of the two-robot chain system was a \qty{1.5}{\meter} weighted cable
+(\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}), initially treated as a constraint
+rather than being physically attached to the robots.
 
-Since several Bluerovs are used, the set of visual markers attached to a robot and used to compute
-its pose must be unique with respect to the others (\cref{e_rcce_es_rovs}). This is achieved on a
-trial and error basis.
+As several Bluerovs were employed, the set of visual markers assigned to each robot for pose
+estimation had to be unique (\cref{e_rcce_es_rovs}). These unique configurations were determined
+experimentally.
 
-The leader robot is controlled in the same way as in the previous experiment
-(\cref{e_rcce_es_one_robot_pd_experiment}) and with the same setup.
+The leader robot was controlled as in \cref{e_rcce_es_one_robot_pd_experiment}, using the same
+setup. The \ac{ros} node again operated at \qty{10}{\Hz} with a horizon of \qty{0.5}{\s}, and the
+models for both robots were set as underactuated. Pitch and roll actuation were excluded from the
+\ac{mpc}, and actuation was held constant over the horizon. The models were fine-tuned in buoyancy
+to match the physical Bluerovs.
 
-The rate of the \ac{ros} node is again set to \qty{10}{\Hz} with an horizon of \qty{0.5}{\s}. The
-model of the Bluerovs are set to an underactuated configuration with the pitch and roll components
-of the actuation not considered in the \ac{mpc}. Furthermore, the actuation is constant over the
-horizon. After some trial, the robot's models are fine tuned in buoyancy to match the actual
-Bluerovs used.
+The follower robot's absolute pose was given zero weight, as only its relative position to the
+leader was relevant. An objective term to minimize the follower's speed was included with a weight
+of \num{10.0}. Actuation was weighted at \num{1e-6}, except for yaw, which was weighted at
+\num{1.0} to limit unwanted yaw motion.
 
-The follower robot's pose is weighted at zero because a specific pose is of no interest, only the
-relative position with the leader. Additionally, a objective function is also added to minimize the
-speed of the follower this time with a weight of \num{10.0}. The actuation is weighted at
-\num{1e-6} with the exception of the yaw actuation which is weighted at \num{1.0} in order to limit
-unwanted yaw motion.
+As in the single-robot case, the actuation was limited to half the maximum theoretical thrust. The
+pose was constrained to the pool's boundaries and the tracking volume. The linear speed limit of
+\qty{0.5}{\m\per\s} was applied, along with the critical constraint that the inter-robot distance
+not exceed the cable length of \qty{1.5}{\meter}. Additionally, the cable's lowest point was
+constrained by the pool's depth.
 
-The actuation computed by the \ac{mpc} is bound to half the maximum theoretical actuation force
-that the robot is capable of. The pose of the robot is constrained to pool's size and the camera's
-captation volume and the linear speed of the robot is further constrained to \qty{0.5}{\m\per\s} on
-top of the objective function and most importantly, the inter-robot distance is constrained by the
-length of the cable (\qty{1.5}{\meter}) and the latter's lowest point is constrained again by the
-pool's size.
-
-Finally the optimization problem is solved -as before- with a tolerance of \num{1e-6} and a maximum
-number of iteration of \num{100}.
+The optimization problem was solved with the same tolerance of \num{1e-6} and a maximum of
+\num{100} iterations.
 
 \subsection{Results}
 \label{e_rcce_results}
