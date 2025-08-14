@@ -270,7 +270,7 @@ and sway motion with relation to the fixed point.
 A prerequisite of any experimental application of a control system is the availability of a
 measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
 the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
-on the control of a robot chain, it was decided to use the already available and supremely accurate
+on the control of a robot chain, it was decided to use the already available and very accurate
 Qualisys underwater motion capture system used in the previous experiment
 (\cref{e_augmented_catenary_model_experimental_validation}) and its real-time
 capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
@@ -279,8 +279,8 @@ From a technical point of view, the cameras operate in a network with a computer
 specialized software - \ac{qtm} - for recording. Additionally, \ac{qtm} exposes a server which can
 be queried by any other program locally or on a second computer to obtain scene data in real time;
 this data can be two dimensional position of a marker in camera frames, three dimensional position
-of a marker in the world frame, or even a six dimensional pose of a group of markers called rigid
-body.
+of a marker in the world frame, or even a six dimensional pose of a predefined group of markers
+called rigid body.
 
 \begin{figure}
 	\centering
@@ -304,24 +304,23 @@ in order to facilitate testing of control systems relying on the Qualisys system
 
 The experimental conditions revealed limitations in the motion capture system's coverage. While the
 underwater Qualisys system was initially assumed to provide convex coverage of the experimental
-volume (\cref{e_rcce_ctcl_sewekf_trajectories}), the reality showed gaps in the tracking dependent
-on the robot's orientation and the intersection geometry of the cameras as well as the visibility
-in the pool (\cref{e_rcce_ctcl_sewekf_robot_in_pool}). To address these tracking discontinuities,
-an \ac{ekf} was implemented using the \texttt{robot\_localization} package from
-\cite{mooreGeneralizedExtendedKalman2016}.
+volume for the robot's pose (\cref{e_rcce_ctcl_sewekf_coverage}), the reality showed gaps in the
+tracking dependent on the robot's orientation (looking at \vect{x} positive, in the figure), self
+obscuration as well as the visibility in the pool (\cref{e_rcce_ctcl_sewekf_robot_in_pool}). To
+address these tracking discontinuities, an \ac{ekf} was implemented using the
+\texttt{robot\_localization} package from \cite{mooreGeneralizedExtendedKalman2016}.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_experiment_coverage}
 	\caption{Markers' and robot's location over several sequences as well as cameras' positions.}
-	\label{e_rcce_ctcl_sewekf_trajectories}
+	\label{e_rcce_ctcl_sewekf_coverage}
 \end{figure}
 
 The filter combines position and orientation measurements from the Qualisys system, inertial
 measurements from the robot's \ac{imu}, depth measurements from the robot's pressure sensor. This
 sensor fusion approach provides continuous state estimation during short loss of tracking of the
-cameras, however, during prolonged loss of tracking, the filter becomes less accurate and
-eventually fails to converge.
+cameras, however, during prolonged loss of tracking, the filter becomes too inaccurate.
 
 \begin{figure}
 	\centering
