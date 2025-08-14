@@ -480,12 +480,15 @@ The optimization problem was solved with the same tolerance of \num{1e-6} and a 
 
 \subsubsection{Single Bluerov \acs{pd} experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
 
-Results from the experiment discussed in \cref{e_rcce_es_one_robot_pd_experiment} are shown in
-\cref{e_rcce_r_pd_placeholder}. The tracking of the target is good with a slight offset in the
-\vect{z} direction, due to the imperfect compensation of the buoyancy and the robot's orientation,
-due to imperfect balance and lack of integral action in the controller. With this carefully
-selected trajectory the Qualisys system only suffers a few short tracking losses as shown by the
-covariance spikes in \cref{e_rcce_r_pd_placeholder}.
+Results from the preliminary integration test described in \cref{e_rcce_es_one_robot_pd_experiment}
+are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy,
+although a small offset was consistently observed in the \vect{z} direction. This deviation is
+attributed to imperfect buoyancy compensation and to residual orientation bias, which resulted from
+the robot's imperfect balance and the absence of integral action in the \ac{pd} controller.
+
+For the selected trajectory, the Qualisys system experienced only a few short tracking losses, as
+indicated by the covariance spikes in \cref{e_rcce_r_pd_placeholder}. These losses did not
+significantly impact the overall stability of the closed-loop control.
 
 \begin{figure}
 	\centering
@@ -499,12 +502,16 @@ covariance spikes in \cref{e_rcce_r_pd_placeholder}.
 
 \subsubsection{Single Bluerov \acs{mpc} experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
 
-Results from the experiment discussed in \cref{e_rcce_es_one_robot_mpc_experiment} are shown in
-\cref{e_rcce_r_mpc_placeholder}. The tracking of the target is still good with as previously with
-carefully chosen target poses. When the target is not in the tracking space, the odometry diverges
-(\cref{e_rcce_r_mpc_placeholder}) and the \ac{mpc} fails. In steady state, the \ac{mpc} converges
-in \qty{0.01}{\s} while the computation time spikes to \qty{0.1}{\s} when the controller is engaged
-or when the target changes.
+Results from the single-robot \ac{mpc} experiment in \cref{e_rcce_es_one_robot_mpc_experiment} are
+shown in \cref{e_rcce_r_mpc_placeholder}. Under the chosen operating conditions and with carefully
+selected target poses, the \ac{mpc} achieved accurate tracking performance. However, when the
+target left the Qualisys tracking volume, odometry drifted due to accumulated estimation error,
+which caused the \ac{mpc} to lose feasibility.
+
+In steady-state operation, the \ac{mpc} typically converged within \qty{0.01}{\s}, while
+computation time increased to approximately \qty{0.1}{\s} during controller engagement or when
+target poses were updated. These variations are consistent with the computational complexity
+introduced by changes in the optimization problem.
 
 \begin{figure}
 	\centering
@@ -518,13 +525,19 @@ or when the target changes.
 
 \subsubsection{Two Bluerov \acs{mpc} experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
 
-Results from the experiment discussed in \cref{e_rcce_es_two_robots_mpc_experiment} are shown in
-\cref{e_rcce_r_mpc_2_placeholder}. The leader's \ac{pd} tracks well as discussed in
-\cref{e_rcce_r_single_bluerov_pd_experiment}. The follower's \ac{mpc} is always initialized both
-inside the tracking space and the controller's constraints space. When the leader moves, the
-follower reacts as shown in \cref{e_rcce_r_mpc_2_placeholder} but the lack of actual target for it
-and the inability to represent the complex tracking space with the pool constraint discussed in
-\cref{e_rcce_es_two_robots_mpc_experiment} results in quick and certain tracking loss.
+Results from the two-robot \ac{mpc} experiment described in
+\cref{e_rcce_es_two_robots_mpc_experiment} are presented in \cref{e_rcce_r_mpc_2_placeholder}. The
+leader's \ac{pd} controller maintained tracking performance comparable to that reported in
+\cref{e_rcce_r_single_bluerov_pd_experiment}. The follower's \ac{mpc} was consistently initialized
+within both the tracking space and the controller's constraint set, allowing for stable operation
+at the start of each run.
+
+When the leader moved, the follower responded appropriately, as illustrated in
+\cref{e_rcce_r_mpc_2_placeholder}. However, the absence of an explicit target pose for the
+follower, combined with the inability to represent the complex tracking space using only the pool
+constraint model described in \cref{e_rcce_es_two_robots_mpc_experiment}, led to inevitable and
+rapid tracking losses. These limitations highlight the difficulty of constraining multi-robot
+operations in confined and partially observable environments.
 
 \begin{figure}
 	\centering
