@@ -6,6 +6,7 @@
 			ymax = 1.2,
 			grid  = both,
 			width = \figurewidth,
+			height = 0.7\figurewidth,
 			xlabel =  error / \unit{\mm},
 			ylabel =  proportion of samples,
 		]
@@ -15,16 +16,16 @@
 		\addplot[domain=0:1, samples=2, ultra thick] coordinates {(0,0) (0,1.2)};
 
 		\addplot[domain=0:1, samples=2, thick, red] coordinates {(17.42,0) (17.42,0.7)};
-		\node[above, rotate=90, red] at (axis cs:17.42,0.7) {mean};
+		\node[above left, rotate=90, red] at (axis cs:17.42,0.7) {mean};
 
 		\addplot[domain=0:1, samples=2, thick, red] coordinates {(-1.26,0) (-1.26,0.7)};
-		\node[above, rotate=90, red] at (axis cs:-1.26,0.7) {$\text{mean} - 2\times \text{std}$};
+		\node[above left, rotate=90, red] at (axis cs:-1.26,0.7) {$\text{mean} - 2\times \text{std}$};
 
 		\addplot[domain=0:1, samples=2, thick, red] coordinates {(36.1,0) (36.1,0.7)};
-		\node[above, rotate=90, red] at (axis cs:36.1,0.7) {$\text{mean} + 2\times \text{std}$};
+		\node[above left, rotate=90, red] at (axis cs:36.1,0.7) {$\text{mean} + 2\times \text{std}$};
 
 		\addplot[domain=0:1, samples=2, thick] coordinates {(12.41,0) (12.41,0.9)};
-		\node[below, rotate=90] at (axis cs:12.41,0.9) {median};
+		\node[below left, rotate=90] at (axis cs:12.41,0.9) {median};
 
 		\addplot[domain=0:1, samples=2, thick] coordinates {(11.89,0) (11.89,1.0)};
 		\node[above, rotate=90] at (axis cs:11.89,1.0) {1\textsuperscript{st} quartile};
@@ -33,10 +34,10 @@
 		\node[above, rotate=90] at (axis cs:19.62,0.9) {3\textsuperscript{rd} quartile};
 
 		\addplot[domain=0:1, samples=2, thick] coordinates {(11.53,0) (11.53,0.7)};
-		\node[above, rotate=90] at (axis cs:11.53,0.7) {1\textsuperscript{st} percentile};
+		\node[above left, rotate=90] at (axis cs:11.53,0.7) {1\textsuperscript{st} percentile};
 
 		\addplot[domain=0:1, samples=2, thick] coordinates {(40.81,0) (40.81,0.7)};
-		\node[above, rotate=90] at (axis cs:40.81,0.7) {99\textsuperscript{th} percentile};
+		\node[above left, rotate=90] at (axis cs:40.81,0.7) {99\textsuperscript{th} percentile};
 
 	\end{axis}
 \end{tikzpicture}
