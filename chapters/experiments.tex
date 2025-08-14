@@ -393,7 +393,18 @@ is taken by the camera network. The robots used are two Bluerovs in the Heavy co
 	\label{e_rcce_es_rovs}
 \end{figure}
 
-\subsubsection{One robot experiment}
+\subsubsection{One robot \acs{pd} experiment}
+
+As a simple first experiment, in order to test the \ac{qtm} interfacing as well as the Kalman
+filter, a single Bluerov is deployed with a \ac{pd} controller (see leader side of
+\cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The robot is commanded to a pose target.
+
+The proportional gain is set to \num{1} in translation and \num{0.05} in orientation, the
+derivative gain is set to \num{10} in the \vect{x}-\vect{y} plane, \num{1} vertically and
+\num{0.01} in orientation. Furthermore, an offset of \num{-0.55} is applied to the \vect{z}
+component of the control output in order to compensate for the buoyancy of the Bluerov.
+
+\subsubsection{One robot \acs{mpc} experiment}
 
 In this experiment, the rate of the \ac{ros} node is set to \qty{10}{\Hz} with an horizon of
 \qty{0.5}{\s}. The model of the Bluerov is set to an underactuated configuration with the pitch and
@@ -414,7 +425,7 @@ top of the objective function.
 Finally the optimization problem is solved with a tolerance of \num{1e-6} and a maximum number of
 iteration of \num{100}.
 
-\subsubsection{Two robots experiment}
+\subsubsection{Two robots \acs{mpc} experiment}
 
 In this experiment the cable of the two robots chain system is a \qty{1.5}{\meter} weighted cable
 (\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}) and at first only considered as a
@@ -445,6 +456,10 @@ pool's size.
 
 Finally the optimization problem is solved -as before- with a tolerance of \num{1e-6} and a maximum
 number of iteration of \num{100}.
+
+\subsection{Results}
+\label{e_rcce_results}
+
 
 \section{Conclusion}
 \label{e_conclusion}
