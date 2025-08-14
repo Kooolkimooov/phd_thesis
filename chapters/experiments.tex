@@ -336,14 +336,15 @@ estimation error rendered the filter inaccurate.
 \subsection{Controller implementation}
 \label{ex_rcce_controller_implementation}
 
-The \ac{mpc} controller discussed in \cref{robot_chain_control} is interfaced with \ac{ros} in
-\citeurl{filliungBluerov2025}, notably a function is written to convert the force actuation
-computed by the \ac{mpc} to the Bluerov's expected \ac{pwm} actuation using the robot's theoretical
-maximum thrust force.
+The \ac{mpc} controller described in \cref{robot_chain_control} was interfaced with \ac{ros} as
+detailed in \citeurl{filliungBluerov2025}. In particular, a conversion function was implemented to
+translate the force actuation computed by the \ac{mpc} into the \ac{pwm} commands expected by the
+Bluerov. This conversion relied on the robot's theoretical maximum thrust force.
 
-The first experimental implementation is of a single Bluerov with a pose target
-(\cref{e_rcce_ctcl_mpc_diagram}). This is a simple demonstrator of the interface and was used to
-pathfind the chain of \acp{rov} implementation as well as working parameters for the controller.
+The first experimental implementation involved a single Bluerov commanded to track a target pose
+(\cref{e_rcce_ctcl_mpc_diagram}). This configuration served as a preliminary demonstrator of the
+control interface and was employed to identify suitable controller parameters and to guide the
+subsequent development of the robot chain implementation.
 
 \begin{figure}
 	\centering
@@ -352,12 +353,14 @@ pathfind the chain of \acp{rov} implementation as well as working parameters for
 	\label{e_rcce_ctcl_mpc_diagram}
 \end{figure}
 
-The second experimental implementation is of a follower Bluerov reacting to a leader Bluerov and
-constraints related to the whole chain, mainly the cable between leader and follower and the pool's
-dimensions. In the two Bluerov implementation, the leader's trajectory still needs to be predicted
-even though it is controlled by a human in order to compute constraints on the follower's
-trajectory. This is done with the pose data available in the same way as for the follower and the
-leader's control input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_mpc_leader_follower_diagram}).
+The second experimental implementation consisted of a follower Bluerov responding to a leader
+Bluerov, while respecting constraints imposed by the entire chain. These constraints were primarily
+determined by the cable between the leader and the follower, and by the pool's physical dimensions.
+In the two-Bluerov setup, the leader's trajectory was still required to be predicted, even though
+it was controlled manually, in order to compute constraints for the follower's motion. This
+prediction was based on the leader's pose measurements, obtained in the same manner as for the
+follower, and the leader's control inputs, which were broadcast via \ac{ros}
+(\cref{e_rcce_ctcl_mpc_leader_follower_diagram}).
 
 \begin{figure}
 	\centering
@@ -366,10 +369,11 @@ leader's control input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_mpc_leader_f
 	\label{e_rcce_ctcl_mpc_leader_follower_diagram}
 \end{figure}
 
-In both of these implementations, a recovery procedure is implemented in case the \ac{mpc} fails to
-converge to a solution: the tolerance of the optimization algorithm is increased until either the
-problem converges and the tolerance is brought down again or the tolerance reaches a maximum value
-in which case the robot as well as the experiment are stopped.
+In both configurations, a recovery procedure was implemented for cases in which the \ac{mpc} failed
+to converge to a solution. In this procedure, the optimization tolerance was progressively
+increased until either convergence was achieved -at which point the tolerance was reduced again- or
+the tolerance reached a predefined maximum value. In the latter case, the robot and the experiment
+were stopped to prevent unsafe operation.
 
 \subsection{Experiment setup}
 \label{ex_rcce_experiment_setup}
