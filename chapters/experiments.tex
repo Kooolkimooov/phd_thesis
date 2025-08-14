@@ -393,18 +393,20 @@ is taken by the camera network. The robots used are two Bluerovs in the Heavy co
 	\label{e_rcce_es_rovs}
 \end{figure}
 
-\subsubsection{One robot \acs{pd} experiment}
+\subsubsection{One robot \acs{pd} experiment} \label{e_rcce_es_one_robot_pd_experiment}
 
 As a simple first experiment, in order to test the \ac{qtm} interfacing as well as the Kalman
 filter, a single Bluerov is deployed with a \ac{pd} controller (see leader side of
-\cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The robot is commanded to a pose target.
+\cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The target is a simple trajectory of a straight
+line at a fixed depth and slow speed, it was designed similarly to the open loop trajectories
+carried out in \cref{e_augmented_catenary_model_experimental_validation}.
 
 The proportional gain is set to \num{1} in translation and \num{0.05} in orientation, the
 derivative gain is set to \num{10} in the \vect{x}-\vect{y} plane, \num{1} vertically and
 \num{0.01} in orientation. Furthermore, an offset of \num{-0.55} is applied to the \vect{z}
 component of the control output in order to compensate for the buoyancy of the Bluerov.
 
-\subsubsection{One robot \acs{mpc} experiment}
+\subsubsection{One robot \acs{mpc} experiment} \label{e_rcce_es_one_robot_mpc_experiment}
 
 In this experiment, the rate of the \ac{ros} node is set to \qty{10}{\Hz} with an horizon of
 \qty{0.5}{\s}. The model of the Bluerov is set to an underactuated configuration with the pitch and
@@ -425,7 +427,7 @@ top of the objective function.
 Finally the optimization problem is solved with a tolerance of \num{1e-6} and a maximum number of
 iteration of \num{100}.
 
-\subsubsection{Two robots \acs{mpc} experiment}
+\subsubsection{Two robots \acs{mpc} experiment} \label{e_rcce_es_two_robots_mpc_experiment}
 
 In this experiment the cable of the two robots chain system is a \qty{1.5}{\meter} weighted cable
 (\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}) and at first only considered as a
@@ -434,6 +436,9 @@ constraint and not physically attached to the robots.
 Since several Bluerovs are used, the set of visual markers attached to a robot and used to compute
 its pose must be unique with respect to the others (\cref{e_rcce_es_rovs}). This is achieved on a
 trial and error basis.
+
+The leader robot is controlled in the same way as in the previous experiment
+(\cref{e_rcce_es_one_robot_pd_experiment}) and with the same setup.
 
 The rate of the \ac{ros} node is again set to \qty{10}{\Hz} with an horizon of \qty{0.5}{\s}. The
 model of the Bluerovs are set to an underactuated configuration with the pitch and roll components
@@ -460,6 +465,63 @@ number of iteration of \num{100}.
 \subsection{Results}
 \label{e_rcce_results}
 
+\subsubsection{Single Bluerov \acs{pd} experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
+
+Results from the experiment discussed in \cref{e_rcce_es_one_robot_pd_experiment} are shown in
+\cref{e_rcce_r_pd_placeholder}. The tracking of the target is good with a slight offset in the
+\vect{z} direction, due to the imperfect compensation of the buoyancy and the robot's orientation,
+due to imperfect balance and lack of integral action in the controller. With this carefully
+selected trajectory the Qualisys system only suffers a few short tracking losses as shown by the
+covariance spikes in \cref{e_rcce_r_pd_placeholder}.
+
+\begin{figure}
+	\centering
+	\todo{
+		one or more figures from \texttt{pid\_from\_bag\_joy\_controller\_br6\_2025-07-11-09-58-40.bag}
+		error, kalman covariance, activation, etc.
+	}
+	\caption{Placeholder}
+	\label{e_rcce_r_pd_placeholder}
+\end{figure}
+
+\subsubsection{Single Bluerov \acs{mpc} experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
+
+Results from the experiment discussed in \cref{e_rcce_es_one_robot_mpc_experiment} are shown in
+\cref{e_rcce_r_mpc_placeholder}. The tracking of the target is still good with as previously with
+carefully chosen target poses. When the target is not in the tracking space, the odometry diverges
+(\cref{e_rcce_r_mpc_placeholder}) and the \ac{mpc} fails. In steady state, the \ac{mpc} converges
+in \qty{0.01}{\s} while the computation time spikes to \qty{0.1}{\s} when the controller is engaged
+or when the target changes.
+
+\begin{figure}
+	\centering
+	\todo{
+		one or more figures from \texttt{mpc\_joy\_controller\_br4\_2025-03-04-13-39-38.bag}
+		error, kalman covariance, activation, compute time, etc.
+	}
+	\caption{Placeholder}
+	\label{e_rcce_r_mpc_placeholder}
+\end{figure}
+
+\subsubsection{Two Bluerov \acs{mpc} experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
+
+Results from the experiment discussed in \cref{e_rcce_es_two_robots_mpc_experiment} are shown in
+\cref{e_rcce_r_mpc_2_placeholder}. The leader's \ac{pd} tracks well as discussed in
+\cref{e_rcce_r_single_bluerov_pd_experiment}. The follower's \ac{mpc} is always initialized both
+inside the tracking space and the controller's constraints space. When the leader moves, the
+follower reacts as shown in \cref{e_rcce_r_mpc_2_placeholder} but the lack of actual target for it
+and the inability to represent the complex tracking space with the pool constraint discussed in
+\cref{e_rcce_es_two_robots_mpc_experiment} results in quick and certain tracking loss.
+
+\begin{figure}
+	\centering
+	\todo{
+		one or more figures from \texttt{mpc\_leader\_br4\_follower\_br6\_2025-07-10-12-02-06.bag}
+		error, kalman covariance, activation, compute time, etc. (interesting at $t=218$)
+	}
+	\caption{Placeholder}
+	\label{e_rcce_r_mpc_2_placeholder}
+\end{figure}
 
 \section{Conclusion}
 \label{e_conclusion}
