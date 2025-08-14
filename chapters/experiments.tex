@@ -307,14 +307,15 @@ During the experiments, limitations in the coverage of the motion capture system
 While the underwater Qualisys system was initially assumed to provide complete and convex coverage
 of the experimental volume for the robot's pose (\cref{e_rcce_ctcl_sewekf_coverage}), in practice,
 gaps in tracking occurred. These discontinuities were dependent on the robot's orientation
-(particularly when facing the positive \vect{x} direction in the figure), self and cross
-obscuration, and the visibility conditions in the pool (\cref{e_rcce_ctcl_sewekf_robot_in_pool}).
+(particularly when facing the positive \vect{x} direction in the figure), self-obscuration and
+cross-obscuration, and the visibility conditions in the pool
+(\cref{e_rcce_ctcl_sewekf_robot_in_pool}).
 
 To mitigate these issues, an \ac{ekf} was implemented using the \texttt{robot\_localization}
 package from \cite{mooreGeneralizedExtendedKalman2016}. The filter fused position and orientation
 data from the Qualisys system with inertial measurements from the robot's \ac{imu} and depth
-measurements from the pressure sensor. This sensor fusion approach is comparable to the
-literature's \ac{usbl}-\ac{imu}-depth standard odometry and provided continuous state estimation
+measurements from the pressure sensor. This sensor fusion approach was comparable to the
+literature's \ac{usbl}-\ac{imu}-depth standard odometry, and provided continuous state estimation
 during short-term losses of camera tracking. However, during prolonged losses, the accumulated
 estimation error rendered the filter inaccurate.
 
