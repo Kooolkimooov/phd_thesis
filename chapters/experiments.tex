@@ -261,26 +261,25 @@ and sway motion with relation to the fixed point.
 \section{Robot chain control experiment}
 \label{e_robot_chain_control_experiment}
 
-\subsection{Closing the control loop}
-\label{e_rcce_closing_the_control_loop}
-
 \subsubsection{Real time feedback from the Qualisys system}
 \label{e_rcce_ctcl_real_time_feedback_from_qualisys_system}
 
-A prerequisite of any experimental application of a control system is the availability of a
-measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
-the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
-on the control of a robot chain, it was decided to use the already available and very accurate
-Qualisys underwater motion capture system used in the previous experiment
-(\cref{e_augmented_catenary_model_experimental_validation}) and its real-time
-capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
+A prerequisite for any experimental application of a control system was the availability of a
+reliable measurement of the system state. In the simulations presented in
+\cref{robot_chain_control}, the state measurement was assumed to be perfect. In practice, however,
+such conditions are not met. Since the focus of this work was on the control of a robot chain, the
+already available and highly accurate Qualisys underwater motion capture system was employed, as it
+had been used in the previous experiment
+(\cref{e_augmented_catenary_model_experimental_validation}). Its real-time
+capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}} were exploited to provide
+live state feedback.
 
-From a technical point of view, the cameras operate in a network with a computer running
-specialized software - \ac{qtm} - for recording. Additionally, \ac{qtm} exposes a server which can
-be queried by any other program locally or on a second computer to obtain scene data in real time;
-this data can be two dimensional position of a marker in camera frames, three dimensional position
-of a marker in the world frame, or even a six dimensional pose of a predefined group of markers
-called rigid body.
+From a technical standpoint, the Qualisys cameras operated as part of a network connected to a
+dedicated computer running the \ac{qtm} software for motion capture and recording. In addition to
+its primary recording functions, \ac{qtm} provided a server interface that could be queried locally
+or from a separate computer to obtain real-time scene data. This data included two-dimensional
+marker positions in camera frames, three-dimensional positions in the world frame, or
+six-dimensional poses of predefined rigid bodies composed of grouped markers.
 
 \begin{figure}
 	\centering
@@ -289,15 +288,17 @@ called rigid body.
 	\label{e_rcce_ctcl_rtfftqs_closed_loop_diagram}
 \end{figure}
 
-A \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to obtain the pose of a
-predetermined robot and publish it in a \ac{ros} topic. This topic was then used as a close to
-perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
-loop (\cref{e_rcce_ctcl_rtfftqs_closed_loop_diagram}). The \ac{ros} node matches the \qty{100}{\Hz}
-sampling rate of \ac{qtm} which is sufficient for the control of a Bluerov, which has a relatively
-slow dynamics. \marginnote{Shannon can rest easy, we are sampling fast enough.}
+A dedicated \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to acquire the
+pose of a predefined robot from the Qualisys system and to publish this information to a \ac{ros}
+topic. This topic served as an almost ideal measurement of the robot's pose in the world frame and
+was used to command the Bluerovs in a closed-loop configuration
+(\cref{e_rcce_ctcl_rtfftqs_closed_loop_diagram}). The \ac{ros} node matched the \qty{100}{\Hz}
+sampling rate of the Qualisys system, which is sufficient for Bluerov control, given its relatively
+slow dynamics. \marginnote{Shannon can rest easy, the sampling rate is more than adequate.}
 
-Additionally, a simulation twin of the node was implemented with identical interface with \ac{ros}
-in order to facilitate testing of control systems relying on the Qualisys system.
+Additionally, a simulation twin of the node was implemented with an identical \ac{ros} interface,
+enabling testing of control algorithms relying on Qualisys data without requiring physical
+hardware.
 
 \subsubsection{State estimation with \acl{ekf}}
 \label{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}
