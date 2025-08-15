@@ -59,8 +59,8 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 	\centering
 	\inputtikz{figures/vertical_catenary_schematic}
 	\caption{
-		Catenary curve of length $\catL$ defined in the plane \lplane{v}. The construction parameters are
-		the sag $\catH$, the elevation difference \catdH{}, and the horizontal span $l = 2\catD + \catdD$
+		Catenary curve of length \catL{} defined in the plane \lplane{v}. The construction parameters are
+		the sag \catH{}, the elevation difference \catdH{}, and the horizontal span $l = 2\catD + \catdD$
 		between attachment points \fpoint{A}{v} and \fpoint{B}{v}. Note that \catdD{} and \catdH{} are
 		signed distances.
 	}
@@ -72,7 +72,7 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 
 In order to derive the shape of a homogeneous, infinitely flexible, non-elastic cable subjected
 solely to its own weight, which is uniformly distributed along its length, a cable of length
-\catL{} and mass per unit length $\lambda_m$ is considered. The cable is assumed to hang between
+\catL{} and mass per unit length \ldscal{\lambda}{m} is considered. The cable is assumed to hang between
 two fixed points, \fpoint{A}{v} and \fpoint{B}{v}, whose coordinates are expressed in the plane
 \lplanefullxz{v}, where \ldpoint{O}{v} is defined as both the origin of the coordinate system and
 the lowest point of the cable.
@@ -96,17 +96,17 @@ At \ldpoint{O}{v}, the tension in the cable is purely horizontal, as the tangent
 this point is horizontal, and the infinite flexibility of the cable prevents any vertical load
 transfer.
 
-At a general point $\fldpoint{P}{v}{1}$ (\cref{cm_cm_dotcm_schematic}) along the cable, the tension
-is composed of both vertical and horizontal components, and its magnitude $T_1$ is expressed as:
+At a general point \fldpoint{P}{v}{1} (\cref{cm_cm_dotcm_schematic}) along the cable, the tension
+is composed of both vertical and horizontal components, and its magnitude \ldscal{T}{1} is expressed as:
 \begin{align}
 	T_1 = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}
 	\label{cm_cm_dotcm_tension_equation}
 \end{align}
 
-where $L_1$ denotes the arc-length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
+where \ldscal{L}{1} denotes the arc-length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
 
-Considering an infinitesimal cable element of length $dL$, the infinitesimal horizontal
-displacement $dx$ is given by:
+Considering an infinitesimal cable element of length \scal{dL}, the infinitesimal horizontal
+displacement \scal{dx} is given by:
 \begin{align}
 	dx = \cos{\left(\omega\right)} dL
 \end{align}
@@ -128,12 +128,12 @@ Integration from \ldpoint{O}{v} to \fldpoint{P}{v}{1} leads to:
 	  & = \frac{\sinh^{-1}\left(L_1 \catC\right)}{\catC}
 \end{align}
 
-Next, the vertical displacement $dz$ is related to $dx$ via:
+Next, the vertical displacement \scal{dz} is related to \scal{dx} via:
 \begin{align}
 	dz = \tan{\left(\omega\right)} dx
 \end{align}
 
-where $\tan{\omega} = \frac{W_1}{T_h}$, with $W_1$ being the weight of the cable segment between
+where $\tan{\omega} = \frac{W_1}{T_h}$, with \ldscal{W}{1} being the weight of the cable segment between
 \ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
 \begin{align}
 	dz & = \frac{W_1}{T_h} dx = \frac{\lambda_m L_1 g}{T_h} dx \\
@@ -141,7 +141,7 @@ where $\tan{\omega} = \frac{W_1}{T_h}$, with $W_1$ being the weight of the cable
 	   & = \sinh\left(x \catC\right) dx
 \end{align}
 
-Integration from \ldpoint{O}{v} to $\fldpoint{P}{v}{1}$ yields:
+Integration from \ldpoint{O}{v} to \fldpoint{P}{v}{1} yields:
 \begin{align}
 	z & = \int_0^x \sinh\left(x \catC\right) dx       \\
 	  & = \frac{\cosh\left(x \catC\right) - 1}{\catC}
@@ -159,7 +159,7 @@ spatial configuration. These parameters include:
 	\item \catH: the sag, defined as the vertical distance between the lowest point of the cable and the highest endpoint,
 	\item \catdH: the elevation difference between the two endpoints, positive if \point{A} is higher than \point{B} and negative otherwise,
 	\item \catD: the horizontal half-distance, representing the horizontal separation between \point{B} and its projection onto the vertical axis,
-	\item \catdD: the horizontal offset, indicating any lateral asymmetry between the endpoints, positive if \point{A} is further from the origin than the symmetric projection of \point{B} with relation to $(\ldpoint{o}{v}, \ldvect{z}{v})$, negative otherwise,
+	\item \catdD: the horizontal offset, indicating any lateral asymmetry between the endpoints, positive if \point{A} is further from the origin than the symmetric projection of \point{B} with relation to $\left(\ldpoint{o}{v}, \ldvect{z}{v}\right)$, negative otherwise,
 	\item \catl: the horizontal distance between the two endpoints, defined as $\catl = 2\catD+\catdD$,
 	\item \catL: the total length of the cable, which is always greater than or equal to the Euclidean distance between the endpoints.
 \end{itemize}
@@ -224,11 +224,11 @@ beforehand.
 This intuitive model will now be formalized by introducing two additional degrees of freedom to the
 \catenarymodel{}.
 
-\subsubsection{$\gamma$ degree of freedom}
+\subsubsection{\scal{\gamma} degree of freedom}
 \label{cm_acm_d_gamma_degree_of_freedom}
 
 The first degree of freedom introduced in the augmented model corresponds to a rotation of angle
-$\gamma$ around the catenary axis \vect{e}, which is defined as the unit vector pointing from the
+\scal{\gamma} around the catenary axis \vect{e}, which is defined as the unit vector pointing from the
 attachment point \fpoint{A}{v} to \fpoint{B}{v} (see \cref{cm_acm_d_gdof_schematic}).
 
 \begin{figure}
@@ -250,14 +250,14 @@ The catenary curve can be computed either directly within this rotated frame \lf
 equivalently, by applying the same rotation to the curve initially defined in the vertical frame
 \lframe{v}, since the parameters of the curve remain unchanged under this transformation.
 
-\subsubsection{$\theta$ degree of freedom}
+\subsubsection{\scal{\theta} degree of freedom}
 \label{cm_acm_d_theta_degree_of_freedom}
 
 The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
-$\theta$ around the normal to the plane \lplane{v} or \lplane{\gamma} (see
+\scal{\theta} around the normal to the plane \lplane{v} or \lplane{\gamma} (see
 \cref{cm_acm_d_tdof_schematic}). This transformation accounts for deformations induced by surge
 motion, in which the endpoints of the cable move within the plane \lplane{v} or \lplane{\gamma},
-depending on whether the $\gamma$ rotation has already been applied.
+depending on whether the \scal{\gamma} rotation has already been applied.
 
 \begin{figure}
 	\centering
@@ -270,27 +270,27 @@ depending on whether the $\gamma$ rotation has already been applied.
 
 The \thetamodel{}'s curve can be computed directly in the rotated frame, or alternatively, it may
 be derived by first computing a catenary curve in \lframe{v} or \lframe{\gamma} between the initial
-point \point{A} and a virtual endpoint obtained by rotating \point{B} by $-\theta$ around
-$\point{A}$ within \lplane{v} or \lplane{\gamma}, and then applying the inverse rotation to the
+point \point{A} and a virtual endpoint obtained by rotating \point{B} by \scal{-\theta} around
+\point{A} within \lplane{v} or \lplane{\gamma}, and then applying the inverse rotation to the
 resulting curve. This procedure preserves the parameterization of the original catenary while
 accounting for the inclination induced by surge dynamics.
 
 \subsubsection{\thetagammamodel{}}
 \label{cm_acm_d_augmented_catenary_model}
 
-The degrees of freedom $\theta$ and $\gamma$ can be composed to define a \thetagammamodel{}, which
+The degrees of freedom \scal{\theta} and \scal{\gamma} can be composed to define a \thetagammamodel{}, which
 represents the cable's shape in more general configurations involving both sway and surge-induced
 deformations. Two valid composition orders may be employed, depending on the chosen modeling
 convention:
 
 \begin{itemize}
-	\item In the \emph{$\gamma$-then-$\theta$} composition, the $\gamma$ rotation is first applied to define
+	\item In the \emph{\scal{\gamma}-then-\scal{\theta}} composition, the \scal{\gamma} rotation is first applied to define
 	      the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for sway-induced
 	      displacements of the cable endpoints. The \thetagammamodel{} is then constructed within this
 	      rotated configuration by rotating around the normal to \lplane{\gamma}.
-	\item In the \emph{$\theta$-then-$\gamma$} composition, the \thetamodel{} is first computed within the
+	\item In the \emph{\scal{\theta}-then-\scal{\gamma}} composition, the \thetamodel{} is first computed within the
 	      initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting curve is
-	      then rotated around the \vect{e}-axis by angle $\gamma$, yielding the final shape in the
+	      then rotated around the \vect{e}-axis by angle \scal{\gamma}, yielding the final shape in the
 	      \thetagammamodel{}.
 \end{itemize}
 
@@ -346,7 +346,7 @@ Integrating over a given horizontal distance \scal{x} from the origin, the corre
 	  & = \frac{\sinh\left(x \catC\right)}{\catC}
 \end{align}
 
-This relation leads to the expression of the horizontal distance from the origin $\Delta x$ as a
+This relation leads to the expression of the horizontal distance from the origin \scal{x} as a
 function of the arc-length distance \scal{s} from the same origin:
 \begin{align}
 	x = \frac{\sinh^{-1}\left(s \catC\right)}{\catC}
@@ -371,12 +371,12 @@ The model accuracy is defined by the residual function:
 	\label{cm_acm_ev_am_residual}
 \end{align}
 
-where $\fllpoint{p}{w}{\theta\gamma}{k}(\theta, \gamma)$ are the points corresponding to
+where $\fllpoint{p}{w}{\theta\gamma}{k}\left(\theta, \gamma\right)$ are the points corresponding to
 \fllpoint{p}{w}{m}{k} predicted by the \thetagammamodel{} based on the attachment points
-\fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n} for a given pair of parameters $(\theta, \gamma)$.
+\fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n} for a given pair of parameters $\left(\theta, \gamma\right)$.
 
 To quantify the achievable accuracy improvement provided by the \thetagammamodel{}, a minimization
-procedure was employed to estimate the values of the augmentation parameters $\theta$ and $\gamma$.
+procedure was employed to estimate the values of the augmentation parameters \scal{\theta} and \scal{\gamma}.
 The optimal parameters were obtained by solving the following minimization problem:
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
@@ -660,13 +660,13 @@ with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
 		\centering
 		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
 		\input{figures/pendulum_computation_of_l_v1}
-		\caption{Vertical distance between the lowest point and the $\mathbf{e}$-axis.}
+		\caption{Vertical distance between the lowest point and the \vect{e}-axis.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
 		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
 		\input{figures/pendulum_computation_of_l_v2}
-		\caption{Euclidean distance between the lowest point and the $\mathbf{e}$-axis.}
+		\caption{Euclidean distance between the lowest point and the \vect{e}-axis.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
@@ -678,7 +678,7 @@ with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
 		\centering
 		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
 		\input{figures/pendulum_computation_of_l_v4}
-		\caption{The greatest distance between the catenary curve and the $\mathbf{e}$-axis.}
+		\caption{The greatest distance between the catenary curve and the \vect{e}-axis.}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
@@ -696,9 +696,9 @@ with \ldpoint{p}{0} and \ldpoint{P}{n} the attachment points positions.
 		\centering
 		% here we use input instead of inputtikz because the precompilation was not done with subfigure environment 
 		\input{figures/pendulum_computation_of_l_v7}
-		\caption{Distance between the barycenter and the $\mathbf{e}$-axis.}
+		\caption{Distance between the barycenter and the \vect{e}-axis.}
 	\end{subfigure}
-	\caption{Approximate schematics of different definitions of $l$.}
+	\caption{Approximate schematics of different definitions of \scal{l}.}
 	\label{cm_poapd_pbm_dotpd_computation_of_l}
 \end{figure}
 
@@ -788,8 +788,8 @@ Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
 \end{figure}
 
 This formulation accounts for drag effects and serves as a conceptual foundation for the
-development of surrogate or reduced-order dynamic models that approximate the evolution of $\theta$
-and $\gamma$ under underwater motion. However, none of the attempted configurations yielded
+development of surrogate or reduced-order dynamic models that approximate the evolution of \scal{\theta}
+and \scal{\gamma} under underwater motion. However, none of the attempted configurations yielded
 satisfactory results (\cref{cm_poapd_pbm_aad_dynamics_cables_boxplot}). The other methods described
 in \cref{cm_poapd_pbm_dotpd_computation_of_l} were also tested but, similarly to before, they do
 not yield satisfactory results
