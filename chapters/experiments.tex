@@ -23,26 +23,27 @@ surface vehicle to a pair of Bluerovs for practical reasons.
 \section{Augmented catenary model experimental validation}
 \label{e_augmented_catenary_model_experimental_validation}
 
-The motivation and objective of these experiments were to study the accuracy of catenary models in
-estimating the shape of tethers in water under dynamic conditions. This model is required for
-model-based control of tethered underwater vehicles, such as obstacle avoidance.
+The objective of these experiments was to evaluate the accuracy of catenary models in estimating
+the shape of tethers in water under dynamic conditions. Such models are essential for model-based
+control of tethered underwater vehicles, for example in applications such as obstacle avoidance.
 
 \subsection{Experimental setup}
 \label{e_acmev_experimental_setup}
 
-The experiment was conducted in a \qty{7.2}{\meter} long, \qty{4.2}{\meter} wide, and
-\qty{3}{\meter} deep tank (\cref{e_acmev_es_robot_in_tank}). The cable's and robot's positions were
-recorded by a 5-camera, \qty{100}{\Hz} Qualisys\footnote{\url{www.qualisys.com/cameras/underwater}}
-underwater motion capture system. The calibration of this system provided a standard deviation of
-\qty{2.2}{\mm} across the tank's calibrated volume for a known object's length. The robot and each
-cable were equipped with passive reflective markers
-(\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), and the cable's markers were evenly spaced
-out by \qty{20}{\centi\meter}. The cables were attached to the robot and to a fixed point on the
-side of the tank with thin wire
-(\cref{e_acmev_es_robot_cable_attachment_point,e_acmev_es_rod_cable_attachment_point}) so that the
-joint between the tether and its attachment point closely approximated a theoretical spherical
-joint. The cables used are shown in \cref{e_acmev_es_all_cables}, and their characteristics are
-listed in \cref{e_acmev_es_cables_characteristics}.
+The experiments were conducted in a tank measuring \qty{7.2}{\meter} in length, \qty{4.2}{\meter}
+in width, and \qty{3}{\meter} in depth (\cref{e_acmev_es_robot_in_tank}). The positions of the
+cable and the robot were recorded using a five-camera
+Qualisys\footnote{\url{www.qualisys.com/cameras/underwater}} underwater motion capture system
+operating at \qty{100}{\Hz}. Calibration of the system yielded a standard deviation of
+\qty{2.2}{\mm} for the length measurement of a known object within the calibrated volume. The robot
+and each cable were fitted with passive reflective markers
+(\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), with the cable markers spaced evenly at
+\qty{20}{\centi\meter} intervals. The cables were attached to both the robot and a fixed point on
+the side of the tank using thin wire
+(\cref{e_acmev_es_robot_cable_attachment_point,e_acmev_es_rod_cable_attachment_point}), such that
+the attachment point approximated a theoretical spherical joint. The cables used are illustrated in
+\cref{e_acmev_es_all_cables}, and their characteristics are provided in
+\cref{e_acmev_es_cables_characteristics}.
 
 \begin{figure}
 	\centering
@@ -77,21 +78,21 @@ listed in \cref{e_acmev_es_cables_characteristics}.
 	\end{minipage}
 \end{figure}
 
-The experiment was repeated three times for each cable under six experimental conditions, enabling
-the testing of more or less taut cables with accelerations of different amplitudes. Each
-experimental condition was a combination of a direction of motion (sway or surge), a speed
-(\qty{0.3}{\m\per\s} or \qty{0.6}{\m\per\s}), and a starting point characterized by its horizontal
-distance from the fixation point (approximately \qty{1.5}{\m} or \qty{2}{\m}).
+Each cable was tested under six experimental conditions, with each condition repeated three times.
+The conditions combined a direction of motion (sway or surge), a speed (\qty{0.3}{\m\per\s} or
+\qty{0.6}{\m\per\s}), and a starting point defined by its horizontal distance from the fixation
+point (approximately \qty{1.5}{\m} or \qty{2}{\m}). This allowed the evaluation of cables under
+varying degrees of tension and different acceleration magnitudes.
 
-In every experiment, the robot received the following commands:
+In each experiment, the robot executed the following sequence of commands:
 \begin{enumerate}
 	\item stabilization with auto-depth at \qty{1}{\m} depth for \qty{2}{\s},
 	\item abrupt start with a constant surge or sway command applied for \qty{2.5}{\s},
-	\item reversing of the thrusters for \qty{3}{\s} with a doubled velocity in the opposite direction to
-	      achieve an abrupt stop,
-	\item slowing down the thrusters to half the initial velocity for \qty{0.2}{\s}, and
-	\item deactivation of the auto-depth control and complete stop of the thrusters after \qty{13}{\s}. The
-	      robot then drifted slowly.
+	\item reversal of the thrusters for \qty{3}{\s} at double the initial velocity in the opposite direction
+	      to produce an abrupt stop,
+	\item reduction of the thruster output to half the initial velocity for \qty{0.2}{\s}, and
+	\item deactivation of auto-depth control and complete thruster stop after \qty{13}{\s}, after which the
+	      robot drifted slowly.
 \end{enumerate}
 
 \begin{figure}
@@ -242,10 +243,11 @@ In every experiment, the robot received the following commands:
 \subsection{Trajectories of recorded sequences}
 \label{e_acmev_trajectories_of_recorded_sequences}
 
-All of the recorded sequences for the cables shown in \cref{e_acmev_es_all_cables} are shown in
+All robots trajectories in the recorded sequences for the cables shown in
+\cref{e_acmev_es_all_cables} are presented in
 \cref{e_acmev_tors_trajectory_6,af_rtdtec_trajectory_1,af_rtdtec_trajectory_2,af_rtdtec_trajectory_3,af_rtdtec_trajectory_4,af_rtdtec_trajectory_5,af_rtdtec_trajectory_7,af_rtdtec_trajectory_8}.
-It should be noted that sequences were captured over several days, and the motion capture system
-was calibrated before each session. This resulted in the world frame differing from day to day.
+It should be noted that sequences were acquired over several days, with the motion capture system
+calibrated prior to each session. As a result, the world frame definition varied between sessions.
 
 \begin{figure}
 	\centering
@@ -254,9 +256,9 @@ was calibrated before each session. This resulted in the world frame differing f
 	\label{e_acmev_tors_trajectory_6}
 \end{figure}
 
-The open loop characteristic of the robot's motion is clearly visible in
-\cref{e_acmev_tors_trajectory_6}: the trajectories are relatively straight but are not pure surge
-and sway motion with relation to the fixed point.
+The open-loop nature of the robot's motion is apparent in \cref{e_acmev_tors_trajectory_6}: the
+trajectories are relatively straight but do not correspond to the expected pure surge or sway
+motion relative to the fixed point.
 
 \section{Robot chain control experiment}
 \label{e_robot_chain_control_experiment}
