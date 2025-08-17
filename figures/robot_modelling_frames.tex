@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+
+    	\def\arrowlength{.2}
+
+    \begin{axis}[
+        width=\figurewidth,
+        axis equal,
+        clip=false,
+        axis x line=none,
+        axis y line=none,
+        xmin=-1.0, xmax=1.0,
+        ymin=-1.0, ymax=1.0
+    ]
+
+        \coordinate (Oi) at (axis cs: 0.0, 0.0);
+		\coordinate (xi) at (axis cs: \arrowlength, 0.0);
+		\coordinate (zi) at (axis cs: 0.0, \arrowlength);
+		\coordinate (yi) at ($(xi)!0.5!(zi)$);
+        
+        \draw[->, thick, blue] (Oi) -- (xi) node[below right] {\ldvect{x}{I}};
+        \draw[->, thick, blue] (Oi) -- (yi) node[right] {\ldvect{y}{I}};
+        \draw[->, thick, blue] (Oi) -- (zi) node[above right] {\ldvect{z}{I}};
+        \filldraw[blue] (Oi) circle (2pt) node[below left] {\lframe{I}};
+        
+        \coordinate (Ob) at (axis cs: 0.5, -0.5);
+		\coordinate (xb) at (axis cs: -\arrowlength, 0.0);
+		\coordinate (zb) at (axis cs: 0.0, \arrowlength);
+		\coordinate (yb) at ($(xb)!0.5!(zb)$);
+        
+        \draw[->, thick, red] (Ob) -- ($(Ob) - (Oi) + (xb)$) node[below left] {\ldvect{x}{B}};
+        \draw[->, thick, red] (Ob) -- ($(Ob) - (Oi) + (yb)$) node[left] {\ldvect{y}{B}};
+        \draw[->, thick, red] (Ob) -- ($(Ob) - (Oi) + (zb)$) node[above left] {\ldvect{z}{B}};
+        \filldraw[red] (Ob) circle (2pt) node[below right] {\lframe{B}};
+    \end{axis}
+
+\end{tikzpicture}
