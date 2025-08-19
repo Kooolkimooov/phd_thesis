@@ -142,7 +142,7 @@ Each of these rotations is represented by a basic rotation matrix. \trigsh{}
 
 The composition yields
 \begin{align}
-	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & = \lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) \times \lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) \times \lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) \\
+	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & = \lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) \lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) \lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right)               \\
 	                                                                 & = \begin{bmatrix}
 		                                                                     \cos{\scal{\psi}} \cos{\scal{\theta}}                                                         &
 		                                                                     \cos{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} - \sin{\scal{\psi}} \cos{\scal{\phi}} &
@@ -209,6 +209,45 @@ By collecting terms, the relation is obtained:
 This expression becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$ (gimbal lock).
 
 \trigft{}
+
+The hydrostatic restoring vector is given by
+\begin{align}
+	\vect{s}\left(\vect{\eta}\right) & =
+	\begin{bmatrix}
+		\fldvect{f}{I}{g} + \fldvect{f}{I}{b} \\
+		\fldvect{m}{I}{g} + \fldvect{m}{I}{b}
+	\end{bmatrix}
+\end{align}
+where the first three components are the net forces due to gravity and buoyancy, and the last three components are the corresponding restoring moments.
+
+In the inertial frame \lframe{I}, the gravitational and buoyancy forces are
+\begin{align}
+	\fldvect{f}{I}{g} =
+	\begin{bmatrix}
+		0 \\ 0 \\ -\scal{m}\scal{g}
+	\end{bmatrix} &
+	\fldvect{f}{I}{b} =
+	\begin{bmatrix}
+		0 \\ 0 \\ \ldscal{\rho}{w}\scal{g}\scal{v}
+	\end{bmatrix}
+\end{align}
+
+where \scal{m} is the vehicle mass, \scal{g} is the gravitational acceleration, \ldscal{\rho}{w} is
+the water density, and \scal{v} is the submerged volume of the vehicle.
+
+The rotation matrix \lrdmatr{R}{l} is used to express these forces in \lframe{B}
+\begin{align}
+	\fldvect{f}{B}{g} = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{g} \\
+	\fldvect{f}{B}{b} = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{b}
+\end{align}
+
+The corresponding restoring moments are obtained from the moment arms of the centre of gravity
+$\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y}, \ldscal{c}{g,z}\right]^{\top}$ and centre of
+buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y}, \ldscal{c}{b,z}\right]^{\top}$
+\begin{align}
+	\ldvect{m}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{g} \right) \\
+	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{b} \right)
+\end{align}
 
 The generalized inertia matrix \matr{I} represents the combined rigid-body and added-mass effects:
 \begin{align}
