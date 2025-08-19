@@ -261,7 +261,8 @@ centre of buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y},
 	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{b} \right)
 \end{align}
 
-The generalized inertia matrix \matr{I} represents the combined rigid-body and added-mass effects:
+The generalized inertia matrix \matr{I} is defined to represent the combined rigid-body and
+added-mass effects:
 \begin{align}
 	\matr{I} = \lrdmatr{M}{rb} + \lrdmatr{M}{a}.
 \end{align}
@@ -275,12 +276,12 @@ The rigid-body inertia matrix \lrdmatr{M}{rb} is expressed as
 	\end{bmatrix}
 \end{align}
 
-where \scal{m} is the vehicle mass, $\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y},
+where \scal{m} denotes the vehicle mass, $\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y},
 		\ldscal{c}{g,z}\right]^{\top}$ is the position vector of the centre of gravity relative to the
 body-fixed origin, $\matr{S}\left(\cdot\right)$ denotes the skew-symmetric matrix operator, and
 \lrdmatr{I}{g} is the moment of inertia matrix about the centre of gravity. The off-diagonal blocks
-capture the coupling between translational and rotational dynamics. Finally the rigid-body inertia
-matrix can be expressed as
+capture the coupling between translational and rotational dynamics. Finally, the rigid-body inertia
+matrix is expanded as
 \begin{align}
 	\lrdmatr{M}{rb} = \begin{bmatrix}
 		                  \scal{m}                   & 0                          & 0                          & 0                          & \scal{m} \ldscal{c}{g, z}  & -\scal{m} \ldscal{c}{g, y} \\
@@ -292,10 +293,11 @@ matrix can be expressed as
 	                  \end{bmatrix}
 \end{align}
 
-with \ldscal{I}{xx}, \ldscal{I}{yy}, \ldscal{I}{zz} being the moments of inertia about the
-body-fixed axes, and \ldscal{I}{xy}, \ldscal{I}{xz}, \ldscal{I}{yz} being the products of inertia.
+with \ldscal{I}{xx}, \ldscal{I}{yy}, \ldscal{I}{zz} denoting the moments of inertia about the
+body-fixed axes, and \ldscal{I}{xy}, \ldscal{I}{xz}, \ldscal{I}{yz} denoting the products of
+inertia.
 
-The added-mass inertia matrix \lrdmatr{M}{a} is defined analogously as as diagonal matrix
+The added-mass inertia matrix \lrdmatr{M}{a} is defined analogously as a diagonal matrix:
 \begin{align}
 	\lrdmatr{M}{a} & = \diag{\left(\ldscal{M}{a, u}, \ldscal{M}{a, v}, \ldscal{M}{a, w}, \ldscal{M}{a, p}, \ldscal{M}{a, q}, \ldscal{M}{a, r}\right)}
 \end{align}
@@ -308,9 +310,9 @@ linear and quadratic components:
 	\matr{D}\left(\vect{\nu}\right) & = \lrdmatr{D}{l} + \lrdmatr{D}{q}\left(\vect{\nu}\right).
 \end{align}
 
-They are in turn represented as a diagonal matrices,
+These are in turn represented as diagonal matrices:
 \begin{align}
-	\lrdmatr{D}{l} & = \diag{\left( \ldscal{D}{l,u}, \ldscal{D}{l,v}, \ldscal{D}{l,w}, \ldscal{D}{l,p}, \ldscal{D}{l,q}, \ldscal{D}{l,r} \right)}                                           \\
+	\lrdmatr{D}{l} & = \diag{\left( \ldscal{D}{l,u}, \ldscal{D}{l,v}, \ldscal{D}{l,w}, \ldscal{D}{l,p}, \ldscal{D}{l,q}, \ldscal{D}{l,r} \right)},                                          \\
 	\lrdmatr{D}{q} & = \diag{\left( \ldscal{D}{q,u}\abs{u}, \ldscal{D}{q,v}\abs{v}, \ldscal{D}{q,w}\abs{w}, \ldscal{D}{q,p}\abs{p}, \ldscal{D}{q,q}\abs{q}, \ldscal{D}{q,r}\abs{r} \right)}
 \end{align}
 
