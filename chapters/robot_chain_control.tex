@@ -15,9 +15,9 @@ right-handed frame. A local \ac{enu} convention was adopted unless explicitly st
 The origin of this frame was located at the water surface (\cref{rcc_rcm_frames}).
 
 The body-fixed frame, denoted as \lframe{B} when required, was rigidly attached to the vehicle with
-its origin at the centre of gravity. It was a right-handed frame in which the \vect{x}-axis pointed
-forward, the \vect{y}-axis pointed to the left, and the \vect{z}-axis pointed upward
-(\cref{rcc_rcm_frames}).
+its origin at the centre of gravity. It was defined as a right-handed frame in which the
+\vect{x}-axis pointed forward, the \vect{y}-axis pointed to the left, and the \vect{z}-axis pointed
+upward (\cref{rcc_rcm_frames}).
 
 \begin{figure}
 	\centering
@@ -43,9 +43,9 @@ formulated for marine craft~\cite{fossenHandbookMarineCraft2011}:
 In these equations:
 \begin{itemize}
 	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle position and orientation in the inertial frame \lframe{I}.
-	\item $\vect{\nu} = \left[\scal{u}, \scal{v}, \scal{w}, \scal{p}, \scal{q}, \scal{r}\right]^{\top}$ is the linear and angular velocity in the body-fixed frame \lframe{B}.
+	\item $\vect{\nu} = \left[\scal{u}, \scal{v}, \scal{w}, \scal{p}, \scal{q}, \scal{r}\right]^{\top}$ represents the linear and angular velocity in the body-fixed frame \lframe{B}.
 	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping the body-fixed frame to the inertial frame.
-	\item \ldvect{\nu}{r} represents the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
+	\item \ldvect{\nu}{r} denotes the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
 	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added-mass inertia matrices, respectively.
 	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are the associated Coriolis matrices.
 	\item \matr{D} is the hydrodynamic damping matrix.
@@ -54,9 +54,9 @@ In these equations:
 	\item \vect{\tau} is the control input.
 \end{itemize}
 
-Under the assumptions of irrotational underwater currents, operation without dynamic ballast
-systems, and negligible Coriolis effects at the low to moderate speeds considered, the dynamic
-model was simplified to~\cite{fossenHandbookMarineCraft2011}:
+Under the assumptions of irrotational underwater currents, absence of dynamic ballast systems, and
+negligible Coriolis effects at the low to moderate speeds considered, the dynamic model was
+simplified to~\cite{fossenHandbookMarineCraft2011}:
 \begin{align}
 	\matr{I} \vect{\dot{\nu}}
 	+ \matr{D}\left(\vect{\nu}\right) \vect{\nu}
@@ -65,9 +65,10 @@ model was simplified to~\cite{fossenHandbookMarineCraft2011}:
 	\label{rcc_rcm_srd_dynamics_simple}
 \end{align}
 
-Here, \matr{I} is the generalized inertia matrix and \matr{D} is the generalized damping matrix.
+Here, \matr{I} denotes the generalized inertia matrix and \matr{D} denotes the generalized damping
+matrix.
 
-Furthermore, \cref{rcc_rcm_srd_kinematics,rcc_rcm_srd_dynamics_simple} can be combined into a
+Furthermore, \cref{rcc_rcm_srd_kinematics,rcc_rcm_srd_dynamics_simple} were combined into a
 state-space representation:
 \begin{align}
 	\begin{bmatrix}
