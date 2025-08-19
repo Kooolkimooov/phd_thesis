@@ -12,17 +12,18 @@
 The inertial frame, denoted as \lframe{I} when needed, is an earth-fixed, right-handed frame.
 Throughout this work we adopt a local \ac{enu} convention unless otherwise stated: the
 \vect{x}-axis points to the east, the \vect{y}-axis points to the north and the \vect{z}-axis
-points up.
+points up. The origin of this frame is located at the water surface (\cref{rcc_rcm_frames}).
 
 The body-fixed frame, denoted as \lframe{B} when needed, is rigidly attached to the vehicle with
 origin at the vehicle centre of gravity. It is a right-handed frame with the \vect{x}-axis pointing
-forward, the \vect{y}-axis pointing to the left and the \vect{z}-axis pointing up. 
+forward, the \vect{y}-axis pointing to the left and the \vect{z}-axis pointing up
+(\cref{rcc_rcm_frames}).
 
 \begin{figure}
-    \centering
-    \inputtikz{figures/robot_modelling_frames}
-    \caption{}
-    \label{rcc_rcm_frames}
+	\centering
+	\inputtikz{figures/robot_modelling_frames}
+	\caption{Schematic representation of the inertial and body-fixed frames.}
+	\label{rcc_rcm_frames}
 \end{figure}
 
 \subsection{Single robot dynamics}
@@ -41,9 +42,9 @@ formulated for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}
 
 In these equations:
 \begin{itemize}
-	\item \vect{\eta} denotes the vehicle's position and orientation in the inertial frame.
-	\item \vect{\nu} is the linear and angular velocity in the body-fixed frame.
-	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping body velocities to inertial coordinates.
+	\item $\vect{\eta} = \left[x, y, z, \phi, \theta, \psi\right] \in \lframe{I}$ denotes the vehicle's position and orientation in the inertial frame.
+	\item $\vect{\nu} = \left[u, v, w, p, q, r\right] \in \lframe{B}$ is the linear and angular velocity in the body-fixed frame.
+	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping body frame to inertial frame.
 	\item \ldvect{\nu}{r} represents the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
 	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added mass inertia matrices, respectively.
 	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are their associated Coriolis matrices.
@@ -63,8 +64,8 @@ systems, the dynamic model simplifies to the following form~\cite{fossenHandbook
 	\label{rcc_rcm_srd_dynamics_simple}
 \end{align}
 
-Here, \matr{I} is the generalized inertia matrix, \matr{C} is the Coriolis matrix, and \matr{D} is
-the damping matrix.
+Here, \matr{I} is the generalized inertia matrix, \matr{C} is the generalized Coriolis matrix, and
+\matr{D} is the generalized damping matrix.
 
 Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} may be combined into a
 state-space representation:
@@ -93,6 +94,25 @@ state-space representation:
 \end{align}
 
 With \lrdmatr{I}{d} the identity matrix.
+
+The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix from the
+world frame to the body frame:
+\begin{align}
+	\matr{T}\left(\vect{\eta}\right) & = \begin{bmatrix}
+		                                     \lrmatr{R}{w}{r}\left(\eta\right) & \lrdmatr{0}{3\times3}     \\
+		                                     \lrdmatr{0}{3\times3}             & \matr{J}\left(\eta\right)
+	                                     \end{bmatrix}
+\end{align}
+
+with $\lrmatr{R}{w}{r}\left(\eta\right)$ is the rotation matrix that represents the orientation of
+the robot in the inertial frame, $\matr{J}\left(\eta\right)$ is defined as:
+\begin{align}
+	\matr{J}\left(\eta\right) & =\begin{bmatrix}
+		                             1 & \sin{\phi} \tan{\theta}   & \cos{\phi} \tan{\theta}   \\
+		                             0 & \cos{\phi}                & -\sin{\phi}               \\
+		                             0 & \sin{\phi} / \cos{\theta} & \cos{\phi} / \cos{\theta} \\
+	                             \end{bmatrix}
+\end{align}
 
 \subsection{Cable modelling}
 \label{rcc_rcm_cable_modelling}
