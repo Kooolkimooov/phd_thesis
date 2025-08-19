@@ -125,13 +125,13 @@ Each of these rotations is represented by a basic rotation matrix. \trigsh{}
 		1 & 0                 & 0                  \\
 		0 & \cos{\scal{\phi}} & -\sin{\scal{\phi}} \\
 		0 & \sin{\scal{\phi}} & \cos{\scal{\phi}}
-	\end{bmatrix} &
+	\end{bmatrix} \hspace{.5cm}
 	\lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) =
 	\begin{bmatrix}
 		\cos{\scal{\theta}}  & 0 & \sin{\scal{\theta}} \\
 		0                    & 1 & 0                   \\
 		-\sin{\scal{\theta}} & 0 & \cos{\scal{\theta}}
-	\end{bmatrix} &
+	\end{bmatrix} \hspace{.5cm}
 	\lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) =
 	\begin{bmatrix}
 		\cos{\scal{\psi}} & -\sin{\scal{\psi}} & 0 \\
@@ -225,7 +225,7 @@ In the inertial frame \lframe{I}, the gravitational and buoyancy forces are
 	\fldvect{f}{I}{g} =
 	\begin{bmatrix}
 		0 \\ 0 \\ -\scal{m}\scal{g}
-	\end{bmatrix} &
+	\end{bmatrix} \hspace{1cm}
 	\fldvect{f}{I}{b} =
 	\begin{bmatrix}
 		0 \\ 0 \\ \ldscal{\rho}{w}\scal{g}\scal{v}
@@ -302,7 +302,7 @@ They are in turn represented as a diagonal matrices,
 	\lrdmatr{D}{q} & = \diag{\left( \ldscal{D}{q,u}\abs{u}, \ldscal{D}{q,v}\abs{v}, \ldscal{D}{q,w}\abs{w}, \ldscal{D}{q,p}\abs{p}, \ldscal{D}{q,q}\abs{q}, \ldscal{D}{q,r}\abs{r} \right)}
 \end{align}
 
-where the coefficients are usually determined experimentally.
+where the coefficients are also usually determined experimentally.
 
 \subsection{Cable modelling}
 \label{rcc_rcm_cable_modelling}
