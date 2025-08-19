@@ -257,17 +257,22 @@
 
 \NewCommandCopy{\oldcos}{\cos}
 \NewCommandCopy{\oldsin}{\sin}
+\NewCommandCopy{\oldtan}{\tan}
 
 \newcommand\newcos[1]{\ensuremath{\mathbf{c}_{#1}}}
 \newcommand\newsin[1]{\ensuremath{\mathbf{s}_{#1}}}
+\newcommand\newtan[1]{\ensuremath{\mathbf{t}_{#1}}}
 
 \newcommand\trigsh{
+	We use the shorthands $\oldcos{\ast} = \newcos{\ast}$, $\oldsin{\ast} = \newsin{\ast}$ and  $\oldtan{\ast} = \newtan{\ast}$.
 	\RenewCommandCopy{\cos}{\newcos}
 	\RenewCommandCopy{\sin}{\newsin}
+	\RenewCommandCopy{\tan}{\newtan}
 }
 \newcommand\trigft{
 	\RenewCommandCopy{\cos}{\oldcos}
 	\RenewCommandCopy{\sin}{\oldsin}
+	\RenewCommandCopy{\tan}{\oldtan}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
