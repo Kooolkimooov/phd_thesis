@@ -181,15 +181,16 @@ Since the angular velocity must be expressed in the body-fixed frame, each axis 
 	\begin{bmatrix}-\sin{\theta} \\ \cos{\theta}\sin{\phi} \\ \cos{\theta}\cos{\phi} \end{bmatrix}
 \end{align}
 
-Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing in the body frame:
+Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing them in the body frame,
+the following relation was obtained:
 \begin{align}
 	\fvect{\omega}{B} & =
 	\dot{\phi}\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
 	+ \dot{\theta}\begin{bmatrix} 0 \\ \cos{\scal{\phi}} \\ \sin{\scal{\phi}} \end{bmatrix}
-	+ \dot{\psi}\begin{bmatrix} -\sin{\scal{\theta}} \\ \cos{\scal{\theta}}\sin{\scal{\phi}} \\ \cos{\scal{\theta}}\cos{\scal{\phi}} \end{bmatrix}.
+	+ \dot{\psi}\begin{bmatrix} -\sin{\scal{\theta}} \\ \cos{\scal{\theta}}\sin{\scal{\phi}} \\ \cos{\scal{\theta}}\cos{\scal{\phi}} \end{bmatrix}
 \end{align}
 
-By collecting terms, the relation is obtained:
+By collecting terms, the relation between angular velocities and Euler angle rates was expressed as
 \begin{align}
 	\begin{bmatrix}
 		\scal{p} \\ \scal{q} \\ \scal{r}
@@ -218,7 +219,7 @@ This expression becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$ (gi
 
 \trigft{}
 
-The hydrostatic restoring vector is given by
+The hydrostatic restoring vector is defined as
 \begin{align}
 	\vect{s}\left(\vect{\eta}\right) & =
 	\begin{bmatrix}
@@ -227,8 +228,8 @@ The hydrostatic restoring vector is given by
 	\end{bmatrix}
 \end{align}
 
-where the first three components are the net forces due to gravity and buoyancy, and the last three
-components are the corresponding restoring moments.
+where the first three components represent the net forces due to gravity and buoyancy, and the last
+three components represent the corresponding restoring moments.
 
 In the inertial frame \lframe{I}, the gravitational and buoyancy forces are
 \begin{align}
@@ -245,15 +246,16 @@ In the inertial frame \lframe{I}, the gravitational and buoyancy forces are
 where \scal{m} is the vehicle mass, \scal{g} is the gravitational acceleration, \ldscal{\rho}{w} is
 the water density, and \scal{v} is the submerged volume of the vehicle.
 
-The rotation matrix \lrdmatr{R}{l} is used to express these forces in \lframe{B}
+The rotation matrix \lrdmatr{R}{l} is used to express these forces in \lframe{B}:
 \begin{align}
-	\fldvect{f}{B}{g} = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{g} \\
-	\fldvect{f}{B}{b} = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{b}
+	\fldvect{f}{B}{g} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{g} \\
+	\fldvect{f}{B}{b} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{b}
 \end{align}
 
 The corresponding restoring moments are obtained from the moment arms of the centre of gravity
-$\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y}, \ldscal{c}{g,z}\right]^{\top}$ and centre of
-buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y}, \ldscal{c}{b,z}\right]^{\top}$
+$\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y}, \ldscal{c}{g,z}\right]^{\top}$ and the
+centre of buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y},
+		\ldscal{c}{b,z}\right]^{\top}$:
 \begin{align}
 	\ldvect{m}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{g} \right) \\
 	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{b} \right)
