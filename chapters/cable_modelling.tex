@@ -72,10 +72,10 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 
 In order to derive the shape of a homogeneous, infinitely flexible, non-elastic cable subjected
 solely to its own weight, which is uniformly distributed along its length, a cable of length
-\catL{} and mass per unit length \ldscal{\lambda}{m} is considered. The cable is assumed to hang between
-two fixed points, \fpoint{A}{v} and \fpoint{B}{v}, whose coordinates are expressed in the plane
-\lplanefullxz{v}, where \ldpoint{O}{v} is defined as both the origin of the coordinate system and
-the lowest point of the cable.
+\catL{} and mass per unit length \ldscal{\lambda}{m} is considered. The cable is assumed to hang
+between two fixed points, \fpoint{A}{v} and \fpoint{B}{v}, whose coordinates are expressed in the
+plane \lplanefullxz{v}, where \ldpoint{O}{v} is defined as both the origin of the coordinate system
+and the lowest point of the cable.
 
 \begin{figure}
 	\centering
@@ -97,13 +97,15 @@ this point is horizontal, and the infinite flexibility of the cable prevents any
 transfer.
 
 At a general point \fldpoint{P}{v}{1} (\cref{cm_cm_dotcm_schematic}) along the cable, the tension
-is composed of both vertical and horizontal components, and its magnitude \ldscal{T}{1} is expressed as:
+is composed of both vertical and horizontal components, and its magnitude \ldscal{T}{1} is
+expressed as:
 \begin{align}
 	T_1 = \sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}
 	\label{cm_cm_dotcm_tension_equation}
 \end{align}
 
-where \ldscal{L}{1} denotes the arc-length of the cable between \ldpoint{O}{v} and \fldpoint{P}{v}{1}.
+where \ldscal{L}{1} denotes the arc-length of the cable between \ldpoint{O}{v} and
+\fldpoint{P}{v}{1}.
 
 Considering an infinitesimal cable element of length \scal{dL}, the infinitesimal horizontal
 displacement \scal{dx} is given by:
@@ -133,8 +135,8 @@ Next, the vertical displacement \scal{dz} is related to \scal{dx} via:
 	dz = \tan{\left(\omega\right)} dx
 \end{align}
 
-where $\tan{\omega} = \frac{W_1}{T_h}$, with \ldscal{W}{1} being the weight of the cable segment between
-\ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
+where $\tan{\omega} = \frac{W_1}{T_h}$, with \ldscal{W}{1} being the weight of the cable segment
+between \ldpoint{O}{v} and \fldpoint{P}{v}{1}. Thus,
 \begin{align}
 	dz & = \frac{W_1}{T_h} dx = \frac{\lambda_m L_1 g}{T_h} dx \\
 	   & = L_1 \catC dx                                        \\
@@ -224,12 +226,11 @@ beforehand.
 This intuitive model will now be formalized by introducing two additional degrees of freedom to the
 \catenarymodel{}.
 
-\subsubsection{\scal{\gamma} degree of freedom}
-\label{cm_acm_d_gamma_degree_of_freedom}
+\subsubsection{\scal{\gamma} degree of freedom} \label{cm_acm_d_gamma_degree_of_freedom}
 
 The first degree of freedom introduced in the augmented model corresponds to a rotation of angle
-\scal{\gamma} around the catenary axis \vect{e}, which is defined as the unit vector pointing from the
-attachment point \fpoint{A}{v} to \fpoint{B}{v} (see \cref{cm_acm_d_gdof_schematic}).
+\scal{\gamma} around the catenary axis \vect{e}, which is defined as the unit vector pointing from
+the attachment point \fpoint{A}{v} to \fpoint{B}{v} (see \cref{cm_acm_d_gdof_schematic}).
 
 \begin{figure}
 	\centering
@@ -250,8 +251,7 @@ The catenary curve can be computed either directly within this rotated frame \lf
 equivalently, by applying the same rotation to the curve initially defined in the vertical frame
 \lframe{v}, since the parameters of the curve remain unchanged under this transformation.
 
-\subsubsection{\scal{\theta} degree of freedom}
-\label{cm_acm_d_theta_degree_of_freedom}
+\subsubsection{\scal{\theta} degree of freedom} \label{cm_acm_d_theta_degree_of_freedom}
 
 The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
 \scal{\theta} around the normal to the plane \lplane{v} or \lplane{\gamma} (see
@@ -278,20 +278,20 @@ accounting for the inclination induced by surge dynamics.
 \subsubsection{\thetagammamodel{}}
 \label{cm_acm_d_augmented_catenary_model}
 
-The degrees of freedom \scal{\theta} and \scal{\gamma} can be composed to define a \thetagammamodel{}, which
-represents the cable's shape in more general configurations involving both sway and surge-induced
-deformations. Two valid composition orders may be employed, depending on the chosen modeling
-convention:
+The degrees of freedom \scal{\theta} and \scal{\gamma} can be composed to define a
+\thetagammamodel{}, which represents the cable's shape in more general configurations involving
+both sway and surge-induced deformations. Two valid composition orders may be employed, depending
+on the chosen modeling convention:
 
 \begin{itemize}
-	\item In the \emph{\scal{\gamma}-then-\scal{\theta}} composition, the \scal{\gamma} rotation is first applied to define
-	      the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for sway-induced
-	      displacements of the cable endpoints. The \thetagammamodel{} is then constructed within this
-	      rotated configuration by rotating around the normal to \lplane{\gamma}.
-	\item In the \emph{\scal{\theta}-then-\scal{\gamma}} composition, the \thetamodel{} is first computed within the
-	      initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting curve is
-	      then rotated around the \vect{e}-axis by angle \scal{\gamma}, yielding the final shape in the
-	      \thetagammamodel{}.
+	\item In the \emph{\scal{\gamma}-then-\scal{\theta}} composition, the \scal{\gamma} rotation is first
+	      applied to define the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for
+	      sway-induced displacements of the cable endpoints. The \thetagammamodel{} is then constructed
+	      within this rotated configuration by rotating around the normal to \lplane{\gamma}.
+	\item In the \emph{\scal{\theta}-then-\scal{\gamma}} composition, the \thetamodel{} is first computed
+	      within the initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting
+	      curve is then rotated around the \vect{e}-axis by angle \scal{\gamma}, yielding the final shape in
+	      the \thetagammamodel{}.
 \end{itemize}
 
 In both cases, the final curve captures the combined effects of surge and sway motions while
@@ -373,11 +373,12 @@ The model accuracy is defined by the residual function:
 
 where $\fllpoint{p}{w}{\theta\gamma}{k}\left(\theta, \gamma\right)$ are the points corresponding to
 \fllpoint{p}{w}{m}{k} predicted by the \thetagammamodel{} based on the attachment points
-\fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n} for a given pair of parameters $\left(\theta, \gamma\right)$.
+\fllpoint{p}{w}{m}{0} and \fllpoint{p}{w}{m}{n} for a given pair of parameters $\left(\theta,
+	\gamma\right)$.
 
 To quantify the achievable accuracy improvement provided by the \thetagammamodel{}, a minimization
-procedure was employed to estimate the values of the augmentation parameters \scal{\theta} and \scal{\gamma}.
-The optimal parameters were obtained by solving the following minimization problem:
+procedure was employed to estimate the values of the augmentation parameters \scal{\theta} and
+\scal{\gamma}. The optimal parameters were obtained by solving the following minimization problem:
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
 \end{align}
@@ -721,7 +722,9 @@ The speed of \ldscal{m}{2} is:
 	\end{pmatrix}
 \end{align}
 
-We use the shorthands $\cos{\ast} = \newcos{\ast}$ and $\sin{\ast} = \newsin{\ast}$. \trigsh{}
+We use the shorthands $\cos{\ast} = \newcos{\ast}$ and $\sin{\ast} = \newsin{\ast}$.
+
+\trigsh{}
 
 Kinetic energy is written:
 \begin{align}
@@ -772,6 +775,8 @@ Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
 	\Leftrightarrow~ & \scal{\ddot{\alpha}} = -\frac{1}{\scal{l}}\left( \scal{\ddot{x}} \cos{\scal{\alpha}} + \scal{g}\sin{\scal{\alpha}} + 2\scal{\dot{l}}\scal{\dot{\alpha}} + \frac{1}{2\ldscal{m}{2}} \ldscal{\rho}{w} \ldscal{A}{c} \scal{C}{c} \sqrt{\left(\scal{\dot{x}} + \scal{l} \scal{\dot{\alpha}}\cos{\scal{\alpha}} + \scal{\dot{l}}\sin{\scal{\alpha}}\right)^2 + \left(\scal{l} \scal{\dot{\alpha}}\sin{\scal{\alpha}}-\scal{\dot{l}} \cos{\scal{\alpha}}\right)^2}\left(\scal{\dot{x}}\cos{\scal{\alpha}} + \scal{l}\scal{\dot{\alpha}}\right)\right)
 \end{align}
 
+\trigft{}
+
 \subsubsection{Accuracy and discussion}
 \label{cm_poapd_pbm_aad_accuracy_and_discussion}
 
@@ -788,11 +793,11 @@ Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
 \end{figure}
 
 This formulation accounts for drag effects and serves as a conceptual foundation for the
-development of surrogate or reduced-order dynamic models that approximate the evolution of \scal{\theta}
-and \scal{\gamma} under underwater motion. However, none of the attempted configurations yielded
-satisfactory results (\cref{cm_poapd_pbm_aad_dynamics_cables_boxplot}). The other methods described
-in \cref{cm_poapd_pbm_dotpd_computation_of_l} were also tested but, similarly to before, they do
-not yield satisfactory results
+development of surrogate or reduced-order dynamic models that approximate the evolution of
+\scal{\theta} and \scal{\gamma} under underwater motion. However, none of the attempted
+configurations yielded satisfactory results (\cref{cm_poapd_pbm_aad_dynamics_cables_boxplot}). The
+other methods described in \cref{cm_poapd_pbm_dotpd_computation_of_l} were also tested but,
+similarly to before, they do not yield satisfactory results
 (\cref{cm_poapd_pbm_aad_dynamics_cable_6_boxplot_compare,af_aoddacm_dynamics_cable_1_boxplot_compare,af_aoddacm_dynamics_cable_2_boxplot_compare,af_aoddacm_dynamics_cable_3_boxplot_compare,af_aoddacm_dynamics_cable_4_boxplot_compare,af_aoddacm_dynamics_cable_5_boxplot_compare,af_aoddacm_dynamics_cable_7_boxplot_compare,af_aoddacm_dynamics_cable_8_boxplot_compare}).
 
 \begin{figure}
