@@ -76,7 +76,6 @@ solely to its own weight, which is uniformly distributed along its length, a cab
 between two fixed points, \fpoint{A}{v} and \fpoint{B}{v}, whose coordinates are expressed in the
 plane \lplanefullxz{v}, where \ldpoint{O}{v} is defined as both the origin of the coordinate system
 and the lowest point of the cable.
-
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_derivation_schematic_0}
@@ -118,7 +117,13 @@ where $\cos{\omega} = \frac{T_h}{T_1}$. Substituting this yields:
 	dx = \frac{T_h}{T_1} dL = \frac{T_h}{\sqrt{T_h^2 + \left(\lambda_m L_1 g\right)^2}} dL
 \end{align}
 
-Introducing the change of variable $\catC = \frac{\lambda_m g}{T_h}$, the expression simplifies to:
+Introducing the change of variable
+\begin{align}
+	\catC = \frac{\lambda_m g}{T_h}
+	\label{cm_cm_dotcm_change_of_variable}
+\end{align}
+
+the expression simplifies to:
 \begin{align}
 	dx & = \frac{\frac{\lambda_m g}{\catC}}{\sqrt{\left(\frac{\lambda_m g}{\catC}\right)^2 + \left(\lambda_m L_1 g\right)^2}} dL \\
 	   & = \frac{1}{\sqrt{1 + \left(L_1 \catC\right)^2}} dL
@@ -128,6 +133,7 @@ Integration from \ldpoint{O}{v} to \fldpoint{P}{v}{1} leads to:
 \begin{align}
 	x & = \int_0^{L_1} \frac{1}{\sqrt{1 + \left(L_1 \catC\right)^2}} dL \\
 	  & = \frac{\sinh^{-1}\left(L_1 \catC\right)}{\catC}
+	\label{cm_cm_dotcm_horizontal_catenary_coordinate}
 \end{align}
 
 Next, the vertical displacement \scal{dz} is related to \scal{dx} via:
