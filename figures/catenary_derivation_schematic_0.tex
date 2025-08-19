@@ -38,16 +38,16 @@
 		\draw[->, thick] (O) -- (x) node[below right] {\ldvect{x}{v}};
 		\draw[->, thick] (O) -- (z) node[above right] {\ldvect{z}{v}};
 
-		\draw[red, ->, very thick] (O) -- (axis cs: -2*\arrowlength, 0.0) node[below right] {$T_h\ldvect{x}{v}$};
-		\draw[red, ->, very thick] (P) -- (axis cs: \xmid-2*\arrowlength, \ymid+2*\arrowlength) node[above left] {$T_1 = T_h\ldvect{x}{v} + W \ldvect{z}{v}$};
-		\draw[red, ->, thick] (P) -- (axis cs: \xmid-2*\arrowlength, \ymid) node[midway, below] {$T_h\ldvect{x}{v}$};
-		\draw[red, <-, thick] (axis cs: \xmid-2*\arrowlength, \ymid) -- (axis cs: \xmid-2*\arrowlength, \ymid+2*\arrowlength) node[midway, left] {$-W\ldvect{z}{v}$};
+		\draw[red, ->, very thick] (O) -- (axis cs: -2*\arrowlength, 0.0) node[below right] {\ldscal{T}{h}\ldvect{x}{v}};
+		\draw[red, ->, very thick] (P) -- (axis cs: \xmid-2*\arrowlength, \ymid+2*\arrowlength) node[above left] {$\ldscal{T}{1} = \ldscal{T}{h}\ldvect{x}{v} + \ldscal{W}{1} \ldvect{z}{v}$};
+		\draw[red, ->, thick] (P) -- (axis cs: \xmid-2*\arrowlength, \ymid) node[midway, below] {\ldscal{T}{h}\ldvect{x}{v}};
+		\draw[red, <-, thick] (axis cs: \xmid-2*\arrowlength, \ymid) -- (axis cs: \xmid-2*\arrowlength, \ymid+2*\arrowlength) node[midway, left] {$-\ldscal{W}{1}\ldvect{z}{v}$};
 
 		\addplot[blue, smooth, domain=\xmin:\xmax, samples=100, thick] {{(cosh(\x*\c)-1)/\c}};
 		\addplot[smooth, domain=\xmin+\offseta:\xmax-\offseta, samples=100, <->]
 		{{\offseta + (cosh(\x*(\c+\offseta))-1)/(\c+\offseta)}} node[pos=0.85, above left] {\catL};
 		\addplot[smooth, domain=\xmid+\offsetb:0, samples=100, <->]
-		{{2*\offseta + (cosh(\x*(\c+\offsetb))-1)/(\c+\offsetb)}} node[midway, above right] {$L_1$};
+		{{2*\offseta + (cosh(\x*(\c+\offsetb))-1)/(\c+\offsetb)}} node[midway, above right] {\ldscal{L}{1}};
 
 		\filldraw (A) circle (2pt) node[above] {\fpoint{A}{v}};
 		\filldraw (B) circle (2pt) node[above] {\fpoint{B}{v}};
