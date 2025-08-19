@@ -141,26 +141,30 @@ Each of these rotations is represented by a basic rotation matrix. \trigsh{}
 	\end{bmatrix}
 \end{align}
 
-The composition yields
+The composition yielded
 \begin{align}
-	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & = \lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) \lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) \lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right)               \\
-	                                                                 & = \begin{bmatrix}
-		                                                                     \cos{\scal{\psi}} \cos{\scal{\theta}}                                                         &
-		                                                                     \cos{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} - \sin{\scal{\psi}} \cos{\scal{\phi}} &
-		                                                                     \cos{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} + \sin{\scal{\psi}} \sin{\scal{\phi}}   \\
-		                                                                     \sin{\scal{\psi}} \cos{\scal{\theta}}                                                         &
-		                                                                     \sin{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} + \cos{\scal{\psi}} \cos{\scal{\phi}} &
-		                                                                     \sin{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} - \cos{\scal{\psi}} \sin{\scal{\phi}}   \\
-		                                                                     -\sin{\scal{\theta}}                                                                          &
-		                                                                     \cos{\scal{\theta}}\sin{\scal{\phi}}                                                          &
-		                                                                     \cos{\scal{\theta}}\cos{\scal{\phi}}
-	                                                                     \end{bmatrix}
+	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & =
+	\lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right)
+	\lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right)
+	\lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right)                        \\
+	                                                                 & =
+	\begin{bmatrix}
+		\cos{\scal{\psi}} \cos{\scal{\theta}}                                                         &
+		\cos{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} - \sin{\scal{\psi}} \cos{\scal{\phi}} &
+		\cos{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} + \sin{\scal{\psi}} \sin{\scal{\phi}}   \\
+		\sin{\scal{\psi}} \cos{\scal{\theta}}                                                         &
+		\sin{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} + \cos{\scal{\psi}} \cos{\scal{\phi}} &
+		\sin{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} - \cos{\scal{\psi}} \sin{\scal{\phi}}   \\
+		-\sin{\scal{\theta}}                                                                          &
+		\cos{\scal{\theta}} \sin{\scal{\phi}}                                                         &
+		\cos{\scal{\theta}} \cos{\scal{\phi}}
+	\end{bmatrix}
 	\label{eq:rov_rotation_matrix_final}
 \end{align}
 
-The transformation \lrdmatr{R}{a} between body angular velocities and Euler angle rates is derived
+The transformation \lrdmatr{R}{a} between body angular velocities and Euler angle rates was derived
 systematically from the ZYX Euler parameterization. The instantaneous angular velocity vector is
-expressed as a linear combination of contributions from the Euler angle rates:
+expressed as a linear combination of the contributions from the Euler angle rates:
 \begin{align}
 	\vect{\omega} & = \dot{\phi}\fvect{x}{B} + \dot{\theta}\fluvect{y}{I}{'} + \dot{\psi}\fvect{z}{I}
 	\label{rcc_rcm_srd_angle_composition}
@@ -169,9 +173,12 @@ expressed as a linear combination of contributions from the Euler angle rates:
 Since the angular velocity must be expressed in the body-fixed frame, each axis is projected into
 \lframe{B}:
 \begin{align}
-	\fvect{x}{B} = \begin{bmatrix}1 \\0 \\0\end{bmatrix}                                                                                                    &
-	\fvect{y}{B} = \lrmatr{R}{\top}{x}\left(\phi\right) \begin{bmatrix}0 \\1 \\0 \end{bmatrix} = \begin{bmatrix}0 \\ \cos{\phi} \\ \sin{\phi} \end{bmatrix} &
-	\fvect{z}{B} = {\left(\lrdmatr{R}{y}\left(\theta\right)\lrdmatr{R}{x}\left(\phi\right)\right)}^{\top} \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} = \begin{bmatrix}-\sin{\theta} \\ \cos{\theta} \sin{\phi} \\ \cos{\theta} \cos{\phi} \end{bmatrix}
+	\fvect{x}{B} & = \begin{bmatrix}1 \\ 0 \\ 0\end{bmatrix} \hspace{.5cm}
+	\fvect{y}{B} = \lrmatr{R}{\top}{x}\left(\phi\right)\begin{bmatrix}0 \\ 1 \\ 0 \end{bmatrix} =
+	\begin{bmatrix}0 \\ \cos{\phi} \\ \sin{\phi} \end{bmatrix} \hspace{.5cm}
+	\fvect{z}{B} = {\left(\lrdmatr{R}{y}\left(\theta\right)\lrdmatr{R}{x}\left(\phi\right)\right)}^{\top}
+	\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} =
+	\begin{bmatrix}-\sin{\theta} \\ \cos{\theta}\sin{\phi} \\ \cos{\theta}\cos{\phi} \end{bmatrix}
 \end{align}
 
 Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing in the body frame:
