@@ -54,18 +54,18 @@ In these equations:
 	\item \vect{\tau} is the control input.
 \end{itemize}
 
-Under the assumptions of irrotational underwater currents and operation without dynamic ballast
-systems, the dynamic model was simplified to~\cite{fossenHandbookMarineCraft2011}:
+Under the assumptions of irrotational underwater currents, operation without dynamic ballast
+systems, and negligible Coriolis effects at the low to moderate speeds considered, the dynamic
+model was simplified to~\cite{fossenHandbookMarineCraft2011}:
 \begin{align}
 	\matr{I} \vect{\dot{\nu}}
-	+ \left( \matr{C}\left(\vect{\nu}\right) + \matr{D}\left(\vect{\nu}\right) \right) \vect{\nu}
+	+ \matr{D}\left(\vect{\nu}\right) \vect{\nu}
 	+ \vect{s}\left(\vect{\eta}\right)
 	= \vect{\omega} + \vect{\tau}
 	\label{rcc_rcm_srd_dynamics_simple}
 \end{align}
 
-Here, \matr{I} is the generalized inertia matrix, \matr{C} is the generalized Coriolis matrix, and
-\matr{D} is the generalized damping matrix.
+Here, \matr{I} is the generalized inertia matrix and \matr{D} is the generalized damping matrix.
 
 Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} can be combined into a
 state-space representation:
@@ -79,8 +79,8 @@ state-space representation:
 		\vect{\dot{\nu}}
 	\end{bmatrix} & =
 	\begin{bmatrix}
-		0 & \matr{T}\left(\vect{\eta}\right)                                   \\
-		0 & -\matr{C}\left(\vect{\nu}\right) - \matr{D}\left(\vect{\nu}\right)
+		0 & \matr{T}\left(\vect{\eta}\right)  \\
+		0 & - \matr{D}\left(\vect{\nu}\right)
 	\end{bmatrix}
 	\begin{bmatrix}
 		\vect{\eta} \\
@@ -179,8 +179,8 @@ Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing in t
 \begin{align}
 	\fvect{\omega}{B} & =
 	\dot{\phi}\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
-	+ \dot{\theta}\begin{bmatrix} 0 \\ \cos\phi \\ \sin\phi \end{bmatrix}
-	+ \dot{\psi}\begin{bmatrix} -\sin\theta \\ \cos\theta\sin\phi \\ \cos\theta\cos\phi \end{bmatrix}.
+	+ \dot{\theta}\begin{bmatrix} 0 \\ \cos{\scal{\phi}} \\ \sin{\scal{\phi}} \end{bmatrix}
+	+ \dot{\psi}\begin{bmatrix} -\sin{\scal{\theta}} \\ \cos{\scal{\theta}}\sin{\scal{\phi}} \\ \cos{\scal{\theta}}\cos{\scal{\phi}} \end{bmatrix}.
 \end{align}
 
 By collecting terms, the relation is obtained:
