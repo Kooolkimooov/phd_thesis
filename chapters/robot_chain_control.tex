@@ -35,15 +35,15 @@ formulated for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}
 	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{rcc_rcm_srd_kinematics} \\
 	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
 	                  & + \lrdmatr{C}{rb}\left(\vect{\nu}\right) \vect{\nu}
-	+ \left( \lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right) \right) \ldvect{\nu}{r}
+	+ \left(\lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right)\right) \ldvect{\nu}{r}
 	+ \vect{s}\left(\vect{\eta}\right) = \vect{\omega} + \vect{\tau}
 	\label{rcc_rcm_srd_dynamics}
 \end{align}
 
 In these equations:
 \begin{itemize}
-	\item $\vect{\eta} = \left[x, y, z, \phi, \theta, \psi\right] \in \lframe{I}$ denotes the vehicle's position and orientation in the inertial frame.
-	\item $\vect{\nu} = \left[u, v, w, p, q, r\right] \in \lframe{B}$ is the linear and angular velocity in the body-fixed frame.
+	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle's position and orientation in the inertial frame \lframe{I}.
+	\item $\vect{\nu} = \left[\scal{u}, \scal{v}, \scal{w}, \scal{p}, \scal{q}, \scal{r}\right]^{\top}$ is the linear and angular velocity in the body-fixed frame \lframe{B}.
 	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping body frame to inertial frame.
 	\item \ldvect{\nu}{r} represents the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
 	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added mass inertia matrices, respectively.
@@ -57,9 +57,9 @@ In these equations:
 Under the assumptions of irrotational underwater currents and operation without dynamic ballast
 systems, the dynamic model simplifies to the following form~\cite{fossenHandbookMarineCraft2011}:
 \begin{align}
-	\matr{I} \dot{\vect{\nu}}
-	+ \left( \matr{C}(\vect{\nu}) + \matr{D}(\vect{\nu}) \right) \vect{\nu}
-	+ \vect{s}(\vect{\eta})
+	\matr{I} \vect{\dot{\nu}}
+	+ \left( \matr{C}\left(\vect{\nu}\right) + \matr{D}\left(\vect{\nu}\right) \right) \vect{\nu}
+	+ \vect{s}\left(\vect{\eta}\right)
 	= \vect{\omega} + \vect{\tau}
 	\label{rcc_rcm_srd_dynamics_simple}
 \end{align}
@@ -75,12 +75,12 @@ state-space representation:
 		0              & \matr{I}
 	\end{bmatrix}
 	\begin{bmatrix}
-		\dot{\vect{\eta}} \\
-		\dot{\vect{\nu}}
+		\vect{\dot{\eta}} \\
+		\vect{\dot{\nu}}
 	\end{bmatrix} & =
 	\begin{bmatrix}
-		0 & \matr{T}(\vect{\eta})                        \\
-		0 & -\matr{C}(\vect{\nu}) - \matr{D}(\vect{\nu})
+		0 & \matr{T}\left(\vect{\eta}\right)                                   \\
+		0 & -\matr{C}\left(\vect{\nu}\right) - \matr{D}\left(\vect{\nu}\right)
 	\end{bmatrix}
 	\begin{bmatrix}
 		\vect{\eta} \\
@@ -89,30 +89,131 @@ state-space representation:
 	+
 	\begin{bmatrix}
 		0 \\
-		\vect{\omega} + \vect{\tau} - \vect{s}(\vect{\eta})
+		\vect{\omega} + \vect{\tau} - \vect{s}\left(\vect{\eta}\right)
 	\end{bmatrix}
 \end{align}
 
 With \lrdmatr{I}{d} the identity matrix.
 
-The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix from the
-world frame to the body frame:
+The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
+\cref{rcc_rcm_srd_kinematics} can be partitioned as
 \begin{align}
-	\matr{T}\left(\vect{\eta}\right) & = \begin{bmatrix}
-		                                     \lrmatr{R}{w}{r}\left(\eta\right) & \lrdmatr{0}{3\times3}     \\
-		                                     \lrdmatr{0}{3\times3}             & \matr{J}\left(\eta\right)
-	                                     \end{bmatrix}
+	\matr{T}\left(\vect{\eta}\right) & =
+	\begin{bmatrix}
+		\lrdmatr{R}{l}\left(\phi,\theta,\psi\right) & \lrdmatr{0}{3\times 3}                 \\
+		\lrdmatr{0}{3\times 3}                      & \lrdmatr{R}{a}\left(\phi,\theta\right)
+	\end{bmatrix}
 \end{align}
 
-with $\lrmatr{R}{w}{r}\left(\eta\right)$ is the rotation matrix that represents the orientation of
-the robot in the inertial frame, $\matr{J}\left(\eta\right)$ is defined as:
+where:
+\begin{itemize}
+	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix mapping linear
+	      velocities from the body-fixed frame to the inertial ENU frame.
+	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation relating Euler
+	      angle rates to angular velocities in the body-fixed frame.
+\end{itemize}
+
+The rotation matrix \lrdmatr{R}{l} is obtained from the composition of three elementary rotations,
+following the ZYX Euler angle convention (yaw-pitch-roll). In this convention, the orientation of
+the body relative to the inertial frame is parameterised by the angles:
+\begin{itemize}
+	\item \scal{\psi}: yaw, a rotation about the inertial \fvect{z}{I}-axis,
+	\item \scal{\theta}: pitch, a rotation about the intermediate \fluvect{y}{I}{'}-axis (after the yaw rotation),
+	\item \scal{\phi}: roll, a rotation about the body-fixed \fvect{x}{B}-axis (after the yaw and pitch rotations).
+\end{itemize}
+
+Each of these rotations is represented by a basic rotation matrix. \trigsh{}
 \begin{align}
-	\matr{J}\left(\eta\right) & =\begin{bmatrix}
-		                             1 & \sin{\phi} \tan{\theta}   & \cos{\phi} \tan{\theta}   \\
-		                             0 & \cos{\phi}                & -\sin{\phi}               \\
-		                             0 & \sin{\phi} / \cos{\theta} & \cos{\phi} / \cos{\theta} \\
-	                             \end{bmatrix}
+	\lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) =
+	\begin{bmatrix}
+		1 & 0                 & 0                  \\
+		0 & \cos{\scal{\phi}} & -\sin{\scal{\phi}} \\
+		0 & \sin{\scal{\phi}} & \cos{\scal{\phi}}
+	\end{bmatrix} &
+	\lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) =
+	\begin{bmatrix}
+		\cos{\scal{\theta}}  & 0 & \sin{\scal{\theta}} \\
+		0                    & 1 & 0                   \\
+		-\sin{\scal{\theta}} & 0 & \cos{\scal{\theta}}
+	\end{bmatrix} &
+	\lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) =
+	\begin{bmatrix}
+		\cos{\scal{\psi}} & -\sin{\scal{\psi}} & 0 \\
+		\sin{\scal{\psi}} & \cos{\scal{\psi}}  & 0 \\
+		0                 & 0                  & 1
+	\end{bmatrix}
 \end{align}
+
+This composition outlined above then yields
+\begin{align}
+	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & = \lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) \times \lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) \times \lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) \\
+	                                                                 & = \begin{bmatrix}
+		                                                                     \cos{\scal{\psi}} \cos{\scal{\theta}}                                                         &
+		                                                                     \cos{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} - \sin{\scal{\psi}} \cos{\scal{\phi}} &
+		                                                                     \cos{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} + \sin{\scal{\psi}} \sin{\scal{\phi}}   \\
+		                                                                     \sin{\scal{\psi}} \cos{\scal{\theta}}                                                         &
+		                                                                     \sin{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} + \cos{\scal{\psi}} \cos{\scal{\phi}} &
+		                                                                     \sin{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} - \cos{\scal{\psi}} \sin{\scal{\phi}}   \\
+		                                                                     -\sin{\scal{\theta}}                                                                          &
+		                                                                     \cos{\scal{\theta}}\sin{\scal{\phi}}                                                          &
+		                                                                     \cos{\scal{\theta}}\cos{\scal{\phi}}
+	                                                                     \end{bmatrix}
+	\label{eq:rov_rotation_matrix_final}
+\end{align}
+
+The transformation \lrdmatr{R}{a} between body angular velocities and Euler angle rates can be
+derived systematically from the ZYX Euler parameterization. The instantaneous angular velocity
+vector can be expressed as a linear combination of the contributions from the Euler angle rates:
+\begin{align}
+	\vect{\omega} & = \dot{\phi}\fvect{x}{B} + \dot{\theta}\fluvect{y}{I}{'} + \dot{\psi}\fvect{z}{I}
+	\label{rcc_rcm_srd_angle_composition}
+\end{align}
+
+Since we require the angular velocity expressed in the body-fixed frame, we project each of these
+axes into \lframe{B}:
+
+\begin{align}
+	\fvect{x}{B} = \begin{bmatrix}1 \\0 \\0\end{bmatrix}                                                                                                    &
+	\fvect{y}{B} = \lrmatr{R}{\top}{x}\left(\phi\right) \begin{bmatrix}0 \\1 \\0 \end{bmatrix} = \begin{bmatrix}0 \\ \cos{\phi} \\ \sin{\phi} \end{bmatrix} &
+	\fvect{z}{B} = {\left(\lrdmatr{R}{y}\left(\theta\right)\lrdmatr{R}{x}\left(\phi\right)\right)}^{\top} \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} = \begin{bmatrix}-\sin{\theta} \\ \cos{\theta} \sin{\phi} \\ \cos{\theta} \cos{\phi} \end{bmatrix}
+\end{align}
+
+Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing in the body frame:
+\begin{align}
+	\fvect{\omega}{B} & =
+	\dot{\phi}\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
+	+ \dot{\theta}\begin{bmatrix} 0 \\ \cos\phi \\ \sin\phi \end{bmatrix}
+	+ \dot{\psi}\begin{bmatrix} -\sin\theta \\ \cos\theta\sin\phi \\ \cos\theta\cos\phi \end{bmatrix}.
+\end{align}
+
+Collecting terms, we obtain the relation
+\begin{align}
+	\begin{bmatrix}
+		\scal{p} \\ \scal{q} \\ \scal{r}
+	\end{bmatrix} & =
+	\begin{bmatrix}
+		1 & 0                  & -\sin{\scal{\theta}}                 \\
+		0 & \cos{\scal{\phi}}  & \cos{\scal{\theta}}\sin{\scal{\phi}} \\
+		0 & -\sin{\scal{\phi}} & \cos{\scal{\theta}}\cos{\scal{\phi}}
+	\end{bmatrix}
+	\begin{bmatrix}
+		\scal{\dot{\phi}} \\ \scal{\dot{\theta}} \\ \scal{\dot{\psi}}
+	\end{bmatrix} =
+	\lrmatr{R}{-1}{a}
+	\begin{bmatrix}
+		\scal{\dot{\phi}} \\ \scal{\dot{\theta}} \\ \scal{\dot{\psi}}
+	\end{bmatrix} \\
+	\lrdmatr{R}{a}                   & =
+	\begin{bmatrix}
+		1 & \sin{\scal{\phi}}\tan{\scal{\theta}} & \cos{\scal{\phi}}\tan{\scal{\theta}} \\
+		0 & \cos{\scal{\phi}}                    & -\sin{\scal{\phi}}                   \\
+		0 & \sin{\scal{\phi}}\cos{\scal{\theta}} & \cos{\scal{\phi}}\cos{\scal{\theta}}
+	\end{bmatrix}
+\end{align}
+
+which becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$ (gimbal lock).
+
+\trigft{}
 
 \subsection{Cable modelling}
 \label{rcc_rcm_cable_modelling}
