@@ -106,11 +106,11 @@ The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
 
 where:
 \begin{itemize}
-	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix mapping linear velocities from the body-fixed frame to the inertial ENU frame.
-	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation relating Euler angle rates to angular velocities in the body-fixed frame.
+	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix that maps linear velocities from the body-fixed frame to the inertial ENU frame.
+	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation that relates Euler angle rates to angular velocities in the body-fixed frame.
 \end{itemize}
 
-The rotation matrix \lrdmatr{R}{l} is obtained by composing three elementary rotations following
+The rotation matrix \lrdmatr{R}{l} is obtained by composing three elementary rotations according to
 the ZYX Euler angle convention (yaw-pitch-roll). In this convention, the orientation of the body
 relative to the inertial frame is parameterised by:
 \begin{itemize}
@@ -121,7 +121,7 @@ relative to the inertial frame is parameterised by:
 
 Each of these rotations is represented by a basic rotation matrix. \trigsh{}
 \begin{align}
-	\lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) =
+	\lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) & =
 	\begin{bmatrix}
 		1 & 0                 & 0                  \\
 		0 & \cos{\scal{\phi}} & -\sin{\scal{\phi}} \\
