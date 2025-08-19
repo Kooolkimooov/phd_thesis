@@ -67,12 +67,12 @@ model was simplified to~\cite{fossenHandbookMarineCraft2011}:
 
 Here, \matr{I} is the generalized inertia matrix and \matr{D} is the generalized damping matrix.
 
-Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} can be combined into a
+Furthermore, \cref{rcc_rcm_srd_kinematics,rcc_rcm_srd_dynamics_simple} can be combined into a
 state-space representation:
 \begin{align}
 	\begin{bmatrix}
-		\lrdmatr{I}{d} & 0        \\
-		0              & \matr{I}
+		\lrdmatr{I}{6\times 6} & 0        \\
+		0                      & \matr{I}
 	\end{bmatrix}
 	\begin{bmatrix}
 		\vect{\dot{\eta}} \\
@@ -92,8 +92,6 @@ state-space representation:
 		\vect{\omega} + \vect{\tau} - \vect{s}\left(\vect{\eta}\right)
 	\end{bmatrix}
 \end{align}
-
-with \lrdmatr{I}{d} the identity matrix.
 
 The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
 \cref{rcc_rcm_srd_kinematics} is partitioned as
