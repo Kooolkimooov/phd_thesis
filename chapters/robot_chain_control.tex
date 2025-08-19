@@ -9,14 +9,14 @@
 \section{Robot chain modelling}
 \label{rcc_robot_chain_modelling}
 
-The inertial frame, denoted as \lframe{I} when needed, is an earth-fixed, right-handed frame.
-Throughout this work we adopt a local \ac{enu} convention unless otherwise stated: the
-\vect{x}-axis points to the east, the \vect{y}-axis points to the north and the \vect{z}-axis
-points up. The origin of this frame is located at the water surface (\cref{rcc_rcm_frames}).
+The inertial frame, denoted as \lframe{I} when required, was defined as an earth-fixed,
+right-handed frame. A local \ac{enu} convention was adopted unless explicitly stated otherwise: the
+\vect{x}-axis pointed east, the \vect{y}-axis pointed north, and the \vect{z}-axis pointed upward.
+The origin of this frame was located at the water surface (\cref{rcc_rcm_frames}).
 
-The body-fixed frame, denoted as \lframe{B} when needed, is rigidly attached to the vehicle with
-origin at the vehicle centre of gravity. It is a right-handed frame with the \vect{x}-axis pointing
-forward, the \vect{y}-axis pointing to the left and the \vect{z}-axis pointing up
+The body-fixed frame, denoted as \lframe{B} when required, was rigidly attached to the vehicle with
+its origin at the centre of gravity. It was a right-handed frame in which the \vect{x}-axis pointed
+forward, the \vect{y}-axis pointed to the left, and the \vect{z}-axis pointed upward
 (\cref{rcc_rcm_frames}).
 
 \begin{figure}
@@ -29,8 +29,8 @@ forward, the \vect{y}-axis pointing to the left and the \vect{z}-axis pointing u
 \subsection{Single robot dynamics}
 \label{rcc_rcm_single_robot_dynamics}
 
-The modelling of a \acp{rov} is described by the classical six-degree-of-freedom rigid body model
-formulated for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}:
+The dynamics of a \ac{rov} are described by the classical six-degree-of-freedom rigid-body model
+formulated for marine craft~\cite{fossenHandbookMarineCraft2011}:
 \begin{align}
 	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{rcc_rcm_srd_kinematics} \\
 	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
@@ -42,20 +42,20 @@ formulated for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}
 
 In these equations:
 \begin{itemize}
-	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle's position and orientation in the inertial frame \lframe{I}.
+	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle position and orientation in the inertial frame \lframe{I}.
 	\item $\vect{\nu} = \left[\scal{u}, \scal{v}, \scal{w}, \scal{p}, \scal{q}, \scal{r}\right]^{\top}$ is the linear and angular velocity in the body-fixed frame \lframe{B}.
-	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping body frame to inertial frame.
+	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping the body-fixed frame to the inertial frame.
 	\item \ldvect{\nu}{r} represents the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
-	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added mass inertia matrices, respectively.
-	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are their associated Coriolis matrices.
+	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added-mass inertia matrices, respectively.
+	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are the associated Coriolis matrices.
 	\item \matr{D} is the hydrodynamic damping matrix.
 	\item $\vect{s}\left(\vect{\eta}\right)$ represents the hydrostatic restoring force.
-	\item \vect{\omega} includes environmental disturbances such as wind and wave loads.
+	\item \vect{\omega} accounts for environmental disturbances such as wind and wave loads.
 	\item \vect{\tau} is the control input.
 \end{itemize}
 
 Under the assumptions of irrotational underwater currents and operation without dynamic ballast
-systems, the dynamic model simplifies to the following form~\cite{fossenHandbookMarineCraft2011}:
+systems, the dynamic model was simplified to~\cite{fossenHandbookMarineCraft2011}:
 \begin{align}
 	\matr{I} \vect{\dot{\nu}}
 	+ \left( \matr{C}\left(\vect{\nu}\right) + \matr{D}\left(\vect{\nu}\right) \right) \vect{\nu}
@@ -67,7 +67,7 @@ systems, the dynamic model simplifies to the following form~\cite{fossenHandbook
 Here, \matr{I} is the generalized inertia matrix, \matr{C} is the generalized Coriolis matrix, and
 \matr{D} is the generalized damping matrix.
 
-Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} may be combined into a
+Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} can be combined into a
 state-space representation:
 \begin{align}
 	\begin{bmatrix}
@@ -93,10 +93,10 @@ state-space representation:
 	\end{bmatrix}
 \end{align}
 
-With \lrdmatr{I}{d} the identity matrix.
+with \lrdmatr{I}{d} the identity matrix.
 
 The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
-\cref{rcc_rcm_srd_kinematics} can be partitioned as
+\cref{rcc_rcm_srd_kinematics} is partitioned as
 \begin{align}
 	\matr{T}\left(\vect{\eta}\right) & =
 	\begin{bmatrix}
@@ -107,15 +107,13 @@ The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
 
 where:
 \begin{itemize}
-	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix mapping linear
-	      velocities from the body-fixed frame to the inertial ENU frame.
-	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation relating Euler
-	      angle rates to angular velocities in the body-fixed frame.
+	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix mapping linear velocities from the body-fixed frame to the inertial ENU frame.
+	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation relating Euler angle rates to angular velocities in the body-fixed frame.
 \end{itemize}
 
-The rotation matrix \lrdmatr{R}{l} is obtained from the composition of three elementary rotations,
-following the ZYX Euler angle convention (yaw-pitch-roll). In this convention, the orientation of
-the body relative to the inertial frame is parameterised by the angles:
+The rotation matrix \lrdmatr{R}{l} is obtained by composing three elementary rotations following
+the ZYX Euler angle convention (yaw-pitch-roll). In this convention, the orientation of the body
+relative to the inertial frame is parameterised by:
 \begin{itemize}
 	\item \scal{\psi}: yaw, a rotation about the inertial \fvect{z}{I}-axis,
 	\item \scal{\theta}: pitch, a rotation about the intermediate \fluvect{y}{I}{'}-axis (after the yaw rotation),
@@ -144,7 +142,7 @@ Each of these rotations is represented by a basic rotation matrix. \trigsh{}
 	\end{bmatrix}
 \end{align}
 
-This composition outlined above then yields
+The composition yields
 \begin{align}
 	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & = \lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) \times \lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) \times \lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) \\
 	                                                                 & = \begin{bmatrix}
@@ -161,17 +159,16 @@ This composition outlined above then yields
 	\label{eq:rov_rotation_matrix_final}
 \end{align}
 
-The transformation \lrdmatr{R}{a} between body angular velocities and Euler angle rates can be
-derived systematically from the ZYX Euler parameterization. The instantaneous angular velocity
-vector can be expressed as a linear combination of the contributions from the Euler angle rates:
+The transformation \lrdmatr{R}{a} between body angular velocities and Euler angle rates is derived
+systematically from the ZYX Euler parameterization. The instantaneous angular velocity vector is
+expressed as a linear combination of contributions from the Euler angle rates:
 \begin{align}
 	\vect{\omega} & = \dot{\phi}\fvect{x}{B} + \dot{\theta}\fluvect{y}{I}{'} + \dot{\psi}\fvect{z}{I}
 	\label{rcc_rcm_srd_angle_composition}
 \end{align}
 
-Since we require the angular velocity expressed in the body-fixed frame, we project each of these
-axes into \lframe{B}:
-
+Since the angular velocity must be expressed in the body-fixed frame, each axis is projected into
+\lframe{B}:
 \begin{align}
 	\fvect{x}{B} = \begin{bmatrix}1 \\0 \\0\end{bmatrix}                                                                                                    &
 	\fvect{y}{B} = \lrmatr{R}{\top}{x}\left(\phi\right) \begin{bmatrix}0 \\1 \\0 \end{bmatrix} = \begin{bmatrix}0 \\ \cos{\phi} \\ \sin{\phi} \end{bmatrix} &
@@ -186,7 +183,7 @@ Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing in t
 	+ \dot{\psi}\begin{bmatrix} -\sin\theta \\ \cos\theta\sin\phi \\ \cos\theta\cos\phi \end{bmatrix}.
 \end{align}
 
-Collecting terms, we obtain the relation
+By collecting terms, the relation is obtained:
 \begin{align}
 	\begin{bmatrix}
 		\scal{p} \\ \scal{q} \\ \scal{r}
@@ -211,7 +208,7 @@ Collecting terms, we obtain the relation
 	\end{bmatrix}
 \end{align}
 
-which becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$ (gimbal lock).
+This expression becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$ (gimbal lock).
 
 \trigft{}
 
