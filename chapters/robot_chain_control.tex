@@ -412,36 +412,39 @@ the forces of two cables.
 \section{Controllers}
 \label{rcc_controllers}
 
-This section develops the control architectures used to coordinate a chain of tethered \acp{rov} so
-that the lead vehicle tracks its assigned motion objective while the group respects the mechanical
-and environmental constraints introduced in \cref{rcc_robot_chain_modelling}. Controllers must
-regulate the coupled dynamics under disturbances, enforce actuator limits, maintain safe
-inter-vehicle spacing and seafloor clearance, and keep tether tensions and geometry within the
-feasible catenary envelope. several controllers are tested: an \ac{mpc} formulates the coupled
-problem with explicit constraints (\cref{rcc_c_model_predictive_control}), a path-planning layer
-provides feasible waypoints and references consistent with tether kinematics
-(\cref{rcc_c_path_planning}), and lightweight reactive behaviors handle fast safety overrides and
-unmodeled events (\cref{rcc_c_reactive_control}).
+This section presents the control architectures that were developed to coordinate a chain of
+tethered \acp{rov} such that the lead vehicle tracked its assigned motion objective while the group
+respected the mechanical and environmental constraints introduced in
+\cref{rcc_robot_chain_modelling}. The controllers were required to regulate the coupled dynamics
+under disturbances, enforce actuator limits, maintain safe inter-vehicle spacing and seafloor
+clearance, and keep tether tensions and geometry within the feasible catenary envelope. Several
+controllers were evaluated: an \ac{mpc} that formulated the coupled problem with explicit
+constraints (\cref{rcc_c_model_predictive_control}), a path-planning layer that provided feasible
+waypoints and references consistent with tether kinematics (\cref{rcc_c_path_planning}), and
+lightweight reactive behaviors that handled fast safety overrides and unmodeled events
+(\cref{rcc_c_reactive_control}).
 
 \subsection{Model predictive control}
 \label{rcc_c_model_predictive_control}
 
-Let~\cref{mcc_c_mpc_system} be a discrete-time control system with state \ldvect{x}{k} and control
-input \ldvect{u}{k}, both expressed at time \scal{k}.
+Let \cref{mcc_c_mpc_system} define a discrete-time control system with state \ldvect{x}{k} and
+control input \ldvect{u}{k}, both expressed at time \scal{k}:
 \begin{equation}
 	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right) \label{mcc_c_mpc_system}
 \end{equation}
 
-This system may be obtained by an integration of the robot chain dynamics described in
+This system is obtained by integrating the robot chain dynamics described in
 \cref{rcc_robot_chain_modelling}.
 
-A model predictive control problem consists of finding a sequence of control inputs $\vect{u}=
-	\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over a future time horizon \mpch{} in order to
-minimize some prescribed cost function~(\cref{rcc_c_mpc_schematic}). In addition to the
-aforementioned dynamic constraint~\cref{mcc_c_mpc_system}, it is also possible to impose algebraic
-constraints on the variables associated with the problem.
+A model predictive control problem consists of finding a sequence of control inputs
+$\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over a future time horizon \mpch{} in
+order to minimize a prescribed cost function (\cref{rcc_c_mpc_schematic}). In addition to the
+dynamic constraint of \cref{mcc_c_mpc_system}, algebraic constraints may also be imposed on the
+variables associated with the problem:
 \begin{align}
-	\vect{u} = & \argmin{\llvect{x}{\top}{h} \matr{P} \ldvect{x}{h} + \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\llvect{x}{\top}{k} \matr{Q} \ldvect{x}{k} + \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}}
+	\vect{u} = & \argmin{\llvect{x}{\top}{h} \matr{P} \ldvect{x}{h}
+	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\llvect{x}{\top}{k} \matr{Q} \ldvect{x}{k}
+	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}}
 \end{align}
 
 subject to
@@ -457,37 +460,49 @@ subject to
 where
 \begin{itemize}
 	\item $\Delta \ldvect{u}{k} = \ldvect{u}{k} - \ldvect{u}{k-1}$,
-	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state and control costs respectively,
-	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
+	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state, and control costs, respectively,
+	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{u}_{\text{min}}$ and $\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and $\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input,
-	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}} and \ldscal{dh}{\text{max}} are geometrical bounds for the relative position of a pair of robot as well as the cable between them.
+	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}} and \ldscal{dh}{\text{max}} are the geometrical bounds for the relative position of a pair of robots as well as the cable between them.
 \end{itemize}
 
-Once the optimal control input is found, the first control input is applied to the system and the
-optimization problem is solved again at the next time step.
+Once the optimal control input is found, the first element of the sequence is applied to the
+system, and the optimization problem is solved again at the next time step.
 \begin{figure}
 	\centering
 	\inputtikz{figures/model_predictive_control_schematic}
-	\caption{Schematic of the model predictive control algorithm}
+	\caption{Schematic of the model predictive control algorithm.}
 	\label{rcc_c_mpc_schematic}
 \end{figure}
 
-In order to speed up the optimization time, $\mathbf{u}$ may be peace-wise constant over the
-horizon or parameters to a polynomial function.
+In order to reduce the optimization time, $\mathbf{u}$ may be considered constant over the horizon,
+piecewise constant over the horizon or even parameterized as a polynomial function.
 
 \subsection{Path planning}
 \label{rcc_c_path_planning}
 
+\lipsum[1]
+
 \subsection{Reactive control}
 \label{rcc_c_reactive_control}
 
+\lipsum[1]
+
 \section{Simulation}
+
+\lipsum[1]
 
 \subsection{Model predictive control}
 \label{rcc_s_model_predictive_control}
 
+\lipsum[1]
+
 \subsection{Path planning}
 \label{rcc_s_path_planning}
 
+\lipsum[1]
+
 \subsection{Reactive control}
 \label{rcc_s_reactive_control}
+
+\lipsum[1]
