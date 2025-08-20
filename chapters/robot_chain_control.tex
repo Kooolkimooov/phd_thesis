@@ -439,32 +439,41 @@ This system is obtained by integrating the robot chain dynamics described in
 A model predictive control problem consists of finding a sequence of control inputs
 $\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over a future time horizon \mpch{} in
 order to minimize a prescribed cost function (\cref{rcc_c_mpc_schematic}). In addition to the
-dynamic constraint of \cref{mcc_c_mpc_system}, algebraic constraints may also be imposed on the
-variables associated with the problem:
+dynamic constraint of \cref{mcc_c_mpc_system}, kinematic constraints are also imposed on the
+problem based on the robot chain system:
 \begin{align}
-	\vect{u} = & \argmin{\llvect{x}{\top}{h} \matr{P} \ldvect{x}{h}
-	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\llvect{x}{\top}{k} \matr{Q} \ldvect{x}{k}
+	\vect{u} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
+	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}
 	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}}
 \end{align}
 
 subject to
 \begin{alignat}{3}
-	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}} \notag       \\
-	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \notag \\
-	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\notag                              \\
-	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag      \\
-	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag      \\
+	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}}                \\
+	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \notag   \\
+	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\notag                                \\
+	\leq                                  & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
+	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
+	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
 	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}} \notag
 \end{alignat}
 
 where
 \begin{itemize}
-	\item $\Delta \ldvect{u}{k} = \ldvect{u}{k} - \ldvect{u}{k-1}$,
+	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ is the state deviation from the target,
+	\item $\Delta \ldvect{u}{k} = \ldvect{u}{k} - \ldvect{u}{k-1}$ is the incremental control input,
 	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state, and control costs, respectively,
 	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{u}_{\text{min}}$ and $\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and $\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input,
-	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}} and \ldscal{dh}{\text{max}} are the geometrical bounds for the relative position of a pair of robots as well as the cable between them.
+	\item \ldcoord{z}{w}{\text{seafloor}}, \ldcoord{z}{w}{\text{surface}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}} and \ldscal{dh}{\text{max}} are the geometrical bounds for the relative position of a pair of robots as well as the cable between them.
 \end{itemize}
+
+Eventually, if the robot is operating in a known constrained environment like a pool the following
+constraints may be added
+\begin{alignat}{3}
+	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}}        \\
+	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}} \notag
+\end{alignat}
 
 Once the optimal control input is found, the first element of the sequence is applied to the
 system, and the optimization problem is solved again at the next time step.
@@ -475,13 +484,47 @@ system, and the optimization problem is solved again at the next time step.
 	\label{rcc_c_mpc_schematic}
 \end{figure}
 
-In order to reduce the optimization time, $\mathbf{u}$ may be considered constant over the horizon,
-piecewise constant over the horizon or even parameterized as a polynomial function.
+In order to reduce the optimization time, \vect{u} may be considered constant or piecewise constant
+over the horizon or even parameterized as a polynomial function.
 
 \subsection{Path planning}
 \label{rcc_c_path_planning}
 
-\lipsum[1]
+A path planning problem was formulated to generate feasible trajectories for the robots while
+respecting the tether kinematics and the constraints of the chain. This trajectory is then used
+with a simple controller (\ac{pid}) to move the system. The path planning optimization problem
+consists of finding a sequence of waypoints $\vect{p}=\left(\ldvect{x}{0}, \dots,
+	\ldvect{x}{n}\right)$ over a finite horizon \mpch{} in order to minimize the distance of the path
+to the desired pose of the robots while considering kinematic feasibility constraints
+\cref{rcc_c_pp_constraints}
+\begin{align}
+	\vect{p} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
+	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}}}
+	\label{rcc_c_pp_cost}
+\end{align}
+
+subject to
+\begin{alignat}{3}
+	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     &                                        \\
+	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
+	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
+	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
+	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldvect{d}{\text{max}} \notag
+	\label{rcc_c_pp_constraints}
+\end{alignat}
+
+where
+\begin{itemize}
+	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ is the state deviation from the target,
+	\item \matr{P} and \matr{Q} are the positive semi-definite matrices weighting the final and state costs, respectively,
+	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)}, and \ldscal{\catl{}}{i(i+1)} are the catenary model parameters representing the tether between robots \scal{i} and \scal{i+1},
+	\item $\mathbf{p}_{\text{min}}$ and $\mathbf{p}_{\text{max}}$ are bounds on feasible waypoints,
+	\item $\Delta\mathbf{r}_{\text{min}}$ and $\Delta\mathbf{r}_{\text{max}}$ are bounds on the increments between path parameters,
+	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and seafloor clearance.
+\end{itemize}
+
+Once the optimal waypoint sequence was found, it is passed to a controller as the reference, and
+the optimization problem was solved again at the next planning step.
 
 \subsection{Reactive control}
 \label{rcc_c_reactive_control}
@@ -504,5 +547,9 @@ piecewise constant over the horizon or even parameterized as a polynomial functi
 
 \subsection{Reactive control}
 \label{rcc_s_reactive_control}
+
+\lipsum[1]
+
+\section{Conclusion}
 
 \lipsum[1]
