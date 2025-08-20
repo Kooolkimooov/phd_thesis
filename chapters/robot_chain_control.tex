@@ -491,12 +491,12 @@ over the horizon or even parameterized as a polynomial function.
 \label{rcc_c_path_planning}
 
 A path planning problem was formulated to generate feasible trajectories for the robots while
-respecting the tether kinematics and the constraints of the chain. This trajectory is then used
-with a simple controller (\ac{pid}) to move the system. The path planning optimization problem
+respecting the tether kinematics and the constraints of the chain. The resulting trajectory is then
+used with a simple controller (\ac{pid}) to move the system. The path planning optimization problem
 consists of finding a sequence of waypoints $\vect{p}=\left(\ldvect{x}{0}, \dots,
 	\ldvect{x}{n}\right)$ over a finite horizon \mpch{} in order to minimize the distance of the path
-to the desired pose of the robots while considering kinematic feasibility constraints
-\cref{rcc_c_pp_constraints}
+to the desired pose of the robots while enforcing kinematic feasibility constraints
+(\cref{rcc_c_pp_constraints}):
 \begin{align}
 	\vect{p} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
 	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}}}
@@ -515,15 +515,15 @@ subject to
 
 where
 \begin{itemize}
-	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ is the state deviation from the target,
-	\item \matr{P} and \matr{Q} are the positive semi-definite matrices weighting the final and state costs, respectively,
+	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ denotes the state deviation from the target,
+	\item \matr{P} and \matr{Q} are positive semi-definite matrices weighting the final and state costs, respectively,
 	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)}, and \ldscal{\catl{}}{i(i+1)} are the catenary model parameters representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{p}_{\text{min}}$ and $\mathbf{p}_{\text{max}}$ are bounds on feasible waypoints,
 	\item $\Delta\mathbf{r}_{\text{min}}$ and $\Delta\mathbf{r}_{\text{max}}$ are bounds on the increments between path parameters,
 	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and seafloor clearance.
 \end{itemize}
 
-Once the optimal waypoint sequence was found, it is passed to a controller as the reference, and
+Once the optimal waypoint sequence was found, it iq passed to the controller as a reference, and
 the optimization problem was solved again at the next planning step.
 
 \subsection{Reactive control}
