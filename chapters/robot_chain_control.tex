@@ -412,6 +412,17 @@ the forces of two cables.
 \section{Controllers}
 \label{rcc_controllers}
 
+This section develops the control architectures used to coordinate a chain of tethered \acp{rov} so
+that the lead vehicle tracks its assigned motion objective while the group respects the mechanical
+and environmental constraints introduced in \cref{rcc_robot_chain_modelling}. Controllers must
+regulate the coupled dynamics under disturbances, enforce actuator limits, maintain safe
+inter-vehicle spacing and seafloor clearance, and keep tether tensions and geometry within the
+feasible catenary envelope. several controllers are tested: an \ac{mpc} formulates the coupled
+problem with explicit constraints (\cref{rcc_c_model_predictive_control}), a path-planning layer
+provides feasible waypoints and references consistent with tether kinematics
+(\cref{rcc_c_path_planning}), and lightweight reactive behaviors handle fast safety overrides and
+unmodeled events (\cref{rcc_c_reactive_control}).
+
 \subsection{Model predictive control}
 \label{rcc_c_model_predictive_control}
 
