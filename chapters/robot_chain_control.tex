@@ -9,74 +9,576 @@
 \section{Robot chain modelling}
 \label{rcc_robot_chain_modelling}
 
+The inertial frame, denoted as \lframe{I} when required, is defined as an earth-fixed, right-handed
+frame. A local \ac{enu} convention is adopted unless explicitly stated otherwise: the \vect{x}-axis
+points east, the \vect{y}-axis points north, and the \vect{z}-axis points upward. The origin of
+this frame is located at the water surface (\cref{rcc_rcm_frames}).
+
+The body-fixed frame, denoted as \lframe{B} when required, is rigidly attached to the vehicle with
+its origin at the centre of gravity. It is defined as a right-handed frame in which the
+\vect{x}-axis points forward, the \vect{y}-axis points to the left, and the \vect{z}-axis points
+upward (\cref{rcc_rcm_frames}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/robot_modelling_frames}
+	\caption{Schematic representation of the inertial and body-fixed frames.}
+	\label{rcc_rcm_frames}
+\end{figure}
+
 \subsection{Single robot dynamics}
 \label{rcc_rcm_single_robot_dynamics}
 
-\lipsum[1]
+The dynamic model of a \ac{rov} is described by the classical six-degree-of-freedom rigid-body
+model formulated for marine craft~\cite{fossenHandbookMarineCraft2011}:
+\begin{align}
+	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{rcc_rcm_srd_kinematics} \\
+	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
+	                  & + \lrdmatr{C}{rb}\left(\vect{\nu}\right) \vect{\nu}
+	+ \left(\lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right)\right) \ldvect{\nu}{r}
+	+ \vect{s}\left(\vect{\eta}\right) = \vect{\omega} + \vect{\tau}
+	\label{rcc_rcm_srd_dynamics}
+\end{align}
+
+In these equations:
+\begin{itemize}
+	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle position and orientation in the inertial frame \lframe{I}.
+	\item $\vect{\nu} = \left[\scal{u}, \scal{v}, \scal{w}, \scal{p}, \scal{q}, \scal{r}\right]^{\top}$ represents the linear and angular velocity in the body-fixed frame \lframe{B}.
+	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping the body-fixed frame to the inertial frame.
+	\item \ldvect{\nu}{r} denotes the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
+	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added-mass inertia matrices, respectively.
+	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are the associated Coriolis matrices.
+	\item \matr{D} is the hydrodynamic damping matrix.
+	\item $\vect{s}\left(\vect{\eta}\right)$ represents the hydrostatic restoring force.
+	\item \vect{\omega} accounts for environmental disturbances such as wind and wave loads.
+	\item \vect{\tau} is the control input.
+\end{itemize}
+
+Under the assumptions of irrotational underwater currents, absence of dynamic ballast systems, and
+negligible Coriolis effects at the low to moderate speeds considered, the dynamic model was
+simplified to~\cite{fossenHandbookMarineCraft2011}:
+\begin{align}
+	\matr{I} \vect{\dot{\nu}}
+	+ \matr{D}\left(\vect{\nu}\right) \vect{\nu}
+	+ \vect{s}\left(\vect{\eta}\right)
+	= \vect{\omega} + \vect{\tau}
+	\label{rcc_rcm_srd_dynamics_simple}
+\end{align}
+
+Here, \matr{I} denotes the generalized inertia matrix and \matr{D} denotes the generalized damping
+matrix.
+
+Furthermore, \cref{rcc_rcm_srd_kinematics,rcc_rcm_srd_dynamics_simple} were combined into a
+state-space representation:
+\begin{align}
+	\begin{bmatrix}
+		\lrdmatr{I}{6\times 6} & 0        \\
+		0                      & \matr{I}
+	\end{bmatrix}
+	\begin{bmatrix}
+		\vect{\dot{\eta}} \\
+		\vect{\dot{\nu}}
+	\end{bmatrix} & =
+	\begin{bmatrix}
+		0 & \matr{T}\left(\vect{\eta}\right)  \\
+		0 & - \matr{D}\left(\vect{\nu}\right)
+	\end{bmatrix}
+	\begin{bmatrix}
+		\vect{\eta} \\
+		\vect{\nu}
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+		0 \\
+		\vect{\omega} + \vect{\tau} - \vect{s}\left(\vect{\eta}\right)
+	\end{bmatrix}
+\end{align}
+
+The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
+\cref{rcc_rcm_srd_kinematics} is partitioned as
+\begin{align}
+	\matr{T}\left(\vect{\eta}\right) & =
+	\begin{bmatrix}
+		\lrdmatr{R}{l}\left(\phi,\theta,\psi\right) & \lrdmatr{0}{3\times 3}                 \\
+		\lrdmatr{0}{3\times 3}                      & \lrdmatr{R}{a}\left(\phi,\theta\right)
+	\end{bmatrix}
+\end{align}
+
+where:
+\begin{itemize}
+	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix that maps linear velocities from the body-fixed frame to the inertial ENU frame.
+	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation that relates Euler angle rates to angular velocities in the body-fixed frame.
+\end{itemize}
+
+The rotation matrix \lrdmatr{R}{l} is obtained by composing three elementary rotations according to
+the ZYX Euler angle convention (yaw-pitch-roll). In this convention, the orientation of the body
+relative to the inertial frame is parameterised by:
+\begin{itemize}
+	\item \scal{\psi}: yaw, a rotation about the inertial \fvect{z}{I}-axis,
+	\item \scal{\theta}: pitch, a rotation about the intermediate \fluvect{y}{I}{'}-axis (after the yaw rotation),
+	\item \scal{\phi}: roll, a rotation about the body-fixed \fvect{x}{B}-axis (after the yaw and pitch rotations).
+\end{itemize}
+
+Each of these rotations is represented by a basic rotation matrix. \trigsh{}
+\begin{align}
+	\lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right) & =
+	\begin{bmatrix}
+		1 & 0                 & 0                  \\
+		0 & \cos{\scal{\phi}} & -\sin{\scal{\phi}} \\
+		0 & \sin{\scal{\phi}} & \cos{\scal{\phi}}
+	\end{bmatrix} \hspace{.5cm}
+	\lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right) =
+	\begin{bmatrix}
+		\cos{\scal{\theta}}  & 0 & \sin{\scal{\theta}} \\
+		0                    & 1 & 0                   \\
+		-\sin{\scal{\theta}} & 0 & \cos{\scal{\theta}}
+	\end{bmatrix} \hspace{.5cm}
+	\lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right) =
+	\begin{bmatrix}
+		\cos{\scal{\psi}} & -\sin{\scal{\psi}} & 0 \\
+		\sin{\scal{\psi}} & \cos{\scal{\psi}}  & 0 \\
+		0                 & 0                  & 1
+	\end{bmatrix}
+\end{align}
+
+The composition yielded
+\begin{align}
+	\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) & =
+	\lrdmatr{R}{\vect{z}}\left(\scal{\psi}\right)
+	\lrdmatr{R}{\vect{y}}\left(\scal{\theta}\right)
+	\lrdmatr{R}{\vect{x}}\left(\scal{\phi}\right)                        \\
+	                                                                 & =
+	\begin{bmatrix}
+		\cos{\scal{\psi}} \cos{\scal{\theta}}                                                         &
+		\cos{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} - \sin{\scal{\psi}} \cos{\scal{\phi}} &
+		\cos{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} + \sin{\scal{\psi}} \sin{\scal{\phi}}   \\
+		\sin{\scal{\psi}} \cos{\scal{\theta}}                                                         &
+		\sin{\scal{\psi}} \sin{\scal{\theta}} \sin{\scal{\phi}} + \cos{\scal{\psi}} \cos{\scal{\phi}} &
+		\sin{\scal{\psi}} \sin{\scal{\theta}} \cos{\scal{\phi}} - \cos{\scal{\psi}} \sin{\scal{\phi}}   \\
+		-\sin{\scal{\theta}}                                                                          &
+		\cos{\scal{\theta}} \sin{\scal{\phi}}                                                         &
+		\cos{\scal{\theta}} \cos{\scal{\phi}}
+	\end{bmatrix}
+	\label{eq:rov_rotation_matrix_final}
+\end{align}
+
+The transformation \lrdmatr{R}{a} between body angular velocities and Euler angle rates was derived
+systematically from the ZYX Euler parameterization. The instantaneous angular velocity vector is
+expressed as a linear combination of the contributions from the Euler angle rates:
+\begin{align}
+	\vect{\omega} & = \dot{\phi}\fvect{x}{B} + \dot{\theta}\fluvect{y}{I}{'} + \dot{\psi}\fvect{z}{I}
+	\label{rcc_rcm_srd_angle_composition}
+\end{align}
+
+Since the angular velocity must be expressed in the body-fixed frame, each axis is projected into
+\lframe{B}:
+\begin{align}
+	\fvect{x}{B} & = \begin{bmatrix}1 \\ 0 \\ 0\end{bmatrix} \hspace{.5cm}
+	\fvect{y}{B} = \lrmatr{R}{\top}{x}\left(\phi\right)\begin{bmatrix}0 \\ 1 \\ 0 \end{bmatrix} =
+	\begin{bmatrix}0 \\ \cos{\phi} \\ \sin{\phi} \end{bmatrix} \hspace{.5cm}
+	\fvect{z}{B} = {\left(\lrdmatr{R}{y}\left(\theta\right)\lrdmatr{R}{x}\left(\phi\right)\right)}^{\top}
+	\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} =
+	\begin{bmatrix}-\sin{\theta} \\ \cos{\theta}\sin{\phi} \\ \cos{\theta}\cos{\phi} \end{bmatrix}
+\end{align}
+
+Substituting these into \cref{rcc_rcm_srd_angle_composition} and expressing them in the body frame,
+the following relation was obtained:
+\begin{align}
+	\fvect{\omega}{B} & =
+	\dot{\phi}\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
+	+ \dot{\theta}\begin{bmatrix} 0 \\ \cos{\scal{\phi}} \\ \sin{\scal{\phi}} \end{bmatrix}
+	+ \dot{\psi}\begin{bmatrix} -\sin{\scal{\theta}} \\ \cos{\scal{\theta}}\sin{\scal{\phi}} \\ \cos{\scal{\theta}}\cos{\scal{\phi}} \end{bmatrix}
+\end{align}
+
+By collecting terms, the relation between angular velocities and Euler angle rates was expressed as
+\begin{align}
+	\begin{bmatrix}
+		\scal{p} \\ \scal{q} \\ \scal{r}
+	\end{bmatrix} & =
+	\begin{bmatrix}
+		1 & 0                  & -\sin{\scal{\theta}}                 \\
+		0 & \cos{\scal{\phi}}  & \cos{\scal{\theta}}\sin{\scal{\phi}} \\
+		0 & -\sin{\scal{\phi}} & \cos{\scal{\theta}}\cos{\scal{\phi}}
+	\end{bmatrix}
+	\begin{bmatrix}
+		\scal{\dot{\phi}} \\ \scal{\dot{\theta}} \\ \scal{\dot{\psi}}
+	\end{bmatrix} =
+	\lrmatr{R}{-1}{a}
+	\begin{bmatrix}
+		\scal{\dot{\phi}} \\ \scal{\dot{\theta}} \\ \scal{\dot{\psi}}
+	\end{bmatrix} \\
+	\lrdmatr{R}{a}                   & =
+	\begin{bmatrix}
+		1 & \sin{\scal{\phi}}\tan{\scal{\theta}} & \cos{\scal{\phi}}\tan{\scal{\theta}} \\
+		0 & \cos{\scal{\phi}}                    & -\sin{\scal{\phi}}                   \\
+		0 & \sin{\scal{\phi}}\cos{\scal{\theta}} & \cos{\scal{\phi}}\cos{\scal{\theta}}
+	\end{bmatrix}
+\end{align}
+
+This expression becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$ (gimbal lock).
+
+\trigft{}
+
+The hydrostatic restoring vector is defined as
+\begin{align}
+	\vect{s}\left(\vect{\eta}\right) & =
+	\begin{bmatrix}
+		\fldvect{f}{B}{g} + \fldvect{f}{B}{b} \\
+		\fldvect{m}{B}{g} + \fldvect{m}{B}{b}
+	\end{bmatrix}
+\end{align}
+
+where the first three components represent the net forces due to gravity and buoyancy, and the last
+three components represent the corresponding restoring moments.
+
+In the inertial frame \lframe{I}, the gravitational and buoyancy forces are
+\begin{align}
+	\fldvect{f}{I}{g} =
+	\begin{bmatrix}
+		0 \\ 0 \\ -\scal{m}\scal{g}
+	\end{bmatrix} \hspace{1cm}
+	\fldvect{f}{I}{b} =
+	\begin{bmatrix}
+		0 \\ 0 \\ \ldscal{\rho}{w}\scal{g}\scal{v}
+	\end{bmatrix}
+\end{align}
+
+where \scal{m} is the vehicle mass, \scal{g} is the gravitational acceleration, \ldscal{\rho}{w} is
+the water density, and \scal{v} is the submerged volume of the vehicle.
+
+The rotation matrix \lrdmatr{R}{l} is used to express these forces in \lframe{B}:
+\begin{align}
+	\fldvect{f}{B}{g} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{g} \\
+	\fldvect{f}{B}{b} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{b}
+\end{align}
+
+The corresponding restoring moments are obtained from the moment arms of the centre of gravity
+$\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y}, \ldscal{c}{g,z}\right]^{\top}$ and the
+centre of buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y},
+		\ldscal{c}{b,z}\right]^{\top}$:
+\begin{align}
+	\ldvect{m}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{g} \right) \\
+	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{b} \right)
+\end{align}
+
+The generalized inertia matrix \matr{I} is defined to represent the combined rigid-body and
+added-mass effects:
+\begin{align}
+	\matr{I} = \lrdmatr{M}{rb} + \lrdmatr{M}{a}.
+\end{align}
+
+The rigid-body inertia matrix \lrdmatr{M}{rb} is expressed as
+\begin{align}
+	\lrdmatr{M}{rb} & =
+	\begin{bmatrix}
+		m \lrdmatr{I}{3\times 3}             & -m \matr{S}\left(\ldvect{c}{g}\right) \\
+		m \matr{S}\left(\ldvect{c}{g}\right) & \lrdmatr{I}{g}
+	\end{bmatrix}
+\end{align}
+
+where \scal{m} denotes the vehicle mass, $\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y},
+		\ldscal{c}{g,z}\right]^{\top}$ is the position vector of the centre of gravity relative to the
+body-fixed origin, $\matr{S}\left(\cdot\right)$ denotes the skew-symmetric matrix operator, and
+\lrdmatr{I}{g} is the moment of inertia matrix about the centre of gravity. The off-diagonal blocks
+capture the coupling between translational and rotational dynamics. Finally, the rigid-body inertia
+matrix is expanded as
+\begin{align}
+	\lrdmatr{M}{rb} = \begin{bmatrix}
+		                  \scal{m}                   & 0                          & 0                          & 0                          & \scal{m} \ldscal{c}{g, z}  & -\scal{m} \ldscal{c}{g, y} \\
+		                  0                          & \scal{m}                   & 0                          & -\scal{m} \ldscal{c}{g, z} & 0                          & \scal{m} \ldscal{c}{g, x}  \\
+		                  0                          & 0                          & \scal{m}                   & \scal{m} \ldscal{c}{g, y}  & -\scal{m} \ldscal{c}{g, x} & 0                          \\
+		                  0                          & -\scal{m} \ldscal{c}{g, z} & \scal{m} \ldscal{c}{g, y}  & \ldscal{I}{xx}             & -\ldscal{I}{xy}            & -\ldscal{I}{xz}            \\
+		                  \scal{m} \ldscal{c}{g, z}  & 0                          & -\scal{m} \ldscal{c}{g, x} & -\ldscal{I}{xy}            & \ldscal{I}{yy}             & -\ldscal{I}{yz}            \\
+		                  -\scal{m} \ldscal{c}{g, y} & \scal{m} \ldscal{c}{g, x}  & 0                          & -\ldscal{I}{xz}            & -\ldscal{I}{yz}            & \ldscal{I}{zz}
+	                  \end{bmatrix}
+\end{align}
+
+with \ldscal{I}{xx}, \ldscal{I}{yy}, \ldscal{I}{zz} denoting the moments of inertia about the
+body-fixed axes, and \ldscal{I}{xy}, \ldscal{I}{xz}, \ldscal{I}{yz} denoting the products of
+inertia.
+
+The added-mass inertia matrix \lrdmatr{M}{a} is defined analogously as a diagonal matrix:
+\begin{align}
+	\lrdmatr{M}{a} & = \diag{\left(\ldscal{M}{a, u}, \ldscal{M}{a, v}, \ldscal{M}{a, w}, \ldscal{M}{a, p}, \ldscal{M}{a, q}, \ldscal{M}{a, r}\right)}
+\end{align}
+
+where the coefficients are usually determined experimentally.
+
+The hydrodynamic damping matrix $\matr{D}\left(\vect{\nu}\right)$ is typically partitioned into
+linear and quadratic components:
+\begin{align}
+	\matr{D}\left(\vect{\nu}\right) & = \lrdmatr{D}{l} + \lrdmatr{D}{q}\left(\vect{\nu}\right).
+\end{align}
+
+These are in turn represented as diagonal matrices:
+\begin{align}
+	\lrdmatr{D}{l} & = \diag{\left( \ldscal{D}{l,u}, \ldscal{D}{l,v}, \ldscal{D}{l,w}, \ldscal{D}{l,p}, \ldscal{D}{l,q}, \ldscal{D}{l,r} \right)},                                          \\
+	\lrdmatr{D}{q} & = \diag{\left( \ldscal{D}{q,u}\abs{u}, \ldscal{D}{q,v}\abs{v}, \ldscal{D}{q,w}\abs{w}, \ldscal{D}{q,p}\abs{p}, \ldscal{D}{q,q}\abs{q}, \ldscal{D}{q,r}\abs{r} \right)}
+\end{align}
+
+where the coefficients are also usually determined experimentally.
 
 \subsection{Cable modelling}
 \label{rcc_rcm_cable_modelling}
 
-\lipsum[1]
+The cable model used is the catenary model discussed in \cref{cable_modelling}, more specifically
+the \verticalmodel{} (\cref{rcc_rcm_cm_d_catenary_curve}).This model is preferred over the
+\augmentedmodel{} due to the fact that no satisfactory dynamics was available for its augmentation
+parameters at the time of this work.
+\begin{figure}
+	\centering
+	\inputtikz{figures/vertical_catenary_schematic}
+	\caption{
+		Catenary curve of length \catL{} defined in the plane \lplane{v}. The construction parameters are
+		the sag \catH{}, the elevation difference \catdH{}, and the horizontal span $l = 2\catD + \catdD$
+		between attachment points \fpoint{A}{v} and \fpoint{B}{v}. Note that \catdD{} and \catdH{} are
+		signed distances.
+	}
+	\label{rcc_rcm_cm_d_catenary_curve}
+\end{figure}
+
+The coordinates of any point along the curve are defined in
+\cref{cm_catenary_model,cm_cm_d_catenary_equation} as $\fpoint{P}{v} =
+	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
+$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
+the standard catenary equation:
+\begin{align}
+	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD-\catdD,~\catD\right]
+\end{align}
+
+Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable's curvature.
+
+In the context of a chain of \acp{rov}, the mechanical effects of the cable on the robot are of
+interest. To this end the horizontal tension force is by definition
+(\cref{cm_cm_dotcm_change_of_variable})
+\begin{align}
+	\ldscal{T}{h} = \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}
+\end{align}
+
+Furthermore, the vertical tension force is defined (\cref{cm_cm_dotcm_tension_equation}) as
+\begin{align}
+	\ldscal{T}{v}\left(x\right) = \ldscal{\lambda}{m}\scal{g}\ldscal{L}{1}
+	\label{rcc_rcm_cm_vertical_tension}
+\end{align}
+
+for a general point \ldpoint{p}{1} along the cable where \ldscal{L}{1} is the arc-length of the
+cable between the origin \ldpoint{o}{v} and \ldpoint{p}{1}. In
+\cref{c_cm_catenary_model,cm_cm_dotcm_horizontal_catenary_coordinate} \scal{x} is written as a
+function of \ldscal{L}{1}
+\begin{align}
+	x = \frac{\sinh^{-1}\left(L_1 \catC\right)}{\catC}
+\end{align}
+
+Which is then substituted in \cref{rcc_rcm_cm_vertical_tension} to yield
+\begin{align}
+	\ldscal{T}{v}\left(x\right) & = \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC x\right)} \\
+	                            & = \ldscal{T}{h}\sinh{\left(\catC x\right)}
+\end{align}
+
+The force exerted by the cable on the vehicle is then (\cref{cm_cm_d_catenary_curve})
+\begin{align}
+	\fldvect{p}{v}{a} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
+	\fldvect{p}{v}{b} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
+\end{align}
 
 \subsection{Robot chain dynamics}
 \label{rcc_rcm_robot_chain_dynamics}
 
+The robot chain system is defined as a set of \scal{n} underwater robots connected by tethers,
+where each robot follows the dynamics described in \cref{rcc_rcm_single_robot_dynamics}. The state
+of the system is a concatenation of the state of the robots
+\begin{align}
+	\vect{x} = \left[\ldvect{\eta}{1}, \ldvect{\nu}{1}, \dots, \ldvect{\eta}{n}, \ldvect{\nu}{n}\right]^{\top}
+\end{align}
+
+Similarly, its input is a concatenation of all actuations
+\begin{align}
+	\vect{u} = \left[\ldvect{\tau}{1}, \dots, \ldvect{\tau}{n}\right]^{\top}
+\end{align}
+
+Additionally, the perturbation vector for each robot is define as the perturbation forces derived
+from the cable model described in \cref{rcc_rcm_cable_modelling}. The robots at the ends of the
+chain only experience the perturbation forces from a single cable while the other are subjected to
+the forces of two cables.
+
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Schematic representation of the robot chain system.}}
+	% \label{}
+\end{figure}
+
+\section{Controllers}
+\label{rcc_controllers}
+
+This section presents the control architectures that were developed to coordinate a chain of
+tethered \acp{rov} such that the lead vehicle tracked its assigned motion objective while the group
+respected the mechanical and environmental constraints introduced in
+\cref{rcc_robot_chain_modelling}. The controllers were required to regulate the coupled dynamics
+under disturbances, enforce actuator limits, maintain safe inter-vehicle spacing and seafloor
+clearance, and keep tether tensions and geometry within the feasible catenary envelope. Several
+controllers were evaluated: an \ac{mpc} that formulated the coupled problem with explicit
+constraints (\cref{rcc_c_model_predictive_control}), a path-planning layer that provided feasible
+waypoints and references consistent with tether kinematics (\cref{rcc_c_path_planning}), and
+lightweight reactive behaviors that handled fast safety overrides and unmodeled events
+(\cref{rcc_c_reactive_control}).
+
+\subsection{Model predictive control}
+\label{rcc_c_model_predictive_control}
+
+Let \cref{mcc_c_mpc_system} define a discrete-time control system with state \ldvect{x}{k} and
+control input \ldvect{u}{k}, both expressed at time \scal{k}:
+\begin{equation}
+	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right) \label{mcc_c_mpc_system}
+\end{equation}
+
+This system is obtained by integrating the robot chain dynamics described in
+\cref{rcc_robot_chain_modelling}.
+
+A model predictive control problem consists of finding a sequence of control inputs
+$\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over a future time horizon \mpch{} in
+order to minimize a prescribed cost function (\cref{rcc_c_mpc_schematic}). In addition to the
+dynamic constraint of \cref{mcc_c_mpc_system}, kinematic constraints are also imposed on the
+problem based on the robot chain system:
+\begin{align}
+	\vect{u} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
+	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}
+	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}}
+\end{align}
+
+subject to
+\begin{alignat}{3}
+	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}}                \\
+	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \notag   \\
+	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\notag                                \\
+	\leq                                  & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
+	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
+	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
+	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}} \notag
+\end{alignat}
+
+where
+\begin{itemize}
+	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ is the state deviation from the target,
+	\item $\Delta \ldvect{u}{k} = \ldvect{u}{k} - \ldvect{u}{k-1}$ is the incremental control input,
+	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state, and control costs, respectively,
+	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
+	\item $\mathbf{u}_{\text{min}}$ and $\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and $\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input,
+	\item \ldcoord{z}{w}{\text{seafloor}}, \ldcoord{z}{w}{\text{surface}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}} and \ldscal{dh}{\text{max}} are the geometrical bounds for the relative position of a pair of robots as well as the cable between them.
+\end{itemize}
+
+Eventually, if the robot is operating in a known constrained environment like a pool the following
+constraints may be added
+\begin{alignat}{3}
+	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}}        \\
+	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}} \notag
+\end{alignat}
+
+Once the optimal control input is found, the first element of the sequence is applied to the
+system, and the optimization problem is solved again at the next time step.
+\begin{figure}
+	\centering
+	\inputtikz{figures/model_predictive_control_schematic}
+	\caption{Schematic of the model predictive control algorithm.}
+	\label{rcc_c_mpc_schematic}
+\end{figure}
+
+In order to reduce the optimization time, \vect{u} may be considered constant or piecewise constant
+over the horizon or even parameterized as a polynomial function.
+
+\subsection{Path planning}
+\label{rcc_c_path_planning}
+
+A path planning problem was formulated to generate feasible trajectories for the robots while
+respecting the tether kinematics and the constraints of the chain. The resulting trajectory is then
+used with a simple controller (\ac{pid}) to move the system. The path planning optimization problem
+consists of finding a sequence of waypoints $\vect{p}=\left(\ldvect{x}{0}, \dots,
+	\ldvect{x}{n}\right)$ over a finite horizon \mpch{} in order to minimize the distance of the path
+to the desired pose of the robots while enforcing kinematic feasibility constraints
+(\cref{rcc_c_pp_constraints}):
+\begin{align}
+	\vect{p} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
+	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}}}
+	\label{rcc_c_pp_cost}
+\end{align}
+
+subject to
+\begin{alignat}{3}
+	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     &                                        \\
+	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
+	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
+	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
+	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldvect{d}{\text{max}} \notag
+	\label{rcc_c_pp_constraints}
+\end{alignat}
+
+where
+\begin{itemize}
+	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ denotes the state deviation from the target,
+	\item \matr{P} and \matr{Q} are positive semi-definite matrices weighting the final and state costs, respectively,
+	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)}, and \ldscal{\catl{}}{i(i+1)} are the catenary model parameters representing the tether between robots \scal{i} and \scal{i+1},
+	\item $\mathbf{p}_{\text{min}}$ and $\mathbf{p}_{\text{max}}$ are bounds on feasible waypoints,
+	\item $\Delta\mathbf{r}_{\text{min}}$ and $\Delta\mathbf{r}_{\text{max}}$ are bounds on the increments between path parameters,
+	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and seafloor clearance.
+\end{itemize}
+
+Once the optimal waypoint sequence was found, it is passed to the controller as a reference, and
+the optimization problem was solved again at the next planning step.
+
+\subsection{Reactive control}
+\label{rcc_c_reactive_control}
+
+In addition to the path planning scheme, a reactive control strategy was implemented to regulate
+the tether geometry on a peer-to-peer basis. This method is based on the catenary-based control law
+proposed in \cite{laranjeiraCatenarybasedVisualServoing2017}, originally formulated as a visual
+servoing algorithm. In their work, the tether is modeled as a deformable catenary, and the control
+objective is to regulate its shape parameters by acting on the motion of the follower robot with
+respect to the leader. The visual servoing loop estimates the tether features directly from the
+image plane and closes the loop by minimizing the feature error through the catenary interaction
+matrix.
+
+In our framework, we replace the visual estimation step with direct pose localization of the
+robots. The relative positions and orientations of neighboring robots in the chain are measured,
+allowing the catenary parameters between robots \scal{i} and \scal{i+1} to be explicitly estimated.
+The reactive controller then commands the catenary sag parameter \ldscal{\catH{}}{i(i+1)}, which
+represents the vertical deflection of the tether, as the primary regulation variable. The control
+law is expressed as
+\begin{align}
+	\ldvect{\dot{\tau}}{i+1} = - \lambda \lrumatr{L}{\dagger} \left(
+	\ldscal{\catH{}}{i(i+1)} - \llscal{\catH{}}{*}{i(i+1)}
+	\right)
+	% \label{rcc_c_reactive_control_law}
+\end{align}
+
+where \ldvect{\tau}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is
+the interaction matrix relating the tether shape derivatives to the relative motion of the robots,
+$\scal{\lambda} \in \mathbb{R}^{+}$ is a control gain, and \llscal{\catH{}}{*}{i(i+1)} is the
+desired sag ensuring sufficient clearance and slack for safe operations.
+
+This peer-to-peer formulation enables each robot pair to locally and concurrently regulate their
+shared tether, ensuring that the global chain maintains feasible catenary geometries without
+over-constraining the system.
+
+\section{Simulation}
+
 \lipsum[1]
 
-\section{Model predictive control}
-\label{rcc_model_predictive_control}
-
-\subsection{Definition}
-\label{rcc_mpc_definition}
+\subsection{Model predictive control}
+\label{rcc_s_model_predictive_control}
 
 \lipsum[1]
 
-\subsection{Tuning}
-\label{rcc_mpc_tuning}
+\subsection{Path planning}
+\label{rcc_s_path_planning}
 
 \lipsum[1]
 
-\subsection{Simulation}
-\label{rcc_mpc_simulation}
-
-\lipsum[1]
-
-\section{Path planning}
-\label{rcc_path_planning}
-
-\subsection{Definition}
-\label{rcc_pp_definition}
-
-\lipsum[1]
-
-\subsection{Tuning}
-\label{rcc_pp_tuning}
-
-\lipsum[1]
-
-\subsection{Simulation}
-\label{rcc_pp_simulation}
-
-\lipsum[1]
-
-\section{Reactive control}
-\label{rcc_reactive_control}
-
-\subsection{Definition}
-\label{rcc_rc_definition}
-
-\lipsum[1]
-
-\subsection{Tuning}
-\label{rcc_rc_tuning}
-
-\lipsum[1]
-
-\subsection{Simulation}
-\label{rcc_rc_simulation}
+\subsection{Reactive control}
+\label{rcc_s_reactive_control}
 
 \lipsum[1]
 
 \section{Conclusion}
-\label{rcc_conclusion}
+
+\lipsum[1]

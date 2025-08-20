@@ -23,26 +23,27 @@ surface vehicle to a pair of Bluerovs for practical reasons.
 \section{Augmented catenary model experimental validation}
 \label{e_augmented_catenary_model_experimental_validation}
 
-The motivation and objective of these experiments were to study the accuracy of catenary models in
-estimating the shape of tethers in water under dynamic conditions. This model is required for
-model-based control of tethered underwater vehicles, such as obstacle avoidance.
+The objective of these experiments was to evaluate the accuracy of catenary models in estimating
+the shape of tethers in water under dynamic conditions. Such models are essential for model-based
+control of tethered underwater vehicles, for example in applications such as obstacle avoidance.
 
 \subsection{Experimental setup}
 \label{e_acmev_experimental_setup}
 
-The experiment was conducted in a \qty{7.2}{\meter} long, \qty{4.2}{\meter} wide, and
-\qty{3}{\meter} deep tank (\cref{e_acmev_es_robot_in_tank}). The cable's and robot's positions were
-recorded by a 5-camera, \qty{100}{\Hz} Qualisys\footnote{\url{www.qualisys.com/cameras/underwater}}
-underwater motion capture system. The calibration of this system provided a standard deviation of
-\qty{2.2}{\mm} across the tank's calibrated volume for a known object's length. The robot and each
-cable were equipped with passive reflective markers
-(\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), and the cable's markers were evenly spaced
-out by \qty{20}{\centi\meter}. The cables were attached to the robot and to a fixed point on the
-side of the tank with thin wire
-(\cref{e_acmev_es_robot_cable_attachment_point,e_acmev_es_rod_cable_attachment_point}) so that the
-joint between the tether and its attachment point closely approximated a theoretical spherical
-joint. The cables used are shown in \cref{e_acmev_es_all_cables}, and their characteristics are
-listed in \cref{e_acmev_es_cables_characteristics}.
+The experiments were conducted in a tank measuring \qty{7.2}{\meter} in length, \qty{4.2}{\meter}
+in width, and \qty{3}{\meter} in depth (\cref{e_acmev_es_robot_in_tank}). The positions of the
+cable and the robot were recorded using a five-camera
+Qualisys\footnote{\url{www.qualisys.com/cameras/underwater}} underwater motion capture system
+operating at \qty{100}{\Hz}. Calibration of the system yielded a standard deviation of
+\qty{2.2}{\mm} for the length measurement of a known object within the calibrated volume. The robot
+and each cable were fitted with passive reflective markers
+(\cref{e_acmev_es_robot_markers,e_acmev_es_all_cables}), with the cable markers spaced evenly at
+\qty{20}{\centi\meter} intervals. The cables were attached to both the robot and a fixed point on
+the side of the tank using thin wire
+(\cref{e_acmev_es_robot_cable_attachment_point,e_acmev_es_rod_cable_attachment_point}), such that
+the attachment point approximated a theoretical spherical joint. The cables used are illustrated in
+\cref{e_acmev_es_all_cables}, and their characteristics are provided in
+\cref{e_acmev_es_cables_characteristics}.
 
 \begin{figure}
 	\centering
@@ -77,21 +78,21 @@ listed in \cref{e_acmev_es_cables_characteristics}.
 	\end{minipage}
 \end{figure}
 
-The experiment was repeated three times for each cable under six experimental conditions, enabling
-the testing of more or less taut cables with accelerations of different amplitudes. Each
-experimental condition was a combination of a direction of motion (sway or surge), a speed
-(\qty{0.3}{\m\per\s} or \qty{0.6}{\m\per\s}), and a starting point characterized by its horizontal
-distance from the fixation point (approximately \qty{1.5}{\m} or \qty{2}{\m}).
+Each cable was tested under six experimental conditions, with each condition repeated three times.
+The conditions combined a direction of motion (sway or surge), a speed (\qty{0.3}{\m\per\s} or
+\qty{0.6}{\m\per\s}), and a starting point defined by its horizontal distance from the fixation
+point (approximately \qty{1.5}{\m} or \qty{2}{\m}). This allowed the evaluation of cables under
+varying degrees of tension and different acceleration magnitudes.
 
-In every experiment, the robot received the following commands:
+In each experiment, the robot executed the following sequence of commands:
 \begin{enumerate}
 	\item stabilization with auto-depth at \qty{1}{\m} depth for \qty{2}{\s},
 	\item abrupt start with a constant surge or sway command applied for \qty{2.5}{\s},
-	\item reversing of the thrusters for \qty{3}{\s} with a doubled velocity in the opposite direction to
-	      achieve an abrupt stop,
-	\item slowing down the thrusters to half the initial velocity for \qty{0.2}{\s}, and
-	\item deactivation of the auto-depth control and complete stop of the thrusters after \qty{13}{\s}. The
-	      robot then drifted slowly.
+	\item reversal of the thrusters for \qty{3}{\s} at double the initial velocity in the opposite direction
+	      to produce an abrupt stop,
+	\item reduction of the thruster output to half the initial velocity for \qty{0.2}{\s}, and
+	\item deactivation of auto-depth control and complete thruster stop after \qty{13}{\s}, after which the
+	      robot drifted slowly.
 \end{enumerate}
 
 \begin{figure}
@@ -242,10 +243,11 @@ In every experiment, the robot received the following commands:
 \subsection{Trajectories of recorded sequences}
 \label{e_acmev_trajectories_of_recorded_sequences}
 
-All of the recorded sequences for the cables shown in \cref{e_acmev_es_all_cables} are shown in
+All robots trajectories in the recorded sequences for the cables shown in
+\cref{e_acmev_es_all_cables} are presented in
 \cref{e_acmev_tors_trajectory_6,af_rtdtec_trajectory_1,af_rtdtec_trajectory_2,af_rtdtec_trajectory_3,af_rtdtec_trajectory_4,af_rtdtec_trajectory_5,af_rtdtec_trajectory_7,af_rtdtec_trajectory_8}.
-It should be noted that sequences were captured over several days, and the motion capture system
-was calibrated before each session. This resulted in the world frame differing from day to day.
+It should be noted that sequences were acquired over several days, with the motion capture system
+calibrated prior to each session. As a result, the world frame definition varied between sessions.
 
 \begin{figure}
 	\centering
@@ -254,9 +256,9 @@ was calibrated before each session. This resulted in the world frame differing f
 	\label{e_acmev_tors_trajectory_6}
 \end{figure}
 
-The open loop characteristic of the robot's motion is clearly visible in
-\cref{e_acmev_tors_trajectory_6}: the trajectories are relatively straight but are not pure surge
-and sway motion with relation to the fixed point.
+The open-loop nature of the robot's motion is apparent in \cref{e_acmev_tors_trajectory_6}: the
+trajectories are relatively straight but do not correspond to the expected pure surge or sway
+motion relative to the fixed point.
 
 \section{Robot chain control experiment}
 \label{e_robot_chain_control_experiment}
@@ -267,20 +269,22 @@ and sway motion with relation to the fixed point.
 \subsubsection{Real time feedback from the Qualisys system}
 \label{e_rcce_ctcl_real_time_feedback_from_qualisys_system}
 
-A prerequisite of any experimental application of a control system is the availability of a
-measurement of the state of the system. In the simulations presented in \cref{robot_chain_control},
-the measurement was assumed to be perfect, but in practice, it is not. Since this work is focused
-on the control of a robot chain, it was decided to use the already available and supremely accurate
-Qualisys underwater motion capture system used in the previous experiment
-(\cref{e_augmented_catenary_model_experimental_validation}) and its real-time
-capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}}.
+A prerequisite for any experimental application of a control system was the availability of a
+reliable measurement of the system state. In the simulations presented in
+\cref{robot_chain_control}, the state measurement was assumed to be perfect. In practice, however,
+such conditions are not met. Since the focus of this work was on the control of a robot chain, the
+already available and highly accurate Qualisys underwater motion capture system was employed, as it
+had been used in the previous experiment
+(\cref{e_augmented_catenary_model_experimental_validation}). Its real-time
+capabilities\footnote{\url{https://docs.qualisys.com/qtm-rt-protocol/}} were exploited to provide
+live state feedback.
 
-From a technical point of view, the cameras operate in a network with a computer running
-specialized software - \ac{qtm} - for recording. Additionally, \ac{qtm} exposes a server which can
-be queried by any other program locally or on a second computer to obtain scene data in real time;
-this data can be two dimensional position of a marker in camera frames, three dimensional position
-of a marker in the world frame, or even a six dimensional pose of a group of markers called rigid
-body.
+From a technical standpoint, the Qualisys cameras operated as part of a network connected to a
+dedicated computer running the \ac{qtm} software for motion capture and recording. In addition to
+its primary recording functions, \ac{qtm} provided a server interface that could be queried locally
+or from a separate computer to obtain real-time scene data. This data included two-dimensional
+marker positions in camera frames, three-dimensional positions in the world frame, or
+six-dimensional poses of predefined rigid bodies composed of grouped markers.
 
 \begin{figure}
 	\centering
@@ -289,39 +293,43 @@ body.
 	\label{e_rcce_ctcl_rtfftqs_closed_loop_diagram}
 \end{figure}
 
-A \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to obtain the pose of a
-predetermined robot and publish it in a \ac{ros} topic. This topic was then used as a close to
-perfect measurement of the robot's pose in the world frame in order to command Bluerovs in a closed
-loop (\cref{e_rcce_ctcl_rtfftqs_closed_loop_diagram}). The \ac{ros} node matches the \qty{100}{\Hz}
-sampling rate of \ac{qtm} which is sufficient for the control of a Bluerov, which has a relatively
-slow dynamics. \marginnote{Shannon can rest easy, we are sampling fast enough.}
+A dedicated \ac{ros} package was implemented in \citeurl{filliungQtm_interface2025} to acquire the
+pose of a predefined robot from the Qualisys system and to publish this information to a \ac{ros}
+topic. This topic served as an almost ideal measurement of the robot's pose in the world frame and
+was used to command the Bluerovs in a closed-loop configuration
+(\cref{e_rcce_ctcl_rtfftqs_closed_loop_diagram}). The \ac{ros} node matched the \qty{100}{\Hz}
+sampling rate of the Qualisys system, which is sufficient for Bluerov control, given its relatively
+slow dynamics. \marginnote{Shannon can rest easy, the sampling rate is more than adequate.}
 
-Additionally, a simulation twin of the node was implemented with identical interface with \ac{ros}
-in order to facilitate testing of control systems relying on the Qualisys system.
+Additionally, a simulation twin of the node was implemented with an identical \ac{ros} interface,
+enabling testing of control algorithms relying on Qualisys data without requiring physical
+hardware.
 
 \subsubsection{State estimation with \acl{ekf}}
 \label{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}
 
-The experimental conditions revealed limitations in the motion capture system's coverage. While the
-underwater Qualisys system was initially assumed to provide convex coverage of the experimental
-volume (\cref{e_rcce_ctcl_sewekf_trajectories}), the reality showed gaps in the tracking dependent
-on the robot's orientation and the intersection geometry of the cameras as well as the visibility
-in the pool (\cref{e_rcce_ctcl_sewekf_robot_in_pool}). To address these tracking discontinuities,
-an \ac{ekf} was implemented using the \texttt{robot\_localization} package from
-\cite{mooreGeneralizedExtendedKalman2016}.
+During the experiments, limitations in the coverage of the motion capture system were observed.
+While the underwater Qualisys system was initially assumed to provide complete and convex coverage
+of the experimental volume for the robot's pose (\cref{e_rcce_ctcl_sewekf_coverage}), in practice,
+gaps in tracking occurred. These discontinuities were dependent on the robot's orientation
+(particularly when facing the positive \vect{x} direction in the figure), self-obscuration and
+cross-obscuration, and the visibility conditions in the pool
+(\cref{e_rcce_ctcl_sewekf_robot_in_pool}).
+
+To mitigate these issues, an \ac{ekf} was implemented using the \texttt{robot\_localization}
+package from \cite{mooreGeneralizedExtendedKalman2016}. The filter fused position and orientation
+data from the Qualisys system with inertial measurements from the robot's \ac{imu} and depth
+measurements from the pressure sensor. This sensor fusion approach was comparable to the
+literature's \ac{usbl}-\ac{imu}-depth standard odometry, and provided continuous state estimation
+during short-term losses of camera tracking. However, during prolonged losses, the accumulated
+estimation error rendered the filter inaccurate.
 
 \begin{figure}
 	\centering
-	\todo{add figure of coverage from qtm trajectories \label{e_rcce_ctcl_sewekf_trajectories}}
-	\caption{Coverage of the experimental volume by the cameras of the Qualisys system.}
-	\label{e_rcce_ctcl_sewekf_trajectories}
+	\inputtikz{figures/mpc_experiment_coverage}
+	\caption{Markers' and robot's location over several sequences as well as cameras' positions.}
+	\label{e_rcce_ctcl_sewekf_coverage}
 \end{figure}
-
-The filter combines position and orientation measurements from the Qualisys system, inertial
-measurements from the robot's \ac{imu}, depth measurements from the robot's pressure sensor. This
-sensor fusion approach provides continuous state estimation during short loss of tracking of the
-cameras, however, during prolonged loss of tracking, the filter becomes less accurate and
-eventually fails to converge.
 
 \begin{figure}
 	\centering
@@ -333,29 +341,39 @@ eventually fails to converge.
 \subsection{Controller implementation}
 \label{ex_rcce_controller_implementation}
 
-The \ac{mpc} controller discussed in \cref{robot_chain_control} is interfaced with \ac{ros} in
-\citeurl{filliungBluerov2025}, notably a function is written to convert the force actuation
-computed by the \ac{mpc} to the Bluerov's expected \ac{pwm} actuation using the robot's theoretical
-maximum thrust force.
+The experiments started by employing a single Bluerov controlled by a \ac{pd} controller. This
+configuration was chosen for its simplicity and robustness, making it suitable for validating the
+end-to-end control pipeline. The \ac{pd} controller used real-time pose feedback from the Qualisys
+system, processed through the \ac{ekf}, to drive the robot along a predefined trajectory. This step
+ensured that the measurement, estimation, and actuation components of the system operated reliably
+before deploying the more complex \ac{mpc} controller.
 
-The first experimental implementation is of a single Bluerov with a pose target
-(\cref{e_rcce_ctcl_mpc_diagram}). This is a simple demonstrator of the interface and was used to
-pathfind the chain of \acp{rov} implementation as well as working parameters for the controller.
+Subsequently, the \ac{mpc} controller described in \cref{robot_chain_control} was interfaced with
+\ac{ros} as detailed in \citeurl{filliungBluerov2025}. In particular, a conversion function was
+implemented to translate the force actuation computed by the \ac{mpc} into the \ac{pwm} commands
+expected by the Bluerov. This conversion relied on the robot's theoretical maximum thrust force.
+
+The first \ac{mpc} implementation involved a single Bluerov commanded to track a target pose
+(\cref{e_rcce_ctcl_mpc_diagram}). Building on the validated infrastructure from the \ac{pd} test,
+this configuration served as a demonstrator of the \ac{mpc} interface. It was employed to identify
+suitable controller parameters and to guide the subsequent development of the robot chain
+implementation.
 
 \begin{figure}
 	\centering
-	% \inputtikz{figures/mpc_diagram}
-	\todo{add figure mpc\_diagram\_kalman}
+	\inputtikz{figures/mpc_kalman_diagram}
 	\caption{Software schematic of the single \ac{mpc} Bluerov experiment.}
 	\label{e_rcce_ctcl_mpc_diagram}
 \end{figure}
 
-The second experimental implementation is of a follower Bluerov reacting to a leader Bluerov and
-constraints related to the whole chain, mainly the cable between leader and follower and the pool's
-dimensions. In the two Bluerov implementation, the leader's trajectory still needs to be predicted
-even though it is controlled by a human in order to compute constraints on the follower's
-trajectory. This is done with the pose data available in the same way as for the follower and the
-leader's control input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_mpc_leader_follower_diagram}).
+Finally, an implementation consisting of a follower Bluerov responding to a leader Bluerov, while
+respecting constraints imposed by the entire chain, was deployed. These constraints were primarily
+determined by the cable between the leader and the follower, and by the pool's physical dimensions.
+In the two-Bluerov setup, the leader’s trajectory was still required to be predicted, even though
+it was controlled manually, in order to compute constraints for the follower’s motion. This
+prediction was based on the leader's pose measurements, obtained in the same manner as for the
+follower, and the leader’s control inputs, which were broadcast via \ac{ros}
+(\cref{e_rcce_ctcl_mpc_leader_follower_diagram}).
 
 \begin{figure}
 	\centering
@@ -364,20 +382,21 @@ leader's control input broadcasted with \ac{ros} (\cref{e_rcce_ctcl_mpc_leader_f
 	\label{e_rcce_ctcl_mpc_leader_follower_diagram}
 \end{figure}
 
-In both of these implementations, a recovery procedure is implemented in case the \ac{mpc} fails to
-converge to a solution: the tolerance of the optimization algorithm is increased until either the
-problem converges and the tolerance is brought down again or the tolerance reaches a maximum value
-in which case the robot as well as the experiment are stopped.
+In both configurations, a recovery procedure was implemented for cases in which the \ac{mpc} failed
+to converge to a solution. In this procedure, the optimization tolerance was progressively
+increased until either convergence was achieved—at which point the tolerance was reduced again—or
+the tolerance reached a predefined maximum value. In the latter case, the robot and the experiment
+were stopped to prevent unsafe operation.
 
 \subsection{Experiment setup}
 \label{ex_rcce_experiment_setup}
 
-The experiment takes place in the same tank as described in \cref{e_acmev_experimental_setup}
-(\cref{e_acmev_es_robot_in_tank}). A larger 8-cameras Qualisys setup was used in order to cover a
-larger volume than previously. The two computers running \ac{qtm} and \ac{ros} are connected via a
-wireless network as opposed to a wired network because the Ethernet port of the \ac{qtm} computer
-is taken by the camera network. The robots used are two Bluerovs in the Heavy configuration
-\ref{e_rcce_es_rovs}.
+The experiments were conducted in the same tank described in \cref{e_acmev_experimental_setup}
+(\cref{e_acmev_es_robot_in_tank}). A larger eight-camera Qualisys configuration was deployed to
+cover a greater tracking volume than in previous experiments. The computers running \ac{qtm} and
+\ac{ros} were connected via a wireless network, as the Ethernet port of the \ac{qtm} computer was
+already used by the camera network. The experimental platform consisted of two Bluerovs in the
+Heavy configuration (\cref{e_rcce_es_rovs}).
 
 \begin{figure}
 	\centering
@@ -395,58 +414,167 @@ is taken by the camera network. The robots used are two Bluerovs in the Heavy co
 	\label{e_rcce_es_rovs}
 \end{figure}
 
-\subsubsection{One robot experiment}
+\subsubsection{One robot \acs{pd} experiment} \label{e_rcce_es_one_robot_pd_experiment}
 
-In this experiment, the rate of the \ac{ros} node is set to \qty{10}{\Hz} with an horizon of
-\qty{0.5}{\s}. The model of the Bluerov is set to an underactuated configuration with the pitch and
-roll components of the actuation not considered in the \ac{mpc}. Furthermore, the actuation is
-constant over the horizon.
+The preliminary integration test was carried out using a single Bluerov controlled by a \ac{pd}
+controller (see the leader side of \cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The objective
+of this step was to verify the correct operation of the measurement pipeline, state estimation, and
+control actuation under simple closed-loop conditions before deploying the \ac{mpc} controller. The
+target trajectory was a straight line at a constant depth and low speed, similar to the open-loop
+trajectories executed in \cref{e_augmented_catenary_model_experimental_validation}.
 
-The robot's pose is weighted at \num{7.5} for the position and \num{10.0} for the yaw angle. The
-final pose over the horizon is additionally weighted at \num{3.0}. Additionally, a objective
-function is also added to minimize the speed of the robot with a weight of \num{1.0}. The robot's
-actuation is weighted at \num{2e-4} with the exception of the vertical (depth) actuation which is
-weighted at \num{1e-4}.
+The proportional gain was set to \num{1} in translation and \num{0.05} in orientation. The
+derivative gain was set to \num{10} in the \vect{x}-\vect{y} plane, \num{1} in the vertical
+direction, and \num{0.01} in orientation. An offset of \num{-0.55} was applied to the \vect{z}
+component of the control output to compensate for the Bluerov's buoyancy.
 
-The actuation computed by the \ac{mpc} is bound to half the maximum theoretical actuation force
-that the robot is capable of. The pose of the robot is constrained to pool's size and the camera's
-captation volume and the linear speed of the robot is further constrained to \qty{0.5}{\m\per\s} on
-top of the objective function.
+\subsubsection{One robot \acs{mpc} experiment} \label{e_rcce_es_one_robot_mpc_experiment}
 
-Finally the optimization problem is solved with a tolerance of \num{1e-6} and a maximum number of
-iteration of \num{100}.
+In this configuration, the \ac{ros} node operated at a rate of \qty{10}{\Hz} with a prediction
+horizon of \qty{0.5}{\s}. The Bluerov model was configured as underactuated, with pitch and roll
+actuation excluded from the \ac{mpc}. Actuation was held constant over the horizon.
 
-\subsubsection{Two robots experiment}
+The robot's pose tracking was weighted at \num{7.5} for position and \num{10.0} for yaw. The final
+pose over the horizon was given an additional weight of \num{3.0}. An objective term to minimize
+speed was included with a weight of \num{1.0}. Actuation was weighted at \num{2e-4}, except for
+vertical actuation, which was weighted at \num{1e-4}.
 
-In this experiment the cable of the two robots chain system is a \qty{1.5}{\meter} weighted cable
-(\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}) and at first only considered as a
-constraint and not physically attached to the robots.
+The computed actuation was limited to half the theoretical maximum thrust. The robot's pose was
+constrained to remain within the pool's physical boundaries and the camera tracking volume. The
+linear speed was further constrained to \qty{0.5}{\m\per\s}, in addition to the minimization
+objective.
 
-Since several Bluerovs are used, the set of visual markers attached to a robot and used to compute
-its pose must be unique with respect to the others (\cref{e_rcce_es_rovs}). This is achieved on a
-trial and error basis.
+The optimization problem was solved with a tolerance of \num{1e-6} and a maximum of \num{100}
+iterations.
 
-The rate of the \ac{ros} node is again set to \qty{10}{\Hz} with an horizon of \qty{0.5}{\s}. The
-model of the Bluerovs are set to an underactuated configuration with the pitch and roll components
-of the actuation not considered in the \ac{mpc}. Furthermore, the actuation is constant over the
-horizon. After some trial, the robot's models are fine tuned in buoyancy to match the actual
-Bluerovs used.
+\subsubsection{Two robots \acs{mpc} experiment} \label{e_rcce_es_two_robots_mpc_experiment}
 
-The follower robot's pose is weighted at zero because a specific pose is of no interest, only the
-relative position with the leader. Additionally, a objective function is also added to minimize the
-speed of the follower this time with a weight of \num{10.0}. The actuation is weighted at
-\num{1e-6} with the exception of the yaw actuation which is weighted at \num{1.0} in order to limit
-unwanted yaw motion.
+In this experiment, the cable of the two-robot chain system was a \qty{1.5}{\meter} weighted cable
+(\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}), initially treated as a constraint
+rather than being physically attached to the robots.
 
-The actuation computed by the \ac{mpc} is bound to half the maximum theoretical actuation force
-that the robot is capable of. The pose of the robot is constrained to pool's size and the camera's
-captation volume and the linear speed of the robot is further constrained to \qty{0.5}{\m\per\s} on
-top of the objective function and most importantly, the inter-robot distance is constrained by the
-length of the cable (\qty{1.5}{\meter}) and the latter's lowest point is constrained again by the
-pool's size.
+As several Bluerovs were employed, the set of visual markers assigned to each robot for pose
+estimation had to be unique (\cref{e_rcce_es_rovs}). These unique configurations were determined
+experimentally.
 
-Finally the optimization problem is solved -as before- with a tolerance of \num{1e-6} and a maximum
-number of iteration of \num{100}.
+The leader robot was controlled as in \cref{e_rcce_es_one_robot_pd_experiment}, using the same
+setup. The \ac{ros} node again operated at \qty{10}{\Hz} with a horizon of \qty{0.5}{\s}, and the
+models for both robots were set as underactuated. Pitch and roll actuation were excluded from the
+\ac{mpc}, and actuation was held constant over the horizon. The models were fine-tuned in buoyancy
+to match the physical Bluerovs.
 
-\section{Conclusion}
-\label{e_conclusion}
+The follower robot's absolute pose was given zero weight, as only its relative position to the
+leader was relevant. An objective term to minimize the follower's speed was included with a weight
+of \num{10.0}. Actuation was weighted at \num{1e-6}, except for yaw, which was weighted at
+\num{1.0} to limit unwanted yaw motion.
+
+As in the single-robot case, the actuation was limited to half the maximum theoretical thrust. The
+pose was constrained to the pool's boundaries and the tracking volume. The linear speed limit of
+\qty{0.5}{\m\per\s} was applied, along with the essential constraint that the inter-robot distance
+not exceed the cable length of \qty{1.5}{\meter}. Additionally, the cable's lowest point was
+constrained by the pool's depth.
+
+The optimization problem was solved with the same tolerance of \num{1e-6} and a maximum of
+\num{100} iterations.
+
+\subsection{Results}
+\label{e_rcce_results}
+
+\todo{
+	maybe talk about: ekf recovery; actuation saturation; mpc recovery; mpc computation time
+	comparision; qualitative behaviour.
+}
+
+\subsubsection{Single Bluerov \acs{pd} experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
+
+Results from the preliminary integration test described in \cref{e_rcce_es_one_robot_pd_experiment}
+are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy.
+A small offset was consistently observed in the \vect{z} direction, which resulted from imperfect
+buoyancy compensation. In addition, a steady orientation error was present, caused by imperfect
+balance. Both of these residuals could be compensated by the addition of integral action in the
+controller.
+
+For the selected trajectory, the Qualisys system experienced only a few short tracking losses, as
+indicated by the covariance spikes in \cref{e_rcce_r_pd_placeholder}. These losses did not
+significantly impact the overall stability of the closed-loop control.
+
+\begin{figure}
+	\centering
+	\todo{
+		one or more figures from \texttt{pid\_from\_bag\_joy\_controller\_br6\_2025-07-11-09-58-40.bag}
+		error, kalman covariance, activation, etc.
+	}
+	\caption{Placeholder}
+	\label{e_rcce_r_pd_placeholder}
+\end{figure}
+
+\subsubsection{Single Bluerov \acs{mpc} experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
+
+Results from the single-robot \ac{mpc} experiment in \cref{e_rcce_es_one_robot_mpc_experiment} are
+shown in \cref{e_rcce_r_mpc_placeholder}. Under the chosen operating conditions and with carefully
+selected target poses, the \ac{mpc} achieved accurate tracking performance. However, when the
+target left the Qualisys tracking volume, odometry drifted due to accumulated estimation error,
+which caused the \ac{mpc} to lose feasibility.
+
+In steady-state operation, the \ac{mpc} typically converged within \qty{0.01}{\s}, while
+computation time increased to approximately \qty{0.1}{\s} during controller engagement or when
+target poses were updated. These variations are consistent with the computational complexity
+introduced by changes in the optimization problem.
+
+\begin{figure}
+	\centering
+	\todo{
+		one or more figures from \texttt{mpc\_joy\_controller\_br4\_2025-03-04-13-39-38.bag}
+		error, kalman covariance, activation, compute time, etc.
+	}
+	\caption{Placeholder}
+	\label{e_rcce_r_mpc_placeholder}
+\end{figure}
+
+\subsubsection{Two Bluerov \acs{mpc} experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
+
+Results from the two-robot \ac{mpc} experiment described in
+\cref{e_rcce_es_two_robots_mpc_experiment} are presented in \cref{e_rcce_r_mpc_2_placeholder}. The
+leader's \ac{pd} controller maintained tracking performance comparable to that reported in
+\cref{e_rcce_r_single_bluerov_pd_experiment}. The follower's \ac{mpc} was consistently initialized
+within both the tracking space and the controller's constraint set, allowing for stable operation
+at the start of each run.
+
+When the leader moved, the follower responded appropriately, as illustrated in
+\cref{e_rcce_r_mpc_2_placeholder}. However, the absence of an explicit target pose for the
+follower, combined with the inability to represent the complex tracking space using only the pool
+constraint model described in \cref{e_rcce_es_two_robots_mpc_experiment}, led to inevitable and
+rapid tracking losses. These limitations highlight the difficulty of constraining multi-robot
+operations in confined and partially observable environments.
+
+\begin{figure}
+	\centering
+	\todo{
+		one or more figures from \texttt{mpc\_leader\_br4\_follower\_br6\_2025-07-10-12-02-06.bag}
+		error, kalman covariance, activation, compute time, etc. (interesting at $t=218$)
+	}
+	\caption{Placeholder}
+	\label{e_rcce_r_mpc_2_placeholder}
+\end{figure}
+
+\subsection{Conclusion}
+\label{e_rcce_conclusion}
+
+The experiments presented in this chapter demonstrated the feasibility of controlling a robot chain
+in an underwater environment using real-time motion capture data. A preliminary \ac{pd} integration
+test confirmed the correct operation of the sensing, estimation, and actuation pipeline. The
+subsequent single-robot \ac{mpc} experiment validated the control framework under constrained and
+observable conditions. Finally, the two-robot \ac{mpc} experiment provided insights into the
+additional challenges posed by inter-robot constraints, limited tracking space, and complex
+environmental geometry.
+
+The results show that reliable state estimation and constraint handling are absolutely essential
+for robust operation in multi-robot underwater systems. It is also evident that the accuracy and
+continuity of external tracking strongly influence controller performance, particularly in
+leader-follower configurations.
+
+Future work will focus on performing new experiments in improved conditions, including larger and
+less turbid environments with enhanced tracking coverage, in order to mitigate the limitations
+observed in the present setup. Additionally, the control framework will be extended and validated
+on a three-robot chain system, enabling the study of more complex coordination strategies and the
+scalability of the proposed approach.

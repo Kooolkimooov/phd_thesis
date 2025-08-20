@@ -8,7 +8,7 @@
   - [ ] completed
   - [ ] reviewed
 - [ ] State of the art
-  - [ ] completed
+  - [x] completed
   - [ ] reviewed
 - [x] Cable modelling
   - [x] completed
@@ -29,7 +29,7 @@
   - [ ] Boxplots bounds
   - [ ] Trajectories equal axis
 - [x] Homogenize all labels
-- [ ] Use `\scal{_}` instead of raw `$_$`
+- [x] Use `\scal{_}` instead of raw `$_$`
 
 ## Project Structure
 

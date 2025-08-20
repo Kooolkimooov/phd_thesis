@@ -9,7 +9,8 @@
 			text centered, fill=red!10
 		},
 	connection/.style={
-	-{Stealth}, very thick
+	-{Stealth}, very thick,
+	every node/.style={rounded corners, fill=gray, text opacity=1.0, fill opacity=0.85, text=white}
 	}
 	}
 
@@ -27,35 +28,34 @@
 
 		\node[device] (qtm) at (axis cs:0.0, 1.0) {\acs{qtm} PC};
 
-		\node[device] (br0) at (axis cs:0.7, -0.75) {Leader Bluerov};
-		\node[device] (br1) at (axis cs:-0.75, -0.75) {Follower Bluerov};
+		\node[rosnode] (qtm_interface) at (axis cs:0.0, 0.55) {\texttt{qtm\_interface}};
 
-		\node[device] (js0) at (axis cs:0.2, -0.75) {Joystick};
-		\node[device] (js1) at (axis cs:-0.2, -0.75) {Joystick};
+		\node[rosnode] (kalman_mpc) at (axis cs:-0.5, 0.25) {\texttt{ekf\_localization\_node}};
+		\node[rosnode] (kalman_pid) at (axis cs:0.5, 0.25) {\texttt{ekf\_localization\_node}};
 
-		\node[rosnode] (qtm_interface) at (axis cs:0.0, 0.65) {\texttt{qtm\_interface}};
+		\node[rosnode] (pid_controller) at (axis cs:0.35,  -0.2) {\texttt{pid\_controller}};
+		\node[rosnode] (mpc_controller) at (axis cs:-0.35, -0.2) {\texttt{mpc\_controller}};
 
-		\node[rosnode] (kalman_mpc) at (axis cs:-0.5, 0.4) {\texttt{ekf\_localization\_node}};
-		\node[rosnode] (kalman_pid) at (axis cs:0.5, 0.4) {\texttt{ekf\_localization\_node}};
+		\node[device] (br1) at (axis cs:-0.75, -0.85) {Follower Bluerov};
+		\node[device] (js1) at (axis cs:-0.2, -0.85) {Joystick};
+		\node[device] (js0) at (axis cs:0.2, -0.85) {Joystick};
+		\node[device] (br0) at (axis cs:0.7, -0.85) {Leader Bluerov};
 
-		\node[rosnode] (pid_controller) at (axis cs:0.4, -0.1) {\texttt{pid\_controller}};
-		\node[rosnode] (mpc_controller) at (axis cs:-0.4, -0.1) {\texttt{mpc\_controller}};
-
-		\draw[connection, ->] (qtm) -- (qtm_interface) node[midway, left] {Bluerovs poses};
-		\draw[connection, ->] (qtm_interface) -- (kalman_mpc) node[near end, above left] {Follower pose};
-		\draw[connection, ->] (qtm_interface) -- (kalman_pid) node[near end, above right] {Leader pose};
-		\draw[connection, ->] (kalman_mpc) -- (mpc_controller) node[midway, left, align=center] {Follower\\odometry};
+		\draw[connection, ->] (qtm) -- (qtm_interface) node[pos=0.4, left] {Bluerovs poses};
+		\draw[connection, ->] (qtm_interface) -- (kalman_mpc) node[near end, above left] {Pose};
+		\draw[connection, ->] (qtm_interface) -- (kalman_pid) node[near end, above right] {Pose};
+		\draw[connection, ->] (br0) -- (axis cs: 0.7, 0.0) node[pos=0.6, right, align=center] {\acs{imu}\\Depth} -- (kalman_pid);
+		\draw[connection, ->] (br1) -- (axis cs: -0.75, 0.0) node[pos=0.6, left, align=center] {\acs{imu}\\Depth} -- (kalman_mpc);
+		\draw[connection, ->] (kalman_mpc) -- (mpc_controller) node[midway, rignt] {Odometry};
 		\draw[connection, ->] (kalman_pid) -- (mpc_controller);
-		\draw[connection, ->] (kalman_pid) -- (pid_controller) node[midway, right, align=center] {Leader\\odometry};
-		\draw[connection, ->] (pid_controller) -- (mpc_controller) node[midway, below, align=center] (leader_command) {\\Leader control};
-		\draw[connection, ->] (pid_controller) -- (br0) node[pos=0.8, left, align=center] {Leader~\\control};
-		\draw[connection, ->] (mpc_controller) -- (br1) node[pos=0.8, right, align=center] {~Follower\\control};
-		\draw[connection, ->] (br0) |- (kalman_pid) node[very near start, right, align=center] {\acs{imu}\\Depth};
-		\draw[connection, ->] (br1.west) |- (kalman_mpc.west) node[very near start, left, align=center] {\acs{imu}\\Depth};
-		\draw[connection, ->] (js0) |- (pid_controller.south) node[near start, left, align=center] {Leader\\command};
-		\draw[connection, ->] (js1) |- (mpc_controller.south) node[near start, right, align=center] {Follower\\command};
-		\draw[connection, ->] (br1) |- (axis cs: -1.1, -0.9) node[below right] {Visual data} |- (qtm);
-		\draw[connection] (br0) |- (axis cs: -0.75, -0.9);
+		\draw[connection, ->] (pid_controller) -- (mpc_controller);
+		\draw[connection, ->] (kalman_pid) -- (pid_controller) node[midway] {Odometry};
+		\draw[connection, ->] (pid_controller) -- (br0) node[pos=0.6] (leader_command) {Control};
+		\draw[connection, ->] (mpc_controller) -- (br1) node[pos=0.6] {Control};
+		\draw[connection, ->] (js0) -- (pid_controller) node[near end] {Command};
+		\draw[connection, ->] (js1) -- (mpc_controller) node[near end] {Command};
+		\draw[connection, ->] (br1) |- (axis cs: -1.1, -1.0) -- (axis cs: -1.1, 1.0) node[below right] {Visual data} -- (qtm);
+		\draw[connection] (br0) |- (axis cs: -0.75, -1.0);
 
 		\begin{pgfonlayer}{background}
 			\node[
