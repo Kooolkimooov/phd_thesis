@@ -529,7 +529,36 @@ the optimization problem was solved again at the next planning step.
 \subsection{Reactive control}
 \label{rcc_c_reactive_control}
 
-\lipsum[1]
+In addition to the path planning scheme, a reactive control strategy was implemented to regulate
+the tether geometry on a peer-to-peer basis. This method is based on the catenary-based control law
+proposed in \cite{laranjeiraCatenarybasedVisualServoing2017}, originally formulated as a visual
+servoing algorithm. In their work, the tether is modeled as a deformable catenary, and the control
+objective is to regulate its shape parameters by acting on the motion of the follower robot with
+respect to the leader. The visual servoing loop estimates the tether features directly from the
+image plane and closes the loop by minimizing the feature error through the catenary interaction
+matrix.
+
+In our framework, we replace the visual estimation step with direct pose localization of the
+robots. The relative positions and orientations of neighboring robots in the chain are measured,
+allowing the catenary parameters between robots \scal{i} and \scal{i+1} to be explicitly estimated.
+The reactive controller then commands the catenary sag parameter \ldscal{\catH{}}{i(i+1)}, which
+represents the vertical deflection of the tether, as the primary regulation variable. The control
+law is expressed as
+\begin{align}
+	\ldvect{\dot{\tau}}{i+1} = - \lambda \lrumatr{L}{\dagger} \left(
+	\ldscal{\catH{}}{i(i+1)} - \llscal{\catH{}}{*}{i(i+1)}
+	\right)
+	% \label{rcc_c_reactive_control_law}
+\end{align}
+
+where \ldvect{\tau}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is
+the interaction matrix relating the tether shape derivatives to the relative motion of the robots,
+$\scal{\lambda} \in \mathbb{R}^{+}$ is a control gain, and \llscal{\catH{}}{*}{i(i+1)} is the
+desired sag ensuring sufficient clearance and slack for safe operations.
+
+This peer-to-peer formulation enables each robot pair to locally and concurrently regulate their
+shared tether, ensuring that the global chain maintains feasible catenary geometries without
+over-constraining the system.
 
 \section{Simulation}
 
