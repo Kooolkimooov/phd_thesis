@@ -1,0 +1,40 @@
+\begin{tikzpicture}
+	\begin{axis}[
+			width=\figurewidth,
+			view={45}{35},
+			domain=-3:3,
+			y domain=-3:3,
+			xmin=-3, xmax=3,
+			ymin=-3, ymax=3,
+			y dir=reverse,
+			z dir=reverse,
+			samples=65,
+			shader=faceted,
+			colormap={redtobluesteps}{
+					rgb255=(255,0,0)
+					rgb255=(255,50,0)
+					rgb255=(255,100,0)
+					rgb255=(255,150,0)
+					rgb255=(255,200,0)
+					rgb255=(200,200,0)
+					rgb255=(150,200,50)
+					rgb255=(100,200,100)
+					rgb255=(50,150,150)
+					rgb255=(0,100,200)
+					rgb255=(0,50,255)
+					rgb255=(0,0,255)
+				},
+			xlabel=\ldvect{x}{w},
+			ylabel=\ldvect{y}{w},
+			zlabel=\ldvect{z}{w},
+		]
+		\addplot3 [surf]
+		{ 4.5
+			+ 1.0 * sin(deg(y/4))
+			+ 0.5 * sin(deg(x/3))
+			- 2.5 * exp(-8 * ((x + 3)^2 + (y - 0)^2))
+		};
+
+	\end{axis}
+\end{tikzpicture}
+

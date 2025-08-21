@@ -390,11 +390,13 @@ where each robot follows the dynamics described in \cref{rcc_rcm_single_robot_dy
 of the system is a concatenation of the state of the robots
 \begin{align}
 	\vect{x} = \left[\ldvect{\eta}{1}, \ldvect{\nu}{1}, \dots, \ldvect{\eta}{n}, \ldvect{\nu}{n}\right]^{\top}
+	\label{rcc_rcm_rcd_state_vector}
 \end{align}
 
 Similarly, its input is a concatenation of all actuations
 \begin{align}
 	\vect{u} = \left[\ldvect{\tau}{1}, \dots, \ldvect{\tau}{n}\right]^{\top}
+	\label{rcc_rcm_rcd_actuation_vector}
 \end{align}
 
 Additionally, the perturbation vector for each robot is define as the perturbation forces derived
@@ -575,7 +577,171 @@ the global chain maintains feasible catenary geometries without over-constrainin
 \subsection{Model predictive control}
 \label{rcc_s_model_predictive_control}
 
-\lipsum[1]
+\subsubsection{Simulation setup}
+
+The controller is assessed through the analysis of a scenario comprising four tethered robots
+($\scal{n}=4$ in \cref{rcc_rcm_rcd_state_vector,rcc_rcm_rcd_actuation_vector}). The experiment
+takes place in a numerical tank with varying depth, and infinite width and length
+(\cref{rcc_s_mpc_ss_tank}). The tethers are assumed to be negatively buoyant with a known fixed
+length as discussed in \cref{cable_modelling}. The leader robot as well as the two first follower
+robots are considered as \acp{rov} while the fourth robot is modelled as an \ac{usv} in order to
+represent the link to a surface control vehicle.
+
+The leader robot is tasked with tracking a reference trajectory, while the two follower robots must
+ensure that the constraints are not violated. It is imperative that they maintain a safe distance
+from one another since proximity could result in contact with the floor or other obstacles. To
+prevent the follower robots from spinning, their orientation is controlled to remain aligned with
+that of the leader (\cref{rcc_s_mpc_i_constrains_values}).
+
+To test the system's ability to cope with these constraints, we considered a trajectory in which
+the leading robot passes over a raised peak in which the tether would be entangled without proper
+constraints on the tether shape. This allowed us to check that, even in this critical case, the
+following robots were able to position themselves so that the cables did not touch the seafloor.
+The leader reference trajectory is a sine of amplitude \qty{3.}{\m} along the \ldvect{z}{w}-axis
+centered on a depth of \qty{2.5}{\m} (\cref{fig:pose_z_2}) and a smooth curve from \qty{2}{\m} to
+\qty{-3}{\m} and back on the \ldvect{x}{w}-axis with speed equal to zero at both ends
+(\cref{fig:pose_x_2}). The reference on the \ldvect{y}{w}-axis as well as the orientation is
+constant and equal to zero. The leader robot initial state is $\fldvect{\eta}{w}{0}=[2,0,-1, 0, 0,
+	0]$ and the two follower robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,-1, 0, 0, 0]$ and
+$\fldvect{\eta}{w}{2}=[3,0,-1, 0, 0, 0]$. The \ac{usv} is positioned at
+$\fldvect{\eta}{w}{3}=[3.5,0,0,0,0,\pi/2]$.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_simulation_tank}
+	\caption{
+		Three dimensional view of the experimental setup. Reference trajectory is in orange. The four
+		robots are linked with red, green and blue catenaries.
+	}
+	\label{rcc_s_mpc_ss_tank}
+\end{figure}
+
+\subsection{Implementation}
+
+The simulation integrates the robots chain dynamics introduced in \cref{rcc_robot_chain_modelling}.
+The simulation is run with a time step of \qty{0.01}{\second} for \num{2000} steps, i.e.
+\qty{20}{\second}. The MPC horizon is \num{25} steps, i.e. \qty{.25}{\second}. The problem is
+solved with the \texttt{scipy.minimize} function in Python with a tolerance of \num{1e-3}.
+
+The matrices $\mathbf{P}$ and $\mathbf{Q}$ are defined in such a way that the position of the
+leader is assigned a weight of 10 and its orientation a weight of 5. The orientation of the other
+robots is also assigned a weight of 5, while their position is not weighted, leaving them free on
+these axes. Matrix $\mathbf{R}$ has a weight of zero on linear actuation and a weight of \num{1e3}
+on angular actuation. No matrix weights on the fixed point.
+
+In order to differentiate the simulation from the model employed in the MPC prediction horizon,
+their integration methodologies diverge. The simulation utilizes a Runge-Kutta integration of order
+4~\cite{ralston_runge-kutta_1962}, whereas the MPC prediction employs an Euler-explicit scheme. The
+shape of each cable is deduced from the position of its attachment points using the catenary
+equation \cref{eq:catenary}.
+
+The code is available at {\small\url{https://github.com/LaboratoireCosmerTOULON/rov_chain_mpc/}}.
+
+\begin{table}
+	\centering
+	\robustify\bfseries
+	\sisetup{ % pour changer le nombre de chiffres après la virgule affichés après compilation
+		round-mode = places,
+		round-precision = 1
+	}
+	\caption{Model Predictive Controller Constraints}
+	\begin{tabular}{@{}ccSS@{}}
+		constrained value                            & unit             & {upper bound} & {lower bound} \\ \midrule
+		linear part $\Delta\mathbf{u}_k$             & \unit{\newton}   & 20.           & -20           \\
+		angular part $\Delta\mathbf{u}_k$            & \unit{\newton\m} & .1            & -.1           \\
+		$H_{i(i+1)} + {}^wz_i$                       & \unit{\m}        & 4.            &               \\
+		$\sqrt{l_{i(i+1)}^2 + \Delta H_{i(i+1)}^2 }$ & \unit{\m}        & 2.8           &               \\
+		$l_{i(i+1)}$                                 & \unit{\m}        & 2.8           & 0.2           \\
+		linear part $\norm{\nu_i}$                   & \unit{\m\per\s}  & 3.            &               \\
+	\end{tabular}
+	\label{rcc_s_mpc_i_constrains_values}
+\end{table}
+
+\subsection{Results}
+\label{sec:results}
+
+\Cref{fig:error_2,fig:angular_error_2} show the absolute linear and angular tracking error of the leader robot, respectively. %for scenario \#1 and \#2 respectively. 
+The mean linear error is \qty{10}{\milli\m} with a standard deviation of \qty{5}{\milli\m}.
+The mean angular error is \qty{2e-3}{\radian} with a standard deviation of \qty{9e-4}{\radian}.
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_error.png}
+% 	\caption{Linear tracking errors of the leader robot.}
+% 	\label{fig:error_2}
+% \end{figure}
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_angular_error.png}
+% 	\caption{Angular tracking errors of the leader robot.}
+% 	\label{fig:angular_error_2}
+% \end{figure}
+% \begin{figure*}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_pose_z.png}
+% 	\caption{Trajectory of the robots on the $^w\mathbf{z}$-axis along with the catenaries' lowest point.}
+% 	\label{fig:pose_z_2}
+% \end{figure*}
+
+In \cref{fig:pose_x_2,,fig:pose_y_2,,fig:pose_z_2} trajectories of the robots are depicted. The
+lowest point of the simulated cables are displayed in \cref{fig:pose_z_2}. As quantified in
+\cref{fig:error_2} it can be observed that the leader robot tracks the reference trajectory. Robots
+1 and 2 manoeuver in order for the cable to avoid the floor and stay withing the bounds of the
+other constraints.
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_pose_x.png}
+% 	\caption{Trajectory of the robots on the $x$-axis.}
+% 	\label{fig:pose_x_2}
+% \end{figure}
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_pose_y.png}
+% 	\caption{Trajectory of the robots on the $^w\mathbf{y}$-axis.}
+% 	\label{fig:pose_y_2}
+% \end{figure}
+
+\Cref{fig:inter_robot_distance_2,fig:horizontal_inter_robot_distance_2}
+display the constrained values not present in \cref{fig:pose_z_2} \textit{i.e.}
+the horizontal inter-robot distance, the inter-robot distance and the norm of
+the robots' speed (\cref{rcc_s_mpc_i_constrains_values}). The leader robot is planned to
+approach the ground at times $t=$\qty{5}{\s} and $t=$\qty{15}{\s} and as
+illustrated in \cref{fig:inter_robot_distance_2}, the highest inter-robot
+distance between the leader robot and its follower is observed at these exact
+times. This is attributed to the motion of the follower robot, which is
+required to tighten the cable that links robot 0 and 1.
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_inter_robot_distance.png}
+% 	\caption{Inter-robot distance constraint during the simulation. }
+% 	\label{fig:inter_robot_distance_2}
+% \end{figure}
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_horizontal_inter_robot_distance.png}
+% 	\caption{Horizontal inter-robot distance constraint during the simulation.}
+% 	\label{fig:horizontal_inter_robot_distance_2}
+% \end{figure}
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_robots_speed.png}
+% 	\caption{Norm of the robots' speed constraint during the simulation.}
+% 	\label{fig:robots_speed_2}
+% \end{figure}
+
+\Cref{fig:compute_time_2} shows the computation time of the model
+predictive controller over the simulation. The average computational time for
+one step is \qty{2}{\s} with the Python simulator. This time could be reduced
+by lowering the tolerance of the optimization, by linearizing the robot model,
+change the catenary model for simpler analytical model such as
+parabolas~\cite{smolentsev_shape_2023} and by further constraining the search
+space. Indeed, the search of the lowest point position is the result of a
+minimization process that is time consuming in an MPC context.
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=\linewidth]{figs/1726429003_compute_time.png}
+% 	\caption{Computation time of the MPC.}
+% 	\label{fig:compute_time_2}
+% \end{figure}
 
 \subsection{Path planning}
 \label{rcc_s_path_planning}
