@@ -545,20 +545,28 @@ The reactive controller then commands the catenary sag parameter \ldscal{\catH{}
 represents the vertical deflection of the tether, as the primary regulation variable. The control
 law is expressed as
 \begin{align}
-	\ldvect{\dot{\tau}}{i+1} = - \lambda \lrumatr{L}{\dagger} \left(
-	\ldscal{\catH{}}{i(i+1)} - \llscal{\catH{}}{*}{i(i+1)}
+	\ldvect{v}{i+1} = - \lambda \lrumatr{L}{\dagger} \left(
+	\vect{s} - \luvect{s}{\text{target}}
 	\right)
 	% \label{rcc_c_reactive_control_law}
 \end{align}
 
-where \ldvect{\tau}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is
-the interaction matrix relating the tether shape derivatives to the relative motion of the robots,
-$\scal{\lambda} \in \mathbb{R}^{+}$ is a control gain, and \llscal{\catH{}}{*}{i(i+1)} is the
-desired sag ensuring sufficient clearance and slack for safe operations.
+where \ldvect{v}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is the
+interaction matrix relating the tether shape derivatives to the relative motion of the robots,
+$\scal{\lambda} \in \mathbb{R}^{+}$ is a control gain, and \ldvect{s}{i(i+1)} is feature vector
+such that
+\begin{align}
+	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}\right]
+\end{align}
 
-This peer-to-peer formulation enables each robot pair to locally and concurrently regulate their
-shared tether, ensuring that the global chain maintains feasible catenary geometries without
-over-constraining the system.
+with \ldscal{H}{i(i+1)} being the sag of the tether between robots \scal{i} and \scal{i+1},
+\ldscal{H}{\text{max}} the maximum sag allowed, and \scal{\alpha} is the angle between robot
+\scal{i+1}'s \vect{x} axis projected in the horizontal plane and the vector going from robot
+\scal{i+1} to robot{i} also projected in the horizontal plane.
+
+This peer-to-peer formulation enables each robot to locally and concurrently regulate their tether
+with the preceding robot all the way up to the leader robot which performs a task, ensuring that
+the global chain maintains feasible catenary geometries without over-constraining the system.
 
 \section{Simulation}
 
