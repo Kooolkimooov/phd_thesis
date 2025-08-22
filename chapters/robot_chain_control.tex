@@ -447,6 +447,7 @@ problem based on the robot chain system:
 	\vect{u} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
 	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}
 	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}}
+	\label{rcc_c_mpc_equation}
 \end{align}
 
 subject to
@@ -458,6 +459,7 @@ subject to
 	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
 	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
 	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}} \notag
+	\label{rcc_c_mpc_constraints}
 \end{alignat}
 
 where
@@ -598,12 +600,12 @@ the leading robot passes over a raised peak in which the tether would be entangl
 constraints on the tether shape. This allowed us to check that, even in this critical case, the
 following robots were able to position themselves so that the cables did not touch the seafloor.
 The leader reference trajectory is a sine of amplitude \qty{3.}{\m} along the \ldvect{z}{w}-axis
-centered on a depth of \qty{2.5}{\m} (\cref{fig:pose_z_2}) and a smooth curve from \qty{2}{\m} to
+centered on a depth of \qty{2.5}{\m} (\cref{rcc_s_r_pose_z}) and a smooth curve from \qty{2}{\m} to
 \qty{-3}{\m} and back on the \ldvect{x}{w}-axis with speed equal to zero at both ends
-(\cref{fig:pose_x_2}). The reference on the \ldvect{y}{w}-axis as well as the orientation is
-constant and equal to zero. The leader robot initial state is $\fldvect{\eta}{w}{0}=[2,0,-1, 0, 0,
-	0]$ and the two follower robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,-1, 0, 0, 0]$ and
-$\fldvect{\eta}{w}{2}=[3,0,-1, 0, 0, 0]$. The \ac{usv} is positioned at
+(\cref{rcc_s_r_pose_x}). The reference on the \ldvect{y}{w}-axis as well as the orientation is
+constant and equal to zero. The leader robot initial state is $\fldvect{\eta}{w}{0}=[2,0,1, 0, 0,
+	0]$ and the two follower robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,1, 0, 0, 0]$ and
+$\fldvect{\eta}{w}{2}=[3,0,1, 0, 0, 0]$. The \ac{usv} is positioned at
 $\fldvect{\eta}{w}{3}=[3.5,0,0,0,0,\pi/2]$.
 
 \begin{figure}
@@ -619,24 +621,21 @@ $\fldvect{\eta}{w}{3}=[3.5,0,0,0,0,\pi/2]$.
 
 \subsection{Implementation}
 
-The simulation integrates the robots chain dynamics introduced in \cref{rcc_robot_chain_modelling}.
-The simulation is run with a time step of \qty{0.01}{\second} for \num{2000} steps, i.e.
-\qty{20}{\second}. The MPC horizon is \num{25} steps, i.e. \qty{.25}{\second}. The problem is
-solved with the \texttt{scipy.minimize} function in Python with a tolerance of \num{1e-3}.
+The simulation (\citeurl{filliungPympc_usage2025}) integrates the robots chain dynamics introduced
+in \cref{rcc_robot_chain_modelling}. The simulation is run with a time step of \qty{0.1}{\second}
+for \num{500} steps, i.e. \qty{20}{\second}. The MPC horizon is \num{5} steps, i.e.
+\qty{.5}{\second}. The problem is solved with the \texttt{scipy.minimize} function in Python with a
+tolerance of \num{1e-6} and a maximum number of iterations set to \num{100}.
 
-The matrices $\mathbf{P}$ and $\mathbf{Q}$ are defined in such a way that the position of the
-leader is assigned a weight of 10 and its orientation a weight of 5. The orientation of the other
-robots is also assigned a weight of 5, while their position is not weighted, leaving them free on
-these axes. Matrix $\mathbf{R}$ has a weight of zero on linear actuation and a weight of \num{1e3}
-on angular actuation. No matrix weights on the fixed point.
+The matrices \matr{P} and \matr{Q} (\cref{rcc_c_mpc_equation}) are defined in such a way that the
+position of the leader is assigned a weight of \num{50} and its orientation a weight of \num{1}.
+The orientation of the other robots is also assigned a weight of \num{1}, while their position is
+not weighted, leaving them free on these axes. Matrix \matr{R} (\cref{rcc_c_mpc_equation}) has a
+weight of zero on linear actuation and a weight of \num{1} on angular actuation with the exception
+of the orientation of the \ac{usv}.
 
-In order to differentiate the simulation from the model employed in the MPC prediction horizon,
-their integration methodologies diverge. The simulation utilizes a Runge-Kutta integration of order
-4~\cite{ralston_runge-kutta_1962}, whereas the MPC prediction employs an Euler-explicit scheme. The
-shape of each cable is deduced from the position of its attachment points using the catenary
-equation \cref{eq:catenary}.
-
-The code is available at {\small\url{https://github.com/LaboratoireCosmerTOULON/rov_chain_mpc/}}.
+Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set and listed in
+\cref{rcc_s_mpc_i_constrains_values}.
 
 \begin{table}
 	\centering
@@ -657,6 +656,12 @@ The code is available at {\small\url{https://github.com/LaboratoireCosmerTOULON/
 	\end{tabular}
 	\label{rcc_s_mpc_i_constrains_values}
 \end{table}
+
+In order to differentiate the simulation from the model employed in the MPC prediction horizon,
+their integration method diverge. The simulation utilizes a Runge-Kutta integration of order
+4~\cite{ralston_runge-kutta_1962}, whereas the MPC prediction employs an Euler-explicit scheme. The
+shape of each cable is deduced from the position of its attachment points using the catenary
+equation \cref{cm_cm_d_catenary_equation}.
 
 \subsection{Results}
 \label{sec:results}
@@ -680,11 +685,11 @@ The mean angular error is \qty{2e-3}{\radian} with a standard deviation of \qty{
 % 	\centering
 % 	\includegraphics[width=\linewidth]{figs/1726429003_pose_z.png}
 % 	\caption{Trajectory of the robots on the $^w\mathbf{z}$-axis along with the catenaries' lowest point.}
-% 	\label{fig:pose_z_2}
+% 	\label{rcc_s_r_pose_z}
 % \end{figure*}
 
-In \cref{fig:pose_x_2,,fig:pose_y_2,,fig:pose_z_2} trajectories of the robots are depicted. The
-lowest point of the simulated cables are displayed in \cref{fig:pose_z_2}. As quantified in
+In \cref{rcc_s_r_pose_x,,fig:pose_y_2,,rcc_s_r_pose_z} trajectories of the robots are depicted. The
+lowest point of the simulated cables are displayed in \cref{rcc_s_r_pose_z}. As quantified in
 \cref{fig:error_2} it can be observed that the leader robot tracks the reference trajectory. Robots
 1 and 2 manoeuver in order for the cable to avoid the floor and stay withing the bounds of the
 other constraints.
@@ -692,7 +697,7 @@ other constraints.
 % 	\centering
 % 	\includegraphics[width=\linewidth]{figs/1726429003_pose_x.png}
 % 	\caption{Trajectory of the robots on the $x$-axis.}
-% 	\label{fig:pose_x_2}
+% 	\label{rcc_s_r_pose_x}
 % \end{figure}
 % \begin{figure}
 % 	\centering
@@ -702,7 +707,7 @@ other constraints.
 % \end{figure}
 
 \Cref{fig:inter_robot_distance_2,fig:horizontal_inter_robot_distance_2}
-display the constrained values not present in \cref{fig:pose_z_2} \textit{i.e.}
+display the constrained values not present in \cref{rcc_s_r_pose_z} \textit{i.e.}
 the horizontal inter-robot distance, the inter-robot distance and the norm of
 the robots' speed (\cref{rcc_s_mpc_i_constrains_values}). The leader robot is planned to
 approach the ground at times $t=$\qty{5}{\s} and $t=$\qty{15}{\s} and as
