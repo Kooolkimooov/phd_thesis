@@ -182,13 +182,51 @@ and the elevation difference \catdH{}:
 	\catdH & = \ldcoord{b}{f}{z} - \ldcoord{a}{f}{z}
 \end{align}
 
-Given these values and the known cable length \catL{}, the catenary parameter is determined by
-solving the following nonlinear equation:
+Using only these two parameters, the known length of the cable \catL{} and the catenary equation
+(\cref{cm_cm_d_catenary_equation}), the catenary parameter \catC{} can be determined. Starting with
 \begin{align}
-	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
+	\catdH = \frac{\cosh{\left((\catD + \catdD)\catC\right)}}{\catC} - \frac{\cosh(\catD\catC)}{\catC}
+	\label{cm_cm_pd_dH}
 \end{align}
 
-This equation is solved numerically due to its transcendental nature. Once \catC{} is determined,
+And the addition of the arc length of the curve (see
+\cref{cm_acm_ev_curvilinear_discretization_of_the_catenary_model} for more details on this
+expression):
+\begin{align}
+	\catL = \frac{\sinh\left((\catD + \catdD)\catC\right)}{\catC} + \frac{\sinh(\catD\catC)}{\catC}
+	\label{cm_cm_pd_L}
+\end{align}
+
+Using the trigonometric identity:
+\begin{align}
+	\cosh{\clubsuit}-\cosh{\spadesuit}=2\sinh{\left(\frac{\clubsuit+\spadesuit}{2}\right)}\sinh{\left(\frac{\clubsuit-\spadesuit}{2}\right)} \\
+	\sinh{\clubsuit}+\sinh{\spadesuit}=2\sinh{\left(\frac{\clubsuit+\spadesuit}{2}\right)}\cosh{\left(\frac{\clubsuit-\spadesuit}{2}\right)}
+\end{align}
+
+With $\clubsuit = (\catD + \catdD)\catC$ and $\spadesuit = \catD\catC$ in
+\cref{cm_cm_pd_dH,cm_cm_pd_L}, we obtain:
+\begin{align}
+	\catdH & = \frac{2\sinh{\left(\frac{2\catD + \catdD}{2}\catC\right)}\sinh{\left(\frac{\catdD\catC}{2}\right)}}{\catC} \label{cm_cm_dp_dH_prod} \\
+	\catL  & = \frac{2\sinh{\left(\frac{2\catD + \catdD}{2}\catC\right)}\cosh{\left(\frac{\catdD\catC}{2}\right)}}{\catC} \label{cm_cm_dp_L_prod}
+\end{align}
+
+Finally, computing
+\eqref{cm_cm_dp_L_prod}\textsuperscript{2}~--~\eqref{cm_cm_dp_dH_prod}\textsuperscript{2} with
+$\catl = 2\catD + \catdD$ gives:
+\begin{align}
+	\catL{}^2 - \catdH{}^2                                         & = \left(\frac{2\sinh{\left(\frac{\catl{}\catC{}}{2}\right)}}{\catC{}}\right)^2 \left[\cosh^2{\left(\frac{\catdD{}\catC{}}{2}\right)} - \sinh^2{\left(\frac{\catdD{}\catC{}}{2}\right)}\right] \\
+	\Leftrightarrow{} \catC{}^2\left(\catL{}^2 - \catdH{}^2\right) & = 4\sinh^2{\left(\frac{\catl{}\catC{}}{2}\right)} \label{cm_cm_pd_minimization_function}
+\end{align}
+
+This relation captures the balance between the geometry of the supports, the length of the cable,
+and the way the cable naturally sags under its own weight. It shows that the cable cannot take an
+arbitrary shape: once the distance and height difference between the supports and the total length
+of the cable are fixed, the curve and its internal forces are uniquely determined. In particular,
+the parameter \catC{} reflects the level of horizontal tension in the cable, so the equation
+highlights the direct link between geometry, material length, and the mechanical state of the
+system.
+
+\Cref{cm_cm_pd_minimization_function} is solved numerically due to its transcendental nature. Once \catC{} is determined,
 the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct the \catenarymodel{}.
 
 \section{Augmented catenary model}
