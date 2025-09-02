@@ -34,14 +34,14 @@ acting in the opposite direction to weight. For the catenary model to remain val
 conditions, the net vertical force --the sum of weight and buoyancy-- must be non-zero. In the
 following we assume that the weight is predominant over the buoyancy.
 
-The resulting curve is confined to a vertical plane, denoted as \lplanefullxz{v}, and is defined
-within a Cartesian reference frame \lframefull{v}. The origin \ldpoint{O}{v} is positioned at the
-lowest point of the curve, with the \ldvect{z}{v} axis aligned with the direction of gravitational
-forces. The coordinates of any point along the curve are defined as $\fpoint{P}{v} =
-	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
-$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
-$\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
-the standard catenary equation:
+The resulting curve (\cref{cm_cm_d_catenary_curve}) is confined to a vertical plane, denoted as
+\lplanefullxz{v}, and is defined within a Cartesian reference frame \lframefull{v}. The origin
+\ldpoint{O}{v} is positioned at the lowest point of the curve, with the \ldvect{z}{v} axis aligned
+with the direction of gravitational forces. The coordinates of any point along the curve are
+defined as $\fpoint{P}{v} = \left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by
+the attachment points $\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$ (\cref{cm_cm_d_catenary_curve}). The \coord{z}{v}
+coordinate of each point is given by the standard catenary equation:
 \begin{align}
 	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD-\catdD,~\catD\right]
 	\label{cm_cm_d_catenary_equation}
@@ -155,7 +155,7 @@ thus obtaining the standard catenary equation described previously in \cref{cm_c
 \label{cm_cm_parameter_derivation}
 
 The catenary shape is governed by a set of geometric parameters that define its curvature and
-spatial configuration. These parameters include:
+spatial configuration (\cref{cm_cm_d_catenary_curve}). These parameters include:
 \begin{itemize}
 	\item \catC: the catenary parameter, a critical value that characterizes the curvature of the cable and depends on the tension and weight distribution,
 	\item \catH: the sag, defined as the vertical distance between the lowest point of the cable and \point{B},
