@@ -7,16 +7,10 @@
 \label{cm_introduction}
 
 This chapter focuses on the development of fast and efficient cable models tailored for integration
-within model-based control frameworks of underwater robotic systems. Accurate cable modeling is
-essential for achieving precise control, as the cable's shape and tension directly influence the
-robot's dynamics and positioning. However, this accuracy must be balanced with computational
-efficiency to ensure real-time applicability.
-
-The primary objective of this chapter is to present a cable modeling approach that maintains
-relatively high while remaining computationally lightweight. This is achieved by parameterizing the
-model using data exclusively from onboard sensors, including inertial measurement units (IMUs),
-pressure sensors, and cameras. Such sensor-based parameterization enables real-time updates and
-adaptability to changing conditions.
+within model-based control frameworks of underwater robotic systems. This is achieved by
+parameterizing the model using data exclusively from onboard sensors, \acp{imu}, pressure sensors,
+and cameras. Such sensor-based parameterization enables real-time updates and adaptability to
+changing conditions.
 
 The chapter begins with \cref{cm_catenary_model}, where the classical catenary model is introduced.
 This model provides an analytical representation of a flexible cable under the influence of
