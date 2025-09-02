@@ -613,8 +613,8 @@ reveals several key points:
 	\item Both the \thetagammamodel{} and the dynamic model achieve similar median residuals across all
 	      experimental conditions, indicating that the simplified model can match the dynamic model's typical
 	      accuracy for this cable type.
-	\item The dynamic model exhibits extremely low first percentile and lower whisker values, in some cases
-	      below \qty{0.1}{\milli\meter}. These values are well below the measurement accuracy of the dataset,
+	\item The dynamic model exhibits extremely low first percentile, in some cases below
+	      \qty{0.1}{\milli\meter}. These values are well below the measurement accuracy of the dataset,
 	      suggesting that the dynamic model can occasionally fit the data almost perfectly.
 	\item The spread of the residuals is comparable between the two models, indicating similar consistency in
 	      performance across trials.
@@ -635,11 +635,12 @@ reveals several key points:
 	\label{cm_acm_ev_sr_cables_boxplot_dynamic_diff}
 \end{figure}
 
-The fully dynamic model, by accounting for the full physics of the cable, can achieve extremely low
-errors in favorable conditions. However, the \thetagammamodel{} provides nearly equivalent median
-accuracy and similar robustness, while being much simpler and more tractable for control and
-estimation tasks. The extremely low errors of the dynamic model may not be practically significant,
-as they are below the noise floor of the measurement system.
+The fully dynamic model, by accounting for the full physics of the cable, in particular
+out-of-plane deformation, can achieve extremely low errors in favorable conditions. However, the
+\thetagammamodel{} provides nearly equivalent median accuracy and similar robustness, while being
+much simpler and more tractable for control and estimation tasks. The extremely low errors of the
+dynamic model may not be practically significant, as they are below the noise floor of the
+measurement system.
 
 \section{Perspectives on augmentation parameters' dynamics}
 \label{cm_perspectives_on_augmentation_parameters_dynamics}
