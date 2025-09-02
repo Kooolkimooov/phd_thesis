@@ -419,6 +419,7 @@ procedure was employed to estimate the values of the augmentation parameters \sc
 \scal{\gamma}. The optimal parameters were obtained by solving the following minimization problem:
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
+	\label{cm_acm_ev_am_minimization}
 \end{align}
 
 To go into more details about the minimization cost: an \augmentedmodel{} was computed with the
@@ -853,10 +854,52 @@ similarly to before, they do not yield satisfactory results
 \subsection{Data-based model}
 \label{cm_poapd_data_based_model}
 
-Another approach to determine a more accurate dynamic model involves the use of data-based methods
-such as neural networks, model identification, etc. These methods will be explored in future work
-to address the limitations of physics-based models and to realize the predictive accuracy of the
-\thetagammamodel{}.
+Another approach to determine a more accurate dynamic description of the augmentation parameters
+was investigated using data-driven methods. In contrast to the physics-based formulation presented
+previously, this methodology relied on experimental datasets and symbolic regression to derive
+explicit equations governing the cable's deformation. The objective was to capture the temporal
+evolution of the augmentation angles \scal{\theta} and \scal{\gamma} directly from the motion of
+the attachment points, thereby complementing the \augmentedmodel{} with a dynamics describing the
+augmentation parameters.
+
+The dataset considered consisted of the data described in
+\cref{cm_acm_experimental_validation,e_augmented_catenary_model_experimental_validation} along with
+the values of \scal{\theta} and \scal{\gamma} computed with \cref{cm_acm_ev_am_minimization}.
+
+To relate these augmentation parameters to attachment point motion, symbolic regression was applied
+using the \texttt{PySR} library (\cite{cranmerInterpretableMachineLearning2023},
+\citeurl{cranmerPySR2025}). This tool employed an evolutionary algorithm to identify compact
+algebraic expressions that balance predictive accuracy with interpretability. Both first and second
+order candidate models were considered, with velocity or acceleration of the attachment points
+serving as inputs. After preliminary testing, second-order formulations proved most suitable, as
+they allowed the influence of drag forces --proportional to squared velocities-- to be captured
+naturally.
+
+A representative outcome for the angle \ldscal{\theta}{t} took the form
+\begin{align}
+	\ldscal{\ddot{\theta}}{t} = \num{0.0753} \left[ \ldscal{a}{y} (\ldscal{\theta}{t} + \num{0.4637}) - \ldscal{a}{x} - \sin{\left(\tanh^4{\left(\ldscal{\dot{\gamma}}{t-2}\right)}\right)}\cdot(\ldscal{\dot{\theta}}{t-2} + \ldscal{a}{z}- \num{1.1639}) \right]
+\end{align}
+
+where \ldscal{a}{x}, \ldscal{a}{y}, and \ldscal{a}{z} are the attachment point accelerations
+expressed in the catenary frame. This equation illustrates how symbolic regression incorporated
+nonlinear terms and delayed signals to reproduce the tether's dynamic response.
+
+The identified expressions were evaluated on withheld experimental sequences. In these validation
+tests, reconstructed trajectories obtained by double integration of the estimated angular
+accelerations exhibited improved long-term consistency and closer alignment with the true cable
+evolution compared to first-order or purely autoregressive approaches. Although instantaneous
+errors were not always minimized, the learned equations respected the overall curvature trends of
+the system and generalized across velocity regimes.
+
+\todo{Insert figure comparing predicted vs. ground-truth angular trajectories.}
+
+This work was carried out and published (\cite{deowanSymbolicRegressionDynamic2025}) during an
+internship by Md~Ether~Deowan. The findings demonstrate that data-driven identification can
+successfully augment physics-based catenary formulations with compact dynamic laws. The resulting
+models maintain computational efficiency, are amenable to implementation in real-time control
+loops, and retain an interpretable algebraic structure. Future work will focus on simplifying the
+symbolic expressions, extending them to both \scal{\theta} and \scal{\gamma}, and validating
+performance in open-water scenarios subject to environmental disturbances.
 
 \section{Conclusion}
 \label{cm_conclusion}
