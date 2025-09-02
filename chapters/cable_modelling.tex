@@ -437,15 +437,15 @@ To assess the statistical significance of the accuracy improvement provided by t
 the more common mean and standard deviation. This choice is motivated the statistical distribution
 of the residuals not being a normal distribution. \Cref{cm_acm_ev_sm_distribution} shows an example
 of the distribution of the residuals for a sequence of the dataset which does not have the shape of
-a normal distribution. More importantly, the $\text{mean}-2\text{ standard deviation}$ metric below
-which \qty{2.5}{\percent} of the residuals are found is \emph{below} \qty{0}{\mm} which is not
-physically possible for values computed using \cref{cm_acm_ev_am_residual}.
+a normal distribution. More importantly, the $\text{mean} - 2\times \text{standard deviation}$
+metric below which \qty{2.5}{\percent} of the residuals are found is \emph{below} \qty{0}{\mm}
+which is not physically possible for values computed using \cref{cm_acm_ev_am_residual}.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_distribution}
 	\caption{
-		Histogram in blue, mean and $\text{mean}\pm 2~\text{standard deviation}$ in red, and median, quartiles,
+		Histogram in blue, mean and $\text{mean}\pm 2\times\text{standard deviation}$ in red, and median, quartiles,
 		1\textsuperscript{st} and 99\textsuperscript{th} percentiles in black of the residual of a sequence
 		of the dataset.
 	}
