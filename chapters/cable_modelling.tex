@@ -425,7 +425,9 @@ To go into more details about the minimization cost: an \augmentedmodel{} was co
 candidate \scal{\theta} and \scal{\gamma} and the norm of the distance from the computed points
 \fllpoint{p}{w}{\theta\gamma}{k} to the measured points \fllpoint{p}{w}{m}{k} was computed and then
 averaged on a frame by frame basis. This means that there is no relation between two consecutive
-values of \scal{\theta} and \scal{\gamma} and that their continuity is not enforced.
+values of \scal{\theta} and \scal{\gamma} and that their continuity is not enforced. In turn,
+signal processing such as fitting or learning used to estimate the dynamic properties of
+\scal{\theta} and \scal{\gamma} may be penalized by such discontinuities.
 
 \subsubsection{Statistical metric}
 \label{cm_acm_ev_statistical_metric}
