@@ -297,9 +297,12 @@ was used to command the Bluerovs in a closed-loop configuration
 sampling rate of the Qualisys system, which is sufficient for Bluerov control, given its relatively
 slow dynamics. \marginnote{Shannon can rest easy, the sampling rate is more than adequate.}
 
-Additionally, a simulation twin of the node was implemented with an identical \ac{ros} interface,
-enabling testing of control algorithms relying on Qualisys data without requiring physical
-hardware.
+Additionally, a simulation twin of the node was implemented as a drop-in replacement with an
+identical \ac{ros} interface to the live Qualisys node, preserving the same message types, frame
+conventions, and overall topic structure. It publishes time-stamped robot poses at a fixed
+\qty{100}{\Hz}, allowing closed-loop controllers to be tested without access to the physical
+hardware while keeping the software pathway unchanged. This enabled rapid offline iteration and
+debugging while exercising exactly the same data path as in the experiments.
 
 \subsubsection{State estimation with \acl{ekf}}
 \label{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}
