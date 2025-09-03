@@ -382,7 +382,11 @@ The forces exerted by the cable on the vehicles are then
 	\fldvect{\omega}{v}{i+1} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
 \end{align}
 
-with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to \point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}.
+with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to
+\point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}. It
+should be noted that these forces are expressed in the catenary frame \lframe{v} and must be
+transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
+\cref{rcc_rcm_srd_dynamics_simple}.
 
 \subsection{Robot chain dynamics}
 \label{rcc_rcm_robot_chain_dynamics}
