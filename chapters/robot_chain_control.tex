@@ -9,7 +9,7 @@
 \section{Robot chain modelling}
 \label{rcc_robot_chain_modelling}
 
-The inertial frame, denoted as \lframe{I} when required, is defined as an earth-fixed, right-handed
+The world frame, denoted as \lframe{W} when required, is defined as an earth-fixed, right-handed
 frame. A local \ac{enu} convention is adopted unless explicitly stated otherwise: the \vect{x}-axis
 points east, the \vect{y}-axis points north, and the \vect{z}-axis points upward. The origin of
 this frame is located at the water surface (\cref{rcc_rcm_frames}).
@@ -22,7 +22,7 @@ upward (\cref{rcc_rcm_frames}).
 \begin{figure}
 	\centering
 	\inputtikz{figures/robot_modelling_frames}
-	\caption{Schematic representation of the inertial and body-fixed frames.}
+	\caption{Schematic representation of the world and body-fixed frames.}
 	\label{rcc_rcm_frames}
 \end{figure}
 
@@ -42,9 +42,9 @@ model formulated for marine craft~\cite{fossenHandbookMarineCraft2011}:
 
 In these equations:
 \begin{itemize}
-	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle position and orientation in the inertial frame \lframe{I}.
+	\item $\vect{\eta} = \left[\scal{x}, \scal{y}, \scal{z}, \scal{\phi}, \scal{\theta}, \scal{\psi}\right]^{\top}$ denotes the vehicle position and orientation in the world frame \lframe{W}.
 	\item $\vect{\nu} = \left[\scal{u}, \scal{v}, \scal{w}, \scal{p}, \scal{q}, \scal{r}\right]^{\top}$ represents the linear and angular velocity in the body-fixed frame \lframe{B}.
-	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping the body-fixed frame to the inertial frame.
+	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping the body-fixed frame to the world frame.
 	\item \ldvect{\nu}{r} denotes the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
 	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added-mass inertia matrices, respectively.
 	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are the associated Coriolis matrices.
@@ -106,16 +106,16 @@ The transformation matrix $\matr{T}\left(\vect{\eta}\right)$ introduced in
 
 where:
 \begin{itemize}
-	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix that maps linear velocities from the body-fixed frame to the inertial ENU frame.
+	\item $\lrdmatr{R}{l}\left(\scal{\phi},\scal{\theta},\scal{\psi}\right) \in \mathbb{R}^{3\times 3}$ is the rotation matrix that maps linear velocities from the body-fixed frame to the world ENU frame.
 	\item $\lrdmatr{R}{a}\left(\scal{\phi},\scal{\theta}\right) \in \mathbb{R}^{3\times 3}$ is the transformation that relates Euler angle rates to angular velocities in the body-fixed frame.
 \end{itemize}
 
 The rotation matrix \lrdmatr{R}{l} is obtained by composing three elementary rotations according to
 the ZYX Euler angle convention (yaw-pitch-roll). In this convention, the orientation of the body
-relative to the inertial frame is parameterised by:
+relative to the world frame is parameterised by:
 \begin{itemize}
-	\item \scal{\psi}: yaw, a rotation about the inertial \fvect{z}{I}-axis,
-	\item \scal{\theta}: pitch, a rotation about the intermediate \fluvect{y}{I}{'}-axis (after the yaw rotation),
+	\item \scal{\psi}: yaw, a rotation about the world \fvect{z}{W}-axis,
+	\item \scal{\theta}: pitch, a rotation about the intermediate \fluvect{y}{W}{'}-axis (after the yaw rotation),
 	\item \scal{\phi}: roll, a rotation about the body-fixed \fvect{x}{B}-axis (after the yaw and pitch rotations).
 \end{itemize}
 
@@ -166,7 +166,7 @@ The transformation \lrdmatr{R}{a} between body angular velocities and Euler angl
 systematically from the ZYX Euler parameterization. The instantaneous angular velocity vector is
 expressed as a linear combination of the contributions from the Euler angle rates:
 \begin{align}
-	\vect{\omega} & = \dot{\phi}\fvect{x}{B} + \dot{\theta}\fluvect{y}{I}{'} + \dot{\psi}\fvect{z}{I}
+	\vect{\omega} & = \dot{\phi}\fvect{x}{B} + \dot{\theta}\fluvect{y}{W}{'} + \dot{\psi}\fvect{z}{W}
 	\label{rcc_rcm_srd_angle_composition}
 \end{align}
 
@@ -231,13 +231,13 @@ The hydrostatic restoring vector is defined as
 where the first three components represent the net forces due to gravity and buoyancy, and the last
 three components represent the corresponding restoring moments.
 
-In the inertial frame \lframe{I}, the gravitational and buoyancy forces are
+In the world frame \lframe{W}, the gravitational and buoyancy forces are
 \begin{align}
-	\fldvect{f}{I}{g} =
+	\fldvect{f}{W}{g} =
 	\begin{bmatrix}
 		0 \\ 0 \\ -\scal{m}\scal{g}
 	\end{bmatrix} \hspace{1cm}
-	\fldvect{f}{I}{b} =
+	\fldvect{f}{W}{b} =
 	\begin{bmatrix}
 		0 \\ 0 \\ \ldscal{\rho}{w}\scal{g}\scal{v}
 	\end{bmatrix}
@@ -248,8 +248,8 @@ the water density, and \scal{v} is the submerged volume of the vehicle.
 
 The rotation matrix \lrdmatr{R}{l} is used to express these forces in \lframe{B}:
 \begin{align}
-	\fldvect{f}{B}{g} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{g} \\
-	\fldvect{f}{B}{b} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{I}{b}
+	\fldvect{f}{B}{g} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{W}{g} \\
+	\fldvect{f}{B}{b} & = \lrdmatr{R}{l}^{\top}(\phi,\theta,\psi) \fldvect{f}{W}{b}
 \end{align}
 
 The corresponding restoring moments are obtained from the moment arms of the centre of gravity
@@ -257,8 +257,8 @@ $\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y}, \ldscal{c}{g,z}\right]^{\
 centre of buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y},
 		\ldscal{c}{b,z}\right]^{\top}$:
 \begin{align}
-	\ldvect{m}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{g} \right) \\
-	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{I}{b} \right)
+	\ldvect{m}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{W}{g} \right) \\
+	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{W}{b} \right)
 \end{align}
 
 The generalized inertia matrix \matr{I} is defined to represent the combined rigid-body and
