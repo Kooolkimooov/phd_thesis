@@ -6,7 +6,7 @@
 \section{Introduction}
 \label{rcc_introduction}
 
-\section{Robot chain modelling}
+\section{Robot Chain Modelling}
 \label{rcc_robot_chain_modelling}
 
 The world frame, denoted as \lframe{W} when required, is defined as an earth-fixed, right-handed
@@ -26,7 +26,7 @@ upward (\cref{rcc_rcm_frames}).
 	\label{rcc_rcm_frames}
 \end{figure}
 
-\subsection{Single robot dynamics}
+\subsection{Single Robot Dynamics}
 \label{rcc_rcm_single_robot_dynamics}
 
 The dynamic model of a \ac{rov} is described by the classical six-degree-of-freedom rigid-body
@@ -318,7 +318,7 @@ These are in turn represented as diagonal matrices:
 
 where the coefficients are also usually determined experimentally.
 
-\subsection{Cable modelling}
+\subsection{Cable Modelling}
 \label{rcc_rcm_cable_modelling}
 
 The cable model used is the catenary model discussed in \cref{cable_modelling}, more specifically
@@ -388,7 +388,13 @@ should be noted that these forces are expressed in the catenary frame \lframe{v}
 transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
 \cref{rcc_rcm_srd_dynamics_simple}.
 
-\subsection{Robot chain dynamics}
+with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to
+\point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}. It
+should be noted that these forces are expressed in the catenary frame \lframe{v} and must be
+transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
+\cref{rcc_rcm_srd_dynamics_simple}.
+
+\subsection{Robot Chain Dynamics}
 \label{rcc_rcm_robot_chain_dynamics}
 
 The robot chain system is defined as a set of \scal{n} underwater robots connected by tethers,
@@ -432,7 +438,7 @@ waypoints and references consistent with tether kinematics (\cref{rcc_c_path_pla
 lightweight reactive behaviors that handled fast safety overrides and unmodeled events
 (\cref{rcc_c_reactive_control}).
 
-\subsection{Model predictive control}
+\subsection{\glsentrytitlecase{mpc}{long}}
 \label{rcc_c_model_predictive_control}
 
 \Ac{mpc} is a control strategy that explicitly incorporates the dynamics of
@@ -515,7 +521,7 @@ system, and the optimization problem is solved again at the next time step. In o
 optimization time, \vect{u} may be considered constant, piecewise constant, or parameterized as a
 polynomial function over the horizon.
 
-\subsection{Path planning}
+\subsection{Path Planning}
 \label{rcc_c_path_planning}
 
 A path planning problem was formulated to generate feasible trajectories for the robots while
@@ -554,7 +560,7 @@ where
 Once the optimal waypoint sequence was found, it is passed to the controller as a reference, and
 the optimization problem was solved again at the next planning step.
 
-\subsection{Reactive control}
+\subsection{Reactive Control}
 \label{rcc_c_reactive_control}
 
 In addition to the path planning scheme, a reactive control strategy was implemented to regulate

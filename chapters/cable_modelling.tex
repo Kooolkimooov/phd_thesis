@@ -1,4 +1,4 @@
-\chapter{Fast Cable Modelling for Model-based Control}
+\chapter{Fast Cable Modelling for Model-Based Control}
 \label{cable_modelling}
 
 \minitoc{}
@@ -20,7 +20,7 @@ conditions. To overcome this limitation, an augmented version of the model is in
 freedom, allowing it to account for the dynamic effects of hydrodynamic forces experienced during
 underwater motion.
 
-\section{Catenary model}
+\section{Catenary Model}
 \label{cm_catenary_model}
 
 \subsection{Definition}
@@ -61,7 +61,7 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 	\label{cm_cm_d_catenary_curve}
 \end{figure}
 
-\subsection{Derivation of the catenary equation}
+\subsection{Derivation of the Catenary Equation}
 \label{cm_cm_derivation_of_the_catenary_equation}
 
 In order to derive the shape of a homogeneous, infinitely flexible, non-elastic cable subjected
@@ -151,7 +151,7 @@ Integration from \ldpoint{O}{v} to \fldpoint{P}{v}{1} yields:
 
 thus obtaining the standard catenary equation described previously in \cref{cm_cm_definition}.
 
-\subsection{Parameter derivation}
+\subsection{Parameter Derivation}
 \label{cm_cm_parameter_derivation}
 
 The catenary shape is governed by a set of geometric parameters that define its curvature and
@@ -229,7 +229,7 @@ system.
 \Cref{cm_cm_pd_minimization_function} is solved numerically due to its transcendental nature. Once \catC{} is determined,
 the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct the \catenarymodel{}.
 
-\section{Augmented catenary model}
+\section{Augmented Catenary Model}
 \label{cm_augmented_catenary_model}
 
 When the underwater cable is moved at sufficiently high speed, hydrodynamic forces become
@@ -264,7 +264,7 @@ beforehand.
 This intuitive model will now be formalized by introducing two additional degrees of freedom to the
 \catenarymodel{}.
 
-\subsubsection{\scal{\gamma} degree of freedom} \label{cm_acm_d_gamma_degree_of_freedom}
+\subsubsection{\scal{\gamma} Degree of Freedom} \label{cm_acm_d_gamma_degree_of_freedom}
 
 The first degree of freedom introduced in the augmented model corresponds to a rotation of angle
 \scal{\gamma} around the catenary axis \vect{e}, which is defined as the unit vector pointing from
@@ -289,7 +289,7 @@ The catenary curve can be computed either directly within this rotated frame \lf
 equivalently, by applying the same rotation to the curve initially defined in the vertical frame
 \lframe{v}, since the parameters of the curve remain unchanged under this transformation.
 
-\subsubsection{\scal{\theta} degree of freedom} \label{cm_acm_d_theta_degree_of_freedom}
+\subsubsection{\scal{\theta} Degree Of Freedom} \label{cm_acm_d_theta_degree_of_freedom}
 
 The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
 \scal{\theta} around the normal to the plane \lplane{v} or \lplane{\gamma} (see
@@ -313,7 +313,7 @@ point \point{A} and a virtual endpoint obtained by rotating \point{B} by \scal{-
 resulting curve. This procedure preserves the parameterization of the original catenary while
 accounting for the inclination induced by surge dynamics.
 
-\subsubsection{\thetagammamodel{}}
+\subsubsection{\thetagammamodeltitle{}}
 \label{cm_acm_d_augmented_catenary_model}
 
 The degrees of freedom \scal{\theta} and \scal{\gamma} can be composed to define a
@@ -337,7 +337,7 @@ relying on an analytically tractable formulation. For consistency in implementat
 composition order should be adopted. In the future, any point belonging to an \thetagammamodel{}
 will be referred to as \lupoint{p}{\theta\gamma}.
 
-\subsection{Experimental validation}
+\subsection{Experimental Validation}
 \label{cm_acm_experimental_validation}
 
 The experimental validation was conducted on a dataset whose acquisition is detailed in
@@ -356,7 +356,7 @@ For each cable, the dataset includes sequences with varying experimental paramet
 	      \qty{2.0}{\meter}.
 \end{itemize}
 
-\subsubsection{Curvilinear discretization of the \catenarymodel{}}
+\subsubsection{Curvilinear Discretization of the \catenarymodeltitle{}}
 \label{cm_acm_ev_curvilinear_discretization_of_the_catenary_model}
 
 The catenary equation \cref{cm_cm_d_catenary_equation} is written as a function of \coord{x}{v},
@@ -401,7 +401,7 @@ The length of cable from the curvilinear origin to \llpoint{p}{\theta\gamma}{0} 
 Then the steps of \coord{x}{v} are computed from \ldscal{s}{0} or \ldscal{s}{n} by adding --or
 subtracting-- fractions of \catL{} and using \cref{cm_acm_ev_cdotcm_equation}.
 
-\subsubsection{Accuracy metric}
+\subsubsection{Accuracy Metric}
 \label{cm_acm_ev_accuracy_metric}
 
 The model accuracy is defined by the residual function:
@@ -431,7 +431,7 @@ values of \scal{\theta} and \scal{\gamma} and that their continuity is not enfor
 signal processing such as fitting or learning used to estimate the dynamic properties of
 \scal{\theta} and \scal{\gamma} may be penalized by such discontinuities.
 
-\subsubsection{Statistical metric}
+\subsubsection{Statistical Metric}
 \label{cm_acm_ev_statistical_metric}
 
 To assess the statistical significance of the accuracy improvement provided by the
@@ -454,7 +454,7 @@ which is not physically possible for values computed using \cref{cm_acm_ev_am_re
 	\label{cm_acm_ev_sm_distribution}
 \end{figure}
 
-\subsubsection{Statistical results}
+\subsubsection{Statistical Results}
 \label{cm_acm_ev_statistical_results}
 
 To assess the performance of the \thetagammamodel{} in terms of accuracy, the accuracy defined in
@@ -591,7 +591,7 @@ be attributed to its physical properties being most closely aligned with the ass
 augmented catenary model, allowing the additional degrees of freedom to effectively capture the
 deformations induced by hydrodynamic effects.
 
-\subsubsection{Comparaision to a fully dynamic model}
+\subsubsection{Comparaision to a Fully Dynamic Model}
 \label{cm_acm_ev_comparaision_to_a_fully_dynamic_model}
 
 To further assess the performance of the \thetagammamodel{}, we compare its accuracy to that of a
@@ -644,7 +644,7 @@ much simpler and more tractable for control and estimation tasks. The extremely 
 dynamic model may not be practically significant, as they are below the noise floor of the
 measurement system.
 
-\section{Perspectives on augmentation parameters' dynamics}
+\section{Perspectives on the Augmentation Parameters' Dynamics}
 \label{cm_perspectives_on_augmentation_parameters_dynamics}
 
 A dynamic model of the proposed degrees of freedom is required in order to design a control method
@@ -653,14 +653,14 @@ itself to a straightforward physics-based formulation, which makes the derivatio
 challenging task because, in practical applications, the exact shape of the cable is unavailable,
 and the augmented parameters cannot be directly optimized without such data.
 
-\subsection{Physics-based model}
+\subsection{Physics-Based Model}
 \label{cm_poapd_physics_based_model}
 
 A proposed physical analogy relies on a pendulum mounted on a horizontally translating cart
 (\cref{cm_poapd_pbm_dotpd_schematic}), where the length of the pendulum may vary dynamically based
 on catenary parameters.
 
-\subsubsection{Derivation of the pendulum's dynamics}
+\subsubsection{Derivation of the Pendulum's Dynamics}
 \label{cm_poapd_pbm_derivation_of_the_pendulums_dynamics}
 
 To describe the dynamics of the augmented catenary model with a moving cart pendulum. Let
@@ -818,7 +818,7 @@ Finally, substituting in~\cref{cm_poapd_pbm_dotpd_lagrange}:
 
 \trigft{}
 
-\subsubsection{Accuracy and discussion}
+\subsubsection{Accuracy and Discussion}
 \label{cm_poapd_pbm_aad_accuracy_and_discussion}
 
 \begin{figure}
@@ -852,7 +852,7 @@ similarly to before, they do not yield satisfactory results
 	\label{cm_poapd_pbm_aad_dynamics_cable_6_boxplot_compare}
 \end{figure}
 
-\subsection{Data-based model}
+\subsection{Data-Based Model}
 \label{cm_poapd_data_based_model}
 
 Another approach to determine a more accurate dynamic description of the augmentation parameters
