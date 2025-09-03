@@ -435,35 +435,57 @@ lightweight reactive behaviors that handled fast safety overrides and unmodeled 
 \subsection{Model predictive control}
 \label{rcc_c_model_predictive_control}
 
+\Ac{mpc} is a control strategy that explicitly incorporates the dynamics of
+the system, prediction of future states, and operational constraints into a single optimization
+problem. The central idea is that, at each time step, the system evolution is predicted forward
+over a finite horizon, based on the current state and a sequence of future control inputs. An
+optimization problem is then solved to select the sequence of inputs that minimizes a prescribed
+cost while satisfying all imposed constraints. Only the first input of this optimal sequence is
+applied, and the procedure is repeated at the next step with updated state information. This
+mechanism allows the controller to continuously adapt to disturbances and modeling errors while
+respecting safety and feasibility conditions (\cref{rcc_c_mpc_schematic}).
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/model_predictive_control_schematic}
+	\caption{Schematic of the model predictive control algorithm. The diagram illustrates the state
+		and actuation across past, present, and future instants, and shows multiple candidate trajectories
+		for $\vect{x}$ and $\vect{u}$ over the prediction horizon, of which the optimal one is selected.}
+	\label{rcc_c_mpc_schematic}
+\end{figure}
+
 Let \cref{mcc_c_mpc_system} define a discrete-time control system with state \ldvect{x}{k} and
 control input \ldvect{u}{k}, both expressed at time \scal{k}:
 \begin{equation}
-	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right) \label{mcc_c_mpc_system}
+	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right).
+	\label{mcc_c_mpc_system}
 \end{equation}
 
 This system is obtained by integrating the robot chain dynamics described in
-\cref{rcc_robot_chain_modelling}.
+\cref{rcc_robot_chain_modelling}. 
 
-A model predictive control problem consists of finding a sequence of control inputs
-$\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over a future time horizon \mpch{} in
-order to minimize a prescribed cost function (\cref{rcc_c_mpc_schematic}). In addition to the
-dynamic constraint of \cref{mcc_c_mpc_system}, kinematic constraints are also imposed on the
-problem based on the robot chain system:
+The \ac{mpc} problem then consists of finding a sequence of control
+inputs $\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over the horizon \mpch{} that
+minimizes the cost
 \begin{align}
 	\vect{u} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
 	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}
-	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}}
+	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}},
 	\label{rcc_c_mpc_equation}
 \end{align}
 
-subject to
+where the first term penalizes the final deviation from the target state, the second term enforces
+good tracking of the reference along the horizon, and the third term limits unnecessary variations
+in the control input.
+
+The optimization is solved subject to dynamic feasibility and a set of inequality constraints:
 \begin{alignat}{3}
 	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}}                \\
 	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \notag   \\
 	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\notag                                \\
-	\leq                                  & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
+	                                      & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
 	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
-	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
+	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & \notag                                 \\
 	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}} \notag
 	\label{rcc_c_mpc_constraints}
 \end{alignat}
@@ -475,27 +497,23 @@ where
 	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state, and control costs, respectively,
 	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{u}_{\text{min}}$ and $\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and $\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input,
-	\item \ldcoord{z}{w}{\text{seafloor}}, \ldcoord{z}{w}{\text{surface}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}} and \ldscal{dh}{\text{max}} are the geometrical bounds for the relative position of a pair of robots as well as the cable between them.
+	\item \ldcoord{z}{w}{\text{seafloor}} is the known elevation of the seafloor which neither the robot nor the cable should cross,
+	\item \ldcoord{z}{w}{\text{surface}} is the known elevation of the water surface which the robot cannot physically cross,
+	\item \ldscal{dp}{\text{max}} is the maximum allowable distance between two consecutive robots in the chain based on the tether length,
+	\item \ldscal{dh}{\text{min}} is the minimum allowable distance between consecutive robots, both to ensure separation and to avoid a singularity in the catenary model when \catl{} is zero.
 \end{itemize}
 
-If the robot is operating in a known constrained environment like a pool the following
-constraints may be added
+If the robot is operated in a constrained environment such as a pool, additional box constraints could
+be imposed on the position:
 \begin{alignat}{3}
 	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}}        \\
 	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}} \notag
 \end{alignat}
 
 Once the optimal control input is found, the first element of the sequence is applied to the
-system, and the optimization problem is solved again at the next time step.
-\begin{figure}
-	\centering
-	\inputtikz{figures/model_predictive_control_schematic}
-	\caption{Schematic of the model predictive control algorithm.}
-	\label{rcc_c_mpc_schematic}
-\end{figure}
-
-In order to reduce the optimization time, \vect{u} may be considered constant or piecewise constant
-over the horizon or even parameterized as a polynomial function.
+system, and the optimization problem is solved again at the next time step. In order to reduce the
+optimization time, \vect{u} may be considered constant, piecewise constant, or parameterized as a
+polynomial function over the horizon.
 
 \subsection{Path planning}
 \label{rcc_c_path_planning}

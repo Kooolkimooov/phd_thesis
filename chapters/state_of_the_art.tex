@@ -295,6 +295,13 @@ efficiency, typically requiring only a few milliseconds for evaluation, making t
 real-time applications. However, their accuracy is limited to scenarios with low cable dynamics and
 minimal hydrodynamic loading~\cite{filliungAugmentedCatenaryModel2024}.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for the geometric models}}
+	% \label{}
+\end{figure}
+
 Another geometric approximations is the use of active shape
 control.~\cite{vielROVLocalizationBased2023} proposed a method where the umbilical is equipped with
 moving ballasts and buoys to enforce straight-line segments, enabling analytical position
@@ -313,10 +320,12 @@ Euler-Lagrange method to model towing systems with rigid links connected by fict
 joints. This approach demonstrated scalable algorithmic procedures capable of generating dynamic
 models for arbitrary numbers of segments.
 
-% In~\cite{bagheriTrackingPerformanceControl2010} lumped parameter models were employed for
-% controller design, incorporating accurate representations of cable dynamic effects in
-% four-degree-of-freedom vehicle simulations. The model proved effective for adaptive neural network
-% controller development, demonstrating robustness against cable length variations.
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for lumped mass models}}
+	% \label{}
+\end{figure}
 
 This modelling approach strikes a balance between computational efficiency and accuracy, typically
 having an inverse relation between accuracy and computation time, meaning more segments yield more
@@ -339,6 +348,13 @@ exact beam theory to model cable-payload systems, incorporating large displaceme
 cross-sectional shear. This formulation proved particularly effective for transient flight
 scenarios and aerodynamic loading analysis.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for beam theory}}
+	% \label{}
+\end{figure}
+
 In~\cite{beltranEvaluationCoupledEffect2020} nonlinear cable-beam elements were developed
 incorporating helical rope structure and multi-directional coupling effects. Their model
 successfully predicted static response of damaged ropes under various loading conditions,
@@ -348,6 +364,13 @@ interactions.
 Finite element models typically require seconds to minutes for evaluation, depending on mesh
 resolution and nonlinearity, making them more suitable for offline analysis and detailed design
 studies rather than real-time control applications.
+
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for continuum models}}
+	% \label{}
+\end{figure}
 
 Computational efficiency is addressed in~\cite{westinEfficientSemiimplicitNumerical2023} through
 semi-implicit numerical methods on finite element representation of flexible bodies, achieving
@@ -393,6 +416,13 @@ influence overall system behavior. Unlike standalone tether or vehicle models, c
 explicitly account for the bidirectional force transmission, hydrodynamic interactions, and
 constrained motion that characterize tethered underwater systems.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for coupled models}}
+	% \label{}
+\end{figure}
+
 The most sophisticated coupled modeling approaches employ advanced continuum mechanics formulations
 to capture complex fluid-structure interactions between the tether, vehicle, and surrounding
 fluid.~\cite{wuIntegratedHydrodynamicsControl2018} developed \ac{cfd}-based methods solving
@@ -436,6 +466,13 @@ with sensor-equipped cables (streamer) for geotechnical surveys, employing Kane'
 coupled streamer-vehicle dynamics. This approach demonstrates the adaptability of multi-body
 methods to specific operational configurations while maintaining computational efficiency.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for active and smart tethers}}
+	% \label{}
+\end{figure}
+
 The integration of controllable elements along the tether enables predictable geometric
 configurations.~\cite{vielROVLocalizationBased2023} proposed methods where the umbilical is
 equipped with moving ballasts and buoys to enforce straight-line segments, transforming the cable
@@ -458,6 +495,13 @@ Visual servoing approaches simultaneously estimate vehicle pose and tether shape
 parameterized catenary models through nonlinear least-squares
 methods~\cite{laranjeiraCatenarybasedVisualServoing2020}. These techniques remain effective even
 with partial cable visibility or environmental perturbations.
+
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{figure for vision based}}
+	% \label{}
+\end{figure}
 
 Sensor fusion techniques enhance estimation robustness by integrating heterogeneous sensor inputs
 from both vehicle and tether systems. Common combinations include \acp{imu}, depth sensors, and
@@ -508,15 +552,6 @@ hydrodynamic forces, buoyancy variability, unpredictable ocean currents, limited
 the presence of static or dynamic obstacles. To address these issues, a wide array of modeling,
 estimation, and control strategies has been developed in recent years.
 
-Underwater manipulation has been advanced through the integration of deployable agent vehicles
-connected via smart, flexible tethers. In place of conventional rigid manipulator arms, small and
-highly maneuverable agent \acp{rov} have been utilized as mobile end-effectors. The smart cable in
-this configuration provides relative position tracking and active buoyancy control, enabling fine
-manipulation and monitoring with minimal structural modifications to the primary
-platform~\cite{yuArmlessUnderwaterManipulation2013}. This paradigm demonstrates the feasibility of
-distributed manipulation architectures tailored for cluttered or constrained underwater
-environments.
-
 Robust control approaches remain essential to ensure stable and reliable underwater operation.
 \Acp{nmpc} schemes have been formulated to navigate vehicles in constrained workspaces, accounting
 for environmental obstacles, boundary limitations, thruster saturation, and ocean
@@ -528,6 +563,13 @@ controllers optimized using genetic algorithms have demonstrated resilience agai
 uncertainty and external disturbances, particularly in the control of underwater
 manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Constraint-aware NMPC and robust control under disturbances}} 
+	% \label{}
+\end{figure}
+
 As multi-agent operations gain prominence in subsea applications, formation control and cooperative
 mission planning have become critical. Lyapunov-based control frameworks have been employed to
 ensure that groups of \acp{auv} maintain prescribed formations and track reference trajectories,
@@ -538,7 +580,14 @@ combining robust filtering with sliding-window estimation have been developed to
 resilience and autonomy under uncertain operational
 conditions~\cite{songRobustStateEstimation2023}.
 
-\subsection{Tethered \ac{uuv} control} \label{sota_c_tethered_uuv_control}
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Formation control of multiple AUVs with trajectory tracking}} 
+	% \label{}
+\end{figure}
+
+\subsection{Tethered \ac{uuv} control}\label{sota_c_tethered_uuv_control}
 
 A broad spectrum of control strategies has been formulated to address the unique challenges
 associated with underwater tethered robotic systems, wherein dynamic coupling among the vehicle,
@@ -546,6 +595,13 @@ the tether, and the environment imposes significant influence on stability and m
 Early research on tether management systems laid foundational principles for the safe deployment
 and retrieval of umbilicals, focusing on mechanical reliability and operational
 robustness~\cite{abelUnderwaterVehicleTether1994}.
+
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Tether Management System (TMS) schematic for deployment and retrieval}}
+	% \label{}
+\end{figure}
 
 Although this study primarily focuses on underwater robots, similar control challenges are
 encountered in aerial robotics, where tethers may be used not only for energy delivery, data
@@ -556,6 +612,13 @@ objects~\cite{dantonioCatenaryRobotDesign2021}. In that system, the cable's posi
 and span were regulated in real time to facilitate manipulation tasks without requiring prior
 mechanical attachment. Such applications demonstrate that tether dynamics can be exploited as
 functional assets, rather than merely compensated for.
+
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Catenary robot: two UAVs manipulating a hook via a flexible cable}}
+	% \label{}
+\end{figure}
 
 Recent advancements in tethered aerial systems have enabled the development of multi-vehicle
 configurations featuring dynamic tether management. In particular, systems comprising chains of
@@ -580,16 +643,37 @@ movement~\cite{aaseModelingControlCatenary2018}. These systems often incorporate
 such as tension constraints and alarm protocols, alerting operators when operational limits are
 exceeded.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Dynamic mooring/catenary model with forces and safety constraints}} 
+	% \label{}
+\end{figure}
+
 Advanced cable routing and manipulation techniques have emerged as key enablers for intervention
 missions. Robotic cable routing frameworks now incorporate spatial and topological representations
 to plan cable paths between initial and target configurations~\cite{jinRoboticCableRouting2022}.
 These frameworks draw from manipulation primitives learned through human demonstrations and apply
 high-level planning methods for intermediate cable state transitions.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Robotic cable routing: spatial/topological planning between configurations}} 
+	% \label{}
+\end{figure}
+
 Hybrid systems have demonstrated the effectiveness of combining tether length regulation mechanisms
 with vehicle propulsion for coordinated control. Experimental studies have shown that while tether
 length adjustment primarily governs vertical motion, horizontal motion is efficiently controlled
 through propeller-based actuation~\cite{wuTrajectoryFollowingTethered2019}.
+
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Hybrid control: vertical via tether length regulation, horizontal via thrusters}} 
+	% \label{}
+\end{figure}
 
 Fundamental properties of tethered aerial robots have been analytically characterized, revealing
 differential flatness with respect to specific output pairs. Notable flat outputs include
@@ -655,6 +739,12 @@ three-dimensional shape of the tether in real time. These systems support stable
 in scenarios involving visual occlusion and external
 disturbances~\cite{laranjeiraCatenarybasedVisualServoing2020}.
 
+\begin{figure}
+	\centering
+	% \input{}
+	\caption{\todo{Catenary-based visual servoing pipeline for 3D tether shape control}} 
+	% \label{}
+\end{figure}
 Overall, the literature indicates that effective control of underwater tethered robotic systems
 relies on the integration of high-fidelity dynamic modeling, adaptive and robust control methods,
 and sensor-based feedback architectures. These elements collectively address the nonlinear,

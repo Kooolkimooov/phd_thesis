@@ -344,8 +344,9 @@ The experimental validation was conducted on a dataset whose acquisition is deta
 \cref{e_augmented_catenary_model_experimental_validation}. The dataset contains \num{129} recording
 sequences spanning \num{8} cables being moved underwater by a robot. More precisely, the data
 includes the shape of the cable with \scal{n} regularly spaced points along its length from end to
-end. These points are referred to as \llpoint{p}{m}{k} in the following, where
-\scal{k}~\inzeroton{} is the index of the point.
+end. These points are referred to as \fllpoint{p}{w}{m}{k} in the following, where
+\scal{k}~\inzeroton{} is the index of the point and expressed in the world frame \lframe{w}
+determined by the recording setup where the \ldvect{z}{w}-axis coaxial with the \ldvect{z}{v}-axis.
 
 For each cable, the dataset includes sequences with varying experimental parameters:
 \begin{itemize}
