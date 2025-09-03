@@ -21,10 +21,10 @@
 		\addplot[domain=-1.0:1.0, samples=300, draw=blue!40, very thick] ({\x},{0.045*sin(6*\x)});
 		\addplot[domain=-1.0:1.0, samples=300, draw=blue!20, thick] ({\x},{0.02*sin(14*\x)});
 
-		\draw[->, thick, blue] (Oi) -- (xi) node[below right] {\ldvect{x}{I}};
-		\draw[->, thick, blue] (Oi) -- (yi) node[right] {\ldvect{y}{I}};
-		\draw[->, thick, blue] (Oi) -- (zi) node[above right] {\ldvect{z}{I}};
-		\filldraw[blue] (Oi) circle (2pt) node[below left] {\lframe{I}};
+		\draw[->, thick, blue] (Oi) -- (xi) node[below right] {\ldvect{x}{W}};
+		\draw[->, thick, blue] (Oi) -- (yi) node[right] {\ldvect{y}{W}};
+		\draw[->, thick, blue] (Oi) -- (zi) node[above right] {\ldvect{z}{W}};
+		\filldraw[blue] (Oi) circle (2pt) node[below left] {\lframe{W}};
 
 		\coordinate (Ob) at (axis cs: 0.5, -0.5);
 		\coordinate (xb) at (axis cs: -\arrowlength, 0.0);

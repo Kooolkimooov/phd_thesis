@@ -19,10 +19,10 @@
 		\node[above left, rotate=90, red] at (axis cs:17.42,0.7) {mean};
 
 		\addplot[domain=0:1, samples=2, thick, red] coordinates {(-1.26,0) (-1.26,0.7)};
-		\node[above left, rotate=90, red] at (axis cs:-1.26,0.7) {$\text{mean} - 2\times \text{std}$};
+		\node[above, rotate=90, red] at (axis cs:-1.26,0.7) {$\text{mean} - 2\times \text{standard deviation}$};
 
 		\addplot[domain=0:1, samples=2, thick, red] coordinates {(36.1,0) (36.1,0.7)};
-		\node[above left, rotate=90, red] at (axis cs:36.1,0.7) {$\text{mean} + 2\times \text{std}$};
+		\node[above, rotate=90, red] at (axis cs:36.1,0.7) {$\text{mean} + 2\times \text{standard deviation}$};
 
 		\addplot[domain=0:1, samples=2, thick] coordinates {(12.41,0) (12.41,0.9)};
 		\node[below left, rotate=90] at (axis cs:12.41,0.9) {median};

@@ -12,8 +12,8 @@ presented in \cref{cable_modelling,robot_chain_control}.
 The first experimental campaign presented in
 \cref{e_augmented_catenary_model_experimental_validation} was conducted to gather the dataset used
 in \cref{cm_acm_experimental_validation} in order to quantify the accuracy of the proposed model in
-comparaison to actual cables in underwater conditions. In addition to using a varied set of cables
-changes experimental conditions such as the speed of the robot and the direction of motion.
+comparaison to actual cables in underwater conditions while using a varied set of cables and
+experimental conditions such as the speed of the robot and the direction of motion.
 
 The second experimental campaign presented in \cref{e_robot_chain_control_experiment} was conducted
 to validate the feasability of the proposed control methods and simulations presented in
@@ -22,10 +22,6 @@ surface vehicle to a pair of Bluerovs for practical reasons.
 
 \section{Augmented catenary model experimental validation}
 \label{e_augmented_catenary_model_experimental_validation}
-
-The objective of these experiments was to evaluate the accuracy of catenary models in estimating
-the shape of tethers in water under dynamic conditions. Such models are essential for model-based
-control of tethered underwater vehicles, for example in applications such as obstacle avoidance.
 
 \subsection{Experimental setup}
 \label{e_acmev_experimental_setup}
@@ -301,9 +297,12 @@ was used to command the Bluerovs in a closed-loop configuration
 sampling rate of the Qualisys system, which is sufficient for Bluerov control, given its relatively
 slow dynamics. \marginnote{Shannon can rest easy, the sampling rate is more than adequate.}
 
-Additionally, a simulation twin of the node was implemented with an identical \ac{ros} interface,
-enabling testing of control algorithms relying on Qualisys data without requiring physical
-hardware.
+Additionally, a simulation twin of the node was implemented as a drop-in replacement with an
+identical \ac{ros} interface to the live Qualisys node, preserving the same message types, frame
+conventions, and overall topic structure. It publishes time-stamped robot poses at a fixed
+\qty{100}{\Hz}, allowing closed-loop controllers to be tested without access to the physical
+hardware while keeping the software pathway unchanged. This enabled rapid offline iteration and
+debugging while exercising exactly the same data path as in the experiments.
 
 \subsubsection{State estimation with \acl{ekf}}
 \label{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}

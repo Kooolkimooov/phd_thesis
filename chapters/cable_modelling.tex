@@ -7,16 +7,10 @@
 \label{cm_introduction}
 
 This chapter focuses on the development of fast and efficient cable models tailored for integration
-within model-based control frameworks of underwater robotic systems. Accurate cable modeling is
-essential for achieving precise control, as the cable's shape and tension directly influence the
-robot's dynamics and positioning. However, this accuracy must be balanced with computational
-efficiency to ensure real-time applicability.
-
-The primary objective of this chapter is to present a cable modeling approach that maintains
-relatively high while remaining computationally lightweight. This is achieved by parameterizing the
-model using data exclusively from onboard sensors, including inertial measurement units (IMUs),
-pressure sensors, and cameras. Such sensor-based parameterization enables real-time updates and
-adaptability to changing conditions.
+within model-based control frameworks of underwater robotic systems. This is achieved by
+parameterizing the model using data exclusively from onboard sensors, \acp{imu}, pressure sensors,
+and cameras. Such sensor-based parameterization enables real-time updates and adaptability to
+changing conditions.
 
 The chapter begins with \cref{cm_catenary_model}, where the classical catenary model is introduced.
 This model provides an analytical representation of a flexible cable under the influence of
@@ -40,14 +34,14 @@ acting in the opposite direction to weight. For the catenary model to remain val
 conditions, the net vertical force --the sum of weight and buoyancy-- must be non-zero. In the
 following we assume that the weight is predominant over the buoyancy.
 
-The resulting curve is confined to a vertical plane, denoted as \lplanefullxz{v}, and is defined
-within a Cartesian reference frame \lframefull{v}. The origin \ldpoint{O}{v} is positioned at the
-lowest point of the curve, with the \ldvect{z}{v} axis aligned with the direction of gravitational
-forces. The coordinates of any point along the curve are defined as $\fpoint{P}{v} =
-	\left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by the attachment points
-$\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
-$\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$. The \coord{z}{v} coordinate of each point is given by
-the standard catenary equation:
+The resulting curve (\cref{cm_cm_d_catenary_curve}) is confined to a vertical plane, denoted as
+\lplanefullxz{v}, and is defined within a Cartesian reference frame \lframefull{v}. The origin
+\ldpoint{O}{v} is positioned at the lowest point of the curve, with the \ldvect{z}{v} axis aligned
+with the direction of gravitational forces. The coordinates of any point along the curve are
+defined as $\fpoint{P}{v} = \left(\coord{x}{v},~0,~\coord{z}{v}\right) \in \lframe{v}$, bound by
+the attachment points $\fpoint{A}{v}=\left(-\catD-\catdD,~0,~\catH+\catdH\right)$ and
+$\fpoint{B}{v}=\left(\catD,~0,~\catH\right)$ (\cref{cm_cm_d_catenary_curve}). The \coord{z}{v}
+coordinate of each point is given by the standard catenary equation:
 \begin{align}
 	\coord{z}{v} = \frac{\cosh{(\coord{x}{v}~\catC)} - 1}{\catC}, \quad \coord{x}{v} \in \left[-\catD-\catdD,~\catD\right]
 	\label{cm_cm_d_catenary_equation}
@@ -161,7 +155,7 @@ thus obtaining the standard catenary equation described previously in \cref{cm_c
 \label{cm_cm_parameter_derivation}
 
 The catenary shape is governed by a set of geometric parameters that define its curvature and
-spatial configuration. These parameters include:
+spatial configuration (\cref{cm_cm_d_catenary_curve}). These parameters include:
 \begin{itemize}
 	\item \catC: the catenary parameter, a critical value that characterizes the curvature of the cable and depends on the tension and weight distribution,
 	\item \catH: the sag, defined as the vertical distance between the lowest point of the cable and \point{B},
@@ -188,13 +182,51 @@ and the elevation difference \catdH{}:
 	\catdH & = \ldcoord{b}{f}{z} - \ldcoord{a}{f}{z}
 \end{align}
 
-Given these values and the known cable length \catL{}, the catenary parameter is determined by
-solving the following nonlinear equation:
+Using only these two parameters, the known length of the cable \catL{} and the catenary equation
+(\cref{cm_cm_d_catenary_equation}), the catenary parameter \catC{} can be determined. Starting with
 \begin{align}
-	\catC^2 (\catL^2 - \catdH^2) - 4 \sinh^2\left(\frac{l\catC}{2}\right) = 0
+	\catdH = \frac{\cosh{\left((\catD + \catdD)\catC\right)}}{\catC} - \frac{\cosh(\catD\catC)}{\catC}
+	\label{cm_cm_pd_dH}
 \end{align}
 
-This equation is solved numerically due to its transcendental nature. Once \catC{} is determined,
+And the addition of the arc length of the curve (see
+\cref{cm_acm_ev_curvilinear_discretization_of_the_catenary_model} for more details on this
+expression):
+\begin{align}
+	\catL = \frac{\sinh\left((\catD + \catdD)\catC\right)}{\catC} + \frac{\sinh(\catD\catC)}{\catC}
+	\label{cm_cm_pd_L}
+\end{align}
+
+Using the trigonometric identity:
+\begin{align}
+	\cosh{\clubsuit}-\cosh{\spadesuit}=2\sinh{\left(\frac{\clubsuit+\spadesuit}{2}\right)}\sinh{\left(\frac{\clubsuit-\spadesuit}{2}\right)} \\
+	\sinh{\clubsuit}+\sinh{\spadesuit}=2\sinh{\left(\frac{\clubsuit+\spadesuit}{2}\right)}\cosh{\left(\frac{\clubsuit-\spadesuit}{2}\right)}
+\end{align}
+
+With $\clubsuit = (\catD + \catdD)\catC$ and $\spadesuit = \catD\catC$ in
+\cref{cm_cm_pd_dH,cm_cm_pd_L}, we obtain:
+\begin{align}
+	\catdH & = \frac{2\sinh{\left(\frac{2\catD + \catdD}{2}\catC\right)}\sinh{\left(\frac{\catdD\catC}{2}\right)}}{\catC} \label{cm_cm_dp_dH_prod} \\
+	\catL  & = \frac{2\sinh{\left(\frac{2\catD + \catdD}{2}\catC\right)}\cosh{\left(\frac{\catdD\catC}{2}\right)}}{\catC} \label{cm_cm_dp_L_prod}
+\end{align}
+
+Finally, computing
+\eqref{cm_cm_dp_L_prod}\textsuperscript{2}~--~\eqref{cm_cm_dp_dH_prod}\textsuperscript{2} with
+$\catl = 2\catD + \catdD$ gives:
+\begin{align}
+	\catL{}^2 - \catdH{}^2                                         & = \left(\frac{2\sinh{\left(\frac{\catl{}\catC{}}{2}\right)}}{\catC{}}\right)^2 \left[\cosh^2{\left(\frac{\catdD{}\catC{}}{2}\right)} - \sinh^2{\left(\frac{\catdD{}\catC{}}{2}\right)}\right] \\
+	\Leftrightarrow{} \catC{}^2\left(\catL{}^2 - \catdH{}^2\right) & = 4\sinh^2{\left(\frac{\catl{}\catC{}}{2}\right)} \label{cm_cm_pd_minimization_function}
+\end{align}
+
+This relation captures the balance between the geometry of the supports, the length of the cable,
+and the way the cable naturally sags under its own weight. It shows that the cable cannot take an
+arbitrary shape: once the distance and height difference between the supports and the total length
+of the cable are fixed, the curve and its internal forces are uniquely determined. In particular,
+the parameter \catC{} reflects the level of horizontal tension in the cable, so the equation
+highlights the direct link between geometry, material length, and the mechanical state of the
+system.
+
+\Cref{cm_cm_pd_minimization_function} is solved numerically due to its transcendental nature. Once \catC{} is determined,
 the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct the \catenarymodel{}.
 
 \section{Augmented catenary model}
@@ -213,7 +245,7 @@ proposed to the cable shape model, extending the \verticalmodel{}.
 \label{cm_acm_definition}
 
 The proposed augmented catenary model is based on intuitions while observing a cable's behavior
-during during experiments: The cable would sway when the robot in the direction normal to the
+during during experiments: The cable would sway when the robot moved in the direction normal to the
 cable's plane while staying in a plane while in steady state, with a relatively short out-of-plane
 transition beforehand; and during in-plane motion, the cable would take on a shape similar to the
 catenary curve, but in a tilted frame (\cref{cm_acm_picture_theta}). again with a short transition
@@ -387,13 +419,16 @@ procedure was employed to estimate the values of the augmentation parameters \sc
 \scal{\gamma}. The optimal parameters were obtained by solving the following minimization problem:
 \begin{align}
 	(\theta, \gamma) = \argmin_{(\theta, \gamma) \in [-\pi, \pi]^2} \res{\theta\gamma}(\theta, \gamma)
+	\label{cm_acm_ev_am_minimization}
 \end{align}
 
 To go into more details about the minimization cost: an \augmentedmodel{} was computed with the
 candidate \scal{\theta} and \scal{\gamma} and the norm of the distance from the computed points
 \fllpoint{p}{w}{\theta\gamma}{k} to the measured points \fllpoint{p}{w}{m}{k} was computed and then
 averaged on a frame by frame basis. This means that there is no relation between two consecutive
-values of \scal{theta} and \scal{\gamma} and that their continuity is not enforced.
+values of \scal{\theta} and \scal{\gamma} and that their continuity is not enforced. In turn,
+signal processing such as fitting or learning used to estimate the dynamic properties of
+\scal{\theta} and \scal{\gamma} may be penalized by such discontinuities.
 
 \subsubsection{Statistical metric}
 \label{cm_acm_ev_statistical_metric}
@@ -403,15 +438,15 @@ To assess the statistical significance of the accuracy improvement provided by t
 the more common mean and standard deviation. This choice is motivated the statistical distribution
 of the residuals not being a normal distribution. \Cref{cm_acm_ev_sm_distribution} shows an example
 of the distribution of the residuals for a sequence of the dataset which does not have the shape of
-a normal distribution. More importantly, the $\text{mean}-2\text{ standard deviation}$ metric below
-which \qty{2.5}{\percent} of the residuals are found is \emph{below} \qty{0}{\mm} which is not
-physically possible for values computed using \cref{cm_acm_ev_am_residual}.
+a normal distribution. More importantly, the $\text{mean} - 2\times \text{standard deviation}$
+metric below which \qty{2.5}{\percent} of the residuals are found is \emph{below} \qty{0}{\mm}
+which is not physically possible for values computed using \cref{cm_acm_ev_am_residual}.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/catenary_experiment_distribution}
 	\caption{
-		Histogram in blue, mean and $\text{mean}\pm 2~\text{standard deviation}$ in red, and median, quartiles,
+		Histogram in blue, mean and $\text{mean}\pm 2\times\text{standard deviation}$ in red, and median, quartiles,
 		1\textsuperscript{st} and 99\textsuperscript{th} percentiles in black of the residual of a sequence
 		of the dataset.
 	}
@@ -439,7 +474,7 @@ points corresponding to \fllpoint{p}{w}{m}{k} predicted by the \verticalmodel{},
 	\inputtikz{figures/catenary_experiment_cables_boxplot}
 	\caption{
 		Box plots of the residual when compared to the measured data for each cable. Each box represents
-		the \ac{iqr} of residuals, with the vertical line indicating the median. Whiskers extend to the first
+		the \acl{iqr} of residuals, with the vertical line indicating the median. Whiskers extend to the first
 		and ninety-ninth percentile. The \verticalmodel{} is shown in blue, \gammamodel{} in red,
 		\thetamodel{} in green, and \thetagammamodel{} in gray.
 	}
@@ -568,8 +603,8 @@ to incorporate discrete elements like buoys, ballast, and virtual \ac{imu} at an
 length. Using a finite difference method, the cable is discretized into segments whose mechanical
 properties, hydrodynamic forces, and motion are computed based on force balance, compatibility, and
 angular momentum equations, with boundary conditions set by the robots' positions and winch
-operation. Cable length changes are handled by dynamically adding or removing points, while
-Newton-Raphson iterations advance the simulation from a physically valid starting configuration.
+operation. Newton-Raphson iterations advance the simulation from a physically valid starting
+configuration.
 
 Both models were evaluated on the same dataset, which includes a range of experimental conditions
 presented in \cref{cm_acm_experimental_validation}. The residuals were computed for each trial, and
@@ -579,8 +614,8 @@ reveals several key points:
 	\item Both the \thetagammamodel{} and the dynamic model achieve similar median residuals across all
 	      experimental conditions, indicating that the simplified model can match the dynamic model's typical
 	      accuracy for this cable type.
-	\item The dynamic model exhibits extremely low first percentile and lower whisker values, in some cases
-	      below \qty{0.1}{\milli\meter}. These values are well below the measurement accuracy of the dataset,
+	\item The dynamic model exhibits extremely low first percentile, in some cases below
+	      \qty{0.1}{\milli\meter}. These values are well below the measurement accuracy of the dataset,
 	      suggesting that the dynamic model can occasionally fit the data almost perfectly.
 	\item The spread of the residuals is comparable between the two models, indicating similar consistency in
 	      performance across trials.
@@ -601,20 +636,21 @@ reveals several key points:
 	\label{cm_acm_ev_sr_cables_boxplot_dynamic_diff}
 \end{figure}
 
-The fully dynamic model, by accounting for the full physics of the cable, can achieve extremely low
-errors in favorable conditions. However, the \thetagammamodel{} provides nearly equivalent median
-accuracy and similar robustness, while being much simpler and more tractable for control and
-estimation tasks. The extremely low errors of the dynamic model may not be practically significant,
-as they are below the noise floor of the measurement system.
+The fully dynamic model, by accounting for the full physics of the cable, in particular
+out-of-plane deformation, can achieve extremely low errors in favorable conditions. However, the
+\thetagammamodel{} provides nearly equivalent median accuracy and similar robustness, while being
+much simpler and more tractable for control and estimation tasks. The extremely low errors of the
+dynamic model may not be practically significant, as they are below the noise floor of the
+measurement system.
 
 \section{Perspectives on augmentation parameters' dynamics}
 \label{cm_perspectives_on_augmentation_parameters_dynamics}
 
-Defining a dynamic model for the proposed degrees of freedom was identified as a nontrivial task,
-primarily due to the intuitive construction of the \thetagammamodel{} and the absence of a
-straightforward physics-based formulation. However, it is essential for the development of a
-control method capable of accounting for a cable's shape. In practical applications, the shape of
-the cables is often unavailable for the augmented parameters to be optimized upon.
+A dynamic model of the proposed degrees of freedom is required in order to design a control method
+that accounts for the cable's shape. The construction of the \thetagammamodel{} does not lend
+itself to a straightforward physics-based formulation, which makes the derivation of such a model a
+challenging task because, in practical applications, the exact shape of the cable is unavailable,
+and the augmented parameters cannot be directly optimized without such data.
 
 \subsection{Physics-based model}
 \label{cm_poapd_physics_based_model}
@@ -818,10 +854,52 @@ similarly to before, they do not yield satisfactory results
 \subsection{Data-based model}
 \label{cm_poapd_data_based_model}
 
-Another approach to determine a more accurate dynamic model involves the use of data-based methods
-such as neural networks, model identification, etc. These methods will be explored in future work
-to address the limitations of physics-based models and to realize the predictive accuracy of the
-\thetagammamodel{}.
+Another approach to determine a more accurate dynamic description of the augmentation parameters
+was investigated using data-driven methods. In contrast to the physics-based formulation presented
+previously, this methodology relied on experimental datasets and symbolic regression to derive
+explicit equations governing the cable's deformation. The objective was to capture the temporal
+evolution of the augmentation angles \scal{\theta} and \scal{\gamma} directly from the motion of
+the attachment points, thereby complementing the \augmentedmodel{} with a dynamics describing the
+augmentation parameters.
+
+The dataset considered consisted of the data described in
+\cref{cm_acm_experimental_validation,e_augmented_catenary_model_experimental_validation} along with
+the values of \scal{\theta} and \scal{\gamma} computed with \cref{cm_acm_ev_am_minimization}.
+
+To relate these augmentation parameters to attachment point motion, symbolic regression was applied
+using the \texttt{PySR} library (\cite{cranmerInterpretableMachineLearning2023},
+\citeurl{cranmerPySR2025}). This tool employed an evolutionary algorithm to identify compact
+algebraic expressions that balance predictive accuracy with interpretability. Both first and second
+order candidate models were considered, with velocity or acceleration of the attachment points
+serving as inputs. After preliminary testing, second-order formulations proved most suitable, as
+they allowed the influence of drag forces --proportional to squared velocities-- to be captured
+naturally.
+
+A representative outcome for the angle \ldscal{\theta}{t} took the form
+\begin{align}
+	\ldscal{\ddot{\theta}}{t} = \num{0.0753} \left[ \ldscal{a}{y} (\ldscal{\theta}{t} + \num{0.4637}) - \ldscal{a}{x} - \sin{\left(\tanh^4{\left(\ldscal{\dot{\gamma}}{t-2}\right)}\right)}\cdot(\ldscal{\dot{\theta}}{t-2} + \ldscal{a}{z}- \num{1.1639}) \right]
+\end{align}
+
+where \ldscal{a}{x}, \ldscal{a}{y}, and \ldscal{a}{z} are the attachment point accelerations
+expressed in the catenary frame. This equation illustrates how symbolic regression incorporated
+nonlinear terms and delayed signals to reproduce the tether's dynamic response.
+
+The identified expressions were evaluated on withheld experimental sequences. In these validation
+tests, reconstructed trajectories obtained by double integration of the estimated angular
+accelerations exhibited improved long-term consistency and closer alignment with the true cable
+evolution compared to first-order or purely autoregressive approaches. Although instantaneous
+errors were not always minimized, the learned equations respected the overall curvature trends of
+the system and generalized across velocity regimes.
+
+\todo{Insert figure comparing predicted vs. ground-truth angular trajectories.}
+
+This work was carried out and published (\cite{deowanSymbolicRegressionDynamic2025}) during an
+internship by Md~Ether~Deowan. The findings demonstrate that data-driven identification can
+successfully augment physics-based catenary formulations with compact dynamic laws. The resulting
+models maintain computational efficiency, are amenable to implementation in real-time control
+loops, and retain an interpretable algebraic structure. Future work will focus on simplifying the
+symbolic expressions, extending them to both \scal{\theta} and \scal{\gamma}, and validating
+performance in open-water scenarios subject to environmental disturbances.
 
 \section{Conclusion}
 \label{cm_conclusion}

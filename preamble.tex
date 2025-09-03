@@ -335,9 +335,9 @@
 \newcommand\fluvectthree[3]{\ensuremath{\fluvect{#1}{#2}{#3}=\left(\llcoord{#1}{#2}{#3}{x}, \llcoord{#1}{#2}{#3}{y},\llcoord{#1}{#2}{#3}{z}\right)}}
 \newcommand\fldvectthree[3]{\ensuremath{\fldvect{#1}{#2}{#3}=\left(\ldcoord{#1}{#2}{#3,x}, \ldcoord{#1}{#2}{#3,y},\ldcoord{#1}{#2}{#3,z}\right)}}
 
-\newcommand\fvectn[3]{\ensuremath{\fvect{#1}{#2}=\left(\ldcoord{#1}{#2}{0}, \hdots{},\ldcoord{#1}{#2}{#3}\right)}}
-\newcommand\fluvectn[4]{\ensuremath{\fluvect{#1}{#2}{#3}=\left(\llcoord{#1}{#2}{#3}{0}, \hdots{},\llcoord{#1}{#2}{#3}{#4}\right)}}
-\newcommand\fldvectn[4]{\ensuremath{\fldvect{#1}{#2}{#3}=\left(\ldcoord{#1}{#2}{#3,0}, \hdots{},\ldcoord{#1}{#2}{#3,#4}\right)}}
+\newcommand\fvectn[3]{\ensuremath{\fvect{#1}{#2}=\left(\ldcoord{#1}{#2}{0}, \hdots{},\ldcoord{#1}{#2}{#3-1}\right)}}
+\newcommand\fluvectn[4]{\ensuremath{\fluvect{#1}{#2}{#3}=\left(\llcoord{#1}{#2}{#3}{0}, \hdots{},\llcoord{#1}{#2}{#3}{#4-1}\right)}}
+\newcommand\fldvectn[4]{\ensuremath{\fldvect{#1}{#2}{#3}=\left(\ldcoord{#1}{#2}{#3,0}, \hdots{},\ldcoord{#1}{#2}{#3,#4-1}\right)}}
 
 \newcommand\lplanefullxy[1]{\ensuremath{\lplane{#1}=\left(\ldpoint{O}{#1}, \ldvect{x}{#1},\ldvect{y}{#1}\right)}}
 \newcommand\lplanefullxz[1]{\ensuremath{\lplane{#1}=\left(\ldpoint{O}{#1}, \ldvect{x}{#1},\ldvect{z}{#1}\right)}}
@@ -452,7 +452,7 @@
 }
 
 \newglossaryentry{notation:vectornd}{
-	name={\fvectn{v}{f}{m}},
+	name={\fvectn{v}{f}{n}},
 	description={A vector with its coordinates expressed in a \scal{n}-dimensional frame $f$},
 	type=notation
 }
