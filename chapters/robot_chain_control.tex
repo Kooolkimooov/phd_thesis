@@ -376,11 +376,13 @@ Which is then substituted in \cref{rcc_rcm_cm_vertical_tension} to yield
 	                            & = \ldscal{T}{h}\sinh{\left(\catC x\right)}
 \end{align}
 
-The force exerted by the cable on the vehicle is then
+The forces exerted by the cable on the vehicles are then
 \begin{align}
-	\fldvect{p}{v}{a} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
-	\fldvect{p}{v}{b} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
+	\fldvect{\omega}{v}{i} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
+	\fldvect{\omega}{v}{i+1} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
 \end{align}
+
+with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to \point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}.
 
 \subsection{Robot chain dynamics}
 \label{rcc_rcm_robot_chain_dynamics}
