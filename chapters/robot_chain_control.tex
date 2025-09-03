@@ -364,7 +364,7 @@ Furthermore, the vertical tension force is defined (\cref{cm_cm_dotcm_tension_eq
 
 for a general point \ldpoint{p}{1} along the cable where \ldscal{L}{1} is the arc-length of the
 cable between the origin \ldpoint{o}{v} and \ldpoint{p}{1}. In
-\cref{c_cm_catenary_model,cm_cm_dotcm_horizontal_catenary_coordinate} \scal{x} is written as a
+\cref{cm_catenary_model,cm_cm_dotcm_horizontal_catenary_coordinate} \scal{x} is written as a
 function of \ldscal{L}{1}
 \begin{align}
 	x = \frac{\sinh^{-1}\left(L_1 \catC\right)}{\catC}
@@ -376,7 +376,7 @@ Which is then substituted in \cref{rcc_rcm_cm_vertical_tension} to yield
 	                            & = \ldscal{T}{h}\sinh{\left(\catC x\right)}
 \end{align}
 
-The force exerted by the cable on the vehicle is then (\cref{cm_cm_d_catenary_curve})
+The force exerted by the cable on the vehicle is then
 \begin{align}
 	\fldvect{p}{v}{a} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
 	\fldvect{p}{v}{b} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
