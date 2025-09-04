@@ -20,10 +20,9 @@ to validate the feasability of the proposed control methods and simulations pres
 \cref{robot_chain_control}. The robot chain used was scaled down from the three Bluerovs with a
 surface vehicle to a pair of Bluerovs for practical reasons.
 
-\section{Augmented catenary model experimental validation}
-\label{e_augmented_catenary_model_experimental_validation}
+\section{\augmentedmodeltitle{} Experimental Validation} \label{e_augmented_catenary_model_experimental_validation}
 
-\subsection{Experimental setup}
+\subsection{Experimental Setup}
 \label{e_acmev_experimental_setup}
 
 The experiments were conducted in a tank measuring \qty{7.2}{\meter} in length, \qty{4.2}{\meter}
@@ -236,7 +235,7 @@ In each experiment, the robot executed the following sequence of commands:
 	\label{e_acmev_es_cables_characteristics}
 \end{table}
 
-\subsection{Trajectories of recorded sequences}
+\subsection{Trajectories of Recorded Sequences}
 \label{e_acmev_trajectories_of_recorded_sequences}
 
 All robots trajectories in the recorded sequences for the cables shown in
@@ -256,13 +255,13 @@ The open-loop nature of the robot's motion is apparent in \cref{e_acmev_tors_tra
 trajectories are relatively straight but do not correspond to the expected pure surge or sway
 motion relative to the fixed point.
 
-\section{Robot chain control experiment}
+\section{Robot Chain Control Experiment}
 \label{e_robot_chain_control_experiment}
 
-\subsection{Closing the control loop}
+\subsection{Closing the Control Loop}
 \label{e_rcce_closing_the_control_loop}
 
-\subsubsection{Real time feedback from the Qualisys system}
+\subsubsection{Real Time Feedback From the Qualisys System}
 \label{e_rcce_ctcl_real_time_feedback_from_qualisys_system}
 
 A prerequisite for any experimental application of a control system was the availability of a
@@ -304,7 +303,7 @@ conventions, and overall topic structure. It publishes time-stamped robot poses 
 hardware while keeping the software pathway unchanged. This enabled rapid offline iteration and
 debugging while exercising exactly the same data path as in the experiments.
 
-\subsubsection{State estimation with \acl{ekf}}
+\subsubsection{State Estimation With an \glsentrytitlecase{ekf}{long}}
 \label{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}
 
 During the experiments, limitations in the coverage of the motion capture system were observed.
@@ -337,7 +336,7 @@ estimation error rendered the filter inaccurate.
 	\label{e_rcce_ctcl_sewekf_robot_in_pool}
 \end{figure}
 
-\subsection{Controller implementation}
+\subsection{Controller Implementation}
 \label{ex_rcce_controller_implementation}
 
 The experiments started by employing a single Bluerov controlled by a \ac{pd} controller. This
@@ -387,7 +386,7 @@ increased until either convergence was achieved—at which point the tolerance w
 the tolerance reached a predefined maximum value. In the latter case, the robot and the experiment
 were stopped to prevent unsafe operation.
 
-\subsection{Experiment setup}
+\subsection{Experiment Setup}
 \label{ex_rcce_experiment_setup}
 
 The experiments were conducted in the same tank described in \cref{e_acmev_experimental_setup}
@@ -413,7 +412,7 @@ Heavy configuration (\cref{e_rcce_es_rovs}).
 	\label{e_rcce_es_rovs}
 \end{figure}
 
-\subsubsection{One robot \acs{pd} experiment} \label{e_rcce_es_one_robot_pd_experiment}
+\subsubsection{One Robot \acs{pd} Experiment} \label{e_rcce_es_one_robot_pd_experiment}
 
 The preliminary integration test was carried out using a single Bluerov controlled by a \ac{pd}
 controller (see the leader side of \cref{e_rcce_ctcl_mpc_leader_follower_diagram}). The objective
@@ -427,7 +426,7 @@ derivative gain was set to \num{10} in the \vect{x}-\vect{y} plane, \num{1} in t
 direction, and \num{0.01} in orientation. An offset of \num{-0.55} was applied to the \vect{z}
 component of the control output to compensate for the Bluerov's buoyancy.
 
-\subsubsection{One robot \acs{mpc} experiment} \label{e_rcce_es_one_robot_mpc_experiment}
+\subsubsection{One Robot \acs{mpc} Experiment} \label{e_rcce_es_one_robot_mpc_experiment}
 
 In this configuration, the \ac{ros} node operated at a rate of \qty{10}{\Hz} with a prediction
 horizon of \qty{0.5}{\s}. The Bluerov model was configured as underactuated, with pitch and roll
@@ -446,7 +445,7 @@ objective.
 The optimization problem was solved with a tolerance of \num{1e-6} and a maximum of \num{100}
 iterations.
 
-\subsubsection{Two robots \acs{mpc} experiment} \label{e_rcce_es_two_robots_mpc_experiment}
+\subsubsection{Two Robots \acs{mpc} Experiment} \label{e_rcce_es_two_robots_mpc_experiment}
 
 In this experiment, the cable of the two-robot chain system was a \qty{1.5}{\meter} weighted cable
 (\cref{e_acmev_es_all_cables}.\subref{e_acmev_es_weighted}), initially treated as a constraint
@@ -484,7 +483,7 @@ The optimization problem was solved with the same tolerance of \num{1e-6} and a 
 	comparision; qualitative behaviour.
 }
 
-\subsubsection{Single Bluerov \acs{pd} experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
+\subsubsection{One Robot \acs{pd} Experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
 
 Results from the preliminary integration test described in \cref{e_rcce_es_one_robot_pd_experiment}
 are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy.
@@ -507,7 +506,7 @@ significantly impact the overall stability of the closed-loop control.
 	\label{e_rcce_r_pd_placeholder}
 \end{figure}
 
-\subsubsection{Single Bluerov \acs{mpc} experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
+\subsubsection{One Robot \acs{mpc} Experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
 
 Results from the single-robot \ac{mpc} experiment in \cref{e_rcce_es_one_robot_mpc_experiment} are
 shown in \cref{e_rcce_r_mpc_placeholder}. Under the chosen operating conditions and with carefully
@@ -530,7 +529,7 @@ introduced by changes in the optimization problem.
 	\label{e_rcce_r_mpc_placeholder}
 \end{figure}
 
-\subsubsection{Two Bluerov \acs{mpc} experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
+\subsubsection{Two Robot \acs{mpc} Experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
 
 Results from the two-robot \ac{mpc} experiment described in
 \cref{e_rcce_es_two_robots_mpc_experiment} are presented in \cref{e_rcce_r_mpc_2_placeholder}. The
