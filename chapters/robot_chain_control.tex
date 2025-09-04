@@ -468,11 +468,11 @@ control input \ldvect{u}{k}, both expressed at time \scal{k}:
 \end{equation}
 
 This system is obtained by integrating the robot chain dynamics described in
-\cref{rcc_robot_chain_modelling}. 
+\cref{rcc_robot_chain_modelling}.
 
-The \ac{mpc} problem then consists of finding a sequence of control
-inputs $\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over the horizon \mpch{} that
-minimizes the cost
+The \ac{mpc} problem then consists of finding a sequence of control inputs
+$\vect{u}=\left(\ldvect{u}{0}, \dots, \ldvect{u}{h}\right)$ over the horizon \mpch{} that minimizes
+the cost
 \begin{align}
 	\vect{u} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
 	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}
@@ -509,8 +509,8 @@ where
 	\item \ldscal{dh}{\text{min}} is the minimum allowable distance between consecutive robots, both to ensure separation and to avoid a singularity in the catenary model when \catl{} is zero.
 \end{itemize}
 
-If the robot is operated in a constrained environment such as a pool, additional box constraints could
-be imposed on the position:
+If the robot is operated in a constrained environment such as a pool, additional box constraints
+could be imposed on the position:
 \begin{alignat}{3}
 	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}}        \\
 	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}} \notag
@@ -681,17 +681,17 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 		angular part $\Delta\mathbf{u}_k$            & \unit{\newton\m} & .1            & -.1           \\
 		$H_{i(i+1)} + {}^wz_i$                       & \unit{\m}        & 4.            &               \\
 		$\sqrt{l_{i(i+1)}^2 + \Delta H_{i(i+1)}^2 }$ & \unit{\m}        & 2.8           &               \\
-		$l_{i(i+1)}$                                 & \unit{\m}        & 2.8           & 0.2           \\
+		$l_{i(i+1)}$                                 & \unit{\m}        &               & 0.2           \\
 		linear part $\norm{\nu_i}$                   & \unit{\m\per\s}  & 3.            &               \\
 	\end{tabular}
 	\label{rcc_s_mpc_i_constrains_values}
 \end{table}
 
 In order to differentiate the simulation from the model employed in the MPC prediction horizon,
-their integration method diverge. The simulation utilizes a Runge-Kutta integration of order
-4~\cite{ralston_runge-kutta_1962}, whereas the MPC prediction employs an Euler-explicit scheme. The
-shape of each cable is deduced from the position of its attachment points using the catenary
-equation \cref{cm_cm_d_catenary_equation}.
+their integration method diverge. The simulation utilizes a Runge-Kutta integration of order 4
+(\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas the MPC prediction employs an Euler-explicit
+scheme. The shape of each cable is deduced from the position of its attachment points using the
+catenary equation \cref{cm_cm_d_catenary_equation}.
 
 \subsection{Results}
 \label{sec:results}
@@ -764,14 +764,12 @@ required to tighten the cable that links robot 0 and 1.
 % 	\label{fig:robots_speed_2}
 % \end{figure}
 
-\Cref{fig:compute_time_2} shows the computation time of the model
-predictive controller over the simulation. The average computational time for
-one step is \qty{2}{\s} with the Python simulator. This time could be reduced
-by lowering the tolerance of the optimization, by linearizing the robot model,
-change the catenary model for simpler analytical model such as
-parabolas~\cite{smolentsev_shape_2023} and by further constraining the search
-space. Indeed, the search of the lowest point position is the result of a
-minimization process that is time consuming in an MPC context.
+\Cref{fig:compute_time_2}
+shows the computation time of the model predictive controller over the simulation. The average
+computational time for one step is \qty{2}{\s} with the Python simulator. This time could be
+reduced by lowering the tolerance of the optimization, by linearizing the robot model and by
+further constraining the search space. Indeed, the search of the lowest point position is the
+result of a minimization process that is time consuming in an MPC context.
 % \begin{figure}
 % 	\centering
 % 	\includegraphics[width=\linewidth]{figs/1726429003_compute_time.png}
