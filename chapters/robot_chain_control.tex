@@ -695,86 +695,78 @@ catenary equation \cref{cm_cm_d_catenary_equation}.
 \subsection{Results}
 \label{sec:results}
 
-\Cref{fig:error_2,fig:angular_error_2} show the absolute linear and angular tracking error of the leader robot, respectively. %for scenario \#1 and \#2 respectively. 
-The mean linear error is \qty{10}{\milli\m} with a standard deviation of \qty{5}{\milli\m}.
-The mean angular error is \qty{2e-3}{\radian} with a standard deviation of \qty{9e-4}{\radian}.
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_error.png}
-% 	\caption{Linear tracking errors of the leader robot.}
-% 	\label{fig:error_2}
-% \end{figure}
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_angular_error.png}
-% 	\caption{Angular tracking errors of the leader robot.}
-% 	\label{fig:angular_error_2}
-% \end{figure}
-% \begin{figure*}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_pose_z.png}
-% 	\caption{Trajectory of the robots on the $^w\mathbf{z}$-axis along with the catenaries' lowest point.}
-% 	\label{rcc_s_r_pose_z}
-% \end{figure*}
+\Cref{rcc_s_mpc_r_error,rcc_s_mpc_r_angular_error}
+show the absolute linear and angular tracking error of the leader robot, respectively. The mean
+linear error is \qty{10}{\milli\m} with a standard deviation of \qty{5}{\milli\m}. The mean angular
+error is \qty{2e-3}{\radian} with a standard deviation of \qty{9e-4}{\radian}.
+\begin{figure}
+	\centering
+	\caption{\todo{Linear tracking errors of the leader robot.}}
+	\label{rcc_s_mpc_r_error}
+\end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Angular tracking errors of the leader robot.}}
+	\label{rcc_s_mpc_r_angular_error}
+\end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}}
+	\label{rcc_s_mpc_r_pose_z}
+\end{figure}
 
-In \cref{rcc_s_r_pose_x,,fig:pose_y_2,,rcc_s_r_pose_z} trajectories of the robots are depicted. The
-lowest point of the simulated cables are displayed in \cref{rcc_s_r_pose_z}. As quantified in
-\cref{fig:error_2} it can be observed that the leader robot tracks the reference trajectory. Robots
-1 and 2 manoeuver in order for the cable to avoid the floor and stay withing the bounds of the
-other constraints.
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_pose_x.png}
-% 	\caption{Trajectory of the robots on the $x$-axis.}
-% 	\label{rcc_s_r_pose_x}
-% \end{figure}
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_pose_y.png}
-% 	\caption{Trajectory of the robots on the $^w\mathbf{y}$-axis.}
-% 	\label{fig:pose_y_2}
-% \end{figure}
+In \cref{rcc_s_mpc_r_pose_x, rcc_s_mpc_r_pose_y,,rcc_s_mpc_r_pose_z} trajectories of the robots are
+depicted. The lowest point of the simulated cables are displayed in \cref{rcc_s_mpc_r_pose_z}. As
+quantified in \cref{rcc_s_mpc_r_error} it can be observed that the leader robot tracks the
+reference trajectory. Robots 1 and 2 manoeuver in order for the cable to avoid the floor and stay
+withing the bounds of the other constraints.
+\begin{figure}
+	\centering
+	\caption{\todo{Trajectory of the robots on the \ldvect{x}{w}-axis.}}
+	\label{rcc_s_mpc_r_pose_x}
+\end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Trajectory of the robots on the \ldvect{y}{w}-axis.}}
+	\label{rcc_s_mpc_r_pose_y}
+\end{figure}
 
-\Cref{fig:inter_robot_distance_2,fig:horizontal_inter_robot_distance_2}
-display the constrained values not present in \cref{rcc_s_r_pose_z} \textit{i.e.}
+\Cref{rcc_s_mpc_r_inter_robot_distance,rcc_s_mpc_r_horizontal_inter_robot_distance}
+display the constrained values not present in \cref{rcc_s_mpc_r_pose_z} \emph{i.e.}
 the horizontal inter-robot distance, the inter-robot distance and the norm of
 the robots' speed (\cref{rcc_s_mpc_i_constrains_values}). The leader robot is planned to
-approach the ground at times $t=$\qty{5}{\s} and $t=$\qty{15}{\s} and as
-illustrated in \cref{fig:inter_robot_distance_2}, the highest inter-robot
+approach the ground at times \qty{5}{\s} and \qty{15}{\s} and as
+illustrated in \cref{rcc_s_mpc_r_inter_robot_distance}, the highest inter-robot
 distance between the leader robot and its follower is observed at these exact
 times. This is attributed to the motion of the follower robot, which is
 required to tighten the cable that links robot 0 and 1.
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_inter_robot_distance.png}
-% 	\caption{Inter-robot distance constraint during the simulation. }
-% 	\label{fig:inter_robot_distance_2}
-% \end{figure}
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_horizontal_inter_robot_distance.png}
-% 	\caption{Horizontal inter-robot distance constraint during the simulation.}
-% 	\label{fig:horizontal_inter_robot_distance_2}
-% \end{figure}
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_robots_speed.png}
-% 	\caption{Norm of the robots' speed constraint during the simulation.}
-% 	\label{fig:robots_speed_2}
-% \end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Inter-robot distance constraint during the simulation.}}
+	\label{rcc_s_mpc_r_inter_robot_distance}
+\end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Horizontal inter-robot distance constraint during the simulation.}}
+	\label{rcc_s_mpc_r_horizontal_inter_robot_distance}
+\end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Norm of the robots' speed constraint during the simulation.}}
+	\label{rcc_s_mpc_r_robots_speed}
+\end{figure}
 
-\Cref{fig:compute_time_2}
+\Cref{rcc_s_mpc_r_compute_time}
 shows the computation time of the model predictive controller over the simulation. The average
 computational time for one step is \qty{2}{\s} with the Python simulator. This time could be
 reduced by lowering the tolerance of the optimization, by linearizing the robot model and by
 further constraining the search space. Indeed, the search of the lowest point position is the
 result of a minimization process that is time consuming in an MPC context.
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\linewidth]{figs/1726429003_compute_time.png}
-% 	\caption{Computation time of the MPC.}
-% 	\label{fig:compute_time_2}
-% \end{figure}
+\begin{figure}
+	\centering
+	\caption{\todo{Computation time of the MPC.}}
+	\label{rcc_s_mpc_r_compute_time}
+\end{figure}
 
 \subsection{Path planning}
 \label{rcc_s_path_planning}
