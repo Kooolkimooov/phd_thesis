@@ -539,12 +539,11 @@ to the desired pose of the robots while enforcing kinematic feasibility constrai
 
 subject to
 \begin{alignat}{3}
-	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     &                                        \\
+	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & \label{rcc_c_pp_constraints}           \\
 	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
 	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
 	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~\leq & ~\ldscal{dh}{\text{max}} \notag        \\
 	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldvect{d}{\text{max}} \notag
-	\label{rcc_c_pp_constraints}
 \end{alignat}
 
 where
@@ -582,7 +581,7 @@ law is expressed as
 	\ldvect{v}{i+1} = - \lambda \lrumatr{L}{\dagger} \left(
 	\vect{s} - \luvect{s}{\text{target}}
 	\right)
-	% \label{rcc_c_reactive_control_law}
+	\label{rcc_c_rc_law}
 \end{align}
 
 where \ldvect{v}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is the
