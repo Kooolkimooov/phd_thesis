@@ -17,7 +17,7 @@
 		\coordinate (xi) at (axis cs: \arrowlength, 0.0);
 		\coordinate (zi) at (axis cs: 0.0, \arrowlength);
 		\coordinate (yi) at ($(xi)!0.5!(zi)$);
-		% schematic water surface at y=0 (small amplitude, fast/slow components)
+
 		\addplot[domain=-1.0:1.0, samples=300, draw=blue!40, very thick] ({\x},{0.045*sin(6*\x)});
 		\addplot[domain=-1.0:1.0, samples=300, draw=blue!20, thick] ({\x},{0.02*sin(14*\x)});
 
