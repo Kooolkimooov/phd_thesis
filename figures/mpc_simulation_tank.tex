@@ -1,14 +1,25 @@
 \begin{tikzpicture}
+
+	\def\ca{15.31}
+	\def\cb{14.99}
+
 	\begin{axis}[
 			width=\figurewidth,
 			view={45}{35},
-			domain=-5:2,
-			y domain=-3.5:3.5,
 			xmin=-5, xmax=2,
 			ymin=-3.5, ymax=3.5,
 			y dir=reverse,
 			z dir=reverse,
-			samples=65,
+			xlabel=\ldvect{x}{w},
+			ylabel=\ldvect{y}{w},
+			zlabel=\ldvect{z}{w},
+		]
+
+		\addplot3 [
+			surf,
+			domain=-5:2,
+			y domain=-3.5:3.5,
+			samples=50,
 			shader=faceted,
 			colormap={redtobluesteps}{
 					rgb255=(255,0,0)
@@ -23,12 +34,8 @@
 					rgb255=(0,100,200)
 					rgb255=(0,50,255)
 					rgb255=(0,0,255)
-				},
-			xlabel=\ldvect{x}{w},
-			ylabel=\ldvect{y}{w},
-			zlabel=\ldvect{z}{w},
+				}
 		]
-		\addplot3 [surf]
 		{ 4.5
 			+ 1.0 * sin(deg(y/4))
 			+ 0.5 * sin(deg(x/3))
@@ -41,10 +48,35 @@
 			smooth,
 		] table {figures/data/mpc_experiment_target_trajectory.txt};
 
-        \draw[->, red, thick] (axis cs: 2, 0, 1) -- (axis cs: 1.5, 0, 1);
-        \draw[->, green, thick] (axis cs: 2.5, 0, 1) -- (axis cs: 2.0, 0, 1);
-        \draw[->, blue, thick] (axis cs: 3, 0, 1) -- (axis cs: 2.5, 0, 1);
-        \draw[->, yellow, thick] (axis cs: 3.5, 0, 0) -- (axis cs: 3.5, 0.5, 0);
+		\addplot3
+		[
+			domain=2:2.5,
+			samples=20,
+			very thick,
+			mesh,
+			red,
+		] ({\x}, {0}, {2.43-(cosh((\x-2.25)*\ca)-1)/\ca});
+
+		\addplot3 [
+			domain=2.5:3.0,
+			samples=20,
+			very thick,
+			mesh,
+			green,
+		] ({\x}, {0}, {2.43-(cosh((\x-2.75)*\ca)-1)/\ca});
+
+		\addplot3 [
+			domain=3.0:3.5,
+			samples=20,
+			very thick,
+			mesh,
+			blue,
+		] ({\x}, {0}, {1.93-(cosh((\x-3.227)*\cb)-1)/\cb});
+
+		\draw[->, red, thick] (axis cs: 2, 0, 1) -- (axis cs: 1.5, 0, 1);
+		\draw[->, green, thick] (axis cs: 2.5, 0, 1) -- (axis cs: 2.0, 0, 1);
+		\draw[->, blue, thick] (axis cs: 3, 0, 1) -- (axis cs: 2.5, 0, 1);
+		\draw[->, yellow, thick] (axis cs: 3.5, 0, 0) -- (axis cs: 3.5, 0.5, 0);
 
 	\end{axis}
 \end{tikzpicture}
