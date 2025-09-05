@@ -704,16 +704,6 @@ error is \qty{2e-3}{\radian} with a standard deviation of \qty{9e-4}{\radian}.
 	\caption{Linear tracking errors of the leader robot.}
 	\label{rcc_s_mpc_r_error}
 \end{figure}
-\begin{figure}
-	\centering
-	\caption{\todo{Angular tracking errors of the leader robot.}}
-	\label{rcc_s_mpc_r_angular_error}
-\end{figure}
-\begin{figure}
-	\centering
-	\caption{\todo{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}}
-	\label{rcc_s_mpc_r_pose_z}
-\end{figure}
 
 In \cref{rcc_s_mpc_r_pose_x, rcc_s_mpc_r_pose_y,,rcc_s_mpc_r_pose_z} trajectories of the robots are
 depicted. The lowest point of the simulated cables are displayed in \cref{rcc_s_mpc_r_pose_z}. As
@@ -722,13 +712,24 @@ reference trajectory. Robots 1 and 2 manoeuver in order for the cable to avoid t
 withing the bounds of the other constraints.
 \begin{figure}
 	\centering
-	\caption{\todo{Trajectory of the robots on the \ldvect{x}{w}-axis.}}
-	\label{rcc_s_mpc_r_pose_x}
-\end{figure}
-\begin{figure}
-	\centering
-	\caption{\todo{Trajectory of the robots on the \ldvect{y}{w}-axis.}}
-	\label{rcc_s_mpc_r_pose_y}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/mpc_simulation_pose_x}
+		\caption{Trajectory of the robots on the \ldvect{x}{w}-axis. \todo{add target}}
+		\label{rcc_s_mpc_r_pose_x}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\caption{\todo{Trajectory of the robots on the \ldvect{y}{w}-axis.}}
+		\label{rcc_s_mpc_r_pose_y}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\caption{\todo{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}}
+		\label{rcc_s_mpc_r_pose_z}
+	\end{subfigure}
+	\caption{Trajectory of the robots during the simulation.}
+	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
 \Cref{rcc_s_mpc_r_inter_robot_distance,rcc_s_mpc_r_horizontal_inter_robot_distance}

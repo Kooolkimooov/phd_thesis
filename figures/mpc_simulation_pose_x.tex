@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+			xmin = 0,
+			xmax = 50,
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			xlabel = {time / \unit{\s}},
+			ylabel = {position / \unit{\m}},
+			legend style={fill opacity=.75, text opacity=1},
+			legend cell align={left}
+		]
+
+		\addplot[red, very thick, smooth] table [x index=0, y index=1] {figures/data/_br_0_position_1747988263.txt};
+		\addplot[green, very thick, smooth] table [x index=0, y index=1] {figures/data/_br_1_position_1747988263.txt};
+		\addplot[blue, very thick, smooth] table [x index=0, y index=1] {figures/data/_br_2_position_1747988263.txt};
+		\addplot[yellow, very thick, smooth] table [x index=0, y index=1] {figures/data/_br_3_position_1747988263.txt};
+
+		\legend{
+			Robot 0,
+			Robot 1,
+			Robot 2,
+			Robot 3
+		}
+
+	\end{axis}
+
+\end{tikzpicture}
