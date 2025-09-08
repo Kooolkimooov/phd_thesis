@@ -26,7 +26,7 @@
 			height = 0.5\figurewidth,
 			ylabel = error / \unit{\mm},
 			legend cell align={left},
-			legend style={fill opacity=.75, text opacity=1, draw=none}
+			legend style={fill opacity=.75, text opacity=1, draw=none, font=\tiny}
 		]
 
 		\addplot[blue, thick, dashed, smooth] table {figures/data/e_vertical_L_dynamique3x200dis2_0122.txt};
@@ -88,7 +88,7 @@
 			ylabel = angle / \unit{\radian},
 			y label style = {rotate=180},
 			legend cell align={left},
-			legend style={fill opacity=.75, text opacity=1, draw=none}
+			legend style={fill opacity=.75, text opacity=1, draw=none, font=\tiny}
 		]
 		\addlegendimage{/pgfplots/refstyle=speed}\addlegendentry{robot speed}
 		\addlegendimage{/pgfplots/refstyle=command}\addlegendentry{speed command}
