@@ -740,7 +740,7 @@ withing the bounds of the other constraints.
 	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
-\Cref{rcc_s_mpc_r_inter_robot_distance,rcc_s_mpc_r_horizontal_inter_robot_distance}
+\Cref{rcc_s_mpc_r_inter_robot_distance}
 display the constrained values not present in \cref{rcc_s_mpc_r_pose_z} \emph{i.e.}
 the horizontal inter-robot distance, the inter-robot distance and the norm of
 the robots' speed (\cref{rcc_s_mpc_i_constrains_values}). The leader robot is planned to
@@ -756,8 +756,9 @@ required to tighten the cable that links robot 0 and 1.
 \end{figure}
 \begin{figure}
 	\centering
-	\caption{\todo{Horizontal inter-robot distance constraint during the simulation.}}
-	\label{rcc_s_mpc_r_horizontal_inter_robot_distance}
+	\inputtikz{figures/mpc_simulation_inter_robot_distance}
+	\caption{Inter-robot distance constraint during the simulation.}
+	\label{rcc_s_mpc_r_inter_robot_distance}
 \end{figure}
 \begin{figure}
 	\centering
