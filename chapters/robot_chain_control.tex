@@ -651,12 +651,17 @@ robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,1, 0, 0, 0]$ and $\fldvect{\eta}{
 
 The simulation (\citeurl{filliungPympc_usage2025}) integrates the robots chain dynamics introduced
 in \cref{rcc_robot_chain_modelling}. The simulation is run with a time step of \qty{0.1}{\second}
-for \num{500} steps, i.e. \qty{20}{\second}. The MPC horizon is \num{5} steps, i.e.
-\qty{.5}{\second}. The problem is solved with the \texttt{scipy.minimize} function in Python with a
+for \num{500} steps, i.e. \qty{20}{\second}. The MPC horizon is \num{10} steps, i.e.
+\qty{1}{\second}. The problem is solved with the \texttt{scipy.minimize} function in Python with a
 tolerance of \num{1e-6} and a maximum number of iterations set to \num{100}.
 
+A recovery procedure was implemented for cases in which the \ac{mpc} failed to converge to a
+solution. In this procedure, the optimization tolerance was progressively increased until either
+convergence was achieved—at which point the tolerance was reduced again—or the tolerance reached a
+predefined maximum value.
+
 The matrices \matr{P} and \matr{Q} (\cref{rcc_c_mpc_equation}) are defined in such a way that the
-position of the leader is assigned a weight of \num{50} and its orientation a weight of \num{1}.
+position of the leader is assigned a weight of \num{10} and its orientation a weight of \num{1}.
 The orientation of the other robots is also assigned a weight of \num{1}, while their position is
 not weighted, leaving them free on these axes. Matrix \matr{R} (\cref{rcc_c_mpc_equation}) has a
 weight of zero on linear actuation and a weight of \num{1} on angular actuation with the exception
@@ -773,7 +778,7 @@ required to tighten the cable that links robot 0 and 1.
 
 \Cref{rcc_s_mpc_r_compute_time}
 shows the computation time of the model predictive controller over the simulation. The average
-computational time for one step is \qty{2}{\s} with the Python simulator. This time could be
+computational time for one step is \qty{2.17}{\s} in this simulation. This time could be
 reduced by lowering the tolerance of the optimization, by linearizing the robot model and by
 further constraining the search space. Indeed, the search of the lowest point position is the
 result of a minimization process that is time consuming in an MPC context.
