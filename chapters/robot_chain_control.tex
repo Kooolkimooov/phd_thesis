@@ -486,13 +486,13 @@ in the control input.
 
 The optimization is solved subject to dynamic feasibility and a set of inequality constraints:
 \begin{alignat}{3}
-	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}}                \\
-	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \notag   \\
-	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\notag                                \\
-	                                      & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
-	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
-	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & \notag                                 \\
-	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}} \notag
+	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}} \nonumber         \\
+	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \nonumber   \\
+	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\nonumber                                \\
+	                                      & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
+	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
+	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & \nonumber                                 \\
+	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}}
 	\label{rcc_c_mpc_constraints}
 \end{alignat}
 
@@ -512,8 +512,8 @@ where
 If the robot is operated in a constrained environment such as a pool, additional box constraints
 could be imposed on the position:
 \begin{alignat}{3}
-	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}}        \\
-	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}} \notag
+	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}} \nonumber \\
+	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}}
 \end{alignat}
 
 Once the optimal control input is found, the first element of the sequence is applied to the
@@ -539,11 +539,11 @@ to the desired pose of the robots while enforcing kinematic feasibility constrai
 
 subject to
 \begin{alignat}{3}
-	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & \label{rcc_c_pp_constraints}           \\
-	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \notag \\
-	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \notag        \\
-	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & ~\notag                                \\
-	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldvect{d}{\text{max}} \notag
+	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & \label{rcc_c_pp_constraints} \nonumber    \\
+	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
+	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
+	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & ~\nonumber                                \\
+	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldvect{d}{\text{max}}
 \end{alignat}
 
 where
