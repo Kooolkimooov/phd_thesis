@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+			xmin = 0,
+			xmax = 50,
+			ymin = 0,
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			xlabel = {time / \unit{\s}},
+			ylabel = {time / \unit{\s}},
+			legend style={fill opacity=.75, text opacity=1, font=\footnotesize},
+			legend cell align={left}
+		]
+
+		\addplot[very thin, smooth] table [x index=0, y index=1] {figures/data/pp_simulation_1_compute_times_1757607544.txt};
+		\addplot[dashed, very thick, smooth] table [x index=0, y index=2] {figures/data/pp_simulation_1_compute_times_1757607544.txt};
+
+		\legend{
+			Compute time,
+			Horizon depth
+		}
+
+	\end{axis}
+
+\end{tikzpicture}
