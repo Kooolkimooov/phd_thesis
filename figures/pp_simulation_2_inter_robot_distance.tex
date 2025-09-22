@@ -1,0 +1,42 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+			xmin = 0,
+			xmax = 50,
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			xlabel = {time / \unit{\s}},
+			ylabel = {distance / \unit{\m}},
+			legend style={fill opacity=.75, text opacity=1, font=\footnotesize},
+			legend cell align={left},
+			legend columns = 2,
+			legend pos = south west
+		]
+
+		\addplot[red, very thick, smooth] table [x index=0, y index=1] {figures/data/pp_simulation_2_distance_1758052568.txt};
+		\addplot[red, dashed, very thick, smooth] table [x index=0, y index=1] {figures/data/pp_simulation_2_horizontal_distance_1758052568.txt};
+		
+		\addplot[green, very thick, smooth] table [x index=0, y index=2] {figures/data/pp_simulation_2_distance_1758052568.txt};
+		\addplot[green, dashed, very thick, smooth] table [x index=0, y index=2] {figures/data/pp_simulation_2_horizontal_distance_1758052568.txt};
+
+		\addplot[blue, very thick, smooth] table [x index=0, y index=3] {figures/data/pp_simulation_2_distance_1758052568.txt};
+		\addplot[blue, dashed, very thick, smooth] table [x index=0, y index=3] {figures/data/pp_simulation_2_horizontal_distance_1758052568.txt};
+
+		\addplot[black, dotted, thick, domain=0:50] {0.2};
+		\addplot[black, dotted, thick, domain=0:50] {2.8};
+		\addplot[black, very thick, domain=0:50] {0.0};
+		\addplot[black, very thick, domain=0:50] {3.0};
+
+		\legend{
+			Robot 0 -- 1,
+			Robot 0 -- 1 horizontal,
+			Robot 1 -- 2,
+			Robot 1 -- 2 horizontal,
+			Robot 2 -- 3,
+			Robot 2 -- 3 horizontal,
+			Bounds
+		}
+
+	\end{axis}
+
+\end{tikzpicture}

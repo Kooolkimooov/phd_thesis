@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+			xmin = 0,
+			xmax = 50,
+			ymin = 0,
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			xlabel = {time / \unit{\s}},
+			ylabel = {speed / \unit{\m\per\s}},
+			legend style={fill opacity=.75, text opacity=1, font=\footnotesize},
+			legend cell align={left}
+		]
+
+		\addplot[red, very thick, smooth] table [x index=0, y index=4] {figures/data/pp_simulation_2__br_0_velocity_1758052568.txt};
+		\addplot[green, very thick, smooth] table [x index=0, y index=4] {figures/data/pp_simulation_2__br_1_velocity_1758052568.txt};
+		\addplot[blue, very thick, smooth] table [x index=0, y index=4] {figures/data/pp_simulation_2__br_2_velocity_1758052568.txt};
+		\addplot[yellow, very thick, smooth] table [x index=0, y index=4] {figures/data/pp_simulation_2__br_3_velocity_1758052568.txt};
+
+		\addplot[black, dotted, thick, domain=0:50] {3.0};
+
+		\legend{
+			Robot 0,
+			Robot 1,
+			Robot 2,
+			Robot 3,
+			Bound
+		}
+
+	\end{axis}
+
+\end{tikzpicture}
