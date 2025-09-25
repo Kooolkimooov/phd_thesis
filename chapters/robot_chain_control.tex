@@ -792,11 +792,15 @@ than aggressive propulsion.
 \end{figure}
 
 Computation time (\cref{rcc_s_mpc_r_compute_time}) exhibits heavy-tailed variability: while the
-median solve time is \qty{1.23}{\s} and the mean \qty{2.17}{\s}, occasional spikes reach
-\qty{17.7}{\s}. These outliers correlate with phases of rapid system reconfiguration where the
-nonlinear coupling and active inequality constraints enlarge the local search difficulty. The
-95\textsuperscript{th} percentile remains below \qty{6.9}{\s}, suggesting that targeted warm-starting or temporal
-decomposition could prune the worst-case tail without altering nominal performance.
+median solve time was \qty{1.23}{\s} and the mean \qty{2.17}{\s}, occasional spikes reached
+\qty{17.7}{\s}. These outliers correlated with phases of rapid system reconfiguration where the
+nonlinear coupling and active inequality constraints enlarged the local search difficulty. The
+95\textsuperscript{th} percentile remained below \qty{6.9}{\s}. For comparison, the prediction
+horizon of this simulation was \qty{1}{\s}, meaning that nominal solve times already approached the
+scale of the horizon depth, and the worst-case spikes substantially exceeded it. This illustrates
+that, although average performance was acceptable, the tail behavior could impair real-time
+feasibility unless further mitigations are applied.
+
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_compute_time}
