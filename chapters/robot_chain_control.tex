@@ -825,46 +825,43 @@ threshold, and surrogate linear models for early-phase stretching to reduce solv
 \subsubsection{Implementation}
 \label{rcc_s_pp_implementation}
 
-The simulation (\citeurl{filliungPympc_usage2025}) integrates the robots chain dynamics introduced
-in \cref{rcc_robot_chain_modelling} and follows the scenario outlined previously. The simulation is
-run with a time step of \qty{0.1}{\second} for \num{500} steps, i.e. \qty{50}{\second}. The problem
-is solved with the \texttt{scipy.minimize} function in Python.
+The simulation (\citeurl{filliungPympc_usage2025}) was implemented by integrating the robot chain
+dynamics introduced in \cref{rcc_robot_chain_modelling} and by following the previously described
+scenario. It was executed with a time step of \qty{0.1}{\second} over \num{500} steps,
+corresponding to a simulated duration of \qty{50}{\second}. The optimization problem was solved
+using the \texttt{scipy.minimize} function in Python.
 
-A recovery procedure was implemented for cases in which the optimization failed to converge to a
-solution. In this procedure, the optimization tolerance was progressively increased until either
-convergence was achieved -at which point the tolerance was reduced again- or the tolerance reached
-a predefined maximum value.
+A recovery procedure was introduced for cases in which the optimization failed to converge. In this
+procedure, the optimization tolerance was progressively increased until convergence was achieved,
+at which point the tolerance was reduced again. If no convergence occurred, the tolerance was
+capped at a predefined maximum value.
 
-This simulation is run two times with different replanning strategies:
+Two distinct simulations were performed using different replanning strategies:
 \begin{enumerate}
-	\item First configuration: The path is optimized every step for the following \num{10} steps, i.e.
-	      \qty{1}{\second} with a tolerance of \num{1e-3} and a maximum number of iterations set to
-	      \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) are defined in such a way that
-	      the position of the leader is assigned a weight of \num{10} and its orientation a weight of
-	      \num{1}. The orientation of the other robots is also assigned a weight of \num{1}, while their
-	      position is not weighted, leaving them free on these axes. The objective term
-	      $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ aims to minimize the robots' linear speed and make the
-	      inter-robot distances as close to \qty{1.5}{\m} as possible. This term is weighted as \num{0.01}.
-	\item Second configuration: the path is replanned every \num{10} steps or when the tracking error of the
-	      leader exceeds \qty{1}{\m} for the following \num{20} steps, i.e. \qty{2}{\second} with a tolerance
-	      of \num{1e-5} and a maximum number of iterations set to \num{100}. The matrices \matr{P} and
-	      \matr{Q} (\cref{rcc_c_pp_cost}) are defined in such a way that the position of the leader is
-	      assigned a weight of \num{10} and its orientation a weight of \num{1}. The orientation of the other
-	      robots is also assigned a weight of \num{1}, while their position is not weighted, leaving them
-	      free on these axes. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ aims to
-	      minimize the robots' linear speed and make the inter-robot distances as close to \qty{1.5}{\m} as
-	      possible. This term is weighted as \num{20.0}.
+	\item In the first configuration, the path was optimized at every step for the following \num{10} steps,
+	      corresponding to \qty{1}{\second}. The tolerance was set to \num{1e-3} and the maximum number of
+	      iterations to \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) were defined
+	      such that the leader’s position was assigned a weight of \num{10} and its orientation a weight of
+	      \num{1}. The orientation of the follower robots was also weighted with \num{1}, while their
+	      positions remained unweighted. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$
+	      penalized the robots' linear speed and aimed to maintain inter-robot distances close to
+	      \qty{1.5}{\m}. This term was weighted with a factor of \num{0.01}.
+	\item In the second configuration, the path was replanned every \num{10} steps or whenever the leader’s
+	      tracking error exceeded \qty{1}{\m}. The optimization horizon covered the following \num{20} steps,
+	      corresponding to \qty{2}{\second}, with a tolerance of \num{1e-5} and a maximum of \num{100}
+	      iterations. The weighting matrices \matr{P} and \matr{Q} were defined as in the first
+	      configuration, and the same inter-robot objective was applied. In this case, however, the objective
+	      term was weighted with a factor of \num{20.0}.
 \end{enumerate}
 
-These tuned values are obtained on a trial-and-error basis.
-
-Additionally, the constraints defined in \cref{rcc_c_pp_constraints} are set and listed in
+These parameter values were determined by trial and error. Additionally, the constraints introduced
+in \cref{rcc_c_pp_constraints} were imposed and are summarized in
 \cref{rcc_s_pp_i_constrains_values}.
 
 \begin{table}
 	\centering
 	\robustify\bfseries
-	\sisetup{ % pour changer le nombre de chiffres après la virgule affichés après compilation
+	\sisetup{
 		round-mode = places,
 		round-precision = 1
 	}
@@ -886,10 +883,10 @@ Additionally, the constraints defined in \cref{rcc_c_pp_constraints} are set and
 \paragraph{First Configuration}
 \label{rcc_s_pp_r_first_configuration}
 
-The robot trajectories (\cref{rcc_s_pp_r_fc_poses}) show monotonic horizontal extension until the
-inter-robot distances approach their admissible upper corridor. Vertical motion couples strongly
-with longitudinal spacing: as the leader advances and elevates, trailing units lag, inducing
-temporarily increased catenary sag before cooperative elevation propagates backward.
+The trajectories of the robots (\cref{rcc_s_pp_r_fc_poses}) demonstrated monotonic horizontal
+extension until inter-robot distances approached their admissible upper limits. Vertical motion was
+coupled with longitudinal spacing: as the leader advanced and elevated, the trailing robots lagged,
+which temporarily increased the catenary sag before cooperative elevation propagated backward.
 
 \begin{figure}
 	\centering
@@ -915,15 +912,14 @@ temporarily increased catenary sag before cooperative elevation propagates backw
 	\label{rcc_s_pp_r_fc_poses}
 \end{figure}
 
-Leader tracking errors (\cref{rcc_s_pp_r_fc_error}) exhibit a pronounced two–stage evolution. An
-initial axial bias appears almost exclusively along the forward (global $x$) and vertical ($z$)
-components while lateral error remains numerically negligible (median $|e_y| < 10^{-9}\,\unit{m}$).
-The norm remains below \qty{2.5}{\m} throughout and peaks during the large depth transient
-(\textasciitilde\qty{15.9}{\s}) coincident with chain stretching and clearance creation. Post
-transient, the vertical component changes sign and decays; a loose settling (all subsequent
-$|e_z|<\qty{0.2}{\m}$) is only attained late (\textasciitilde\qty{48.8}{\s}), reflecting the fact
-that the planner prioritises horizontal separation formation and terrain clearance before fine
-vertical convergence.
+The tracking errors of the leader (\cref{rcc_s_pp_r_fc_error}) reveal a two–stage evolution. An
+initial bias is concentrated along the forward (global $x$) and vertical ($z$) components, whereas
+the lateral error remains negligible ($|e_y| < 10^{-9}\,\unit{m}$). The error norm remains below
+\qty{2.5}{\m} and peaks during the large depth transient (\textasciitilde\qty{15.9}{\s}), which
+coincides with chain stretching and clearance creation. Following the transient, the vertical error
+changes sign and decays. Loose settling (all subsequent $|e_z|<\qty{0.2}{\m}$) is attained only
+late in the simulation (\textasciitilde\qty{48.8}{\s}), reflecting the planner’s prioritization of
+horizontal spacing and clearance before precise vertical convergence.
 
 \begin{figure}
 	\centering
@@ -932,14 +928,14 @@ vertical convergence.
 	\label{rcc_s_pp_r_fc_error}
 \end{figure}
 
-Clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) highlight that the most critical segment is
-the first cable span (between Robots 0 and 1). Its lowest point remains well above the safety
-threshold except for a short sub–threshold dip: the minimum clearance is \qty{0.178}{\m} at
-\qty{12.6}{\s}, producing a single \textasciitilde\qty{0.8}{\s} interval below the \qty{0.2}{\m}
-bound. Subsequent elevation dynamics steadily drive that margin upward; the other two spans sustain
-far larger clearances (median \qty{2.45}{\m} and \qty{3.45}{\m}). This validates the staged
-stretching behaviour: first span clearance is created last because upstream horizontal elongation
-must precede full vertical lift transmission.
+The clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) indicate that the most critical span is
+the first cable segment (between Robots 0 and 1). Its lowest point remains above the safety
+threshold except for a short dip, reaching a minimum clearance of \qty{0.178}{\m} at
+\qty{12.6}{\s}, corresponding to a \textasciitilde\qty{0.8}{\s} interval below the \qty{0.2}{\m}
+bound. Subsequent dynamics increase this margin, while the other two spans maintain much larger
+clearances (median \qty{2.45}{\m} and \qty{3.45}{\m}). This behaviour validates the staged
+stretching mechanism: clearance in the first span is achieved last because horizontal elongation
+must precede vertical lift propagation.
 
 \begin{figure}
 	\centering
@@ -951,12 +947,12 @@ must precede full vertical lift transmission.
 	\label{rcc_s_pp_r_fc_lowest_point}
 \end{figure}
 
-Distance constraints (\cref{rcc_s_pp_r_fc_inter_robot_distance}) are respected with the Euclidean
-separations approaching plateaus near the design upper bounds without overshoot (Robot pairs (0–1)
-and (2–3) peak at \qtyrange{2.88}{2.89}{\m} versus a \qty{3.0}{\m} limit). Horizontal projections
-remain tighter (pair (0–1) horizontal separation mean \qty{1.78}{\m} vs Euclidean mean
-\qty{2.18}{\m}), evidencing the vertical component’s role in relieving tether ground interaction
-while avoiding excessive planar footprint expansion.
+The inter-robot distance constraints (\cref{rcc_s_pp_r_fc_inter_robot_distance}) are satisfied,
+with separations approaching plateaus near their upper bounds without overshoot. For example, pairs
+(0–1) and (2–3) reach \qtyrange{2.88}{2.89}{\m} compared to the \qty{3.0}{\m} limit. Horizontal
+projections remain smaller (pair (0–1) mean \qty{1.78}{\m} vs Euclidean mean \qty{2.18}{\m}),
+demonstrating the vertical component’s role in ensuring clearance while avoiding excessive
+horizontal spread.
 
 \begin{figure}
 	\centering
@@ -965,11 +961,10 @@ while avoiding excessive planar footprint expansion.
 	\label{rcc_s_pp_r_fc_inter_robot_distance}
 \end{figure}
 
-Speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) mirror the formation phases: a moderate
-acceleration, a pronounced mid–simulation energetic stretch (coincident with clearance creation and
-largest vertical errors), and a prolonged taper. Maximum leader speed remains bounded (subplot
-indicates values consistent with sustained feasibility of the tether dynamics) while trailing
-robots temporarily accelerate to catch up during vertical lift propagation.
+The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) reflect three phases: moderate initial
+acceleration, a mid-simulation energetic stretch (corresponding to clearance creation and vertical
+errors), and a prolonged deceleration. The leader’s maximum speed remains bounded, while the
+trailing robots accelerate temporarily to catch up during vertical lift propagation.
 
 \begin{figure}
 	\centering
@@ -978,32 +973,30 @@ robots temporarily accelerate to catch up during vertical lift propagation.
 	\label{rcc_s_pp_r_fc_robots_speed}
 \end{figure}
 
-Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) displays heavier tails than the \ac{mpc}
-scenario: median solution time \qty{2.21}{\s}, mean \qty{3.27}{\s}, 95th percentile \qty{8.05}{\s},
-and extreme spikes up to \qty{60.4}{\s}. All iterations exceed the nominal horizon depth
-(\qty{1}{\s}), implying that the current configuration functions as an off–line or receding–batch
-planner rather than a strict real–time module. Spikes cluster around rapid spacing transitions
-(\qtyrange{14}{18}{\s}) and large clearance shaping (\qtyrange{32}{36}{\s}), periods where multiple
-inequality constraints approach activity and geometric nonlinearity intensifies. This suggests two
-optimisation refinements: (i) staged or warm–started solves with frozen subset constraints during
-quasi–steady clearance propagation, and (ii) surrogate convexified subproblems early in the stretch
-to bound tail latency.
+Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) exhibits heavy-tailed behavior. The median
+solution time is \qty{2.21}{\s}, the mean \qty{3.27}{\s}, the 95th percentile \qty{8.05}{\s}, and
+the maximum spike \qty{60.4}{\s}. All iterations exceed the nominal horizon depth (\qty{1}{\s}),
+indicating that this configuration behaves as an off–line or receding–batch planner rather than a
+strict real-time module. Spikes occur during spacing transitions (\qtyrange{14}{18}{\s}) and
+clearance shaping (\qtyrange{32}{36}{\s}), when multiple constraints approach activity and
+geometric nonlinearities intensify. These observations suggest two possible refinements: (i) staged
+or warm–started optimizations with frozen constraints during quasi–steady phases, and (ii)
+surrogate convexified subproblems early in the stretch to bound latency.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_1_compute_time}
-	\caption{Computation time of the .}
+	\caption{Computation time of the optimization solver during the simulation.}
 	\label{rcc_s_pp_r_fc_compute_time}
 \end{figure}
 
-Overall, the path planning layer achieves: (i) near–perfect heading adherence, (ii) controlled
-approach to maximal safe spacing without violation, (iii) rapid recovery of seafloor clearance
-after a brief, shallow incursion, and (iv) acceptable translational tracking given its deliberate
-prioritisation of geometric feasibility. Remaining limitations are dominated by solve time
-variability and slow late–phase vertical fine–tuning. Future work could integrate adaptive penalty
-scheduling once minimum clearance exceeds a safety margin, enabling earlier vertical error
-suppression, and exploit multi–horizon decomposition (fast coarse + slow refinement) to cap
-worst–case computational excursions.
+Overall, the path planning layer achieves near–perfect heading adherence, controlled approach to
+maximal safe spacing, and rapid clearance recovery after a brief sub-threshold incursion.
+Translational tracking is acceptable given the prioritization of geometric feasibility. Remaining
+limitations are solver variability and slow late-phase vertical convergence. Future work will
+integrate adaptive penalty scheduling once clearance margins are secured, enabling earlier vertical
+correction, and will investigate multi-horizon decomposition (fast coarse + slow refinement) to
+mitigate computational spikes.
 
 \subsubsection{Second Configuration}
 \label{rcc_s_pp_r_second_configuration}
