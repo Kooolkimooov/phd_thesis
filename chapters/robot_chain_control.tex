@@ -463,7 +463,7 @@ respecting safety and feasibility conditions (\cref{rcc_c_mpc_schematic}).
 Let \cref{mcc_c_mpc_system} define a discrete-time control system with state \ldvect{x}{k} and
 control input \ldvect{u}{k}, both expressed at time \scal{k}:
 \begin{equation}
-	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right).
+	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right)
 	\label{mcc_c_mpc_system}
 \end{equation}
 
@@ -476,7 +476,7 @@ the cost
 \begin{align}
 	\vect{u} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
 	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}
-	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k}}},
+	+ \Delta \llvect{u}{\top}{k} \matr{R} \Delta \ldvect{u}{k} + o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)}}
 	\label{rcc_c_mpc_equation}
 \end{align}
 
@@ -491,16 +491,16 @@ The optimization is solved subject to dynamic feasibility and a set of inequalit
 	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\nonumber                                \\
 	                                      & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
 	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
-	\ldscal{dh}{\text{min}}          \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & \nonumber                                 \\
 	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}}
 	\label{rcc_c_mpc_constraints}
 \end{alignat}
 
-where
+In \cref{rcc_c_mpc_equation,,rcc_c_mpc_constraints}:
 \begin{itemize}
 	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ is the state deviation from the target,
 	\item $\Delta \ldvect{u}{k} = \ldvect{u}{k} - \ldvect{u}{k-1}$ is the incremental control input,
 	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state, and control costs, respectively,
+	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is an optional nonlinear objective term that should be minimized,
 	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{u}_{\text{min}}$ and $\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and $\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input,
 	\item \ldcoord{z}{w}{\text{seafloor}} is the known elevation of the seafloor which neither the robot nor the cable should cross,
@@ -533,7 +533,7 @@ to the desired pose of the robots while enforcing kinematic feasibility constrai
 (\cref{rcc_c_pp_constraints}):
 \begin{align}
 	\vect{p} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
-	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}}}
+	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}  + o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)}}
 	\label{rcc_c_pp_cost}
 \end{align}
 
@@ -550,14 +550,16 @@ where
 \begin{itemize}
 	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ denotes the state deviation from the target,
 	\item \matr{P} and \matr{Q} are positive semi-definite matrices weighting the final and state costs, respectively,
+	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is an optional nonlinear objective term that should be minimized,
 	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)}, and \ldscal{\catl{}}{i(i+1)} are the catenary model parameters representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{p}_{\text{min}}$ and $\mathbf{p}_{\text{max}}$ are bounds on feasible waypoints,
 	\item $\Delta\mathbf{r}_{\text{min}}$ and $\Delta\mathbf{r}_{\text{max}}$ are bounds on the increments between path parameters,
 	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and seafloor clearance.
 \end{itemize}
 
-Once the optimal waypoint sequence was found, it is passed to the controller as a reference, and
-the optimization problem was solved again at the next planning step.
+Once the optimal waypoint sequence was found, it is passed to a controller as a reference
+trajectory. The optimization problem, or a subset of it, may be solved again according to different
+criteria such as time, tracking error, etc.
 
 \subsection{Reactive Control}
 \label{rcc_c_reactive_control}
@@ -585,17 +587,21 @@ law is expressed as
 \end{align}
 
 where \ldvect{v}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is the
-interaction matrix relating the tether shape derivatives to the relative motion of the robots,
-$\scal{\lambda} \in \mathbb{R}^{+}$ is a control gain, and \ldvect{s}{i(i+1)} is feature vector
-such that
+interaction matrix (see \cite{moreiraVisualServoingDeformable2019} for details) relating the tether
+shape derivatives to the relative motion of the robots, $\scal{\lambda} \in \mathbb{R}^{+}$ is a
+control gain, and \ldvect{s}{i(i+1)} is feature vector such that
 \begin{align}
-	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}\right]
+	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}, \frac{\catdH + \ldscal{\Delta H}{max}}{2\ldscal{\Delta H}{max}}\right]
 \end{align}
 
 with \ldscal{H}{i(i+1)} being the sag of the tether between robots \scal{i} and \scal{i+1},
-\ldscal{H}{\text{max}} the maximum sag allowed, and \scal{\alpha} is the angle between robot
+\ldscal{H}{\text{max}} the maximum sag allowed, \scal{\alpha} is the angle between robot
 \scal{i+1}'s \vect{x} axis projected in the horizontal plane and the vector going from robot
-\scal{i+1} to robot{i} also projected in the horizontal plane.
+\scal{i+1} to robot \scal{i} also projected in the horizontal plane, \ldscal{\Delta H}{i(i+1)}
+being the vertical distance between robots \scal{i} and \scal{i+1}, and \ldscal{\Delta
+	H}{\text{max}} the maximum absolute vertical distance allowed.
+
+	\todo{add figure (from matheus thesis) showing the feature with two robots}
 
 This peer-to-peer formulation enables each robot to locally and concurrently regulate their tether
 with the preceding robot all the way up to the leader robot which performs a task, ensuring that
@@ -604,13 +610,7 @@ the global chain maintains feasible catenary geometries without over-constrainin
 \section{Simulation}
 \label{rcc_simulation}
 
-\subsection{\glsentrytitlecase{mpc}{long}}
-\label{rcc_s_model_predictive_control}
-
-\subsubsection{Simulation Setup}
-\label{rcc_s_mpc_simulation_setup}
-
-The controller is assessed through the analysis of a scenario comprising four tethered robots
+The controllers is assessed through the analysis of a scenario comprising four tethered robots
 ($\scal{n}=4$ in \cref{rcc_rcm_rcd_state_vector,rcc_rcm_rcd_actuation_vector}). The experiment
 takes place in a numerical tank with varying depth, and infinite width and length
 (\cref{rcc_s_mpc_ss_tank}). The tethers are assumed to be negatively buoyant with a known fixed
@@ -620,19 +620,21 @@ represent the link to a surface control vehicle.
 
 The leader robot is tasked with tracking a reference trajectory, while the two follower robots must
 ensure that the constraints are not violated. It is imperative that they maintain a safe distance
-from one another since proximity could result in contact with the floor or other obstacles. To
-prevent the follower robots from spinning, their orientation is controlled to remain aligned with
-that of the leader (\cref{rcc_s_mpc_i_constrains_values}).
+from one another since proximity could result in contact with the floor or other obstacles.
 
 To test the system's ability to cope with these constraints, we considered a trajectory in which
 the leading robot passes over a raised peak in which the tether would be entangled without proper
-constraints on the tether shape. This allowed us to check that, even in this critical case, the
+consideration of the tether shape. This allowed us to check that, even in this critical case, the
 following robots were able to position themselves so that the cables did not touch the seafloor.
-The leader reference trajectory is a sine of amplitude \qty{3.}{\m} along the \ldvect{z}{w}-axis
+
+The leader reference trajectory is a sine of amplitude \qty{3}{\m} along the \ldvect{z}{w}-axis
 centered on a depth of \qty{2.5}{\m} and a smooth curve from \qty{2}{\m} to \qty{-3}{\m} and back
 on the \ldvect{x}{w}-axis with speed equal to zero at both ends (\cref{rcc_s_mpc_ss_tank}). The
-reference on the \ldvect{y}{w}-axis as well as the orientation is constant and equal to zero. The
-leader robot initial state is $\fldvect{\eta}{w}{0}=[2,0,1, 0, 0, 0]$ and the two follower
+reference on the \ldvect{y}{w}-axis as well as the orientation is constant and equal to zero.
+During this planned trajectory, the leader is closest to the seafloor at times \qty{10}{\s},
+\qty{25}{\s} and \qty{40}{\s} and passes over the peak at times \qty{16}{\s} and \qty{34}{\s}.
+
+The leader robot initial state is $\fldvect{\eta}{w}{0}=[2,0,1, 0, 0, 0]$ and the two follower
 robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,1, 0, 0, 0]$ and $\fldvect{\eta}{w}{2}=[3,0,1, 0, 0,
 	0]$. The \ac{usv} is positioned at $\fldvect{\eta}{w}{3}=[3.5,0,0,0,0,\pi/2]$.
 
@@ -640,32 +642,37 @@ robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,1, 0, 0, 0]$ and $\fldvect{\eta}{
 	\centering
 	\inputtikz{figures/mpc_simulation_tank}
 	\caption{
-		Three dimensional view of the experimental setup. Reference trajectory is in black. The four
-		robots' poses are in red, green, blue and yellow, from leader to \ac{usv} respectively.
+		Three dimensional view of the simulation setup. Reference trajectory is in black. The four
+		robots' initial poses are in red, green, blue and yellow, from leader to \ac{usv} respectively.
+		The seafloor is represented by the surface, with the color gradient indicating depth.
 	}
 	\label{rcc_s_mpc_ss_tank}
 \end{figure}
 
-\subsection{Implementation}
+\subsection{\glsentrytitlecase{mpc}{long}}
+\label{rcc_s_model_predictive_control}
+
+\subsubsection{Implementation}
 \label{rcc_s_mpc_implementation}
 
 The simulation (\citeurl{filliungPympc_usage2025}) integrates the robots chain dynamics introduced
-in \cref{rcc_robot_chain_modelling}. The simulation is run with a time step of \qty{0.1}{\second}
-for \num{500} steps, i.e. \qty{20}{\second}. The MPC horizon is \num{10} steps, i.e.
-\qty{1}{\second}. The problem is solved with the \texttt{scipy.minimize} function in Python with a
-tolerance of \num{1e-6} and a maximum number of iterations set to \num{100}.
+in \cref{rcc_robot_chain_modelling} and follows the scenario outlined previously. The simulation is
+run with a time step of \qty{0.1}{\second} for \num{500} steps, i.e. \qty{20}{\second}. The
+\ac{mpc} horizon is \num{10} steps, i.e. \qty{1}{\second}. The problem is solved with the
+\texttt{scipy.minimize} function in Python with a tolerance of \num{1e-6} and a maximum number of
+iterations set to \num{100}.
 
 A recovery procedure was implemented for cases in which the \ac{mpc} failed to converge to a
 solution. In this procedure, the optimization tolerance was progressively increased until either
-convergence was achieved—at which point the tolerance was reduced again—or the tolerance reached a
-predefined maximum value.
+convergence was achieved -at which point the tolerance was reduced again- or the tolerance reached
+a predefined maximum value.
 
 The matrices \matr{P} and \matr{Q} (\cref{rcc_c_mpc_equation}) are defined in such a way that the
 position of the leader is assigned a weight of \num{10} and its orientation a weight of \num{1}.
 The orientation of the other robots is also assigned a weight of \num{1}, while their position is
 not weighted, leaving them free on these axes. Matrix \matr{R} (\cref{rcc_c_mpc_equation}) has a
 weight of zero on linear actuation and a weight of \num{1} on angular actuation with the exception
-of the orientation of the \ac{usv}.
+of the orientation of the \ac{usv}. These tuned values are obtained on a trial-and-error basis.
 
 Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set and listed in
 \cref{rcc_s_mpc_i_constrains_values}.
@@ -679,13 +686,13 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 	}
 	\caption{Model Predictive Controller Constraints}
 	\begin{tabular}{@{}ccSS@{}}
-		constrained value                                                         & unit             & {upper bound}                  & {lower bound} \\ \midrule
-		\ldcoord{u}{B}{k,x} and \ldcoord{u}{B}{k,y}                               & \unit{\newton}   & 36.5                           & -36.5         \\
-		\ldcoord{u}{B}{k,z}                                                       & \unit{\newton}   & 54.75                          & 0.0           \\
-		angular part $\Delta\ldvect{u}{k}$                                        & \unit{\newton\m} & 1                              & -1            \\
-		$\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}$                            & \unit{\m}        & {see \cref{rcc_s_mpc_ss_tank}} &               \\
-		$\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}}$ & \unit{\m}        & 2.8                            &               \\
-		\ldscal{\catl{}}{i(i+1)}                                                  & \unit{\m}        &                                & 0.2           \\
+		constrained value                                                         & unit             & {upper bound}                              & {lower bound} \\ \midrule
+		\ldcoord{u}{B}{k,x} and \ldcoord{u}{B}{k,y}                               & \unit{\newton}   & 36.5                                       & -36.5         \\
+		\ldcoord{u}{B}{k,z}                                                       & \unit{\newton}   & 54.75                                      & 0.0           \\
+		angular part $\Delta\ldvect{u}{k}$                                        & \unit{\newton\m} & 1                                          & -1            \\
+		$\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}$                            & \unit{\m}        & {see seafloor in \cref{rcc_s_mpc_ss_tank}} &               \\
+		$\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}}$ & \unit{\m}        & 2.8                                        &               \\
+		\ldscal{\catl{}}{i(i+1)}                                                  & \unit{\m}        &                                            & 0.2           \\
 	\end{tabular}
 	\label{rcc_s_mpc_i_constrains_values}
 \end{table}
@@ -693,34 +700,17 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 In order to differentiate the simulation from the model employed in the MPC prediction horizon,
 their integration method diverge. The simulation utilizes a Runge-Kutta integration of order 4
 (\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas the MPC prediction employs an Euler-explicit
-scheme. The shape of each cable is deduced from the position of its attachment points using the
-catenary equation \cref{cm_cm_d_catenary_equation}.
+scheme. The shape of each cable is deduced at any time from the position of its attachment points
+using the catenary equation \cref{cm_cm_d_catenary_equation}.
 
-\subsection{Results}
+\subsubsection{Results}
 \label{rcc_s_mpc_results}
 
-\Cref{rcc_s_mpc_r_error,rcc_s_mpc_r_angular_error}
-show the absolute linear and angular tracking error of the leader robot, respectively. The mean
-linear error is \qty{10}{\milli\m} with a standard deviation of \qty{5}{\milli\m}. The mean angular
-error is \qty{2e-3}{\radian} with a standard deviation of \qty{9e-4}{\radian}.
-\begin{figure}
-	\centering
-	\inputtikz{figures/mpc_simulation_tracking_error}
-	\caption{Linear tracking errors of the leader robot.}
-	\label{rcc_s_mpc_r_error}
-\end{figure}
-\begin{figure}
-	\centering
-	\inputtikz{figures/mpc_simulation_angular_tracking_error}
-	\caption{Angular tracking errors of the leader robot, target is \qty{0}{\radian}.}
-	\label{rcc_s_mpc_r_angular_error}
-\end{figure}
-
-In \cref{rcc_s_mpc_r_pose_x, rcc_s_mpc_r_pose_y,,rcc_s_mpc_r_pose_z} trajectories of the robots are
-depicted. The lowest point of the simulated cables are displayed in \cref{rcc_s_mpc_r_pose_z}. As
-quantified in \cref{rcc_s_mpc_r_error} it can be observed that the leader robot tracks the
-reference trajectory. Robots 1 and 2 manoeuver in order for the cable to avoid the floor and stay
-withing the bounds of the other constraints.
+In \cref{rcc_s_mpc_r_poses} the trajectories of the robots are depicted. It can be observed that
+the leader robot tracks the reference trajectory closely, with the exception of some deviation at
+times \qty{15}{\s} and \qty{35}{\s} which are the planned times where the leader passes over the
+peak in the terrain. The follower robots manoeuver in order to satisfy constraints and minimize the
+objective function.
 \begin{figure}
 	\centering
 	\begin{subfigure}{\figurewidth}
@@ -741,39 +731,43 @@ withing the bounds of the other constraints.
 		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}
 		\label{rcc_s_mpc_r_pose_z}
 	\end{subfigure}
-	\caption{Trajectory of the robots during the simulation.}
+	\caption{Trajectory of the robots during the \ac{mpc} simulation.}
 	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
-\Cref{rcc_s_mpc_r_inter_robot_distance}
-display the constrained values not present in \cref{rcc_s_mpc_r_pose_z} \emph{i.e.}
-the horizontal inter-robot distance, the inter-robot distance and the norm of
-the robots' speed (\cref{rcc_s_mpc_i_constrains_values}). The leader robot is planned to
-approach the ground at times \qty{5}{\s} and \qty{15}{\s} and as
-illustrated in \cref{rcc_s_mpc_r_inter_robot_distance}, the highest inter-robot
-distance between the leader robot and its follower is observed at these exact
-times. This is attributed to the motion of the follower robot, which is
-required to tighten the cable that links robot 0 and 1.
+The tracking error of the leader robot is illustrated in \cref{rcc_s_mpc_r_error} and remains
+within \qty{0.2}{\m} for the majority of the simulation, except for the two peaks mentioned earlier
+where it spikes to around \qty{0.6}{\m}.
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_simulation_tracking_error}
+	\caption{Linear tracking errors of the leader robot during the \ac{mpc} simulation.}
+	\label{rcc_s_mpc_r_error}
+\end{figure}
+
+The constrained values are displayed in
+\cref{rcc_s_mpc_r_lowest_point,rcc_s_mpc_r_inter_robot_distance,rcc_s_mpc_r_robots_speed}. The
+cable between the leader robot and its first follower is the one that comes closest to the
+seafloor, specifically at times \qty{10}{\s}, \qty{25}{\s} and \qty{40}{\s} when the leader is at
+its deepest point (\cref{rcc_s_mpc_r_lowest_point}). There is a brief diminution of the distance
+when the leader robot passes the peak at times \qty{18}{\s} but the distance is corrected by the
+first follower's maneuvers.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_lowest_point}
-	\caption{
-		Vertical position of the catenary lowest points along with the seafloor depth at the same position
-		on the horizontal plane.
-	}
+	\caption{Vertical distance of the catenary lowest points to the seafloor below it during the \ac{mpc} simulation.}
 	\label{rcc_s_mpc_r_lowest_point}
 \end{figure}
+
+As illustrated in \cref{rcc_s_mpc_r_inter_robot_distance}, the inter-robot distance between each
+consecutive pair of robots starts around \qty{1}{\m} before increasing to around \qty{1.5}{\m} as
+the objective function is minimized. The distances increase in order to raise the cables' lowest
+point as necessary bu never exceed the maximum distance constraint.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_inter_robot_distance}
-	\caption{Inter-robot distance constraint during the simulation.}
+	\caption{Euclidean and horizontal inter-robot distance constraint during the \ac{mpc} simulation.}
 	\label{rcc_s_mpc_r_inter_robot_distance}
-\end{figure}
-\begin{figure}
-	\centering
-	\inputtikz{figures/mpc_simulation_speed}
-	\caption{Norm of the robots' speed constraint during the simulation.}
-	\label{rcc_s_mpc_r_robots_speed}
 \end{figure}
 
 \Cref{rcc_s_mpc_r_compute_time}
@@ -784,7 +778,7 @@ further constraining the search space.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_compute_time}
-	\caption{Computation time of the \ac{mpc}.}
+	\caption{Computation time of the \ac{mpc} during the simulation.}
 	\label{rcc_s_mpc_r_compute_time}
 \end{figure}
 
@@ -861,7 +855,6 @@ further constraining the search space.
 	\caption{Computation time of the .}
 	\label{rcc_s_pp_1_r_compute_time}
 \end{figure}
-
 
 \subsubsection{Second Configuration}
 
