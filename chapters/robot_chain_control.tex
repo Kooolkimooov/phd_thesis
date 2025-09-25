@@ -891,24 +891,20 @@ the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains are \num{100},
 The trajectories of the robots (\cref{rcc_s_pp_r_fc_poses}) show that the leader tracked the
 planned path tightly in the horizontal plane: errors along \ldvect{x}{w} and \ldvect{y}{w} remained
 bounded within a few decimeters (see also \cref{rcc_s_pp_r_fc_error}). In contrast, the
-\ldvect{z}{w}-axis response exhibited a clear loss of performance whenever the reference underwent
-a steep variation. Rather than short overshoots followed by rapid convergence, the vertical error
-accumulated over several seconds, leading to a sustained bias before partial recovery. A
-quantitative analysis of the error logs confirmed a peak Euclidean tracking error norm of
-\qty{2.49}{\m} at \qty{15.9}{\s}, dominated by the vertical component (\qty{2.19}{\m}). The RMS
-errors were only \qty{0.16}{\m} for \ldvect{x}{w} and \qty{0.09}{\m} for \ldvect{y}{w}, whereas the
-vertical RMS error reached \qty{1.00}{\m}, bringing the overall RMS norm above one metre. Thus, the
-apparent quality of planar tracking masks a substantial degradation of vertical control authority.
+\ldvect{z}{w}-axis response exhibited a marked loss of performance whenever the reference underwent
+a steep variation. Instead of brief overshoots followed by rapid convergence, the vertical error
+accumulated over several seconds, leading to a sustained bias before partial recovery. Analysis of
+the error logs confirmed a peak Euclidean tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s},
+dominated by the vertical component (\qty{2.19}{\m}). The RMS errors were limited to \qty{0.16}{\m}
+on \ldvect{x}{w} and \qty{0.09}{\m} on \ldvect{y}{w}, but reached \qty{1.00}{\m} on \ldvect{z}{w},
+bringing the overall RMS norm above one metre. Hence, the apparent quality of planar tracking
+concealed a substantial degradation in vertical control authority.
 
-Two mechanisms may explain this behaviour. First, the two-stage architecture (periodic path
-optimization followed by low-level \ac{pid} tracking) introduced an intrinsic delay: the predictive
-layer provided waypoints at discrete replanning instants, while the inner loop reacted continuously
-but without preview. Second, the cost weights emphasised horizontal positioning (leader position
-weight \num{10}) relative to orientation (\num{1}) and applied a very small penalty on control
-effort (\num{0.01}). Without stronger vertical shaping terms, the optimizer had little incentive to
-smooth aggressive vertical segments, which excited the derivative component of the \ac{pid}
-controller and created a lagging integral accumulation. The result was a quasi integral wind-up
-effect in the vertical channel.
+Two mechanisms explain this behavior. First, the two-stage architecture (periodic path optimization
+followed by low-level \ac{pid} tracking) introduced an intrinsic delay: the predictive layer
+generated waypoints at discrete replanning instants, while the inner loop responded continuously
+but without preview. This excited the derivative component of the \ac{pid} controller and induced a
+lagging integral accumulation, producing a quasi wind-up effect in the vertical channel.
 
 \begin{figure}
 	\centering
@@ -934,10 +930,6 @@ effect in the vertical channel.
 	\label{rcc_s_pp_r_fc_poses}
 \end{figure}
 
-The tracking errors of the leader (\cref{rcc_s_pp_r_fc_error}) corroborate these observations. The
-horizontal errors remained small, while the error norm—driven by the vertical component—peaked at
-\qty{2.5}{\m}.
-
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_1_tracking_error}
@@ -945,17 +937,17 @@ horizontal errors remained small, while the error norm—driven by the vertical 
 	\label{rcc_s_pp_r_fc_error}
 \end{figure}
 
-The clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) show that only the first cable span
-(between Robots 0 and 1) approached the constraint boundary. Quantitatively, the minimum clearance
-was \qty{0.178}{\m} at \qty{12.6}{\s}, dipping below the imposed \qty{0.2}{\m} limit for a
-continuous interval of \qty{0.9}{\s}, i.e. \SI{1.8}{\percent} of the \qty{50}{\s} horizon. Over
-the full simulation the first span clearance distribution had mean \qty{1.50}{\m}, median
-\qty{1.75}{\m}, and standard deviation \qty{0.78}{\m} (range \qtyrange{0.178}{2.74}{\m}). In
-contrast, span 2’s clearance (robots 1--2) had mean \qty{2.56}{\m}, median \qty{2.45}{\m}, std
-\qty{0.41}{\m} (range \qtyrange{1.93}{3.48}{\m}), and span 3 (robots 2--3) had mean
-\qty{3.27}{\m}, median \qty{3.45}{\m}, std \qty{0.37}{\m} (range \qtyrange{2.65}{3.82}{\m}). The
-large separation between means and the tight dispersion of the latter two spans indicate localized
-vertical constraint risk concentrated in the first segment.
+The lowest point distance to the seafloor (\cref{rcc_s_pp_r_fc_lowest_point}) show that the first
+cable (between Robots 0 and 1) violated the constraint boundary. The minimum clearance was
+\qty{0.178}{\m} at \qty{12.6}{\s}, remaining below the imposed \qty{0.2}{\m} limit for a continuous
+interval of \qty{0.9}{\s}, or \qty{1.8}{\percent} of the \qty{50}{\s} horizon. Over the full
+simulation the first span had a mean clearance of \qty{1.50}{\m}, a median of \qty{1.75}{\m}, and a
+standard deviation of \qty{0.78}{\m} (range \qtyrange{0.178}{2.74}{\m}). In comparison, cable 2
+(robots 1--2) maintained a mean clearance of \qty{2.56}{\m}, median \qty{2.45}{\m}, and standard
+deviation \qty{0.41}{\m} (range \qtyrange{1.93}{3.48}{\m}); cable 3 (robots 2--3) had mean
+\qty{3.27}{\m}, median \qty{3.45}{\m}, and standard deviation \qty{0.37}{\m} (range
+\qtyrange{2.65}{3.82}{\m}). The wide gap between cables confirms that vertical constraint risk was
+concentrated in the first segment.
 
 \begin{figure}
 	\centering
@@ -965,16 +957,15 @@ vertical constraint risk concentrated in the first segment.
 \end{figure}
 
 The inter-robot distances (\cref{rcc_s_pp_r_fc_inter_robot_distance}) showed distinct statistical
-profiles. Pair (0--1) remained well within bounds (min \qty{0.50}{\m}, max \qty{2.89}{\m}, mean
-\qty{2.18}{\m}, median \qty{2.42}{\m}, std \qty{0.65}{\m}) but exceeded the \qty{2.8}{\m} upper
-bound for a cumulative \qty{8.0}{\s}. Pair (1--2) exhibited both compression and stretch (min
-\qty{0.165}{\m}, max \qty{2.89}{\m}, mean \qty{1.91}{\m}, median \qty{2.385}{\m}, std
-\qty{0.99}{\m}), violating the lower bound (\qty{0.2}{\m}) for \qty{0.7}{\s} and the upper bound
-for \qty{15.9}{\s}. Pair (2--3) had min \qty{0.581}{\m}, max \qty{2.85}{\m}, mean \qty{2.20}{\m},
-median \qty{2.80}{\m}, std \qty{0.85}{\m}, with \qty{17.4}{\s} above the upper bound. These
-excursions clustered around vertical transients: as the leader modulated altitude, downstream setpoint
-phasing produced transient slack (compression) or tension (stretch) propagations.
-
+profiles. Pair (0--1) remained mostly within limits (min \qty{0.50}{\m}, max \qty{2.89}{\m}, mean
+\qty{2.18}{\m}, median \qty{2.42}{\m}, standard deviation \qty{0.65}{\m}), but exceeded the
+\qty{2.8}{\m} upper bound for \qty{8.0}{\s}. Pair (1--2) exhibited both compression and stretch
+(min \qty{0.165}{\m}, max \qty{2.89}{\m}, mean \qty{1.91}{\m}, median \qty{2.385}{\m}, standard
+deviation \qty{0.99}{\m}), violating the lower bound (\qty{0.2}{\m}) for \qty{0.7}{\s} and the
+upper bound for \qty{15.9}{\s}. Pair (2--3) had min \qty{0.581}{\m}, max \qty{2.85}{\m}, mean
+\qty{2.20}{\m}, median \qty{2.80}{\m}, standard deviation \qty{0.85}{\m}, with \qty{17.4}{\s} above
+the upper bound. These excursions clustered around vertical transients: as the leader modulated
+altitude, and followers' reaction lagged behind causing platooning.
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_1_inter_robot_distance}
@@ -982,14 +973,17 @@ phasing produced transient slack (compression) or tension (stretch) propagations
 	\label{rcc_s_pp_r_fc_inter_robot_distance}
 \end{figure}
 
-The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) remained below the \qty{1.0}{\m\per\s}
-bound for all robots. Statistical summaries of the velocity norms: Robot 0 (min \num{0.0015}, max
-\num{0.877}, mean \num{0.388}, median \num{0.415}, std \num{0.173}); Robot 1 (min \num{0.0011}, max
-\num{0.934}, mean \num{0.265}, std \num{0.193}); Robot 2 (max \num{0.610}, mean \num{0.146}); Robot 3
-(max \num{0.867}, mean \num{0.107}). The monotonic decrease in mean speed from leader to tail robot
-illustrates damping of commanded motion along the chain. Peaks for Robots 0 and 3 approaching
-\num{0.88} suggest that while aggregate norms respect the constraint, axis-wise actuation could be
-locally saturated—supporting the case for anisotropic or per-axis constraints.
+The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) remained below the \qty{1.0}{\m\per\s} limit
+for all robots throughout the simulation. The leader (Robot~0) reached a maximum velocity of
+\num{0.877}\,\si{\m\per\s} with an average of \num{0.388}\,\si{\m\per\s}, while Robot~1 showed
+slightly lower values, peaking at \num{0.934}\,\si{\m\per\s} and averaging
+\num{0.265}\,\si{\m\per\s}. Robots~2 and 3 moved more slowly, with mean speeds of
+\num{0.146}\,\si{\m\per\s} and \num{0.107}\,\si{\m\per\s}, respectively. This monotonic decrease in
+mean speed from leader to tail illustrates the damping of commanded motion as it propagated along
+the chain. Nonetheless, peaks for the leader and the last robot approached
+\num{0.88}\,\si{\m\per\s}, indicating that although the overall norm constraint was respected,
+local actuation along individual axes may have been close to saturation. This observation supports
+the case for introducing anisotropic or per-axis speed constraints.
 
 \begin{figure}
 	\centering
@@ -998,15 +992,14 @@ locally saturated—supporting the case for anisotropic or per-axis constraints.
 	\label{rcc_s_pp_r_fc_robots_speed}
 \end{figure}
 
-Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) exhibited spikes coinciding with phases when
-the predicted lowest point approached the seafloor. Recorded solve times ranged from
+Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) showed spikes coinciding with phases when
+the predicted lowest point approached the seafloor. Solve times ranged from
 \qty{1.06}{\milli\second} to \qty{60.4}{\milli\second} (mean \qty{3.27}{\milli\second}, median
-\qty{2.21}{\milli\second}, std \qty{4.38}{\milli\second}). The long right tail reflects a handful
-of active-set / constraint activation events; most solves clustered near the median. Even though the
-\qty{1}{\second} horizon keeps average computational load modest, the tail behaviour indicates that
-scaling horizon length or chain size without algorithmic enhancements (e.g., warm-starting duals,
-incorporating curvature updates in an SQP loop, or preconditioning the KKT system) could elevate real-time
-risk.
+\qty{2.21}{\milli\second}, std \qty{4.38}{\milli\second}). The long right tail reflected a handful
+of constraint activation events, while most solves clustered near the median. Although the short
+horizon (\qty{1}{\second}) kept average load modest, the tail behavior suggests that scaling
+horizon length or chain size without algorithmic improvements would make real-time computation
+impossible.
 
 \begin{figure}
 	\centering
@@ -1015,13 +1008,15 @@ risk.
 	\label{rcc_s_pp_r_fc_compute_time}
 \end{figure}
 
-In summary, the first configuration validated horizontal tracking and demonstrated the feasibility
-of fast horizon-by-horizon replanning, but also revealed three limitations: (i) insufficient
-vertical dynamic shaping, leading to large RMS and peak errors, (ii) marginal clearance violations
-confined to the first span, and (iii) solver effort sensitivity near clearance boundaries. These
-limitations motivate enhancements such as vertical rate/acceleration penalties, interior-penalized
-clearance constraints, and mild model enrichment with tension or line-shape states in future
-configurations.
+In summary, the first configuration demonstrated that horizon-by-horizon replanning can ensure
+accurate horizontal tracking and feasible motion generation, yet it also exposed important
+limitations. Vertical dynamics were not shaped strongly enough, resulting in large RMS and peak
+errors. Clearance margins were occasionally infringed, with risk concentrated in the first cable
+span, and the solver exhibited sensitivity when the predicted lowest point approached the seafloor.
+Together, these findings point to the need for stronger vertical penalties, more robust treatment
+of clearance constraints, and modest model enrichment to better capture tension and line-shape
+effects in future configurations.
+
 \subsubsection{Second Configuration}
 \label{rcc_s_pp_r_second_configuration}
 
