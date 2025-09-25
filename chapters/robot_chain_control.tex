@@ -933,6 +933,74 @@ further constraining the search space.
 
 \subsection{Reactive Control}
 \label{rcc_s_reactive_control}
+\subsection{Results}
+\label{rcc_s_rc_results}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_tracking_error}
+	\caption{Linear tracking errors of the leader robot.}
+	\label{rcc_s_rc_r_error}
+\end{figure}
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_angular_tracking_error}
+	\caption{Angular tracking errors of the leader robot, target is \qty{0}{\radian}.}
+	\label{rcc_s_rc_r_angular_error}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/vs_simulation_pose_x}
+		\caption{Trajectory of the robots on the \ldvect{x}{w}-axis.}
+		\label{rcc_s_rc_r_pose_x}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/vs_simulation_pose_y}
+		\caption{Trajectory of the robots on the \ldvect{y}{w}-axis.}
+		\label{rcc_s_rc_r_pose_y}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/vs_simulation_pose_z}
+		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}
+		\label{rcc_s_rc_r_pose_z}
+	\end{subfigure}
+	\caption{Trajectory of the robots during the simulation.}
+	\label{rcc_s_rc_r_poses}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_lowest_point}
+	\caption{
+		Vertical position of the catenary lowest points along with the seafloor depth at the same position
+		on the horizontal plane.
+	}
+	\label{rcc_s_rc_r_lowest_point}
+\end{figure}
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_inter_robot_distance}
+	\caption{Inter-robot distance constraint during the simulation.}
+	\label{rcc_s_rc_r_inter_robot_distance}
+\end{figure}
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_speed}
+	\caption{Norm of the robots' speed constraint during the simulation.}
+	\label{rcc_s_rc_r_robots_speed}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_compute_time}
+	\caption{Computation time of the .}
+	\label{rcc_s_rc_r_compute_time}
+\end{figure}
 
 \lipsum[1]
 

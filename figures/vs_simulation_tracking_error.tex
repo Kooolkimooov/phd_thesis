@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+			xmin = 0,
+			xmax = 50,
+			ymin = 0,
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			xlabel = {time / \unit{\s}},
+			ylabel = {error / \unit{\m}},
+			legend style={fill opacity=.75, text opacity=1, font=\footnotesize},
+			legend cell align={left}
+		]
+
+		\addplot[red, very thick, smooth] table [x index=0, y index=1] {figures/data/vs_simulation__br_0_position_tracking_error_1758791034.txt};
+		\addplot[green, very thick, smooth] table [x index=0, y index=2] {figures/data/vs_simulation__br_0_position_tracking_error_1758791034.txt};
+		\addplot[blue, very thick, smooth] table [x index=0, y index=3] {figures/data/vs_simulation__br_0_position_tracking_error_1758791034.txt};
+
+		\legend{
+			over \ldvect{x}{w}-axis,
+			over \ldvect{y}{w}-axis,
+			over \ldvect{z}{w}-axis
+		}
+
+	\end{axis}
+
+\end{tikzpicture}
