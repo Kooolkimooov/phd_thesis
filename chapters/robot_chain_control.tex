@@ -706,57 +706,16 @@ using the catenary equation \cref{cm_cm_d_catenary_equation}.
 \subsubsection{Results}
 \label{rcc_s_mpc_results}
 
-In \cref{rcc_s_mpc_r_poses} the trajectories of the robots are depicted. Qualitatively, the leader
-tracks the reference closely except for the two expected excursions when crossing the bathymetric
-peak (planned at \qty{15}{\s} and \qty{35}{\s}). These deviations arise because, as the catenary
-spans shorten while ascending the slope and lengthen while descending, the controller must trade
-off instantaneous tracking accuracy against prospective constraint satisfaction over the horizon.
-The follower robots exhibit coordinated longitudinal stretching and mild lateral staggering. This
+The robot trajectories are depicted in \cref{rcc_s_mpc_r_poses}. Qualitatively, the leader tracks
+the reference closely except for the two expected excursions when crossing the bathymetric peak
+(planned at \qty{15}{\s} and \qty{35}{\s}). These deviations arise because, as the catenary spans
+shorten while ascending the slope and lengthen while descending, the controller trades off
+instantaneous tracking accuracy against prospective constraint satisfaction over the horizon. The
+follower robots exhibit coordinated longitudinal stretching and mild lateral staggering. This
 behaviour is not explicitly enforced beyond the distance and seafloor clearance constraints;
-instead it emerges from the optimization balancing (i) leader tracking, (ii) penalization of large
-control efforts on orientations, and (iii) the soft structural coupling introduced by the cables.
-
-The instantaneous Euclidean tracking error of the leader remains below \qty{0.2}{\m} for most of
-the experiment with a median error of \qty{0.053}{\m} and a mean of \qty{0.107}{\m}. The maximum
-error observed over the whole simulation is \qty{0.714}{\m}, occurring at the apex of the elevation
-change when the controller momentarily prioritizes reshaping inter-robot spacing to preserve future
-cable clearance. This quantitative perspective complements the visual assessment in
-\cref{rcc_s_mpc_r_error}.
-
-Cable clearance management is central to the scenario. The minimum clearances achieved were
-\qty{0.35}{\m}, \qty{1.40}{\m} and \qty{2.27}{\m} for cables 0--1, 1--2 and 2--3 respectively, with
-corresponding mean clearances of \qty{1.44}{\m}, \qty{2.38}{\m} and \qty{3.16}{\m}. Thus only the
-first span ever approaches the bathymetry closely; deeper spans remain comfortably above the
-seafloor owing to the vertical offset propagated down the chain once the leading pair extends.
-
-Inter-robot distances evolve from an initially compact configuration (minimum starting separations
-of roughly \qtyrange{0.23}{0.51}{\m} across the three links) toward elongated formations whose mean
-steady values are \qty{2.43}{\m}, \qty{2.31}{\m} and \qty{2.09}{\m}. Peak separations reach
-\qtyrange{2.78}{2.80}{\m}, staying just under the horizontal projection constraint
-(\cref{rcc_s_mpc_i_constrains_values}). Notably, the first link both attains and sustains the
-largest mean distance, consistent with its role in creating vertical slack to lift the most
-critical cable span off the terrain.
-
-Velocity norms reveal a two-phase regime: an acceleration and spacing formation phase
-(approximately \qty{0}{\s} to \qty{6}{\s}) followed by a quasi-stationary cruise with minor
-corrective pulses. The leader peak speed remains moderate (sub-\qty{0.6}{\m\per\s} during early
-shaping), indicating that clearance improvement is achieved more through geometric reconfiguration
-than aggressive propulsion.
-
-Computation time (\cref{rcc_s_mpc_r_compute_time}) exhibits heavy-tailed variability: while the
-median solve time is \qty{1.23}{\s} and the mean \qty{2.17}{\s}, occasional spikes reach
-\qty{17.7}{\s}. These outliers correlate with phases of rapid system reconfiguration where the
-nonlinear coupling and active inequality constraints enlarge the local search difficulty. The
-\nth{95} percentile remains below \qty{6.9}{\s}, suggesting that targeted warm-starting or temporal
-decomposition could prune the worst-case tail without altering nominal performance.
-
-Overall, the controller achieves the intended qualitative behaviors (terrain-aware clearance,
-cooperative stretching, bounded tracking error) and the quantitative metrics confirm that the
-trade-offs enacted by the weighting scheme yield a clear prioritization hierarchy: (1) avoid
-clearance violations, (2) maintain feasible inter-robot geometry, (3) refine tracking residuals.
-Future refinements could explore adaptive horizon lengths near steep bathymetric transitions,
-weight scheduling to transiently elevate tracking priority once clearance margins exceed a safety
-threshold, and surrogate linear models for early-phase stretching to reduce solve times.
+instead it emerges from the optimization balancing the leader's trajectory tracking, the
+penalization of large control efforts on orientations, and the soft structural coupling introduced
+by the cables.
 \begin{figure}
 	\centering
 	\begin{subfigure}{\figurewidth}
@@ -781,9 +740,12 @@ threshold, and surrogate linear models for early-phase stretching to reduce solv
 	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
-The tracking error of the leader robot is illustrated in \cref{rcc_s_mpc_r_error} and remains
-within \qty{0.2}{\m} for the majority of the simulation, except for the two peaks mentioned earlier
-where it spikes to around \qty{0.6}{\m}.
+The instantaneous Euclidean tracking error of the leader remains below \qty{0.2}{\m} for most of
+the experiment with a median error of \qty{0.053}{\m} and a mean of \qty{0.107}{\m}. The maximum
+error observed over the whole simulation is \qty{0.714}{\m}, occurring at the apex of the elevation
+change when the controller momentarily prioritizes reshaping inter-robot spacing to preserve future
+cable clearance. This quantitative perspective complements the visual assessment in
+\cref{rcc_s_mpc_r_error}.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_tracking_error}
@@ -791,13 +753,11 @@ where it spikes to around \qty{0.6}{\m}.
 	\label{rcc_s_mpc_r_error}
 \end{figure}
 
-The constrained values are displayed in
-\cref{rcc_s_mpc_r_lowest_point,rcc_s_mpc_r_inter_robot_distance,rcc_s_mpc_r_robots_speed}. The
-cable between the leader robot and its first follower is the one that comes closest to the
-seafloor, specifically at times \qty{10}{\s}, \qty{25}{\s} and \qty{40}{\s} when the leader is at
-its deepest point (\cref{rcc_s_mpc_r_lowest_point}). There is a brief diminution of the distance
-when the leader robot passes the peak at times \qty{18}{\s} but the distance is corrected by the
-first follower's maneuvers.
+Cable clearance management is central to the scenario. The minimum clearances achieved were
+\qty{0.35}{\m}, \qty{1.40}{\m} and \qty{2.27}{\m} for cables 0--1, 1--2 and 2--3 respectively, with
+corresponding mean clearances of \qty{1.44}{\m}, \qty{2.38}{\m} and \qty{3.16}{\m}. Thus only the
+first span ever approaches the bathymetry closely; deeper spans remain comfortably above the
+seafloor owing to the vertical offset propagated down the chain once the leading pair extends.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_lowest_point}
@@ -805,10 +765,13 @@ first follower's maneuvers.
 	\label{rcc_s_mpc_r_lowest_point}
 \end{figure}
 
-As illustrated in \cref{rcc_s_mpc_r_inter_robot_distance}, the inter-robot distance between each
-consecutive pair of robots starts around \qty{1}{\m} before increasing to around \qty{1.5}{\m} as
-the objective function is minimized. The distances increase in order to raise the cables' lowest
-point as necessary bu never exceed the maximum distance constraint.
+Inter-robot distances evolve from an initially compact configuration (minimum starting separations
+of roughly \qtyrange{0.23}{0.51}{\m} across the three links) toward elongated formations whose mean
+steady values are \qty{2.43}{\m}, \qty{2.31}{\m} and \qty{2.09}{\m}. Peak separations reach
+\qtyrange{2.78}{2.80}{\m}, staying just under the horizontal projection constraint
+(\cref{rcc_s_mpc_i_constrains_values}). Notably, the first link both attains and sustains the
+largest mean distance, consistent with its role in creating vertical slack to lift the most
+critical cable span off the terrain.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_inter_robot_distance}
@@ -816,17 +779,38 @@ point as necessary bu never exceed the maximum distance constraint.
 	\label{rcc_s_mpc_r_inter_robot_distance}
 \end{figure}
 
-\Cref{rcc_s_mpc_r_compute_time}
-shows the computation time of the model predictive controller over the simulation. The average
-computational time for one step is \qty{2.17}{\s} in this simulation. This time could be
-reduced by lowering the tolerance of the optimization, by linearizing the robot model and by
-further constraining the search space.
+Velocity norms reveal a two-phase regime: an acceleration and spacing formation phase
+(approximately \qty{0}{\s} to \qty{6}{\s}) followed by a quasi-stationary cruise with minor
+corrective pulses. The leader peak speed remains moderate (sub-\qty{0.6}{\m\per\s} during early
+shaping), indicating that clearance improvement is achieved more through geometric reconfiguration
+than aggressive propulsion.
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_simulation_speed}
+	\caption{Norm of the robots' speed during the \ac{mpc} simulation.}
+	\label{rcc_s_mpc_r_robots_speed}
+\end{figure}
+
+Computation time (\cref{rcc_s_mpc_r_compute_time}) exhibits heavy-tailed variability: while the
+median solve time is \qty{1.23}{\s} and the mean \qty{2.17}{\s}, occasional spikes reach
+\qty{17.7}{\s}. These outliers correlate with phases of rapid system reconfiguration where the
+nonlinear coupling and active inequality constraints enlarge the local search difficulty. The
+95\textsuperscript{th} percentile remains below \qty{6.9}{\s}, suggesting that targeted warm-starting or temporal
+decomposition could prune the worst-case tail without altering nominal performance.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_simulation_compute_time}
 	\caption{Computation time of the \ac{mpc} during the simulation.}
 	\label{rcc_s_mpc_r_compute_time}
 \end{figure}
+
+Overall, the controller achieves the intended qualitative behaviors (terrain-aware clearance,
+cooperative stretching, bounded tracking error) and the quantitative metrics confirm that the
+trade-offs enacted by the weighting scheme yield a clear prioritization hierarchy: first, avoid
+clearance violations and maintain feasible inter-robot geometry; second, refine tracking residuals.
+Future refinements could explore adaptive horizon lengths near steep bathymetric transitions,
+weight scheduling to transiently elevate tracking priority once clearance margins exceed a safety
+threshold, and surrogate linear models for early-phase stretching to reduce solve times.
 
 \subsection{Path Planning}
 \label{rcc_s_path_planning}
