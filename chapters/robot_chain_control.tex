@@ -946,12 +946,16 @@ horizontal errors remained small, while the error norm—driven by the vertical 
 \end{figure}
 
 The clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) show that only the first cable span
-(between Robots 0 and 1) approached the constraint boundary. The minimum clearance recorded was
-\qty{0.178}{\m} at \qty{12.6}{\s}, dipping below the imposed \qty{0.2}{\m} limit for a continuous
-interval of \qty{0.9}{\s}. Although this violation lasted less than \SI{2}{\percent} of the
-\qty{50}{\s} horizon, it is operationally significant. The other spans maintained much larger
-clearances (median \qty{2.45}{\m} and \qty{3.45}{\m}), indicating that vertical constraint risk was
-concentrated locally.
+(between Robots 0 and 1) approached the constraint boundary. Quantitatively, the minimum clearance
+was \qty{0.178}{\m} at \qty{12.6}{\s}, dipping below the imposed \qty{0.2}{\m} limit for a
+continuous interval of \qty{0.9}{\s}, i.e. \SI{1.8}{\percent} of the \qty{50}{\s} horizon. Over
+the full simulation the first span clearance distribution had mean \qty{1.50}{\m}, median
+\qty{1.75}{\m}, and standard deviation \qty{0.78}{\m} (range \qtyrange{0.178}{2.74}{\m}). In
+contrast, span 2’s clearance (robots 1--2) had mean \qty{2.56}{\m}, median \qty{2.45}{\m}, std
+\qty{0.41}{\m} (range \qtyrange{1.93}{3.48}{\m}), and span 3 (robots 2--3) had mean
+\qty{3.27}{\m}, median \qty{3.45}{\m}, std \qty{0.37}{\m} (range \qtyrange{2.65}{3.82}{\m}). The
+large separation between means and the tight dispersion of the latter two spans indicate localized
+vertical constraint risk concentrated in the first segment.
 
 \begin{figure}
 	\centering
@@ -960,9 +964,16 @@ concentrated locally.
 	\label{rcc_s_pp_r_fc_lowest_point}
 \end{figure}
 
-The inter-robot distances (\cref{rcc_s_pp_r_fc_inter_robot_distance}) remained within limits on
-average but showed excursions during vertical transients. As the leader decelerated its vertical
-motion, follower robots briefly compressed allowing and violated the constraint.
+The inter-robot distances (\cref{rcc_s_pp_r_fc_inter_robot_distance}) showed distinct statistical
+profiles. Pair (0--1) remained well within bounds (min \qty{0.50}{\m}, max \qty{2.89}{\m}, mean
+\qty{2.18}{\m}, median \qty{2.42}{\m}, std \qty{0.65}{\m}) but exceeded the \qty{2.8}{\m} upper
+bound for a cumulative \qty{8.0}{\s}. Pair (1--2) exhibited both compression and stretch (min
+\qty{0.165}{\m}, max \qty{2.89}{\m}, mean \qty{1.91}{\m}, median \qty{2.385}{\m}, std
+\qty{0.99}{\m}), violating the lower bound (\qty{0.2}{\m}) for \qty{0.7}{\s} and the upper bound
+for \qty{15.9}{\s}. Pair (2--3) had min \qty{0.581}{\m}, max \qty{2.85}{\m}, mean \qty{2.20}{\m},
+median \qty{2.80}{\m}, std \qty{0.85}{\m}, with \qty{17.4}{\s} above the upper bound. These
+excursions clustered around vertical transients: as the leader modulated altitude, downstream setpoint
+phasing produced transient slack (compression) or tension (stretch) propagations.
 
 \begin{figure}
 	\centering
@@ -971,9 +982,14 @@ motion, follower robots briefly compressed allowing and violated the constraint.
 	\label{rcc_s_pp_r_fc_inter_robot_distance}
 \end{figure}
 
-The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) show that the velocity norm remained below
-the linear bound throughout the simulation. However, when sufficient error is accumulated the
-leader operated close to its vertical actuation envelope.
+The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) remained below the \qty{1.0}{\m\per\s}
+bound for all robots. Statistical summaries of the velocity norms: Robot 0 (min \num{0.0015}, max
+\num{0.877}, mean \num{0.388}, median \num{0.415}, std \num{0.173}); Robot 1 (min \num{0.0011}, max
+\num{0.934}, mean \num{0.265}, std \num{0.193}); Robot 2 (max \num{0.610}, mean \num{0.146}); Robot 3
+(max \num{0.867}, mean \num{0.107}). The monotonic decrease in mean speed from leader to tail robot
+illustrates damping of commanded motion along the chain. Peaks for Robots 0 and 3 approaching
+\num{0.88} suggest that while aggregate norms respect the constraint, axis-wise actuation could be
+locally saturated—supporting the case for anisotropic or per-axis constraints.
 
 \begin{figure}
 	\centering
@@ -983,11 +999,14 @@ leader operated close to its vertical actuation envelope.
 \end{figure}
 
 Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) exhibited spikes coinciding with phases when
-the predicted lowest point approached the seafloor. These spikes are consistent with active-set
-changes in nonlinear clearance constraints. Although the horizon was short (\qty{1}{\second}), the
-increase in computation time raises concerns about scalability to longer horizons or larger robot
-chains. Warm-starting dual variables or adopting sequential quadratic programming with curvature
-updating could mitigate these effects.
+the predicted lowest point approached the seafloor. Recorded solve times ranged from
+\qty{1.06}{\milli\second} to \qty{60.4}{\milli\second} (mean \qty{3.27}{\milli\second}, median
+\qty{2.21}{\milli\second}, std \qty{4.38}{\milli\second}). The long right tail reflects a handful
+of active-set / constraint activation events; most solves clustered near the median. Even though the
+\qty{1}{\second} horizon keeps average computational load modest, the tail behaviour indicates that
+scaling horizon length or chain size without algorithmic enhancements (e.g., warm-starting duals,
+incorporating curvature updates in an SQP loop, or preconditioning the KKT system) could elevate real-time
+risk.
 
 \begin{figure}
 	\centering
