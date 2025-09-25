@@ -672,7 +672,10 @@ position of the leader is assigned a weight of \num{10} and its orientation a we
 The orientation of the other robots is also assigned a weight of \num{1}, while their position is
 not weighted, leaving them free on these axes. Matrix \matr{R} (\cref{rcc_c_mpc_equation}) has a
 weight of zero on linear actuation and a weight of \num{1} on angular actuation with the exception
-of the orientation of the \ac{usv}. These tuned values are obtained on a trial-and-error basis.
+of the orientation of the \ac{usv}. These tuned values are obtained on a trial-and-error basis. The
+objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ aims to minimize the robots' linear
+speed and make the inter-robot distances as close to \qty{1.5}{\m} as possible. This term is
+weighted as \num{0.01}.
 
 Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set and listed in
 \cref{rcc_s_mpc_i_constrains_values}.
