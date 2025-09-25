@@ -446,12 +446,14 @@ def collect_used_figures(tex_files: list[str]) -> set[str]:
   return used
 
 
-def check_project(verbose: bool = False) -> bool:
-  """Check for unused bibliography entries and figure .tex files.
+def check_project(verbose: bool = False, remove_unused: bool = False, dry_run: bool = False) -> bool:
+  """Check for unused bibliography and figure assets.
 
-  Always returns True (informational only).
+  If remove_unused is True, delete unused figure files and prune unused bib entries.
+  A backup of bib.bib is created before modification. Honors dry_run for preview only.
+  Always returns True (informational only / best-effort cleanup).
   """
-  printlog('running project consistency checks')
+  printlog('running project consistency checks' + (' (removal enabled)' if remove_unused else ''))
 
   tex_files = collect_tex_files_for_usage()
   if verbose:
@@ -501,8 +503,107 @@ def check_project(verbose: bool = False) -> bool:
   else:
     printlog('no unused image figures found')
 
+  # Optional removal section
+  if remove_unused:
+    # Remove unused figure .tex files
+    if unused_tex_figs:
+      printlog(f'removing {len(unused_tex_figs)} unused .tex figure file(s)')
+      for name in unused_tex_figs:
+        path = os.path.join('figures', name + '.tex')
+        if os.path.exists(path):
+          if dry_run:
+            print(f'  DRY: would remove {path}')
+          else:
+            try:
+              os.remove(path)
+              print(f'  removed {path}')
+            except OSError as e:
+              print(f'  failed to remove {path}: {e}')
+    else:
+      printlog('no unused .tex figures to remove')
+
+    # Remove unused image figure files (all matching extensions)
+    if unused_image_figs:
+      printlog(f'removing images for {len(unused_image_figs)} unused figure base name(s)')
+      for name in unused_image_figs:
+        for ext in IMAGE_EXTENSIONS:
+          path = os.path.join('figures', name + ext)
+          if os.path.exists(path):
+            if dry_run:
+              print(f'  DRY: would remove {path}')
+            else:
+              try:
+                os.remove(path)
+                print(f'  removed {path}')
+              except OSError as e:
+                print(f'  failed to remove {path}: {e}')
+    else:
+      printlog('no unused image figures to remove')
+
+    # Prune bib entries
+    if unused_bib:
+      bib_path = 'bib.bib'
+      if not os.path.exists(bib_path):
+        printlog('bib.bib not found, cannot prune bibliography')
+      else:
+        # Create backup
+        if not dry_run:
+          backup_base = bib_path + '.bak'
+          backup_path = backup_base
+          idx = 1
+            # Ensure unique backup filename
+          while os.path.exists(backup_path):
+            idx += 1
+            backup_path = f"{backup_base}.{idx}"
+          try:
+            shutil.copy2(bib_path, backup_path)
+            printlog(f'backup created: {backup_path}')
+          except OSError as e:
+            printlog(f'failed to create backup of bib.bib: {e}')
+        printlog(f'pruning {len(unused_bib)} unused bibliography entrie(s)')
+        if dry_run:
+          for k in unused_bib:
+            print(f'  DRY: would remove entry {k}')
+        else:
+          try:
+            with open(bib_path, 'r', encoding='utf-8', errors='ignore') as f:
+              lines = f.readlines()
+            output_lines = []
+            i = 0
+            while i < len(lines):
+              line = lines[i]
+              if line.lstrip().startswith('@'):
+                # Attempt to capture key
+                m = re.match(r'@\w+\{\s*([^,\s]+)', line.lstrip())
+                if m:
+                  key = m.group(1)
+                  brace_depth = line.count('{') - line.count('}')
+                  entry_lines = [line]
+                  i += 1
+                  while i < len(lines) and brace_depth > 0:
+                    entry_lines.append(lines[i])
+                    brace_depth += lines[i].count('{') - lines[i].count('}')
+                    i += 1
+                  if key in unused_bib:
+                    print(f'  removed bib entry {key}')
+                    continue  # skip adding to output
+                  else:
+                    output_lines.extend(entry_lines)
+                  continue
+              # default: keep line
+              output_lines.append(line)
+              i += 1
+            with open(bib_path, 'w', encoding='utf-8') as f:
+              f.writelines(output_lines)
+          except OSError as e:
+            printlog(f'failed pruning bibliography: {e}')
+    else:
+      printlog('no unused bibliography entries to prune')
+
   issues = (unused_bib or undefined_cites or unused_tex_figs or unused_image_figs)
   printlog('check finished: ' + ('issues detected' if issues else 'no issues detected'))
+  if remove_unused:
+    printlog('removal phase complete (dry run)' if dry_run else 'removal phase complete')
   return True
 
 
@@ -543,7 +644,8 @@ def main():
       "-gd", "--git-description", type = str, default = None, help = "git description to embed in the thesis"
       )
 
-  subparsers.add_parser( "check", help = "check for unused bibliography entries and figures" )
+  check_parser = subparsers.add_parser( "check", help = "check for unused bibliography entries and figures" )
+  check_parser.add_argument( "--remove-unused", action = "store_true", help = "delete unused figures and bib entries (makes backup of bib.bib)" )
 
   parser.add_argument( "-H", "--HELP", action = "store_true", help = "show verbose help message and exit" )
   parser.add_argument( "-v", "--verbose", action = "store_true", help = "enable verbose output" )
@@ -564,7 +666,7 @@ def main():
     return clean( args.name )
 
   if args.command == "check":
-    return check_project( verbose = args.verbose )
+    return check_project( verbose = args.verbose, remove_unused = getattr(args, 'remove_unused', False), dry_run = args.dry_run )
 
   latex_distribution = check_latex_installation()
   if latex_distribution is None:
