@@ -888,79 +888,27 @@ the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains are \num{100},
 \paragraph{First Configuration}
 \label{rcc_s_pp_r_first_configuration}
 
-The trajectories of the robots (\cref{rcc_s_pp_r_fc_poses}) show that the leader tracks the planned
-path tightly in the horizontal plane: the errors along \ldvect{x}{w} and \ldvect{y}{w} remain
+The trajectories of the robots (\cref{rcc_s_pp_r_fc_poses}) show that the leader tracked the
+planned path tightly in the horizontal plane: errors along \ldvect{x}{w} and \ldvect{y}{w} remained
 bounded within a few decimeters (see also \cref{rcc_s_pp_r_fc_error}). In contrast, the
-\ldvect{z}{w}-axis response exhibits a clear loss of performance whenever the reference undergoes a
-steep variation. Rather than brief overshoots followed by rapid convergence, the vertical error
-accumulates over several seconds, leading to a sustained bias before partial recovery. A quantitative
-analysis of the raw tracking error logs shows a peak Euclidean tracking error norm of
-\qty{2.49}{\m} occurring at \qty{15.9}{\s}, overwhelmingly dominated by the vertical component
-(instantaneous \ldvect{z}{w} error of \qty{2.19}{\m}). While the horizontal components have root
-mean square (RMS) errors of only \qty{0.16}{\m} (\ldvect{x}{w}) and \qty{0.09}{\m}
-(\ldvect{y}{w}), the RMS vertical error reaches \qty{1.00}{\m}, bringing the overall RMS position
-tracking error norm to just above one metre. This confirms that the apparent quality of the planar
-tracking visually observed in \cref{rcc_s_pp_r_fc_poses} masks a substantial degradation in the
-vertical control authority.
+\ldvect{z}{w}-axis response exhibited a clear loss of performance whenever the reference underwent
+a steep variation. Rather than short overshoots followed by rapid convergence, the vertical error
+accumulated over several seconds, leading to a sustained bias before partial recovery. A
+quantitative analysis of the error logs confirmed a peak Euclidean tracking error norm of
+\qty{2.49}{\m} at \qty{15.9}{\s}, dominated by the vertical component (\qty{2.19}{\m}). The RMS
+errors were only \qty{0.16}{\m} for \ldvect{x}{w} and \qty{0.09}{\m} for \ldvect{y}{w}, whereas the
+vertical RMS error reached \qty{1.00}{\m}, bringing the overall RMS norm above one metre. Thus, the
+apparent quality of planar tracking masks a substantial degradation of vertical control authority.
 
-Two coupled mechanisms explain this behaviour. First, the two-stage architecture (periodic path
-optimization followed by low-level \ac{pid} tracking) introduces an intrinsic delay: the predictive
-layer produces setpoints at discrete replanning instants while the inner loop reacts continuously
-but without explicit preview. Second, the cost weights emphasise horizontal positioning (leader
-position weight \num{10}) relative to orientation (weight \num{1}) and apply a very small penalty
-on control effort (objective scaling \num{0.01}). In the absence of a stronger vertical position or
-acceleration shaping term, the optimizer exhibits little incentive to smooth aggressive vertical
-segments; these then excite the derivative component of the \ac{pid} controller and create a lagging
-integral accumulation that is slow to unwind. The consequence is a quasi integral wind-up effect in
-the vertical channel even though classic saturation-driven wind-up is not strictly observed. A more
-explicit terminal or path constraint on vertical rate, or inclusion of a vertical jerk / acceleration
-penalty, would likely mitigate this.
-
-The clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) highlight that only the first cable span
-(between Robots 0 and 1) approaches the constraint boundary. The minimum clearance recorded from the
-raw distance-to-seafloor data is \qty{0.178}{\m}, dipping below the imposed \qty{0.2}{\m} limit for
-roughly \qty{0.9}{\s} (a single continuous interval of the same duration). Although the violation
-fraction is under \SI{2}{\percent} of the \qty{50}{\s} simulation horizon, any infringement of a
-hard safety constraint is operationally significant. The asymmetry between the first span and the
-others (median clearances \qty{2.45}{\m} and \qty{3.45}{\m}) suggests that the current weighting
-does not sufficiently propagate vertical constraint risk upstream in the chain: the leader’s motion
-induces a transient catenary sag primarily in the closest span where dynamic tension adjustments are
-largest. A distributed penalty on predicted lowest-point proximity (instead of post hoc constraint
-checks) or a tightened soft-constraint formulation with interior-point barrier scaling could improve
-robustness.
-
-Inter-robot distances (\cref{rcc_s_pp_r_fc_inter_robot_distance}) remain within bounds except for
-localized excursions. Inspection of the underlying distance signals indicates these excursions are
-coincident with vertical transients: as the leader decelerates its vertical climb or descent, the
-follower positional setpoints momentarily compress, reducing tension and enabling a brief slackening
-that shortens span length. This coupling reflects the absence of an explicit tension or line shape
-state in the predictive model— the planner infers feasible shapes indirectly through position and
-clearance costs. Introducing an augmented state or algebraic constraint capturing catenary tension
-could decouple horizontal spacing from vertical disturbance rejection.
-
-Speed constraints (\cref{rcc_s_pp_r_fc_robots_speed}) are uniformly respected; the norm of the
-velocity remains below the linear speed bound across all robots. However, the speed profile near
-vertical disturbances shows the leader operating close to its effective vertical actuation envelope
-while still under the aggregate speed limit. This suggests that axis-independent norm constraints
-may conceal saturation in a single degree of freedom; per-axis (or anisotropic weighted) constraints
-would yield better visibility and potentially better conditioning for the solver.
-
-Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) exhibits computation time spikes aligned
-with path segments where the predicted lowest point approaches the seafloor. These spikes are
-consistent with active-set changes in inequality constraints involving nonlinear catenary geometry.
-Given the relatively short horizon (\num{10} steps / \qty{1}{\second}), the marginal increase in
-solve time is acceptable for real-time deployment, yet it foreshadows scalability concerns if the
-horizon or the number of robots were extended. Warm-starting dual variables for contact-like
-constraints or employing a sequential quadratic programming (SQP) approach with curvature updating
-could flatten these spikes.
-
-In summary, the first configuration validates horizontal tracking and demonstrates the feasibility
-of fast horizon-by-horizon replanning, but exposes three limitations: (i) insufficient vertical
-dynamic shaping leading to large RMS and peak errors, (ii) marginal clearance violations confined to
-the first span indicating localized risk concentration, and (iii) solver effort sensitivity to
-vertical proximity events. These observations motivate adding vertical rate/acceleration penalties,
-softened but interior penalized clearance constraints, and mild model enrichment for tension or
-line-shape effects in subsequent configurations.
+Two mechanisms may explain this behaviour. First, the two-stage architecture (periodic path
+optimization followed by low-level \ac{pid} tracking) introduced an intrinsic delay: the predictive
+layer provided waypoints at discrete replanning instants, while the inner loop reacted continuously
+but without preview. Second, the cost weights emphasised horizontal positioning (leader position
+weight \num{10}) relative to orientation (\num{1}) and applied a very small penalty on control
+effort (\num{0.01}). Without stronger vertical shaping terms, the optimizer had little incentive to
+smooth aggressive vertical segments, which excited the derivative component of the \ac{pid}
+controller and created a lagging integral accumulation. The result was a quasi integral wind-up
+effect in the vertical channel.
 
 \begin{figure}
 	\centering
@@ -986,9 +934,9 @@ line-shape effects in subsequent configurations.
 	\label{rcc_s_pp_r_fc_poses}
 \end{figure}
 
-The tracking errors of the leader (\cref{rcc_s_pp_r_fc_error}) corroborate the previous
-observations. The error along the axes of the horizontal plane remain small during the simulation.
-However, the error norm, driven by the \vect{z}-axis error, peaks at \qty{2.5}{\m}.
+The tracking errors of the leader (\cref{rcc_s_pp_r_fc_error}) corroborate these observations. The
+horizontal errors remained small, while the error norm—driven by the vertical component—peaked at
+\qty{2.5}{\m}.
 
 \begin{figure}
 	\centering
@@ -997,25 +945,24 @@ However, the error norm, driven by the \vect{z}-axis error, peaks at \qty{2.5}{\
 	\label{rcc_s_pp_r_fc_error}
 \end{figure}
 
-The clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) indicate that the most critical span is
-the first cable segment (between Robots 0 and 1). Its lowest point dips below the minimum value
-required by the constraints, reaching a minimum clearance of \qty{0.178}{\m} at \qty{12.6}{\s},
-corresponding to a \textasciitilde\qty{0.8}{\s} interval below the \qty{0.2}{\m} constraint.
-Subsequent dynamics increase this margin, while the other two spans maintain much larger clearances
-(median \qty{2.45}{\m} and \qty{3.45}{\m}).
+The clearance margins (\cref{rcc_s_pp_r_fc_lowest_point}) show that only the first cable span
+(between Robots 0 and 1) approached the constraint boundary. The minimum clearance recorded was
+\qty{0.178}{\m} at \qty{12.6}{\s}, dipping below the imposed \qty{0.2}{\m} limit for a continuous
+interval of \qty{0.9}{\s}. Although this violation lasted less than \SI{2}{\percent} of the
+\qty{50}{\s} horizon, it is operationally significant. The other spans maintained much larger
+clearances (median \qty{2.45}{\m} and \qty{3.45}{\m}), indicating that vertical constraint risk was
+concentrated locally.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_1_lowest_point}
-	\caption{
-		Vertical distance of the catenary lowest points to the seafloor below it during the path planning
-		simulation.
-	}
+	\caption{Vertical distance of the catenary lowest points to the seafloor below them during the simulation.}
 	\label{rcc_s_pp_r_fc_lowest_point}
 \end{figure}
 
-The inter-robot distance constraints (\cref{rcc_s_pp_r_fc_inter_robot_distance}) are mostly
-satisfied with several dips above the maximum and below the minimum.
+The inter-robot distances (\cref{rcc_s_pp_r_fc_inter_robot_distance}) remained within limits on
+average but showed excursions during vertical transients. As the leader decelerated its vertical
+motion, follower robots briefly compressed allowing and violated the constraint.
 
 \begin{figure}
 	\centering
@@ -1024,8 +971,9 @@ satisfied with several dips above the maximum and below the minimum.
 	\label{rcc_s_pp_r_fc_inter_robot_distance}
 \end{figure}
 
-The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) shows that this constraint in kept for the
-whole duration of the simulation.
+The speed profiles (\cref{rcc_s_pp_r_fc_robots_speed}) show that the velocity norm remained below
+the linear bound throughout the simulation. However, when sufficient error is accumulated the
+leader operated close to its vertical actuation envelope.
 
 \begin{figure}
 	\centering
@@ -1034,8 +982,12 @@ whole duration of the simulation.
 	\label{rcc_s_pp_r_fc_robots_speed}
 \end{figure}
 
-Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) show spikes in computation time at the
-planned close proximity to the seafloor.
+Solver performance (\cref{rcc_s_pp_r_fc_compute_time}) exhibited spikes coinciding with phases when
+the predicted lowest point approached the seafloor. These spikes are consistent with active-set
+changes in nonlinear clearance constraints. Although the horizon was short (\qty{1}{\second}), the
+increase in computation time raises concerns about scalability to longer horizons or larger robot
+chains. Warm-starting dual variables or adopting sequential quadratic programming with curvature
+updating could mitigate these effects.
 
 \begin{figure}
 	\centering
@@ -1044,6 +996,13 @@ planned close proximity to the seafloor.
 	\label{rcc_s_pp_r_fc_compute_time}
 \end{figure}
 
+In summary, the first configuration validated horizontal tracking and demonstrated the feasibility
+of fast horizon-by-horizon replanning, but also revealed three limitations: (i) insufficient
+vertical dynamic shaping, leading to large RMS and peak errors, (ii) marginal clearance violations
+confined to the first span, and (iii) solver effort sensitivity near clearance boundaries. These
+limitations motivate enhancements such as vertical rate/acceleration penalties, interior-penalized
+clearance constraints, and mild model enrichment with tension or line-shape states in future
+configurations.
 \subsubsection{Second Configuration}
 \label{rcc_s_pp_r_second_configuration}
 
