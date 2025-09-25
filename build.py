@@ -6,6 +6,7 @@ import os
 import platform
 import shutil
 import subprocess
+import re
 
 COMPILER = "latexmk"
 
@@ -158,7 +159,7 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
       if dry_run:
         printlog( f"dry run: inserting {git_description} into {gitcommit_path}" )
       else:
-        f.write( git_description )
+        f.write( git_description or "" )
 
     printlog( f"preparing chapter template for {name}" )
     with open( "chapter.tex", "r" ) as f:
@@ -260,7 +261,7 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
     if dry_run:
       printlog( f"dry run: inserting {git_description} into {gitcommit_path}" )
     else:
-      f.write( git_description )
+      f.write( git_description or "" )
 
   try:
     printlog( "building thesis" )
@@ -327,6 +328,184 @@ def clean( name = None ):
   return True
 
 
+def strip_tex_comments(content: str) -> str:
+  """Remove LaTeX comments while preserving escaped percent signs."""
+  processed_lines = []
+  for line in content.splitlines():
+    new_line = []
+    i = 0
+    while i < len(line):
+      ch = line[i]
+      if ch == '%':
+        # If escaped, keep it
+        if i > 0 and line[i - 1] == '\\':
+          new_line.append(ch)
+          i += 1
+          continue
+        else:
+          # start of comment; discard rest
+          break
+      new_line.append(ch)
+      i += 1
+    processed_lines.append(''.join(new_line))
+  return '\n'.join(processed_lines)
+
+
+def collect_tex_files_for_usage() -> list[str]:
+  # Main thesis file + chapters (exclude template helpers that contain PLACEHOLDER to avoid noise)
+  tex_files = []
+  if os.path.exists('thesis.tex'):
+    tex_files.append('thesis.tex')
+  if os.path.exists('front_cover.tex'):
+    tex_files.append('front_cover.tex')
+  if os.path.exists('back_cover.tex'):
+    tex_files.append('back_cover.tex')
+  tex_files.extend(sorted(glob.glob('chapters/*.tex')))
+  return tex_files
+
+
+def collect_used_citations(tex_files: list[str]) -> set[str]:
+  cite_pattern = re.compile(r'\\[A-Za-z]*cite[a-zA-Z]*\*?\{([^}]*)\}')
+  used: set[str] = set()
+  for path in tex_files:
+    try:
+      with open(path, 'r', encoding='utf-8') as f:
+        content = strip_tex_comments(f.read())
+      for m in cite_pattern.finditer(content):
+        keys_field = m.group(1)
+        for key in re.split(r'\s*,\s*', keys_field.strip()):
+          if key:
+            used.add(key)
+    except (FileNotFoundError, OSError):
+      continue
+  return used
+
+
+def collect_bib_keys(bib_path: str = 'bib.bib') -> set[str]:
+  if not os.path.exists(bib_path):
+    return set()
+  with open(bib_path, 'r', encoding='utf-8', errors='ignore') as f:
+    bib_content = f.read()
+  # Capture keys like @article{KeyName,
+  pattern = re.compile(r'@\w+\{\s*([^,\s]+)\s*,')
+  return {m.group(1) for m in pattern.finditer(bib_content)}
+
+
+def collect_figure_tex_names() -> set[str]:
+  return {os.path.splitext(os.path.basename(p))[0] for p in glob.glob('figures/*.tex')}
+
+
+IMAGE_EXTENSIONS = [".pdf", ".png", ".jpg", ".jpeg", ".eps", ".svg"]
+
+
+def collect_figure_image_names() -> set[str]:
+  names = set()
+  for ext in IMAGE_EXTENSIONS:
+    for path in glob.glob(f'figures/*{ext}'):
+      names.add(os.path.splitext(os.path.basename(path))[0])
+  return names
+
+
+def collect_used_figures(tex_files: list[str]) -> set[str]:
+  # Detect \input{figures/name}, \includegraphics{figures/name(.pdf/.png)}, custom \inputtikz{figures/name}
+  fig_pattern = re.compile(r'\\(?:input|includegraphics|inputtikz)(?:\[[^]]*\])?\{([^}]+)\}')
+  used: set[str] = set()
+
+  def figure_exists_by_name(name: str) -> bool:
+    # Check both tex and image variants for existence inside figures directory
+    if os.path.exists(os.path.join('figures', name + '.tex')):
+      return True
+    for ext in IMAGE_EXTENSIONS:
+      if os.path.exists(os.path.join('figures', name + ext)):
+        return True
+    return False
+
+  for path in tex_files:
+    try:
+      with open(path, 'r', encoding='utf-8') as f:
+        content = strip_tex_comments(f.read())
+      for m in fig_pattern.finditer(content):
+        rel = m.group(1).replace('\\', '/')
+        # Keep only last segment (ignore path components)
+        last_segment = rel.split('/')[-1]
+        root, ext = os.path.splitext(last_segment)
+        base = root if ext.lower() in IMAGE_EXTENSIONS + ['.tex'] else last_segment
+
+        # If explicit extension given, normalize by stripping it
+        candidate = base
+
+        if candidate and candidate != 'PLACEHOLDER':
+          if 'figures/' in rel:
+            used.add(candidate)
+          else:
+            # If no figures/ prefix, accept if file actually exists in figures directory
+            if figure_exists_by_name(candidate):
+              used.add(candidate)
+    except (FileNotFoundError, OSError):
+      continue
+  return used
+
+
+def check_project(verbose: bool = False) -> bool:
+  """Check for unused bibliography entries and figure .tex files.
+
+  Always returns True (informational only).
+  """
+  printlog('running project consistency checks')
+
+  tex_files = collect_tex_files_for_usage()
+  if verbose:
+    printlog(f'found {len(tex_files)} TeX source files to scan')
+
+  # Citations
+  bib_keys = collect_bib_keys()
+  used_cites = collect_used_citations(tex_files)
+  unused_bib = sorted(bib_keys - used_cites)
+  undefined_cites = sorted(used_cites - bib_keys)
+
+  printlog(f'bibliography entries: {len(bib_keys)} defined, {len(used_cites)} used')
+  if unused_bib:
+    printlog(f'unused bibliography entries ({len(unused_bib)}):')
+    for key in unused_bib:
+      print('  -', key)
+  else:
+    printlog('no unused bibliography entries found')
+
+  if undefined_cites:
+    printlog(f'WARNING: undefined citations used but not in bib ({len(undefined_cites)}):')
+    for key in undefined_cites:
+      print('  -', key)
+  else:
+    printlog('no undefined citations found')
+
+  # Figures
+  tex_figs = collect_figure_tex_names()
+  image_figs = collect_figure_image_names()
+  used_figs = collect_used_figures(tex_files)
+  unused_tex_figs = sorted(tex_figs - used_figs)
+  unused_image_figs = sorted(image_figs - used_figs)
+
+  printlog(f'figure .tex files: {len(tex_figs)} available, {len(tex_figs - set(unused_tex_figs))} referenced')
+  if unused_tex_figs:
+    printlog(f'unused .tex figures ({len(unused_tex_figs)}):')
+    for name in unused_tex_figs:
+      print('  -', name)
+  else:
+    printlog('no unused .tex figures found')
+
+  printlog(f'figure image files: {len(image_figs)} available, {len(image_figs - set(unused_image_figs))} referenced')
+  if unused_image_figs:
+    printlog(f'unused image figures ({len(unused_image_figs)}):')
+    for name in unused_image_figs:
+      print('  -', name)
+  else:
+    printlog('no unused image figures found')
+
+  issues = (unused_bib or undefined_cites or unused_tex_figs or unused_image_figs)
+  printlog('check finished: ' + ('issues detected' if issues else 'no issues detected'))
+  return True
+
+
 def main():
   parser = argparse.ArgumentParser( description = "LaTeX thesis build script" )
   subparsers = parser.add_subparsers( dest = "command" )
@@ -364,6 +543,8 @@ def main():
       "-gd", "--git-description", type = str, default = None, help = "git description to embed in the thesis"
       )
 
+  subparsers.add_parser( "check", help = "check for unused bibliography entries and figures" )
+
   parser.add_argument( "-H", "--HELP", action = "store_true", help = "show verbose help message and exit" )
   parser.add_argument( "-v", "--verbose", action = "store_true", help = "enable verbose output" )
   parser.add_argument( "-d", "--dry-run", action = "store_true", help = "dry run, do not execute any commands" )
@@ -381,6 +562,9 @@ def main():
 
   if args.command == "clean":
     return clean( args.name )
+
+  if args.command == "check":
+    return check_project( verbose = args.verbose )
 
   latex_distribution = check_latex_installation()
   if latex_distribution is None:
