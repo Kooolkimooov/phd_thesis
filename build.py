@@ -114,7 +114,8 @@ def build_figure( name = None, verbose = False, dry_run = False ):
     successes = [ ]
 
     printlog( "building all figures" )
-    for file in files:
+    for i, file in enumerate(files):
+      printlog( f"{i + 1}/{len(files)}" )
       successes.append( build_figure( file, verbose = verbose, dry_run = dry_run ) )
 
     printlog( "summary of figure compilation:" )
@@ -216,7 +217,8 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
     successes = [ ]
 
     printlog( "building all chapters" )
-    for file in files:
+    for i, file in enumerate(files):
+      printlog( f"{i + 1}/{len(files)}" )
       successes.append(
           build_chapter(
               name = file, remake = True, git_description = git_description, verbose = verbose, dry_run = dry_run
