@@ -6,38 +6,38 @@
 \section{Introduction}
 \label{rcc_introduction}
 
-This chapter addresses the problem of coordinating a chain of tethered underwater robots so that a
-designated leader tracks a motion objective while the group collectively respects mechanical and
-environmental constraints induced by the tethers and by the operating area. Unlike single-vehicle
-control, the chain exhibits strong coupling through the cable geometry: seafloor clearance,
-inter-robot spacing, and feasible cable shapes must all be preserved as the leader maneuvers.
+This chapter examines the coordination of tethered underwater robot chains, in which a designated
+leader is tasked with following a motion objective while the formation as a whole must respect the
+mechanical and environmental constraints imposed by the tethers and by the operating environment.
+In contrast to single-vehicle control, the presence of cables introduces strong coupling: seafloor
+clearance, inter-robot spacing, and feasible cable shapes must all be preserved as the leader
+maneuvers.
 
-Building on the classical marine craft model (\cite{fossenHandbookMarineCraft2011}) and on the
-catenary formulation introduced in \cref{cable_modelling}, we first establish a unified description
-of a robot chain in which the forces transmitted by the tethers enter each vehicle's dynamics
-(\cref{rcc_robot_chain_modelling}). The cable is modeled with a vertical catenary that yields
-expressions for horizontal and vertical tensions and enables consistent mapping to each robot's
-body frame. This permits the definition of a concatenated state for the entire chain and a clear
-statement of the constraints that must be enforced (clearance with the seafloor and surface,
-inter-robot distances, and actuator bounds).
+Building on the classical marine craft model (\cite{fossenHandbookMarineCraft2011}) and the
+catenary formulation introduced in \cref{cable_modelling}, a unified description of the chain is
+first established in which tether forces explicitly enter each vehicle's dynamics
+(\cref{rcc_robot_chain_modelling}), indeed the cable is represented as a vertical catenary,
+yielding expressions for horizontal and vertical tensions that can be consistently mapped into each
+robot's body frame. This enables the definition of a concatenated chain state and a clear statement
+of the constraints that must be enforced, including seafloor and surface clearance, inter-robot
+distances, and actuator bounds.
 
-On top of this model, we evaluate three different control approaches with different degrees of
-predictive capability (\cref{rcc_controllers}): a constrained \ac{mpc} that optimizes future inputs
-subject to the coupled dynamics and catenary-induced constraints; a path planning layer that
-computes feasible waypoint sequences subsequently tracked by a \ac{pid} controller; and a reactive
-strategy derived from earlier leader-follower work on catenary-based visual servoing, here driven
-by inter-robot pose measurements rather than image features. Their behavior is investigated in a
-numerical tank featuring varying bathymetry and a mixed \ac{rov}/\ac{usv} chain
-(\cref{rcc_simulation}). We report both qualitative evolutions (trajectories, catenary clearances)
-and quantitative indicators (tracking errors, inter-robot distances, speeds, computation times) to
-highlight the trade-offs between tracking accuracy, constraint satisfaction, and computational
-feasibility.
+On this foundation, three control strategies with increasing levels of prediction are evaluated
+(\cref{rcc_controllers}). The first is a constrained \ac{mpc} that optimizes future inputs subject
+to coupled dynamics and catenary-induced constraints. The second is a path planning layer that
+generates feasible waypoint sequences subsequently tracked by a \ac{pid} controller. The third is a
+reactive approach derived from earlier leader-follower visual servoing work, here adapted to
+rely on inter-robot pose measurements rather than image features. Their performance is assessed in
+a numerical tank with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain
+(\cref{rcc_simulation}). Both qualitative outcomes (trajectories, catenary clearances) and
+quantitative indicators (tracking errors, inter-robot distances, speeds, computation times) are
+reported in order to reveal the trade-offs between accuracy, constraint satisfaction, and
+computational feasibility.
 
-Altogether, the chapter contributes a compact chain model that couples vehicle dynamics with a
-tractable catenary description; a unified set of constraints consistent with tether geometry; a
-comparative study of three control schemes under identical conditions; and insights and practical
-guidelines for selecting and tuning controllers depending on mission priorities and computational
-budgets.
+In summary, this chapter contributes a compact chain model coupling vehicle dynamics with a
+tractable catenary description; a unified set of geometry-consistent constraints; a comparative
+study of three control schemes under identical conditions; and practical insights into the choice
+and tuning of controllers depending on mission priorities and computational budgets.
 
 \section{Robot Chain Modelling}
 \label{rcc_robot_chain_modelling}
