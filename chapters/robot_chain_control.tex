@@ -1166,9 +1166,12 @@ in \cref{rcc_c_pp_constraints} were imposed and are summarized in
 \subsubsection{Results}
 \label{rcc_s_rc_results}
 
-The trajectories of the robots (\cref{rcc_s_rc_r_poses}) show that the leader tracked the planned
-correctly for the first \qty{15}{\s}, after which the tracking error increased significantly and
-the simulation diverges.
+The trajectories (\cref{rcc_s_rc_r_poses}) show accurate leader tracking in the initial phase,
+followed by an instability that leads to divergence. Quantitatively, over the first
+\qty{15}{\s}---before instability onsets---the leader's linear tracking error has a norm median of
+\qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The first time the
+Euclidean error norm exceeds \qty{2}{\m} occurs at approximately \qty{16.1}{\s}, after which it
+grows unbounded, confirming the observed divergence.
 
 \begin{figure}
 	\centering
@@ -1201,8 +1204,12 @@ the simulation diverges.
 	\label{rcc_s_rc_r_error}
 \end{figure}
 
-The lowest point distance to the seafloor (\cref{rcc_s_rc_r_lowest_point}) constraint is never
-violated.
+Catenary lowest-point clearance remains well within bounds throughout the pre-divergence window
+(\cref{rcc_s_rc_r_lowest_point}). Up to \qty{15}{\s}, the minimum clearances are
+\qtylist{1.37;4.06;5.53}{\m} for cables 0--1, 1--2, and 2--3, with medians of
+\qtylist{3.72;5.33;5.73}{\m}. No sample falls below the \qty{0.2}{\m} limit in this interval, and
+the traces show sustained safety margins. After the onset of divergence, the clearance signals
+become nonphysical due to state blow-up, so only pre-divergence values are meaningful.
 
 \begin{figure}
 	\centering
@@ -1213,8 +1220,12 @@ violated.
 	\label{rcc_s_rc_r_lowest_point}
 \end{figure}
 
-The inter robot distance (\cref{rcc_s_rc_r_inter_robot_distance}) is violated two times: once arout
-time \qty{10}{\s} before being corrected and again as the simulation diverges.
+Inter-robot distances (\cref{rcc_s_rc_r_inter_robot_distance}) exhibit two notable excursions for
+pair (0--1) before divergence: intervals \qtyrange{7.9}{9.9}{\s} and \qtyrange{13.1}{15.0}{\s}
+exceed the \qty{2.8}{\m} upper bound, reaching a peak of \qty{4.37}{\m} at \qty{15.0}{\s}. Pairs
+(1--2) and (2--3) remain within bounds over the same window; their maxima are \qty{2.78}{\m} (at
+\qty{13.6}{\s}) and \qty{1.10}{\m}, respectively. These episodes coincide with the formation
+stretching phase driven by the follower visual servoing response lag.
 
 \begin{figure}
 	\centering
@@ -1223,7 +1234,12 @@ time \qty{10}{\s} before being corrected and again as the simulation diverges.
 	\label{rcc_s_rc_r_inter_robot_distance}
 \end{figure}
 
-The robots' speed (\cref{rcc_s_rc_r_robots_speed}) is normal until the simulation diverges.
+Robot speeds (\cref{rcc_s_rc_r_robots_speed}) remain moderate prior to divergence. Up to
+\qty{15}{\s}, the maximum speeds are \qtylist{1.02;1.18;0.086;0.867}{\m\per\s} for robots 0 to 3,
+with corresponding means of \qtylist{0.546;0.216;0.053;0.092}{\m\per\s}. The monotonic decrease in
+average speed along the chain indicates attenuation of the leader motion, while the peaks on robots
+0 and 1 reflect intermittent efforts to reshape inter-robot spacing. Beyond \qty{16}{\s},
+velocities blow up along with the tracking error.
 
 \begin{figure}
 	\centering
