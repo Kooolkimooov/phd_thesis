@@ -953,7 +953,7 @@ concentrated in the first segment.
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_1_lowest_point}
-	\caption{Vertical distance of the catenary lowest points to the seafloor below them during the simulation.}
+	\caption{Vertical distance of the catenary lowest points to the seafloor below it during the first path planning simulation.}
 	\label{rcc_s_pp_r_fc_lowest_point}
 \end{figure}
 
@@ -1044,14 +1044,14 @@ controller reacted without preview, compounding phase lag in the vertical channe
 		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}
 		\label{rcc_s_pp_r_sc_pose_z}
 	\end{subfigure}
-	\caption{Trajectory of the robots during the simulation.}
+	\caption{Trajectory of the robots during the second path planning simulation.}
 	\label{rcc_s_pp_r_sc_poses}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_tracking_error}
-	\caption{Linear tracking errors of the leader robot.}
+	\caption{Linear tracking errors of the leader robot during the second path planning simulation.}
 	\label{rcc_s_pp_r_sc_error}
 \end{figure}
 
@@ -1067,8 +1067,7 @@ leading span.
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_lowest_point}
-	\caption{Vertical position of the catenary lowest points along with the seafloor depth at the same position
-		on the horizontal plane.}
+	\caption{Vertical distance of the catenary lowest points to the seafloor below it during the second path planning simulation.}
 	\label{rcc_s_pp_r_sc_lowest_point}
 \end{figure}
 
@@ -1083,7 +1082,7 @@ medians of \qtylist{1.70;1.62;1.81}{\m}.
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_inter_robot_distance}
-	\caption{Inter-robot distance constraint during the simulation.}
+	\caption{Inter-robot distance constraint during the second path planning simulation.}
 	\label{rcc_s_pp_r_sc_inter_robot_distance}
 \end{figure}
 
@@ -1099,7 +1098,7 @@ occasionally operated near saturation even though the overall norm constraint wa
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_speed}
-	\caption{Norm of the robots' speed constraint during the simulation.}
+	\caption{Norm of the robots' speed constraint during the second path planning simulation.}
 	\label{rcc_s_pp_r_sc_robots_speed}
 \end{figure}
 
@@ -1115,7 +1114,7 @@ burden for real-time use.
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_compute_time}
-	\caption{Computation time of the optimization solver during the simulation.}
+	\caption{Computation time of the optimization solver during the second path planning simulation.}
 	\label{rcc_s_pp_r_sc_compute_time}
 \end{figure}
 
@@ -1142,21 +1141,30 @@ efficiency, and mitigation of control lag—before it can be deployed in real-ti
 \subsubsection{Implementation}
 \label{rcc_s_rc_implementation}
 
+The simulation (\citeurl{filliungPympc_usage2025}) was implemented by integrating the robot chain
+dynamics introduced in \cref{rcc_robot_chain_modelling} and by following the previously described
+scenario. It was executed with a time step of \qty{0.1}{\second} over \num{500} steps,
+corresponding to a simulated duration of \qty{50}{\second}. Du to the following nature of the
+controller described in \cref{rcc_c_rc}, the leader was controller by a simple \ac{pid} controller
+with proportional, integral, and derivative gains of \num{100}, \num{10}, and \num{6500}
+respectively in the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains are \num{100},
+\num{10}, and \num{5000}. The angular gains are \num{0.1}, \num{0}, and \num{0}. The follower
+robots were controlled with the actual visual servoing controller with a gain defined as a matrix
+in order to weight horizontal speed with \num{0.1}, vertical speed with \num{3} and angular speed
+with \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and the maximum absolute
+vertical distance \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e.
+\qty{1.5}{\m}.
+
+A recovery procedure was introduced for cases in which the pseudo-inverse of the interaction matrix
+failed to compute, for example due to inter-robot configuration reducing its rank. In this
+procedure, the output twist was set to zero pending the next computation step.
+
+The parameter values were determined by trial and error. Additionally, the constraints introduced
+in \cref{rcc_c_pp_constraints} were imposed and are summarized in
+\cref{rcc_s_pp_i_constrains_values}.
+
 \subsubsection{Results}
 \label{rcc_s_rc_results}
-
-\begin{figure}
-	\centering
-	\inputtikz{figures/vs_simulation_tracking_error}
-	\caption{Linear tracking errors of the leader robot.}
-	\label{rcc_s_rc_r_error}
-\end{figure}
-\begin{figure}
-	\centering
-	\inputtikz{figures/vs_simulation_angular_tracking_error}
-	\caption{Angular tracking errors of the leader robot, target is \qty{0}{\radian}.}
-	\label{rcc_s_rc_r_angular_error}
-\end{figure}
 
 \begin{figure}
 	\centering
@@ -1178,29 +1186,35 @@ efficiency, and mitigation of control lag—before it can be deployed in real-ti
 		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}
 		\label{rcc_s_rc_r_pose_z}
 	\end{subfigure}
-	\caption{Trajectory of the robots during the simulation.}
+	\caption{Trajectory of the robots during the visual servoing simulation.}
 	\label{rcc_s_rc_r_poses}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/vs_simulation_tracking_error}
+	\caption{Linear tracking errors of the leader robot during the visual servoing simulation.}
+	\label{rcc_s_rc_r_error}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/vs_simulation_lowest_point}
 	\caption{
-		Vertical position of the catenary lowest points along with the seafloor depth at the same position
-		on the horizontal plane.
+		Vertical distance of the catenary lowest points to the seafloor below it during the visual servoing simulation.
 	}
 	\label{rcc_s_rc_r_lowest_point}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/vs_simulation_inter_robot_distance}
-	\caption{Inter-robot distance constraint during the simulation.}
+	\caption{Inter-robot distance constraint during the visual servoing simulation.}
 	\label{rcc_s_rc_r_inter_robot_distance}
 \end{figure}
 \begin{figure}
 	\centering
 	\inputtikz{figures/vs_simulation_speed}
-	\caption{Norm of the robots' speed constraint during the simulation.}
+	\caption{Norm of the robots' speed constraint during the visual servoing simulation.}
 	\label{rcc_s_rc_r_robots_speed}
 \end{figure}
 
@@ -1211,8 +1225,4 @@ efficiency, and mitigation of control lag—before it can be deployed in real-ti
 	\label{rcc_s_rc_r_compute_time}
 \end{figure}
 
-\lipsum[1]
-
 \section{Conclusion}
-
-\lipsum[1]<
