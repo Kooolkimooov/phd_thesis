@@ -1012,19 +1012,17 @@ impossible.
 \paragraph{Second Configuration}
 \label{rcc_s_pp_r_second_configuration}
 
-The trajectories of the robots (\cref{rcc_s_pp_r_sc_poses}) show relatively good tracking along the
-\ldvect{x}{w} and \ldvect{y}{w} axes for the leader, but large excursions appear on \ldvect{z}{w}
-whenever the reference varies quickly. A summary of leader tracking errors confirms this
-anisotropy: the RMS errors are \qty{0.284}{\m} on \ldvect{x}{w}, \qty{0.145}{\m} on \ldvect{y}{w},
-and \qty{0.908}{\m} on \ldvect{z}{w}. The instantaneous Euclidean error norm has a median of
-\qty{0.708}{\m}, a mean of \qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of
-\qty{2.09}{\m}; it exceeds \qty{1}{\m} for \qty{28.4}{\percent} of the \qty{50}{\s} horizon (about
-\qty{14.2}{\s}) and \qty{2}{\m} for \qty{2.6}{\percent} (about \qty{1.3}{\s}) and peaks at at peaks
-\qty{2.09}{\m}, see \cref{rcc_s_pp_r_sc_error}. These deviations do not align with the
-bathymetry-induced difficulty windows near the seafloor; instead they are consistent with delays
-introduced by the two-stage architecture: planning is triggered sparsely with a finite horizon, and
-the inner \ac{pid} controller reacts without preview, compounding phase lag on the vertical
-channel.
+The trajectories of the robots (\cref{rcc_s_pp_r_sc_poses}) indicate good tracking performance for
+the leader along \ldvect{x}{w} and \ldvect{y}{w}, while large excursions occurred on \ldvect{z}{w}
+whenever the reference changed abruptly. This anisotropy is confirmed by tracking error statistics:
+RMS errors reached \qty{0.284}{\m} on \ldvect{x}{w}, \qty{0.145}{\m} on \ldvect{y}{w}, and
+\qty{0.908}{\m} on \ldvect{z}{w}. The Euclidean error norm had a median of \qty{0.708}{\m}, a mean
+of \qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of \qty{2.09}{\m}. It exceeded
+\qty{1}{\m} during \qty{28.4}{\percent} of the \qty{50}{\s} horizon (\qty{14.2}{\s}), and
+\qty{2}{\m} during \qty{2.6}{\percent} (\qty{1.3}{\s}). These deviations did not coincide with the
+bathymetry-induced difficulty windows but rather reflected the delays introduced by the two-stage
+architecture: planning was triggered sparsely with a finite horizon, while the inner \ac{pid}
+controller reacted without preview, compounding phase lag in the vertical channel.
 
 \begin{figure}
 	\centering
@@ -1057,33 +1055,30 @@ channel.
 	\label{rcc_s_pp_r_sc_error}
 \end{figure}
 
-The lowest point distance to the seafloor (\cref{rcc_s_pp_r_sc_lowest_point}) shows significant
-violations for the first cable (0--1): the minimum clearance reaches \qty{-0.456}{\m}, indicating
-seafloor intersection. Over the full horizon, this span is below the \qty{0.2}{\m} clearance bound
-for \qty{5.8}{\percent} of the time (about \qty{2.9}{\s}) and actually negative for
-\qty{3.2}{\percent} (about \qty{1.6}{\s}). In contrast, cables 1--2 and 2--3 remain well clear of
-the terrain with minima at \qty{1.65}{\m} and \qty{2.65}{\m}, respectively, and median clearances
-of \qty{2.15}{\m} and \qty{2.98}{\m}. Mean clearances are \qty{1.25}{\m}, \qty{2.18}{\m} and
-\qty{3.09}{\m} for cables 0--1, 1--2 and 2--3 respectively, showing that the vertical risk is
-concentrated almost exclusively in the leading span.
+The clearance data (\cref{rcc_s_pp_r_sc_lowest_point}) reveal significant violations for the first
+cable span (0--1). The minimum clearance reached \qty{-0.456}{\m}, indicating seafloor penetration.
+Over the horizon, this span was below the \qty{0.2}{\m} limit for \qty{5.8}{\percent} of the time
+(\qty{2.9}{\s}) and negative for \qty{3.2}{\percent} (\qty{1.6}{\s}). In contrast, spans 1--2 and
+2--3 maintained large safety margins, with minima of \qty{1.65}{\m} and \qty{2.65}{\m} and median
+clearances of \qty{2.15}{\m} and \qty{2.98}{\m}, respectively. The mean values
+(\qtylist{1.25;2.18;3.09}{\m}) confirm that vertical risk was concentrated almost entirely in the
+leading span.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_lowest_point}
-	\caption{
-		Vertical position of the catenary lowest points along with the seafloor depth at the same position
-		on the horizontal plane.
-	}
+	\caption{Vertical position of the catenary lowest points along with the seafloor depth at the same position
+		on the horizontal plane.}
 	\label{rcc_s_pp_r_sc_lowest_point}
 \end{figure}
 
-The inter-robot distances (\cref{rcc_s_pp_r_sc_inter_robot_distance}) cross the \qty{2.8}{\m} upper
-bound for all pairs: the time-above-bound fractions are \qty{8.4}{\percent}, \qty{11.8}{\percent},
-and \qty{20.4}{\percent} for pairs (0--1), (1--2), and (2--3), i.e., about \qty{4.2}{\s},
-\qty{5.9}{\s}, and \qty{10.2}{\s} of the \qty{50}{\s} horizon. No lower-bound violations occur
-(minima \qtylist{0.506;0.500;0.697}{\m}). Central tendency indicates a stretched formation relative
-to the \qty{1.5}{\m} objective: mean separations are \qtylist{1.95;1.87;2.01}{\m} with medians
-\qtylist{1.70;1.62;1.81}{\m}.
+The inter-robot distances (\cref{rcc_s_pp_r_sc_inter_robot_distance}) frequently exceeded the
+\qty{2.8}{\m} upper bound. The time fractions above the limit were \qty{8.4}{\percent},
+\qty{11.8}{\percent}, and \qty{20.4}{\percent} for pairs (0--1), (1--2), and (2--3), corresponding
+to \qty{4.2}{\s}, \qty{5.9}{\s}, and \qty{10.2}{\s} of the simulation. Lower bounds were always
+respected, with minima of \qtylist{0.506;0.500;0.697}{\m}. On average, the formation was stretched
+relative to the \qty{1.5}{\m} objective: mean separations were \qtylist{1.95;1.87;2.01}{\m}, with
+medians of \qtylist{1.70;1.62;1.81}{\m}.
 
 \begin{figure}
 	\centering
@@ -1092,11 +1087,14 @@ to the \qty{1.5}{\m} objective: mean separations are \qtylist{1.95;1.87;2.01}{\m
 	\label{rcc_s_pp_r_sc_inter_robot_distance}
 \end{figure}
 
-Robot speeds (\cref{rcc_s_pp_r_sc_robots_speed}) remain below the \qty{1.0}{\m\per\s} limit for all
-robots. Peak speeds are \qtylist{0.819;0.803;0.754;0.879}{\m\per\s} for Robots 0 to 3, with mean norms
-\qtylist{0.392;0.303;0.187;0.104}{\m\per\s}. The decreasing means from leader to tail again
-highlight attenuation of commanded motion along the chain, even though the last robot exhibits
-the highest instantaneous peak.
+Robot speeds (\cref{rcc_s_pp_r_sc_robots_speed}) remained below the \qty{1.0}{\m\per\s} limit
+across the chain. The leader reached a peak of \qty{0.819}{\m\per\s} with a mean of
+\qty{0.392}{\m\per\s}, while Robot~1 reached \qty{0.803}{\m\per\s} on a mean of
+\qty{0.303}{\m\per\s}. Robots~2 and 3 were slower on average (\qty{0.187}{\m\per\s} and
+\qty{0.104}{\m\per\s}), yet Robot~3 registered the highest instantaneous peak of
+\qty{0.879}{\m\per\s}. This monotonic decrease in average speed from leader to tail illustrates
+attenuation of commanded motion along the chain, while the peaks indicate that individual actuators
+occasionally operated near saturation even though the overall norm constraint was never exceeded.
 
 \begin{figure}
 	\centering
@@ -1105,12 +1103,14 @@ the highest instantaneous peak.
 	\label{rcc_s_pp_r_sc_robots_speed}
 \end{figure}
 
-Solver performance (\cref{rcc_s_pp_r_sc_compute_time}) exhibits extreme variability: when
-replanning triggers, solve times spike up to \qty{294}{\s} (95\textsuperscript{th} percentile
-\qty{188}{\s}), whereas non-triggered steps are effectively negligible (median
-\qty{0.092}{\milli\second}, minimum \qty{0.061}{\milli\second}). The mean over the entire timeline
-is \qty{34.5}{\s}, dominated by the sparse but very costly replans. This underscores the practical
-limitation of the second strategy.
+Solver performance (\cref{rcc_s_pp_r_sc_compute_time}) displayed extreme variability. When
+replanning was triggered, solve times reached as high as \qty{294}{\s}, with a
+95\textsuperscript{th} percentile of \qty{188}{\s}. By contrast, non-triggered steps required only
+fractions of a millisecond (median \qty{0.092}{\milli\second}, minimum \qty{0.061}{\milli\second}).
+The mean over the entire timeline was \qty{34.5}{\s}, dominated by the rare but extremely costly
+replanning events. This behavior underscores the practical limitation of the second strategy:
+while routine steps are computationally negligible, triggered replans impose prohibitive
+computational burden for real-time use.
 
 \begin{figure}
 	\centering
