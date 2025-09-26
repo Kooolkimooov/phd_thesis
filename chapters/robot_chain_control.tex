@@ -1008,30 +1008,8 @@ impossible.
 	\label{rcc_s_pp_r_fc_compute_time}
 \end{figure}
 
-In summary, the first configuration demonstrated that horizon-by-horizon replanning can ensure
-accurate horizontal tracking and feasible motion generation, yet it also exposed important
-limitations. Vertical dynamics were not shaped strongly enough, resulting in large RMS and peak
-errors. Clearance margins were occasionally infringed, with risk concentrated in the first cable
-span, and the solver exhibited sensitivity when the predicted lowest point approached the seafloor.
-Together, these findings point to the need for stronger vertical penalties, more robust treatment
-of clearance constraints, and modest model enrichment to better capture tension and line-shape
-effects in future configurations.
-
 \subsubsection{Second Configuration}
 \label{rcc_s_pp_r_second_configuration}
-
-\begin{figure}
-	\centering
-	\inputtikz{figures/pp_simulation_2_tracking_error}
-	\caption{Linear tracking errors of the leader robot.}
-	\label{rcc_s_pp_2_r_error}
-\end{figure}
-\begin{figure}
-	\centering
-	\inputtikz{figures/pp_simulation_2_angular_tracking_error}
-	\caption{Angular tracking errors of the leader robot, target is \qty{0}{\radian}.}
-	\label{rcc_s_pp_2_r_angular_error}
-\end{figure}
 
 \begin{figure}
 	\centering
@@ -1059,6 +1037,13 @@ effects in future configurations.
 
 \begin{figure}
 	\centering
+	\inputtikz{figures/pp_simulation_2_tracking_error}
+	\caption{Linear tracking errors of the leader robot.}
+	\label{rcc_s_pp_2_r_error}
+\end{figure}
+
+\begin{figure}
+	\centering
 	\inputtikz{figures/pp_simulation_2_lowest_point}
 	\caption{
 		Vertical position of the catenary lowest points along with the seafloor depth at the same position
@@ -1066,12 +1051,14 @@ effects in future configurations.
 	}
 	\label{rcc_s_pp_2_r_lowest_point}
 \end{figure}
+
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_inter_robot_distance}
 	\caption{Inter-robot distance constraint during the simulation.}
 	\label{rcc_s_pp_2_r_inter_robot_distance}
 \end{figure}
+
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_speed}
@@ -1085,6 +1072,17 @@ effects in future configurations.
 	\caption{Computation time of the .}
 	\label{rcc_s_pp_2_r_compute_time}
 \end{figure}
+
+\paragraph{Discussion and Comparison of the two Configurations}
+
+In summary, the first configuration demonstrated that systematic replanning can ensure
+accurate horizontal tracking and feasible motion generation, yet it also exposed important
+limitations. Vertical dynamics were not shaped strongly enough, resulting in large RMS and peak
+errors. Clearance margins were occasionally infringed, with risk concentrated in the first cable
+span, and the solver exhibited sensitivity when the predicted lowest point approached the seafloor.
+Together, these findings point to the need for stronger vertical penalties, more robust treatment
+of clearance constraints, and modest model enrichment to better capture tension and line-shape
+effects in future configurations.
 
 \subsection{Reactive Control}
 \label{rcc_s_reactive_control}
