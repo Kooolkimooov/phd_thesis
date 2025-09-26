@@ -1108,9 +1108,9 @@ replanning was triggered, solve times reached as high as \qty{294}{\s}, with a
 95\textsuperscript{th} percentile of \qty{188}{\s}. By contrast, non-triggered steps required only
 fractions of a millisecond (median \qty{0.092}{\milli\second}, minimum \qty{0.061}{\milli\second}).
 The mean over the entire timeline was \qty{34.5}{\s}, dominated by the rare but extremely costly
-replanning events. This behavior underscores the practical limitation of the second strategy:
-while routine steps are computationally negligible, triggered replans impose prohibitive
-computational burden for real-time use.
+replanning events. This behavior underscores the practical limitation of the second strategy: while
+routine steps are computationally negligible, triggered replans impose prohibitive computational
+burden for real-time use.
 
 \begin{figure}
 	\centering
@@ -1121,14 +1121,18 @@ computational burden for real-time use.
 
 \paragraph{Discussion and Comparison of the two Configurations}
 
-In summary, the first configuration demonstrated that systematic replanning can ensure accurate
-horizontal tracking and feasible motion generation, yet it also exposed important limitations.
-Vertical dynamics were not shaped strongly enough, resulting in large RMS and peak errors.
-Clearance margins were occasionally infringed, with risk concentrated in the first cable span, and
-the solver exhibited sensitivity when the predicted lowest point approached the seafloor. Together,
-these findings point to the need for stronger vertical penalties, more robust treatment of
-clearance constraints, and modest model enrichment to better capture tension and line-shape effects
-in future configurations.
+A comparison of the two configurations highlights a trade-off between tracking quality, constraint
+robustness, and computational feasibility. The first configuration achieved accurate horizontal
+tracking with only marginal clearance infringements, but suffered from persistent vertical errors
+and occasional solver variability. In contrast, the second configuration reduced the overall RMS
+tracking error norm and improved average spatial coherence, yet it also produced severe clearance
+violations in the leading cable and frequent distance constraint breaches. Most critically, the
+sporadic replanning events in the second configuration imposed computational demands far beyond
+real-time feasibility, with solve times several orders of magnitude larger than the horizon length.
+Taken together, these results indicate that while both approaches can generate feasible paths, the
+first configuration provides a more balanced compromise between accuracy and practicality, whereas
+the second configuration requires additional refinement—particularly in clearance handling and
+solver efficiency—before it can be deployed in real-time scenarios.
 
 \subsection{Reactive Control}
 \label{rcc_s_reactive_control}
