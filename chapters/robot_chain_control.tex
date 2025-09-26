@@ -1009,8 +1009,17 @@ impossible.
 	\label{rcc_s_pp_r_fc_compute_time}
 \end{figure}
 
-\subsubsection{Second Configuration}
+\paragraph{Second Configuration}
 \label{rcc_s_pp_r_second_configuration}
+
+The trajectories of the robots (\cref{rcc_s_pp_r_sc_poses}) show relatively good tracking along the
+\ldvect{x}{w} and \ldvect{y}{w} axes for the leader. However along the \ldvect{z}{w} axis, the
+leader exhibits significant deviations as soon as the reference trajectory changes rapidly and does
+not fully recover over the simulation. The timing of these deviations do not coincide with the
+planned tracking difficulties when getting close to the seafloor; instead they may be linked with
+the two stage control system which introduces a small delay between the path planning and the
+execution, this is compounded by the reactive nature of the \ac{pid} controller which introduces
+further lag.
 
 \begin{figure}
 	\centering
@@ -1018,30 +1027,38 @@ impossible.
 		\centering
 		\inputtikz{figures/pp_simulation_2_pose_x}
 		\caption{Trajectory of the robots on the \ldvect{x}{w}-axis.}
-		\label{rcc_s_pp_2_r_pose_x}
+		\label{rcc_s_pp_r_sc_pose_x}
 	\end{subfigure}
 	\begin{subfigure}{\figurewidth}
 		\centering
 		\inputtikz{figures/pp_simulation_2_pose_y}
 		\caption{Trajectory of the robots on the \ldvect{y}{w}-axis.}
-		\label{rcc_s_pp_2_r_pose_y}
+		\label{rcc_s_pp_r_sc_pose_y}
 	\end{subfigure}
 	\begin{subfigure}{\figurewidth}
 		\centering
 		\inputtikz{figures/pp_simulation_2_pose_z}
 		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis along with the catenaries' lowest point.}
-		\label{rcc_s_pp_2_r_pose_z}
+		\label{rcc_s_pp_r_sc_pose_z}
 	\end{subfigure}
 	\caption{Trajectory of the robots during the simulation.}
-	\label{rcc_s_pp_2_r_poses}
+	\label{rcc_s_pp_r_sc_poses}
 \end{figure}
+
+The instantaneous Euclidean tracking error of the leader (\cref{rcc_s_pp_r_sc_error}) corroborates
+the previous observations: the vertical tracking error is significant and pushes the error norm to
+over \qty{2}{\m}.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_tracking_error}
 	\caption{Linear tracking errors of the leader robot.}
-	\label{rcc_s_pp_2_r_error}
+	\label{rcc_s_pp_r_sc_error}
 \end{figure}
+
+The lowest point distance to the seafloor (\cref{rcc_s_pp_r_sc_lowest_point}) shows significant
+violations of the constraints for the first cable, with negative distances appearing several times,
+which indicates that the cable intersects with the seafloor.
 
 \begin{figure}
 	\centering
@@ -1050,44 +1067,57 @@ impossible.
 		Vertical position of the catenary lowest points along with the seafloor depth at the same position
 		on the horizontal plane.
 	}
-	\label{rcc_s_pp_2_r_lowest_point}
+	\label{rcc_s_pp_r_sc_lowest_point}
 \end{figure}
+
+The inter-robot distances (\cref{rcc_s_pp_r_sc_inter_robot_distance}) shows violations of the upper
+bound of the constraint for all robot pairs.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_inter_robot_distance}
 	\caption{Inter-robot distance constraint during the simulation.}
-	\label{rcc_s_pp_2_r_inter_robot_distance}
+	\label{rcc_s_pp_r_sc_inter_robot_distance}
 \end{figure}
+
+Robot speeds (\cref{rcc_s_pp_r_sc_robots_speed}) remain below the \qty{1.0}{\m\per\s} limit for all
+robots.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_speed}
 	\caption{Norm of the robots' speed constraint during the simulation.}
-	\label{rcc_s_pp_2_r_robots_speed}
+	\label{rcc_s_pp_r_sc_robots_speed}
 \end{figure}
+
+Solver performance (\cref{rcc_s_pp_r_sc_compute_time}) shows that replanning steps take up to
+\qty{300}{\s} when the criteria are met.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_compute_time}
 	\caption{Computation time of the .}
-	\label{rcc_s_pp_2_r_compute_time}
+	\label{rcc_s_pp_r_sc_compute_time}
 \end{figure}
 
 \paragraph{Discussion and Comparison of the two Configurations}
 
-In summary, the first configuration demonstrated that systematic replanning can ensure
-accurate horizontal tracking and feasible motion generation, yet it also exposed important
-limitations. Vertical dynamics were not shaped strongly enough, resulting in large RMS and peak
-errors. Clearance margins were occasionally infringed, with risk concentrated in the first cable
-span, and the solver exhibited sensitivity when the predicted lowest point approached the seafloor.
-Together, these findings point to the need for stronger vertical penalties, more robust treatment
-of clearance constraints, and modest model enrichment to better capture tension and line-shape
-effects in future configurations.
+In summary, the first configuration demonstrated that systematic replanning can ensure accurate
+horizontal tracking and feasible motion generation, yet it also exposed important limitations.
+Vertical dynamics were not shaped strongly enough, resulting in large RMS and peak errors.
+Clearance margins were occasionally infringed, with risk concentrated in the first cable span, and
+the solver exhibited sensitivity when the predicted lowest point approached the seafloor. Together,
+these findings point to the need for stronger vertical penalties, more robust treatment of
+clearance constraints, and modest model enrichment to better capture tension and line-shape effects
+in future configurations.
 
 \subsection{Reactive Control}
 \label{rcc_s_reactive_control}
-\subsection{Results}
+
+\subsubsection{Implementation}
+\label{rcc_s_rc_implementation}
+
+\subsubsection{Results}
 \label{rcc_s_rc_results}
 
 \begin{figure}
@@ -1160,4 +1190,4 @@ effects in future configurations.
 
 \section{Conclusion}
 
-\lipsum[1]
+\lipsum[1]<
