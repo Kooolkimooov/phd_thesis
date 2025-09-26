@@ -26,13 +26,12 @@ On this foundation, three control strategies with increasing levels of predictio
 (\cref{rcc_controllers}). The first is a constrained \ac{mpc} that optimizes future inputs subject
 to coupled dynamics and catenary-induced constraints. The second is a path planning layer that
 generates feasible waypoint sequences subsequently tracked by a \ac{pid} controller. The third is a
-reactive approach derived from earlier leader-follower visual servoing work, here adapted to
-rely on inter-robot pose measurements rather than image features. Their performance is assessed in
-a numerical tank with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain
-(\cref{rcc_simulation}). Both qualitative outcomes (trajectories, catenary clearances) and
-quantitative indicators (tracking errors, inter-robot distances, speeds, computation times) are
-reported in order to reveal the trade-offs between accuracy, constraint satisfaction, and
-computational feasibility.
+reactive approach derived from earlier leader-follower visual servoing work, here adapted to rely
+on inter-robot pose measurements rather than image features. Their performance is assessed in a
+numerical tank with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain (\cref{rcc_simulation}).
+Both qualitative outcomes (trajectories, catenary clearances) and quantitative indicators (tracking
+errors, inter-robot distances, speeds, computation times) are reported in order to reveal the
+trade-offs between accuracy, constraint satisfaction, and computational feasibility.
 
 In summary, this chapter contributes a compact chain model coupling vehicle dynamics with a
 tractable catenary description; a unified set of geometry-consistent constraints; a comparative
@@ -63,7 +62,7 @@ upward (\cref{rcc_rcm_frames}).
 \label{rcc_rcm_single_robot_dynamics}
 
 The dynamic model of a \ac{rov} is described by the classical six-degree-of-freedom rigid-body
-model formulated for marine craft~\cite{fossenHandbookMarineCraft2011}:
+model formulated for marine craft by \cite{fossenHandbookMarineCraft2011}:
 \begin{align}
 	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{rcc_rcm_srd_kinematics} \\
 	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
@@ -89,7 +88,7 @@ In these equations:
 
 Under the assumptions of irrotational underwater currents, absence of dynamic ballast systems, and
 negligible Coriolis effects at the low to moderate speeds considered, the dynamic model was
-simplified to~\cite{fossenHandbookMarineCraft2011}:
+simplified (\cite{fossenHandbookMarineCraft2011}) to:
 \begin{align}
 	\matr{I} \vect{\dot{\nu}}
 	+ \matr{D}\left(\vect{\nu}\right) \vect{\nu}
@@ -101,7 +100,7 @@ simplified to~\cite{fossenHandbookMarineCraft2011}:
 Here, \matr{I} denotes the generalized inertia matrix and \matr{D} denotes the generalized damping
 matrix.
 
-Furthermore, \cref{rcc_rcm_srd_kinematics,rcc_rcm_srd_dynamics_simple} were combined into a
+Furthermore, \cref{rcc_rcm_srd_kinematics,rcc_rcm_srd_dynamics_simple} may be written into a
 state-space representation:
 \begin{align}
 	\begin{bmatrix}
@@ -291,8 +290,8 @@ $\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y}, \ldscal{c}{g,z}\right]^{\
 centre of buoyancy $\ldvect{c}{b}=\left[\ldscal{c}{b,x}, \ldscal{c}{b,y},
 		\ldscal{c}{b,z}\right]^{\top}$:
 \begin{align}
-	\ldvect{m}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{W}{g} \right) \\
-	\ldvect{m}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{W}{b} \right)
+	\fldvect{m}{B}{g} & = \ldvect{r}{g} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{W}{g} \right) \\
+	\fldvect{m}{B}{b} & = \ldvect{r}{b} \times \left( \lrmatr{R}{\top}{l}\left(\phi,\theta,\psi\right)\fldvect{f}{W}{b} \right)
 \end{align}
 
 The generalized inertia matrix \matr{I} is defined to represent the combined rigid-body and
@@ -312,10 +311,10 @@ The rigid-body inertia matrix \lrdmatr{M}{rb} is expressed as
 
 where \scal{m} denotes the vehicle mass, $\ldvect{c}{g}=\left[\ldscal{c}{g,x}, \ldscal{c}{g,y},
 		\ldscal{c}{g,z}\right]^{\top}$ is the position vector of the centre of gravity relative to the
-body-fixed origin, $\matr{S}\left(\cdot\right)$ denotes the skew-symmetric matrix operator, and
-\lrdmatr{I}{g} is the moment of inertia matrix about the centre of gravity. The off-diagonal blocks
-capture the coupling between translational and rotational dynamics. Finally, the rigid-body inertia
-matrix is expanded as
+body-fixed origin, $\matr{S}\left(\vect{v}\right)$ denotes the skew-symmetric matrix constructed
+from \vect{v}, and \lrdmatr{I}{g} is the moment of inertia matrix about the centre of gravity. The
+off-diagonal blocks capture the coupling between translational and rotational dynamics. Finally,
+the rigid-body inertia matrix is expanded as
 \begin{align}
 	\lrdmatr{M}{rb} = \begin{bmatrix}
 		                  \scal{m}                   & 0                          & 0                          & 0                          & \scal{m} \ldscal{c}{g, z}  & -\scal{m} \ldscal{c}{g, y} \\
@@ -422,12 +421,6 @@ should be noted that these forces are expressed in the catenary frame \lframe{v}
 transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
 \cref{rcc_rcm_srd_dynamics_simple}.
 
-with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to
-\point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}. It
-should be noted that these forces are expressed in the catenary frame \lframe{v} and must be
-transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
-\cref{rcc_rcm_srd_dynamics_simple}.
-
 \subsection{Robot Chain Dynamics}
 \label{rcc_rcm_robot_chain_dynamics}
 
@@ -475,7 +468,7 @@ lightweight reactive behaviors that handled fast safety overrides and unmodeled 
 \subsection{\glsentrytitlecase{mpc}{long}}
 \label{rcc_c_model_predictive_control}
 
-\Ac{mpc} is a control strategy that explicitly incorporates the dynamics of
+\Acl{mpc} is a control strategy that explicitly incorporates the dynamics of
 the system, prediction of future states, and operational constraints into a single optimization
 problem. The central idea is that, at each time step, the system evolution is predicted forward
 over a finite horizon, based on the current state and a sequence of future control inputs. An
@@ -494,8 +487,8 @@ respecting safety and feasibility conditions (\cref{rcc_c_mpc_schematic}).
 	\label{rcc_c_mpc_schematic}
 \end{figure}
 
-Let \cref{mcc_c_mpc_system} define a discrete-time control system with state \ldvect{x}{k} and
-control input \ldvect{u}{k}, both expressed at time \scal{k}:
+Let us define a discrete-time control system with state \ldvect{x}{k} and control input
+\ldvect{u}{k}, both expressed at time \scal{k}:
 \begin{equation}
 	\ldvect{x}{k+1} = f\left(\ldvect{x}{k}, \ldvect{u}{k}\right)
 	\label{mcc_c_mpc_system}
@@ -547,7 +540,7 @@ If the robot is operated in a constrained environment such as a pool, additional
 could be imposed on the position:
 \begin{alignat}{3}
 	\ldcoord{x}{w}{\text{pool}}  \leq & ~\ldcoord{x}{w}{i} & ~\leq & ~\ldcoord{x}{w}{\text{pool}} \nonumber \\
-	\ldcoord{z}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}}
+	\ldcoord{y}{w}{\text{pool}}  \leq & ~\ldcoord{y}{w}{i} & ~\leq & ~\ldcoord{y}{w}{\text{pool}}
 \end{alignat}
 
 Once the optimal control input is found, the first element of the sequence is applied to the
@@ -563,8 +556,7 @@ respecting the tether kinematics and the constraints of the chain. The resulting
 used with a simple controller (\ac{pid}) to move the system. The path planning optimization problem
 consists of finding a sequence of waypoints $\vect{p}=\left(\ldvect{x}{0}, \dots,
 	\ldvect{x}{n}\right)$ over a finite horizon \mpch{} in order to minimize the distance of the path
-to the desired pose of the robots while enforcing kinematic feasibility constraints
-(\cref{rcc_c_pp_constraints}):
+to the desired pose of the robots while enforcing kinematic feasibility constraints:
 \begin{align}
 	\vect{p} = & \argmin{\lures{h}{\top} \matr{P} \res{h}
 	+ \frac{1}{\mpch{}}\sum_{k=0}^{\mpch{}-1}{\lures{k}{\top} \matr{Q} \res{k}  + o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)}}
@@ -577,7 +569,7 @@ subject to
 	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
 	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
 	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & ~\nonumber                                \\
-	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldvect{d}{\text{max}}
+	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldscal{d}{\text{max}}
 \end{alignat}
 
 where
@@ -586,14 +578,13 @@ where
 	\item \matr{P} and \matr{Q} are positive semi-definite matrices weighting the final and state costs, respectively,
 	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is an optional nonlinear objective term that should be minimized,
 	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)}, and \ldscal{\catl{}}{i(i+1)} are the catenary model parameters representing the tether between robots \scal{i} and \scal{i+1},
-	\item $\mathbf{p}_{\text{min}}$ and $\mathbf{p}_{\text{max}}$ are bounds on feasible waypoints,
 	\item $\Delta\mathbf{r}_{\text{min}}$ and $\Delta\mathbf{r}_{\text{max}}$ are bounds on the increments between path parameters,
 	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and seafloor clearance.
 \end{itemize}
 
 Once the optimal waypoint sequence was found, it is passed to a controller as a reference
 trajectory. The optimization problem, or a subset of it, may be solved again according to different
-criteria such as time, tracking error, etc.
+criteria such as time, tracking error, etc; this is called replanning.
 
 \subsection{Reactive Control}
 \label{rcc_c_reactive_control}
@@ -601,11 +592,10 @@ criteria such as time, tracking error, etc.
 In addition to the path planning scheme, a reactive control strategy was implemented to regulate
 the tether geometry on a peer-to-peer basis. This method is based on the catenary-based control law
 proposed in \cite{laranjeiraCatenarybasedVisualServoing2017}, originally formulated as a visual
-servoing algorithm. In their work, the tether is modeled as a deformable catenary, and the control
-objective is to regulate its shape parameters by acting on the motion of the follower robot with
-respect to the leader. The visual servoing loop estimates the tether features directly from the
-image plane and closes the loop by minimizing the feature error through the catenary interaction
-matrix.
+servoing algorithm. In their work, the tether is modeled as a catenary, and the control objective
+is to regulate its shape parameters by acting on the motion of the follower robot with respect to
+the leader. The visual servoing loop estimates the tether features directly from the image plane
+and closes the loop by minimizing the feature error through the catenary interaction matrix.
 
 In our framework, we replace the visual estimation step with direct pose localization of the
 robots. The relative positions and orientations of neighboring robots in the chain are measured,
@@ -625,7 +615,7 @@ interaction matrix (see \cite{moreiraVisualServoingDeformable2019} for details) 
 shape derivatives to the relative motion of the robots, $\scal{\lambda} \in \mathbb{R}^{+}$ is a
 control gain, and \ldvect{s}{i(i+1)} is feature vector such that
 \begin{align}
-	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}, \frac{\catdH + \ldscal{\Delta H}{max}}{2\ldscal{\Delta H}{max}}\right]
+	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}, \frac{\ldscal{\Delta H}{i(i+1)} + \ldscal{\Delta H}{max}}{2\ldscal{\Delta H}{max}}\right]
 \end{align}
 
 with \ldscal{H}{i(i+1)} being the sag of the tether between robots \scal{i} and \scal{i+1},
@@ -733,7 +723,7 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 \end{table}
 
 In order to differentiate the simulation from the model employed in the MPC prediction horizon,
-their integration method diverge. The simulation utilizes a Runge-Kutta integration of order 4
+their integration method diverge: the simulation utilizes a Runge-Kutta integration of order 4
 (\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas the MPC prediction employs an Euler-explicit
 scheme. The shape of each cable is deduced at any time from the position of its attachment points
 using the catenary equation \cref{cm_cm_d_catenary_equation}.
@@ -743,13 +733,14 @@ using the catenary equation \cref{cm_cm_d_catenary_equation}.
 
 The robot trajectories are depicted in \cref{rcc_s_mpc_r_poses}. Qualitatively, the leader tracks
 the reference closely except for the two expected excursions when crossing the bathymetric peak
-(planned at \qty{15}{\s} and \qty{35}{\s}). These deviations arise because, as the catenary spans
+(planned at \qty{15}{\s} and \qty{35}{\s}). These deviations arise because, as the cable span
 shorten while ascending the slope and lengthen while descending, the controller trades off
 instantaneous tracking accuracy against prospective constraint satisfaction over the horizon. The
 follower robots exhibit coordinated longitudinal stretching and mild lateral staggering. This
 behavior is not explicitly enforced beyond the distance and seafloor clearance constraints; instead
 it emerges from the optimization balancing the leader's trajectory tracking, the penalization of
 large control efforts on orientations, and the soft structural coupling introduced by the cables.
+
 \begin{figure}
 	\centering
 	\begin{subfigure}{\figurewidth}
