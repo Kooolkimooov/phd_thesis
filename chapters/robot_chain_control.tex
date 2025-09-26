@@ -6,6 +6,39 @@
 \section{Introduction}
 \label{rcc_introduction}
 
+This chapter addresses the problem of coordinating a chain of tethered underwater robots so that a
+designated leader tracks a motion objective while the group collectively respects mechanical and
+environmental constraints induced by the tethers and by the operating area. Unlike single-vehicle
+control, the chain exhibits strong coupling through the cable geometry: seafloor clearance,
+inter-robot spacing, and feasible cable shapes must all be preserved as the leader maneuvers.
+
+Building on the classical 6- DoF marine craft model~\cite{fossenHandbookMarineCraft2011} and on the
+catenary formulation introduced in \cref{cable_modelling}, we first establish a unified description
+of a robot chain in which the forces transmitted by the tethers enter each vehicle's dynamics
+(\cref{rcc_robot_chain_modelling}). The cable is modeled with a vertical catenary that yields
+closed-form expressions for horizontal and vertical tensions and enables consistent mapping to each
+robot's body frame. This permits the definition of a concatenated state for the entire chain and a
+clear statement of the constraints that must be enforced (clearance with the seafloor and surface,
+inter-robot distances, and actuator bounds).
+
+On top of this model, we evaluate three different control approaches with different degrees of
+predictive capability (\cref{rcc_controllers}): a constrained \ac{mpc} that optimizes future inputs
+subject to the coupled dynamics and catenary-induced constraints; a path planning layer that
+computes feasible waypoint sequences subsequently tracked by a simple \ac{pid} controller; and a
+lightweight reactive strategy derived from catenary-based visual servoing in earlier
+leader-follower work, here driven by inter-robot pose measurements rather than image features.
+Their behavior is investigated in a numerical tank featuring varying bathymetry and a mixed
+\ac{rov}/\ac{usv} chain (\cref{rcc_simulation}). We report both qualitative evolutions
+(trajectories, catenary clearances) and quantitative indicators (tracking errors, inter-robot
+distances, speeds, computation times) to highlight the trade-offs between tracking accuracy,
+constraint satisfaction, and computational feasibility.
+
+Altogether, the chapter contributes a compact chain model that couples vehicle dynamics with a
+tractable catenary description; a unified set of constraints consistent with tether geometry; a
+comparative study of three control schemes under identical conditions; and insights and practical
+guidelines for selecting and tuning controllers depending on mission priorities and computational
+budgets.
+
 \section{Robot Chain Modelling}
 \label{rcc_robot_chain_modelling}
 
@@ -714,10 +747,9 @@ the reference closely except for the two expected excursions when crossing the b
 shorten while ascending the slope and lengthen while descending, the controller trades off
 instantaneous tracking accuracy against prospective constraint satisfaction over the horizon. The
 follower robots exhibit coordinated longitudinal stretching and mild lateral staggering. This
-behaviour is not explicitly enforced beyond the distance and seafloor clearance constraints;
-instead it emerges from the optimization balancing the leader's trajectory tracking, the
-penalization of large control efforts on orientations, and the soft structural coupling introduced
-by the cables.
+behavior is not explicitly enforced beyond the distance and seafloor clearance constraints; instead
+it emerges from the optimization balancing the leader's trajectory tracking, the penalization of
+large control efforts on orientations, and the soft structural coupling introduced by the cables.
 \begin{figure}
 	\centering
 	\begin{subfigure}{\figurewidth}
@@ -840,12 +872,12 @@ Two distinct simulations were performed using different replanning strategies:
 	\item In the first configuration, the path was optimized at every step for the following \num{10} steps,
 	      corresponding to \qty{1}{\second}. The tolerance was set to \num{1e-3} and the maximum number of
 	      iterations to \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) were defined
-	      such that the leader’s position was assigned a weight of \num{10} and its orientation a weight of
+	      such that the leader's position was assigned a weight of \num{10} and its orientation a weight of
 	      \num{1}. The orientation of the follower robots was also weighted with \num{1}, while their
 	      positions remained unweighted. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$
 	      penalized the robots' linear speed and aimed to maintain inter-robot distances close to
 	      \qty{1.5}{\m}. This term was weighted with a factor of \num{0.01}.
-	\item In the second configuration, the path was replanned every \num{10} steps or whenever the leader’s
+	\item In the second configuration, the path was replanned every \num{10} steps or whenever the leader's
 	      tracking error exceeded \qty{1}{\m}. The optimization horizon covered the following \num{20} steps,
 	      corresponding to \qty{2}{\second}, with a tolerance of \num{1e-5} and a maximum of \num{100}
 	      iterations. The weighting matrices \matr{P} and \matr{Q} were defined as in the first
@@ -1130,8 +1162,8 @@ sporadic replanning events in the second configuration imposed computational dem
 real-time feasibility, with solve times several orders of magnitude larger than the horizon length.
 Taken together, these results indicate that while both approaches can generate feasible paths, the
 first configuration provides a more balanced compromise between accuracy and practicality, whereas
-the second configuration requires additional refinement—particularly in clearance handling, solver
-efficiency, and mitigation of control lag—before it can be deployed in real-time scenarios.
+the second configuration requires additional refinement -particularly in clearance handling, solver
+efficiency, and mitigation of control lag- before it can be deployed in real-time scenarios.
 
 \subsection{Reactive Control}
 \label{rcc_s_reactive_control}
@@ -1235,9 +1267,9 @@ lag in the follower visual servoing response.
 \end{figure}
 
 Robot speeds (\cref{rcc_s_rc_r_robots_speed}) remained moderate prior to divergence. During the
-first \qty{15}{\s}, peak speeds were \qtylist{1.02;1.18;0.086;0.867}{\m\per\s} for robots 0–3, with
-corresponding means of \qtylist{0.546;0.216;0.053;0.092}{\m\per\s}. The monotonic decrease in
-average speed along the chain indicates attenuation of the leader’s motion, while the peaks of
+first \qty{15}{\s}, peak speeds were \qtylist{1.02;1.18;0.086;0.867}{\m\per\s} for robots 0 to 3,
+with corresponding means of \qtylist{0.546;0.216;0.053;0.092}{\m\per\s}. The monotonic decrease in
+average speed along the chain indicates attenuation of the leader's motion, while the peaks of
 robots 0 and 1 reflect efforts to reshape inter-robot spacing. Beyond \qty{16}{\s}, velocities grew
 without bound along with the tracking error.
 
@@ -1259,3 +1291,44 @@ strategy when applied to multi-robot chains subject to coupled kinematic and cle
 requirements.
 
 \section{Conclusion}
+
+This chapter proposed a unified framework for modeling and controlling a chain of tethered
+underwater robots and compared three control strategies on a common scenario with varying
+bathymetry. The chain model combines a simplified marine craft dynamics with a vertical catenary
+representation to inject physically consistent tether forces into each vehicle's equations of
+motion. This enabled a principled definition of safety and feasibility constraints: seafloor and
+surface clearance, inter-robot spacing consistent with tether length, and actuator bounds.
+
+The comparative study highlighted a clear performance hierarchy. The constrained \ac{mpc}
+maintained the best overall constraint discipline and the smallest tracking residuals for the
+leader (typical errors below decimeter scale except during planned peak crossings), and preserved
+comfortable cable clearances for deeper positions. Its principal limitation was computational:
+median solve times were on the order of the prediction horizon and heavy-tailed spikes occasionally
+exceeded it, which threatens real-time feasibility without additional engineering, code
+optimization, solver-friendly model and constraints formulation.
+
+The path-planning plus \ac{pid} scheme offered good horizontal tracking and acceptable behavior
+when replanned frequently with short horizons, yet it exhibited vertical lag that translated into
+clearance and spacing stress around steep bathymetric transitions. A more sparse, event-triggered
+replanning reduced average tracking error but produced significant clearance violations in the
+leading span and prohibitively long solve times during replans, making this setting unsuitable for
+real-time deployment in its current form.
+
+The reactive catenary-based visual servoing controller regulated local tether shape effectively at
+the start and kept large safety margins while the configuration remained feasible, but it lacked
+guarantees once constraints became active. Without prediction, accumulated lag and formation
+stretching eventually pushed the system beyond feasible geometry, after which the closed loop
+diverged.
+
+In practice, if constraint satisfaction is paramount and computation allows, \ac{mpc} is the most
+reliable option among those tested. When computation is limited, a hierarchical design becomes
+appealing: a fast planner that respects catenary geometry to provide previewed references, a
+reactive layer for rapid local shaping, and a lightweight safety mechanism that enforces minimum
+clearance and spacing (e.g., via control barrier functions) regardless of the nominal controller.
+
+Promising directions for future work include: distributed or hierarchical MPC to reduce per-step
+solve time; SQP with warm starts; adaptive weighting and horizon scheduling near terrain features;
+extension to the \augmentedmodel{} proposed in \cref{cable_modelling} when a dynamic representation
+of its parameters is available. Preliminary experiments were conducted with a reduced chain
+configuration in a water tank (see \cref{e_robot_chain_control_experiment}) but more work remains
+to be done to validate the approach further.
