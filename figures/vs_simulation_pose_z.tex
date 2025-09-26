@@ -3,6 +3,7 @@
 	\begin{axis}[
 			xmin = 0,
 			xmax = 50,
+			restrict y to domain = -6:6,
 			width = \figurewidth,
 			height = 0.5\figurewidth,
 			y dir=reverse,
@@ -12,12 +13,12 @@
 			legend cell align={left}
 		]
 
-		\addplot[red, very thick, smooth] table [x index=0, y index=3] {figures/data/vs_simulation__br_0_position_1758791034.txt};
-		\addplot[green, very thick, smooth] table [x index=0, y index=3] {figures/data/vs_simulation__br_1_position_1758791034.txt};
-		\addplot[blue, very thick, smooth] table [x index=0, y index=3] {figures/data/vs_simulation__br_2_position_1758791034.txt};
-		\addplot[yellow, very thick, smooth] table [x index=0, y index=3] {figures/data/vs_simulation__br_3_position_1758791034.txt};
+		\addplot[red, very thick, smooth] table [x index=0, y expr=-\thisrowno{3}] {figures/data/vs_simulation__br_0_position_1758791034.txt};
+		\addplot[green, very thick, smooth] table [x index=0, y expr=-\thisrowno{3}] {figures/data/vs_simulation__br_1_position_1758791034.txt};
+		\addplot[blue, very thick, smooth] table [x index=0, y expr=-\thisrowno{3}] {figures/data/vs_simulation__br_2_position_1758791034.txt};
+		\addplot[yellow, very thick, smooth] table [x index=0, y expr=-\thisrowno{3}] {figures/data/vs_simulation__br_3_position_1758791034.txt};
 		
-		\addplot[red, dashed, very thick, smooth] table [x index=0, y index=3] {figures/data/vs_simulation__br_0_position_target_1758791034.txt};
+		\addplot[red, dashed, very thick, smooth] table [x index=0, y expr=-\thisrowno{3}] {figures/data/vs_simulation__br_0_position_target_1758791034.txt};
 
 		\legend{
 			Robot 0,
