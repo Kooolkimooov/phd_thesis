@@ -1123,16 +1123,18 @@ burden for real-time use.
 
 A comparison of the two configurations highlights a trade-off between tracking quality, constraint
 robustness, and computational feasibility. The first configuration achieved accurate horizontal
-tracking with only marginal clearance infringements, but suffered from persistent vertical errors
-and occasional solver variability. In contrast, the second configuration reduced the overall RMS
+tracking with only marginal clearance infringements, but persistent vertical errors accumulated due
+to the lag introduced by the two-step control architecture: the planner provided new waypoints only
+at discrete instants, while the inner \ac{pid} loop reacted continuously but without preview,
+compounding phase delay in the vertical channel. The second configuration reduced the overall RMS
 tracking error norm and improved average spatial coherence, yet it also produced severe clearance
 violations in the leading cable and frequent distance constraint breaches. Most critically, the
 sporadic replanning events in the second configuration imposed computational demands far beyond
 real-time feasibility, with solve times several orders of magnitude larger than the horizon length.
 Taken together, these results indicate that while both approaches can generate feasible paths, the
 first configuration provides a more balanced compromise between accuracy and practicality, whereas
-the second configuration requires additional refinement—particularly in clearance handling and
-solver efficiency—before it can be deployed in real-time scenarios.
+the second configuration requires additional refinement—particularly in clearance handling, solver
+efficiency, and mitigation of control lag—before it can be deployed in real-time scenarios.
 
 \subsection{Reactive Control}
 \label{rcc_s_reactive_control}
