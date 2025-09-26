@@ -1155,6 +1155,12 @@ with \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and the maxim
 vertical distance \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e.
 \qty{1.5}{\m}.
 
+The target features are different for each pair of robots. For robot 1 following the leader, the
+target is $\left[0.9, 0.0, 0.75\right]$. This is to keep robot 1 well above the leader and try to
+maintain distance between the cable and the seafloor. For robot 2, the target is $\left[0.5, 0.0,
+		0.25\right]$. This is to keep robot 2 above robot 1. Finally, for robot 3, the target is
+$\left[0.9, 0.75, 0.75\right]$ to keep robot 3 above robot 2.
+
 A recovery procedure was introduced for cases in which the pseudo-inverse of the interaction matrix
 failed to compute, for example due to inter-robot configuration reducing its rank. In this
 procedure, the output twist was set to zero pending the next computation step.
