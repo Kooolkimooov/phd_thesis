@@ -1013,13 +1013,18 @@ impossible.
 \label{rcc_s_pp_r_second_configuration}
 
 The trajectories of the robots (\cref{rcc_s_pp_r_sc_poses}) show relatively good tracking along the
-\ldvect{x}{w} and \ldvect{y}{w} axes for the leader. However along the \ldvect{z}{w} axis, the
-leader exhibits significant deviations as soon as the reference trajectory changes rapidly and does
-not fully recover over the simulation. The timing of these deviations do not coincide with the
-planned tracking difficulties when getting close to the seafloor; instead they may be linked with
-the two stage control system which introduces a small delay between the path planning and the
-execution, this is compounded by the reactive nature of the \ac{pid} controller which introduces
-further lag.
+\ldvect{x}{w} and \ldvect{y}{w} axes for the leader, but large excursions appear on \ldvect{z}{w}
+whenever the reference varies quickly. A summary of leader tracking errors confirms this
+anisotropy: the RMS errors are \qty{0.284}{\m} on \ldvect{x}{w}, \qty{0.145}{\m} on \ldvect{y}{w},
+and \qty{0.908}{\m} on \ldvect{z}{w}. The instantaneous Euclidean error norm has a median of
+\qty{0.708}{\m}, a mean of \qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of
+\qty{2.09}{\m}; it exceeds \qty{1}{\m} for \qty{28.4}{\percent} of the \qty{50}{\s} horizon (about
+\qty{14.2}{\s}) and \qty{2}{\m} for \qty{2.6}{\percent} (about \qty{1.3}{\s}) and peaks at at peaks
+\qty{2.09}{\m}, see \cref{rcc_s_pp_r_sc_error}. These deviations do not align with the
+bathymetry-induced difficulty windows near the seafloor; instead they are consistent with delays
+introduced by the two-stage architecture: planning is triggered sparsely with a finite horizon, and
+the inner \ac{pid} controller reacts without preview, compounding phase lag on the vertical
+channel.
 
 \begin{figure}
 	\centering
@@ -1045,10 +1050,6 @@ further lag.
 	\label{rcc_s_pp_r_sc_poses}
 \end{figure}
 
-The instantaneous Euclidean tracking error of the leader (\cref{rcc_s_pp_r_sc_error}) corroborates
-the previous observations: the vertical tracking error is significant and pushes the error norm to
-over \qty{2}{\m}.
-
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_tracking_error}
@@ -1057,8 +1058,14 @@ over \qty{2}{\m}.
 \end{figure}
 
 The lowest point distance to the seafloor (\cref{rcc_s_pp_r_sc_lowest_point}) shows significant
-violations of the constraints for the first cable, with negative distances appearing several times,
-which indicates that the cable intersects with the seafloor.
+violations for the first cable (0--1): the minimum clearance reaches \qty{-0.456}{\m}, indicating
+seafloor intersection. Over the full horizon, this span is below the \qty{0.2}{\m} clearance bound
+for \qty{5.8}{\percent} of the time (about \qty{2.9}{\s}) and actually negative for
+\qty{3.2}{\percent} (about \qty{1.6}{\s}). In contrast, cables 1--2 and 2--3 remain well clear of
+the terrain with minima at \qty{1.65}{\m} and \qty{2.65}{\m}, respectively, and median clearances
+of \qty{2.15}{\m} and \qty{2.98}{\m}. Mean clearances are \qty{1.25}{\m}, \qty{2.18}{\m} and
+\qty{3.09}{\m} for cables 0--1, 1--2 and 2--3 respectively, showing that the vertical risk is
+concentrated almost exclusively in the leading span.
 
 \begin{figure}
 	\centering
@@ -1070,8 +1077,13 @@ which indicates that the cable intersects with the seafloor.
 	\label{rcc_s_pp_r_sc_lowest_point}
 \end{figure}
 
-The inter-robot distances (\cref{rcc_s_pp_r_sc_inter_robot_distance}) shows violations of the upper
-bound of the constraint for all robot pairs.
+The inter-robot distances (\cref{rcc_s_pp_r_sc_inter_robot_distance}) cross the \qty{2.8}{\m} upper
+bound for all pairs: the time-above-bound fractions are \qty{8.4}{\percent}, \qty{11.8}{\percent},
+and \qty{20.4}{\percent} for pairs (0--1), (1--2), and (2--3), i.e., about \qty{4.2}{\s},
+\qty{5.9}{\s}, and \qty{10.2}{\s} of the \qty{50}{\s} horizon. No lower-bound violations occur
+(minima \qtylist{0.506;0.500;0.697}{\m}). Central tendency indicates a stretched formation relative
+to the \qty{1.5}{\m} objective: mean separations are \qtylist{1.95;1.87;2.01}{\m} with medians
+\qtylist{1.70;1.62;1.81}{\m}.
 
 \begin{figure}
 	\centering
@@ -1081,7 +1093,10 @@ bound of the constraint for all robot pairs.
 \end{figure}
 
 Robot speeds (\cref{rcc_s_pp_r_sc_robots_speed}) remain below the \qty{1.0}{\m\per\s} limit for all
-robots.
+robots. Peak speeds are \qtylist{0.819;0.803;0.754;0.879}{\m\per\s} for Robots 0 to 3, with mean norms
+\qtylist{0.392;0.303;0.187;0.104}{\m\per\s}. The decreasing means from leader to tail again
+highlight attenuation of commanded motion along the chain, even though the last robot exhibits
+the highest instantaneous peak.
 
 \begin{figure}
 	\centering
@@ -1090,13 +1105,17 @@ robots.
 	\label{rcc_s_pp_r_sc_robots_speed}
 \end{figure}
 
-Solver performance (\cref{rcc_s_pp_r_sc_compute_time}) shows that replanning steps take up to
-\qty{300}{\s} when the criteria are met.
+Solver performance (\cref{rcc_s_pp_r_sc_compute_time}) exhibits extreme variability: when
+replanning triggers, solve times spike up to \qty{294}{\s} (95\textsuperscript{th} percentile
+\qty{188}{\s}), whereas non-triggered steps are effectively negligible (median
+\qty{0.092}{\milli\second}, minimum \qty{0.061}{\milli\second}). The mean over the entire timeline
+is \qty{34.5}{\s}, dominated by the sparse but very costly replans. This underscores the practical
+limitation of the second strategy.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/pp_simulation_2_compute_time}
-	\caption{Computation time of the .}
+	\caption{Computation time of the optimization solver during the simulation.}
 	\label{rcc_s_pp_r_sc_compute_time}
 \end{figure}
 
