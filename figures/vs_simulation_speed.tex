@@ -4,7 +4,7 @@
 			xmin = 0,
 			xmax = 50,
 			ymin = 0,
-			restrict y to domain = -1:6,
+			restrict y to domain = -1:5,
 			width = \figurewidth,
 			height = 0.5\figurewidth,
 			xlabel = {time / \unit{\s}},
@@ -18,14 +18,11 @@
 		\addplot[blue, very thick, smooth] table [x index=0, y index=4] {figures/data/vs_simulation__br_2_velocity_1758791034.txt};
 		\addplot[yellow, very thick, smooth] table [x index=0, y index=4] {figures/data/vs_simulation__br_3_velocity_1758791034.txt};
 
-		\addplot[black, dotted, thick, domain=0:50] {3.0};
-
 		\legend{
 			Robot 0,
 			Robot 1,
 			Robot 2,
-			Robot 3,
-			Bound
+			Robot 3
 		}
 
 	\end{axis}
