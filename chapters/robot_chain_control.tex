@@ -1144,40 +1144,38 @@ efficiency, and mitigation of control lag—before it can be deployed in real-ti
 The simulation (\citeurl{filliungPympc_usage2025}) was implemented by integrating the robot chain
 dynamics introduced in \cref{rcc_robot_chain_modelling} and by following the previously described
 scenario. It was executed with a time step of \qty{0.1}{\second} over \num{500} steps,
-corresponding to a simulated duration of \qty{50}{\second}. Du to the following nature of the
-controller described in \cref{rcc_c_rc}, the leader was controller by a simple \ac{pid} controller
+corresponding to a simulated duration of \qty{50}{\second}. Owing to the reactive nature of the
+controller described in \cref{rcc_c_rc}, the leader was controlled by a simple \ac{pid} regulator
 with proportional, integral, and derivative gains of \num{100}, \num{10}, and \num{6500}
-respectively in the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains are \num{100},
-\num{10}, and \num{5000}. The angular gains are \num{0.1}, \num{0}, and \num{0}. The follower
-robots were controlled with the actual visual servoing controller with a gain defined as a matrix
-in order to weight horizontal speed with \num{0.1}, vertical speed with \num{3} and angular speed
-with \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and the maximum absolute
-vertical distance \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e.
+respectively in the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains were set to
+\num{100}, \num{10}, and \num{5000}. The angular control used proportional, integral, and
+derivative gains of \num{0.1}, \num{0}, and \num{0}. The follower robots were driven by the visual
+servoing controller, with a gain matrix weighting horizontal speed by \num{0.1}, vertical speed by
+\num{3}, and angular speed by \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and
+maximum vertical offset \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e.
 \qty{1.5}{\m}.
 
-The target features are different for each pair of robots. For robot 1 following the leader, the
-target is $\left[0.9, 0.0, 0.75\right]$. This is to keep robot 1 well above the leader and try to
-maintain distance between the cable and the seafloor. For robot 2, the target is $\left[0.5, 0.0,
-		0.25\right]$. This is to keep robot 2 above robot 1. Finally, for robot 3, the target is
-$\left[0.9, 0.75, 0.75\right]$ to keep robot 3 above robot 2.
+Different target features were assigned to each follower. For Robot~1, following the leader, the
+target was set to $\left[0.9, 0.0, 0.75\right]$, keeping it above the leader and limiting cable
+contact with the seafloor. For Robot~2, the target was $\left[0.5, 0.0, 0.25\right]$, maintaining
+elevation above Robot~1. For Robot~3, the target was $\left[0.9, 0.75, 0.75\right]$, ensuring it
+remained above Robot~2.
 
 A recovery procedure was introduced for cases in which the pseudo-inverse of the interaction matrix
-failed to compute, for example due to inter-robot configuration reducing its rank. In this
-procedure, the output twist was set to zero pending the next computation step.
+could not be computed, for example when inter-robot configurations reduced its rank. In such cases,
+the output twist was set to zero until the next computation step.
 
-The parameter values were determined by trial and error. Additionally, the constraints introduced
-in \cref{rcc_c_pp_constraints} were imposed and are summarized in
-\cref{rcc_s_pp_i_constrains_values}.
+All parameter values were selected by trial and error.
 
 \subsubsection{Results}
 \label{rcc_s_rc_results}
 
-The trajectories (\cref{rcc_s_rc_r_poses}) show accurate leader tracking in the initial phase,
-followed by an instability that leads to divergence. Quantitatively, over the first
-\qty{15}{\s}---before instability onsets---the leader's linear tracking error has a norm median of
-\qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The first time the
-Euclidean error norm exceeds \qty{2}{\m} occurs at approximately \qty{16.1}{\s}, after which it
-grows unbounded, confirming the observed divergence.
+The trajectories (\cref{rcc_s_rc_r_poses}) show that the leader initially tracked the reference
+accurately but eventually developed an instability that caused divergence. Quantitatively, during
+the first \qty{15}{\s}---before divergence began---the leader's linear tracking error had a norm
+median of \qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The Euclidean
+error norm first exceeded \qty{2}{\m} at approximately \qty{16.1}{\s}, after which it grew without
+bound, confirming the instability.
 
 \begin{figure}
 	\centering
@@ -1210,28 +1208,26 @@ grows unbounded, confirming the observed divergence.
 	\label{rcc_s_rc_r_error}
 \end{figure}
 
-Catenary lowest-point clearance remains well within bounds throughout the pre-divergence window
-(\cref{rcc_s_rc_r_lowest_point}). Up to \qty{15}{\s}, the minimum clearances are
+Catenary lowest-point clearance (\cref{rcc_s_rc_r_lowest_point}) remained well within bounds during
+the pre-divergence window. Up to \qty{15}{\s}, the minimum clearances were
 \qtylist{1.37;4.06;5.53}{\m} for cables 0--1, 1--2, and 2--3, with medians of
-\qtylist{3.72;5.33;5.73}{\m}. No sample falls below the \qty{0.2}{\m} limit in this interval, and
-the traces show sustained safety margins. After the onset of divergence, the clearance signals
-become nonphysical due to state blow-up, so only pre-divergence values are meaningful.
+\qtylist{3.72;5.33;5.73}{\m}. No sample fell below the \qty{0.2}{\m} bound in this interval, and
+safety margins were consistently maintained. After divergence began, clearance values became
+nonphysical due to state blow-up, so only pre-divergence results are meaningful.
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/vs_simulation_lowest_point}
-	\caption{
-		Vertical distance of the catenary lowest points to the seafloor below it during the visual servoing simulation.
-	}
+	\caption{Vertical distance of the catenary lowest points to the seafloor below them during the visual servoing simulation.}
 	\label{rcc_s_rc_r_lowest_point}
 \end{figure}
 
-Inter-robot distances (\cref{rcc_s_rc_r_inter_robot_distance}) exhibit two notable excursions for
-pair (0--1) before divergence: intervals \qtyrange{7.9}{9.9}{\s} and \qtyrange{13.1}{15.0}{\s}
-exceed the \qty{2.8}{\m} upper bound, reaching a peak of \qty{4.37}{\m} at \qty{15.0}{\s}. Pairs
-(1--2) and (2--3) remain within bounds over the same window; their maxima are \qty{2.78}{\m} (at
-\qty{13.6}{\s}) and \qty{1.10}{\m}, respectively. These episodes coincide with the formation
-stretching phase driven by the follower visual servoing response lag.
+Inter-robot distances (\cref{rcc_s_rc_r_inter_robot_distance}) revealed two excursions for pair
+(0--1) before divergence: between \qtyrange{7.9}{9.9}{\s} and \qtyrange{13.1}{15.0}{\s} the
+distance exceeded the \qty{2.8}{\m} upper bound, peaking at \qty{4.37}{\m} at \qty{15.0}{\s}. Pairs
+(1--2) and (2--3) remained within limits during the same period, with maxima of \qty{2.78}{\m} (at
+\qty{13.6}{\s}) and \qty{1.10}{\m}. These episodes coincided with formation stretching driven by
+lag in the follower visual servoing response.
 
 \begin{figure}
 	\centering
@@ -1240,12 +1236,12 @@ stretching phase driven by the follower visual servoing response lag.
 	\label{rcc_s_rc_r_inter_robot_distance}
 \end{figure}
 
-Robot speeds (\cref{rcc_s_rc_r_robots_speed}) remain moderate prior to divergence. Up to
-\qty{15}{\s}, the maximum speeds are \qtylist{1.02;1.18;0.086;0.867}{\m\per\s} for robots 0 to 3,
-with corresponding means of \qtylist{0.546;0.216;0.053;0.092}{\m\per\s}. The monotonic decrease in
-average speed along the chain indicates attenuation of the leader motion, while the peaks on robots
-0 and 1 reflect intermittent efforts to reshape inter-robot spacing. Beyond \qty{16}{\s},
-velocities blow up along with the tracking error.
+Robot speeds (\cref{rcc_s_rc_r_robots_speed}) remained moderate prior to divergence. During the
+first \qty{15}{\s}, peak speeds were \qtylist{1.02;1.18;0.086;0.867}{\m\per\s} for robots 0–3, with
+corresponding means of \qtylist{0.546;0.216;0.053;0.092}{\m\per\s}. The monotonic decrease in
+average speed along the chain indicates attenuation of the leader’s motion, while the peaks of
+robots 0 and 1 reflect efforts to reshape inter-robot spacing. Beyond \qty{16}{\s}, velocities grew
+without bound along with the tracking error.
 
 \begin{figure}
 	\centering
@@ -1253,5 +1249,15 @@ velocities blow up along with the tracking error.
 	\caption{Norm of the robots' speed constraint during the visual servoing simulation.}
 	\label{rcc_s_rc_r_robots_speed}
 \end{figure}
+
+The observed instability can be attributed to the inherent inability of the reactive controller to
+guarantee constraint satisfaction. While initial tracking and clearance margins were maintained,
+the absence of predictive shaping meant that inter-robot distances and leader dynamics were
+regulated only locally, without foresight of future violations. As the system evolved, transient
+stretching and accumulated control lag pushed the configuration beyond feasible bounds, at which
+point the reactive law no longer provided restoring action. Once constraints were exceeded, the
+closed-loop dynamics diverged rapidly, underscoring the structural limitation of a purely reactive
+strategy when applied to multi-robot chains subject to coupled kinematic and clearance
+requirements.
 
 \section{Conclusion}
