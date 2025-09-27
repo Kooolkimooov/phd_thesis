@@ -6,8 +6,7 @@
 This thesis is situated in the context of cable management for underwater robots, which constitutes
 one of the research topics of the \ac{cosmer} laboratory and has led to the introduction of the
 underwater robot chain concept. This concept consists in managing the cable of an underwater robot
-through intermediary robots placed along the cable in order to actively regulate its
-shape.
+through intermediary robots placed along the cable in order to actively regulate its shape.
 
 The concept was first introduced during the PhD work of Matheus Laranjeira, who investigated
 peer-to-peer visual servoing. It was subsequently extended by Juliette Drupt, who explored
@@ -23,6 +22,32 @@ organization of the manuscript is outlined in \cref{i_thesis_outline}.
 
 \section{Underwater Robotics}
 \label{i_underwater_robotics}
+
+Underwater robotics encompasses a spectrum of platforms that differ primarily in how they are
+powered, controlled, and connected to the surface. Two major families dominate: tethered \acp{rov}
+and untethered \acp{auv}, often grouped under the broader term \acp{uuv}. The use of tethers for
+\acp{rov} is largely driven by the severe attenuation of electromagnetic waves in water, which
+precludes high-bandwidth wireless links at practical frequencies; acoustic channels remain an
+option but offer limited throughput and range compared to a physical umbilical.
+
+\Acp{rov} are supervised from the surface and connected via an umbilical that provides power and
+reliable, low-latency communications. They are widely used for inspection, intervention, and deep
+operations, and are commonly categorized by size and capability, from observation-class systems to
+mid-sized and work-class vehicles~\cite{christROVManualUser2013}. The tether introduces specific
+operational constraints (drag, entanglement risk, and deck handling) but also enables sustained
+missions and high-bandwidth sensing and teleoperation.
+
+\Acp{auv}, by contrast, operate untethered with preplanned missions, relying on onboard sensing and
+control. Communication is intermittent (e.g., upon surfacing) or low-rate underwater via acoustics
+~\cite{creuzeRobotsMarinsSousmarins2014}. Many \acp{auv} adopt a streamlined, torpedo-like form for
+endurance and range, while underwater gliders achieve motion by modulating buoyancy and mass
+distribution to convert vertical into horizontal travel~\cite{meyerGliderTechnologyOcean2016}.
+
+Beyond these canonical forms, alternative designs pursue improved maneuverability or efficiency,
+including biomimetic platforms and hybrid configurations that combine traits of \acp{rov} and
+\acp{auv}. Across this landscape, the presence or absence of a tether fundamentally shapes sensing,
+communication, and control strategies—considerations that motivate the cable-aware modeling and
+control developments explored in this thesis.
 
 \section{Focus and Contributions}
 \label{i_focus_and_contributions}
