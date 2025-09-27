@@ -796,18 +796,12 @@ these methods.
 Open challenges and research gaps
 
 \begin{itemize}
-	\item Real-time coupled estimation and control for multi-robot chains: Most works study a single
-	      vehicle-tether pair. Control and estimation for chains or parent-child hierarchies with multiple
-	      flexible links remain underexplored, particularly with formal guarantees.
 	\item Safety with guarantees in constrained workspaces: Incorporating hard constraints on tether tension,
 	      slack, and collision avoidance with the environment into online planners with provable feasibility
 	      and stability remains an active area.
-	\item Mode changes and hybrid dynamics: Transitions between taut and slack phases, intermittent contact
-	      with the environment, and length variations introduce hybrid dynamics that are rarely handled
-	      systematically in closed-loop.
-	\item Exploiting the tether as a sensor: Beyond passive constraint, smart or actively managed
-	      tethers (buoys, moving ballasts, distributed sensing) show promise but are not yet common in
-	      underwater field systems.
+	\item Exploiting the tether as a sensor: Beyond passive constraint, smart or actively managed tethers
+	      (buoys, moving ballasts, distributed sensing) show promise but are not yet common in underwater
+	      field systems.
 	\item Estimation under degraded sensing: Robust localisation and cable-shape estimation with
 	      intermittent/poor visibility, leveraging \acp{imu}, depth, tension, and partial vision, require
 	      tightly integrated models and sensor fusion.
@@ -819,32 +813,10 @@ Open challenges and research gaps
 	      environments.
 \end{itemize}
 
-Implications for this thesis
-
-\begin{itemize}
-	\item Hierarchical architecture: A layered approach is appropriate --- (i) high-level planning and
-	      constraint-aware control (e.g., \ac{nmpc}) in the known map, (ii) mid-level tether geometry/tension
-	      regulation using computationally efficient models (geometric or lumped-mass with few segments), and
-	      (iii) low-level robust vehicle control to reject hydrodynamic disturbances.
-	\item Integrated estimation: Joint estimation of vehicle state and tether configuration should be
-	      pursued, combining geometric cable parameterisations (e.g., catenary) with onboard sensing and
-	      vision when available, as indicated by prior visual servoing results.
-	\item Safety via conservative geometry: Use of conservative occupancy bounds for the tether can provide
-	      tractable collision-avoidance constraints in cluttered environments without sacrificing real-time
-	      capability.
-	\item Tension and slack management: Online enforcement of tension limits and slack avoidance is essential
-	      to protect hardware and maintain controllability, suggesting explicit constraint handling and/or
-	      supervisory logic.
-	\item Chain-specific coordination: Control and estimation formulations should explicitly account for
-	      information flow and force transmission along chains (parent-child and multi-link configurations),
-	      including the effects of length changes and winch actions when present.
-\end{itemize}
-
 In summary, the state of the art supports a thesis strategy that combines conservative geometric
 representations for safety, reduced-order coupled models for online decision making, and robust
-constraint-aware control with integrated state/tether estimation. Within this framework, this work
+constraint-aware control with integrated system estimation. Within this framework, this work
 addresses the gap of reliable real-time control for chains of tethered underwater robots in
-constrained environments, aiming for formalised safety handling (tension, slack, and collision
-avoidance) and experimentally validated performance under realistic sensing and hydrodynamic
-conditions.
+constrained environments, aiming for formalized safety handling and experimentally validated
+performance under realistic sensing and hydrodynamic conditions.
 
