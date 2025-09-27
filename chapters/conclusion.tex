@@ -56,11 +56,12 @@ a finite horizon while enforcing chain dynamics and catenary-induced constraints
 generated feasible waypoint sequences followed by a \ac{pid} tracker, providing a low-complexity
 alternative with explicit feasibility filtering. A lightweight reactive behavior, adapted from
 leader-follower visual servoing but relying on relative pose feedback rather than image features,
-offered a fast fallback mechanism. Simulations compared tracking errors, inter-robot spacing,
-seafloor clearances, and computation times. The \ac{mpc} demonstrated the most systematic
-constraint handling and overall performance when sufficient computation was available. The
-planner-tracker strategy struck a balance between feasibility and simplicity, while reactive
-control remained attractive for fast safety overrides and as a fallback layer.
+offered a fast fast controller but no guaranties as to geometrical constraints satisfaction.
+Simulations compared tracking errors, inter-robot spacing, seafloor clearances, and computation
+times. The \ac{mpc} demonstrated the most systematic constraint handling and overall performance
+when sufficient computation was available. The planner-tracker strategy struck a balance between
+feasibility and simplicity, while reactive control remained attractive for fast safety overrides
+and as a fallback layer.
 
 \section{Limitations}
 \label{c_limitations}
@@ -81,7 +82,7 @@ Several directions naturally extend the work presented in this thesis. Dynamic e
 augmentation parameters should be derived and validated, potentially using learning-based
 identification from onboard sensing. Exploring alternative \ac{mpc} formulations that incorporate
 visual servoing features may reduce the search space and improve efficiency. A transition from
-motion capture to onboard sensing, including \ac{dvl}, acoustics, vision, and pressure sensors,
+motion capture to onboard sensing, including \ac{dvl}, \acp{imu}, vision, and pressure sensors,
 will enable validation in tanks and eventually at sea, with mixed \ac{rov}/\ac{usv} chains and
 realistic tasks. Finally, integration of environment interaction models with explicit clearance
 guarantees and contingency handling for slack cables and contact will be essential for deployment
