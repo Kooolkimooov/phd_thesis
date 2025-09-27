@@ -39,29 +39,26 @@ The main contributions are:
 	      conditions while remaining computationally lightweight (see
 	      also~\cite{filliungAugmentedCatenaryModel2024,filliungAugmentedCatenaryModel2024a}).
 
-	\item Toward dynamics for the augmented parameters (\cref{cable_modelling}). A physics-inspired surrogate
-	      is proposed to endow the augmentation parameters with simple dynamics using a variable-length
-	      pendulum analogy driven by the motion of the attachment points, providing a pathway toward
-	      estimation and control without full fluid-structure simulation.
+	\item Work toward dynamics for the augmented parameters (\cref{cable_modelling}). A physics-inspired
+	      surrogate is proposed to provide the augmentation parameters with simple dynamics using a pendulum
+	      analogy driven by the motion of the attachment points. Work using data-driven symbolic regression
+	      is briefly presented.
 
 	\item Unified robot-chain modeling with catenary forces (\cref{robot_chain_control}). A compact chain
-	      model is formulated where each vehicle follows a standard marine-craft description and the tethers
-	      are represented by catenaries whose horizontal/vertical tensions map consistently into each body
-	      frame. This enables coherent constraints on seafloor/surface clearance, inter-robot distances, and
-	      actuator bounds.
+	      model is formulated where each vehicle follows a standard marine-craft definition and the tethers
+	      are represented by catenaries. This enables coherent constraints on environment clearance,
+	      inter-robot distances, and actuator bounds.
 
-	\item Controller design and comparison for tethered chains (\cref{robot_chain_control}). Three
-	      complementary schemes are developed and evaluated: a constrained model predictive controller, a
-	      waypoint-based planner tracked by a \acs{pid} loop, and a reactive peer-to-peer catenary regulation
-	      law. In simulation with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain, the study reports
-	      tracking errors, catenary clearances, inter-robot distances, and computation times, revealing
-	      trade-offs between constraint satisfaction and computational load.
+	\item Controller design and comparison for tethered chains (\cref{robot_chain_control}). Three control
+	      schemes are proposed and evaluated. Simulation with varying bathymetry and a mixed
+	      \ac{rov}/\ac{usv} chain are run and tracking errors, catenary clearances, inter-robot distances,
+	      and computation times are reported, revealing trade-offs between constraint satisfaction and
+	      computational load.
 
 	\item Experimental resources and validation (\cref{experiments,additionnal_figures}). A motion-capture
 	      dataset covering multiple cables, lengths, and motion regimes is collected to evaluate the
-	      augmented catenary; a scaled chain experiment demonstrates feasibility of the proposed control
-	      methods. The dynamic cable model used for comparison leverages sensing/actuation concepts also
-	      reported in~\cite{peraudIMUbasedMonitoringBuoyBallast2024}.
+	      augmented catenary; a robot chain experiment evaluates the feasibility of the proposed control
+	      methods.
 \end{itemize}
 
 Collectively, these results contribute an analytically tractable modeling layer for tethers and a
