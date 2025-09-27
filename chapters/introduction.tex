@@ -9,6 +9,64 @@
 \section{Focus and Contributions}
 \label{i_focus_and_contributions}
 
+This thesis focuses on modeling and controlling a chain of tethered underwater robots operating in
+constrained environments. The central premise is that cable geometry must be accounted for
+explicitly in both modeling and control, yet represented with sufficient computational efficiency
+to enable real-time use. Two intertwined strands are addressed: fast, analytically tractable models
+of tether shape suitable for online estimation and control; and chain-level control methods that
+incorporate tether geometrical constraints while remaining practical to implement.
+
+Concretely, the thesis investigates the following questions:
+\begin{itemize}
+	\item How accurate can an analytic cable model be while remaining fast enough for online control? What
+	      minimal extensions capture steady hydrodynamic effects without resorting to full continuum
+	      dynamics?
+	\item How should a robot chain be modeled so that tether forces and geometry map consistently into each
+	      vehicle's dynamics, and how can controllers leverage this structure to enforce environmental
+	      clearance and inter-robot spacing?
+	\item How do these models and controllers behave under realistic conditions across different operating
+	      regimes?
+\end{itemize}
+
+The main contributions are:
+\begin{itemize}
+	\item Fast cable modeling for control (\cref{cable_modelling}). The classical catenary is revisited with
+	      practical parameter relations and a curvilinear discretization that yields uniformly spaced samples
+	      along the arc. An augmented, two-degree-of-freedom variant is introduced to capture steady
+	      hydrodynamic effects by tilting and rotating the catenary. Its accuracy is quantified over a
+	      multi-cable dataset and contrasted with a fully dynamic model, showing that the augmented form
+	      achieves substantially lower residuals than the purely vertical catenary across cables and
+	      conditions while remaining computationally lightweight (see
+	      also~\cite{filliungAugmentedCatenaryModel2024,filliungAugmentedCatenaryModel2024a}).
+
+	\item Toward dynamics for the augmented parameters (\cref{cable_modelling}). A physics-inspired surrogate
+	      is proposed to endow the augmentation parameters with simple dynamics using a variable-length
+	      pendulum analogy driven by the motion of the attachment points, providing a pathway toward
+	      estimation and control without full fluid-structure simulation.
+
+	\item Unified robot-chain modeling with catenary forces (\cref{robot_chain_control}). A compact chain
+	      model is formulated where each vehicle follows a standard marine-craft description and the tethers
+	      are represented by catenaries whose horizontal/vertical tensions map consistently into each body
+	      frame. This enables coherent constraints on seafloor/surface clearance, inter-robot distances, and
+	      actuator bounds.
+
+	\item Controller design and comparison for tethered chains (\cref{robot_chain_control}). Three
+	      complementary schemes are developed and evaluated: a constrained model predictive controller, a
+	      waypoint-based planner tracked by a \acs{pid} loop, and a reactive peer-to-peer catenary regulation
+	      law. In simulation with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain, the study reports
+	      tracking errors, catenary clearances, inter-robot distances, and computation times, revealing
+	      trade-offs between constraint satisfaction and computational load.
+
+	\item Experimental resources and validation (\cref{experiments,additionnal_figures}). A motion-capture
+	      dataset covering multiple cables, lengths, and motion regimes is collected to evaluate the
+	      augmented catenary; a scaled chain experiment demonstrates feasibility of the proposed control
+	      methods. The dynamic cable model used for comparison leverages sensing/actuation concepts also
+	      reported in~\cite{peraudIMUbasedMonitoringBuoyBallast2024}.
+\end{itemize}
+
+Collectively, these results contribute an analytically tractable modeling layer for tethers and a
+set of control strategies for robot chains that explicitly respect tether geometry.
+
 \section{Publications}
 \label{i_publications}
 
@@ -25,8 +83,7 @@
 	\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{filliungAugmentedCatenaryModel2024a}
 \end{itemize}
 
-\section{Thesis Outline}
-\label{i_thesis_outline}
+\section{Thesis Outline}\label{i_thesis_outline}
 
 \Cref{state_of_the_art}
 surveys the literature on unmanned underwater vehicles and tethered systems. It reviews platform
@@ -48,6 +105,6 @@ directions.
 The appendices gather complementary material: \cref{experiments} details the experimental
 campaigns: the dataset used to evaluate the augmented catenary model across multiple cables and
 conditions, and a scaled robot-chain experiment validating the proposed control methods.
-\cref{additionnal_figures} provides additional figures and results. \cref{summary_in_french}
+\cref{additionnal_figures} provides additional figures and results.~\cref{summary_in_french}
 presents an extended summary of the thesis in French.
 
