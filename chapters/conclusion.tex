@@ -6,107 +6,89 @@
 This manuscript addressed the modelling and control of chains of tethered underwater robots, with a
 focus on fast, analyzable cable representations and chain-level controllers that consider tether
 geometry. Two technical threads were developed in tandem: cable modelling suitable for real-time
-use in control, and coordination of robot chains under geometry-consistent constraints. Below, we
-synthesize the main outcomes, discuss limitations, and outline future work.
+use in control, and coordination of robot chains under geometry-consistent constraints. The main
+outcomes are synthesized below, followed by a discussion of limitations and perspectives for future
+work.
 
 \section{Cable Modelling}
 \label{c_cable_modelling}
 
-\subsection{\catenarymodeltitle{}}
-\label{c_cm_catenary_model}
+The classical catenary model was recalled and adapted for control applications and accuracy
+validation (\cref{cable_modelling}). A compact parameterization was derived that relates the curve
+to endpoint geometry and cable length, while curvilinear discretization was introduced to generate
+uniformly spaced samples along the arc, matching how measurements are typically acquired in
+practice. The model also provides closed-form expressions for horizontal and vertical tensions
+along the cable, which can be directly reused as external forces in vehicle dynamics. As expected,
+the vertical catenary remains a strong baseline in quasi-static regimes, and its analytical form
+makes it compatible with real-time control pipelines and optimization-based controllers.
 
-The classical catenary model was recalled and tools for control applications and accuracy
-validation were derived (\cref{cable_modelling}). In particular:
-\begin{itemize}
-	\item A compact parameterization was derived that relates the curve to endpoint geometry and cable
-	      length. Curvilinear discretization was introduced to generate uniformly spaced samples along the
-	      arc, matching how measured points are typically acquired in practice.
-	\item The model provides closed-form expressions for horizontal and vertical tensions along the cable,
-	      which are directly reusable as external forces in vehicle dynamics.
-	\item As expected, the vertical catenary is a strong baseline in quasi-static regimes; its analytical
-	      form makes it compatible with real-time control pipelines and optimization-based controllers.
-\end{itemize}
-
-\subsection{\augmentedmodeltitle{}}
-\label{c_cm_augmented_catenary_model_dynamics}
-
-To accommodate steady hydrodynamic effects under motion, an augmentation was proposed
+To accommodate steady hydrodynamic effects under motion, an augmented model was proposed
 (\Cref{cm_augmented_catenary_model}). The cable curve is obtained by applying two rotations to the
-vertical catenary: a sway-related rotation around the end-to-end axis and a surge-related tilt
-around the plane normal. This yields the \thetagammamodel{} while preserving analytical
-tractability and the curvilinear discretization.
-
-The model was evaluated on a motion-capture dataset comprising \num{129} sequences and \num{8}
-distinct cables spanning different buoyancies and flexibilities
+vertical catenary: a sway-related rotation and a surge-related rotation. This construction yields
+the \thetagammamodel{} while preserving analytical tractability and curvilinear discretization. The
+model was evaluated on a motion-capture dataset comprising \num{129} sequences and \num{8} distinct
+cables spanning different buoyancies and flexibilities
 (\cref{e_augmented_catenary_model_experimental_validation}). The residual between measured and
 modelled point clouds, computed frame-wise over uniformly spaced samples, was used as the accuracy
 metric. Across cables and conditions, the augmented form systematically outperformed the purely
-vertical catenary, with median residual reductions in the \qtyrange{10}{75}{\percent} range; for
-the most compliant and negatively buoyant cables, typical median residuals reached
-\qty{10}{\milli\meter} to \qty{13}{\milli\meter}.
+vertical catenary, with median residual reductions ranging from \qty{10}{\percent} to
+\qty{75}{\percent}. For the most compliant and negatively buoyant cables, typical median residuals
+reached values between \qty{10}{\milli\meter} and \qty{13}{\milli\meter}.
 
-Two avenues toward dynamics for the augmentation parameters were explored: a physics-inspired
-surrogate (pendulum analogy driven by endpoint motion) and data-driven symbolic regression. While
-promising, these preliminary efforts did not yet yield a robust dynamic law suitable for deployment
-in chain control. Consequently, the control chapter deliberately used the vertical catenary.
+Two approaches were explored to provide dynamics for the augmentation parameters: a
+physics-inspired surrogate based on a pendulum analogy driven by endpoint motion, and data-driven
+symbolic regression. While promising, these preliminary efforts did not yield a robust dynamic law
+suitable for deployment in chain control. For this reason, the control chapter deliberately
+retained the vertical catenary model.
 
 \section{Robot Chain Control}
 \label{c_robot_chain_control}
 
 Building on a standard marine-craft model and catenary-based tether forces, a unified chain model
 was formulated (\cref{rcc_robot_chain_modelling}). This representation embeds horizontal and
-vertical forces from the catenary directly into each vehicle's dynamics, enabling constraints
-clearance, inter-robot distances, and admissible thrusts to be stated in a geometry-consistent
+vertical forces from the catenary directly into each vehicle's dynamics, enabling environment
+clearance, inter-robot distances, and admissible thrusts to be expressed in a geometry-consistent
 fashion.
 
-Three control strategies were examined under a common scenario (varying bathymetry, leader
-manoeuvres, mixed surface and underwater vehicles):
-\begin{itemize}
-	\item A constrained \ac{mpc} that optimizes inputs over a finite horizon while enforcing chain dynamics
-	      and catenary-induced constraints.
-	\item A planning layer that generates feasible waypoint sequences followed by a \ac{pid} tracker,
-	      offering a low-complexity alternative with explicit feasibility filtering.
-	\item A lightweight reactive behavior adapted from leader-follower visual servoing, here using relative
-	      pose feedback rather than image features.
-\end{itemize}
-
-Simulations compared tracking errors, inter-robot spacing, seafloor clearances, and computation
-times. The \ac{mpc} offers the most systematic constraint handling and best overall performance
-when a sufficient computation budget is available; the planner-tracker strikes a balance between
-feasibility and simplicity; reactive control remains attractive for fast safety overrides and as a
-fallback layer.
+Three control strategies were examined under a common scenario involving varying bathymetry, leader
+manoeuvres, and mixed surface and underwater vehicles. A constrained \ac{mpc} optimized inputs over
+a finite horizon while enforcing chain dynamics and catenary-induced constraints. A planning layer
+generated feasible waypoint sequences followed by a \ac{pid} tracker, providing a low-complexity
+alternative with explicit feasibility filtering. A lightweight reactive behavior, adapted from
+leader-follower visual servoing but relying on relative pose feedback rather than image features,
+offered a fast fallback mechanism. Simulations compared tracking errors, inter-robot spacing,
+seafloor clearances, and computation times. The \ac{mpc} demonstrated the most systematic
+constraint handling and overall performance when sufficient computation was available. The
+planner-tracker strategy struck a balance between feasibility and simplicity, while reactive
+control remained attractive for fast safety overrides and as a fallback layer.
 
 \section{Limitations}
 \label{c_limitations}
 
-The main limitations identified throughout the work are:
-\begin{itemize}
-	\item A consistent dynamic law for the augmentation parameters remains to be established. Without it, the
-	      \augmentedmodel{} may not deliver the expected accuracy gain observed in
-	      \cref{cm_acm_experimental_validation}.
-	\item Experimental validation was limited to a pool with one and two robots and relied on motion capture.
-	      Broader trials with less constraining state estimation and more robots are needed.
-	\item Real-time \ac{mpc} in multi-robot configurations remains sensitive to model size, horizon length,
-	      and solver settings; careful optimizations and code optimization are needed.
-\end{itemize}
+Several limitations were identified throughout this work. A consistent dynamic law for the
+augmentation parameters remains to be established; without it, the \augmentedmodel{} cannot
+reliably deliver the accuracy gains observed in \cref{cm_acm_experimental_validation}. Experimental
+validation was restricted to pool trials with one and two robots and relied on motion capture,
+leaving broader trials with less constraining state estimation and larger fleets still to be
+conducted. Finally, real-time \ac{mpc} in multi-robot configurations remains sensitive to model
+size, horizon length, and solver settings, making careful formulation and computational
+optimization essential.
 
 \section{Perspectives and Future Work}
 \label{c_perspectives}
 
-The following directions are natural continuations of this thesis:
-\begin{itemize}
-	\item Derive and validate dynamic equations for the augmentation parameters using learning-based
-	      identification from onboard sensing.
-	\item Investigate different \ac{mpc} formulation based on visual servoing features may reduce the search
-	      space.
-	\item Transition from motion capture to onboard sensing (\ac{dvl}, acoustics, vision, pressure) and
-	      validate in tanks and then at sea, including mixed \ac{rov}/\ac{usv} chains and realistic tasks.
-	\item Integrate environment interaction models, explicit clearance guarantees, and contingency handling
-	      for slack cables and contact.
-\end{itemize}
+Several directions naturally extend the work presented in this thesis. Dynamic equations for the
+augmentation parameters should be derived and validated, potentially using learning-based
+identification from onboard sensing. Exploring alternative \ac{mpc} formulations that incorporate
+visual servoing features may reduce the search space and improve efficiency. A transition from
+motion capture to onboard sensing, including \ac{dvl}, acoustics, vision, and pressure sensors,
+will enable validation in tanks and eventually at sea, with mixed \ac{rov}/\ac{usv} chains and
+realistic tasks. Finally, integration of environment interaction models with explicit clearance
+guarantees and contingency handling for slack cables and contact will be essential for deployment
+in unstructured settings.
 
 This thesis contributes an analytically tractable modelling layer for tethers, an augmented variant
-that captures steady hydrodynamic deformations, and a set of chain-control strategies that respect
-tether geometry. Together with the experimental demonstrations, these results support the viability
-of cable-aware control for robot chains and provide a practical foundation for future
-implementation at scale and in the field.
+that captures steady hydrodynamic deformations, and a set of chain-control strategies that
+explicitly respect tether geometry. Together with the experimental demonstrations, these results
+support the viability of cable-aware control for robot chains and provide a practical foundation
+for future implementations at scale and in the field.
