@@ -796,18 +796,14 @@ as strong currents, limited visibility, and complex fluid-structure interactions
 the direct transfer of these methods.
 
 Despite these advances, several open challenges remain. The incorporation of hard safety
-constraints on tether tension, slack, and collision avoidance into online planners with provable
-feasibility and stability is still unresolved. The potential of exploiting the tether itself as a
-sensing device, through smart or actively managed designs such as buoys, moving ballasts, or
-distributed sensors, has been demonstrated conceptually but remains rare in deployed systems.
-Estimation under degraded sensing conditions also represents a persistent difficulty: robust
-localization and cable-shape estimation under intermittent or poor visibility require the tight
-integration of models with \acp{imu}, depth, tension, and partial vision measurements. A further
+constraints on tether slack, and collision avoidance into online planners with provable feasibility
+and stability is still unresolved. The tether itself can be exploited as a sensing device, whether
+through smart or actively managed designs such as buoys, moving ballasts, or distributed sensors,
+or through sensor fusion that integrates \acp{imu}, depth, tension, and partial vision measurements
+to enable robust localization and cable-shape estimation under degraded conditions. A further
 challenge lies in the development of reduced-order coupled models that remain efficient yet
 reliable, preserving key behaviors relevant for safety and performance while enabling real-time
-optimization and control. Finally, progress is hindered by the lack of standardized benchmarks and
-publicly validated datasets or simulators that represent vehicle-tether chains under realistic
-hydrodynamics and constrained environments.
+optimization and control.
 
 In summary, the state of the art supports a thesis strategy that combines conservative geometric
 representations for safety, reduced-order coupled models for online decision making, and robust
