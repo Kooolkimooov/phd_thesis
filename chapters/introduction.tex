@@ -30,35 +30,41 @@ Concretely, the thesis investigates the following questions:
 
 The main contributions are:
 \begin{itemize}
-	\item Fast cable modeling for control (\cref{cable_modelling}). The classical catenary is revisited with
-	      practical parameter relations and a curvilinear discretization that yields uniformly spaced samples
-	      along the arc. An augmented, two-degree-of-freedom variant is introduced to capture steady
-	      hydrodynamic effects by tilting and rotating the catenary. Its accuracy is quantified over a
-	      multi-cable dataset and contrasted with a fully dynamic model, showing that the augmented form
-	      achieves substantially lower residuals than the purely vertical catenary across cables and
-	      conditions while remaining computationally lightweight (see
-	      also~\cite{filliungAugmentedCatenaryModel2024,filliungAugmentedCatenaryModel2024a}).
+	\item \cref{cable_modelling}:
+	\begin{itemize}
+		\item Fast cable modeling for control (\cref{cable_modelling}). The classical catenary is revisited with
+		      practical parameter relations and a curvilinear discretization that yields uniformly spaced samples
+		      along the arc. An augmented, two-degree-of-freedom variant is introduced to capture steady
+		      hydrodynamic effects by tilting and rotating the catenary. Its accuracy is quantified over a
+		      multi-cable dataset and contrasted with a fully dynamic model, showing that the augmented form
+		      achieves substantially lower residuals than the purely vertical catenary across cables and
+		      conditions while remaining computationally lightweight.
+		\item Work toward dynamics for the augmented parameters (\cref{cable_modelling}). A physics-inspired
+		      surrogate is proposed to provide the augmentation parameters with simple dynamics using a pendulum
+		      analogy driven by the motion of the attachment points. Work using data-driven symbolic regression
+		      is briefly presented.
+	\end{itemize}
 
-	\item Work toward dynamics for the augmented parameters (\cref{cable_modelling}). A physics-inspired
-	      surrogate is proposed to provide the augmentation parameters with simple dynamics using a pendulum
-	      analogy driven by the motion of the attachment points. Work using data-driven symbolic regression
-	      is briefly presented.
+	\item \cref{robot_chain_control}:
+	\begin{itemize}
+		\item Unified robot-chain modeling with catenary forces (\cref{robot_chain_control}). A compact chain
+		      model is formulated where each vehicle follows a standard marine-craft definition and the tethers
+		      are represented by catenaries. This enables coherent constraints on environment clearance,
+		      inter-robot distances, and actuator bounds.
+		\item Controller design and comparison for tethered chains (\cref{robot_chain_control}). Three control
+		      schemes are proposed and evaluated. Simulation with varying bathymetry and a mixed
+		      \ac{rov}/\ac{usv} chain are run and tracking errors, catenary clearances, inter-robot distances,
+		      and computation times are reported, revealing trade-offs between constraint satisfaction and
+		      computational load.
+	\end{itemize}
 
-	\item Unified robot-chain modeling with catenary forces (\cref{robot_chain_control}). A compact chain
-	      model is formulated where each vehicle follows a standard marine-craft definition and the tethers
-	      are represented by catenaries. This enables coherent constraints on environment clearance,
-	      inter-robot distances, and actuator bounds.
-
-	\item Controller design and comparison for tethered chains (\cref{robot_chain_control}). Three control
-	      schemes are proposed and evaluated. Simulation with varying bathymetry and a mixed
-	      \ac{rov}/\ac{usv} chain are run and tracking errors, catenary clearances, inter-robot distances,
-	      and computation times are reported, revealing trade-offs between constraint satisfaction and
-	      computational load.
-
-	\item Experimental resources and validation (\cref{experiments,additionnal_figures}). A motion-capture
-	      dataset covering multiple cables, lengths, and motion regimes is collected to evaluate the
-	      augmented catenary; a robot chain experiment evaluates the feasibility of the proposed control
-	      methods.
+	\item \cref{experiments,additionnal_figures}:
+	\begin{itemize}
+		\item Experimental resources and validation (\cref{experiments,additionnal_figures}). A motion-capture
+		      dataset covering multiple cables, lengths, and motion regimes is collected to evaluate the
+		      augmented catenary; a robot chain experiment evaluates the feasibility of the proposed control
+		      methods.
+	\end{itemize}
 \end{itemize}
 
 Collectively, these results contribute an analytically tractable modeling layer for tethers and a
