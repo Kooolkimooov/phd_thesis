@@ -566,7 +566,7 @@ manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Constraint-aware NMPC and robust control under disturbances}} 
+	\caption{\todo{Constraint-aware NMPC and robust control under disturbances}}
 	% \label{}
 \end{figure}
 
@@ -583,7 +583,7 @@ conditions~\cite{songRobustStateEstimation2023}.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Formation control of multiple AUVs with trajectory tracking}} 
+	\caption{\todo{Formation control of multiple AUVs with trajectory tracking}}
 	% \label{}
 \end{figure}
 
@@ -646,7 +646,7 @@ exceeded.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Dynamic mooring/catenary model with forces and safety constraints}} 
+	\caption{\todo{Dynamic mooring/catenary model with forces and safety constraints}}
 	% \label{}
 \end{figure}
 
@@ -659,7 +659,7 @@ high-level planning methods for intermediate cable state transitions.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Robotic cable routing: spatial/topological planning between configurations}} 
+	\caption{\todo{Robotic cable routing: spatial/topological planning between configurations}}
 	% \label{}
 \end{figure}
 
@@ -671,7 +671,7 @@ through propeller-based actuation~\cite{wuTrajectoryFollowingTethered2019}.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Hybrid control: vertical via tether length regulation, horizontal via thrusters}} 
+	\caption{\todo{Hybrid control: vertical via tether length regulation, horizontal via thrusters}}
 	% \label{}
 \end{figure}
 
@@ -742,9 +742,10 @@ disturbances~\cite{laranjeiraCatenarybasedVisualServoing2020}.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Catenary-based visual servoing pipeline for 3D tether shape control}} 
+	\caption{\todo{Catenary-based visual servoing pipeline for 3D tether shape control}}
 	% \label{}
 \end{figure}
+
 Overall, the literature indicates that effective control of underwater tethered robotic systems
 relies on the integration of high-fidelity dynamic modeling, adaptive and robust control methods,
 and sensor-based feedback architectures. These elements collectively address the nonlinear,
@@ -754,4 +755,96 @@ operation in complex environments.
 \section{Discussion}
 \label{sota_discussion}
 
-\lipsum[1]
+This chapter reviewed recent advances in underwater robotic platforms, modelling of vehicles and
+tethers, coupled vehicle-tether dynamics, and control strategies for both untethered and tethered
+systems. The literature reveals consistent themes that are directly relevant to this thesis, which
+targets the safe control of chains of tethered underwater robots operating in known but constrained
+environments.
+
+First, there is a clear fidelity-computational-efficiency trade-off in tether modelling
+(\cref{sota_sm_tether_modelling}). Geometric models (e.g., catenary, parabolic curves) are
+computationally light and can run at control rates, but they neglect cable dynamics and complex
+hydrodynamic loading. Lumped-mass models provide a tunable compromise, while finite element and
+rod-theory approaches offer the highest fidelity at the cost of seconds-to-minutes evaluation
+times—typically unsuitable for real-time onboard control. For online planning and constraint
+handling in cluttered workspaces, conservative geometric representations are particularly
+attractive, as they provide safety guarantees with modest compute requirements.
+
+Second, accurate control in practice requires treating the vehicle and tether as a coupled system
+(\cref{sota_sm_coupled_modelling}). Multi-body and continuum mechanics formulations capture the
+bidirectional exchange of forces and the constrained motion induced by the tether. While
+high-fidelity \ac{cfd}-informed and \ac{sph}-based schemes yield rich insight, real-time control
+benefits from reduced-order coupled models, often complemented by sensor fusion and vision-based
+estimation of tether shape or attachment geometry. Integrating estimation of cable configuration
+with vehicle state is a recurring requirement for robust performance.
+
+Third, modern control approaches for underwater systems increasingly combine constraint-aware
+optimisation (e.g., \ac{mpc}) with robustness to modelling error and disturbances (sliding-mode,
+adaptive/neural augmentation) (\cref{sota_c_uuv_control}). For tethered systems, hybrid strategies
+that regulate tension and cable geometry, while delegating fast motion to the vehicle actuators,
+have proven effective (\cref{sota_c_tethered_uuv_control}). Safety mechanisms —tension limits,
+slack avoidance, and collision prevention— are typically enforced either through dedicated
+tether-management subsystems or embedded as constraints in the control layer.
+
+Finally, analogies with tethered aerial robots and dual-mode (tethered/autonomous) platforms
+highlight architectural principles that transfer to the underwater domain: hierarchical control,
+flatness-inspired trajectory generation for parts of the system, and the use of the tether as an
+active element for both sensing and actuation. However, underwater operation adds strong currents,
+visibility limitations, and complex fluid-structure interactions that complicate direct transfer of
+these methods.
+
+Open challenges and research gaps
+
+\begin{itemize}
+	\item Real-time coupled estimation and control for multi-robot chains: Most works study a single
+	      vehicle-tether pair. Control and estimation for chains or parent-child hierarchies with multiple
+	      flexible links remain underexplored, particularly with formal guarantees.
+	\item Safety with guarantees in constrained workspaces: Incorporating hard constraints on tether tension,
+	      slack, and collision avoidance with the environment into online planners with provable feasibility
+	      and stability remains an active area.
+	\item Mode changes and hybrid dynamics: Transitions between taut and slack phases, intermittent contact
+	      with the environment, and length variations introduce hybrid dynamics that are rarely handled
+	      systematically in closed-loop.
+	\item Exploiting the tether as a sensor: Beyond passive constraint, smart or actively managed
+	      tethers (buoys, moving ballasts, distributed sensing) show promise but are not yet common in
+	      underwater field systems.
+	\item Estimation under degraded sensing: Robust localisation and cable-shape estimation with
+	      intermittent/poor visibility, leveraging \acp{imu}, depth, tension, and partial vision, require
+	      tightly integrated models and sensor fusion.
+	\item Efficient yet reliable models: Reduced-order coupled models that preserve the key safety and
+	      performance-relevant behaviours, while enabling real-time optimisation and control, need further
+	      development and validation.
+	\item Benchmarks and validation: There is a lack of standardised benchmarks and publicly validated
+	      datasets/simulators for vehicle-tether chains in realistic hydrodynamics and constrained
+	      environments.
+\end{itemize}
+
+Implications for this thesis
+
+\begin{itemize}
+	\item Hierarchical architecture: A layered approach is appropriate --- (i) high-level planning and
+	      constraint-aware control (e.g., \ac{nmpc}) in the known map, (ii) mid-level tether geometry/tension
+	      regulation using computationally efficient models (geometric or lumped-mass with few segments), and
+	      (iii) low-level robust vehicle control to reject hydrodynamic disturbances.
+	\item Integrated estimation: Joint estimation of vehicle state and tether configuration should be
+	      pursued, combining geometric cable parameterisations (e.g., catenary) with onboard sensing and
+	      vision when available, as indicated by prior visual servoing results.
+	\item Safety via conservative geometry: Use of conservative occupancy bounds for the tether can provide
+	      tractable collision-avoidance constraints in cluttered environments without sacrificing real-time
+	      capability.
+	\item Tension and slack management: Online enforcement of tension limits and slack avoidance is essential
+	      to protect hardware and maintain controllability, suggesting explicit constraint handling and/or
+	      supervisory logic.
+	\item Chain-specific coordination: Control and estimation formulations should explicitly account for
+	      information flow and force transmission along chains (parent-child and multi-link configurations),
+	      including the effects of length changes and winch actions when present.
+\end{itemize}
+
+In summary, the state of the art supports a thesis strategy that combines conservative geometric
+representations for safety, reduced-order coupled models for online decision making, and robust
+constraint-aware control with integrated state/tether estimation. Within this framework, this work
+addresses the gap of reliable real-time control for chains of tethered underwater robots in
+constrained environments, aiming for formalised safety handling (tension, slack, and collision
+avoidance) and experimentally validated performance under realistic sensing and hydrodynamic
+conditions.
+
