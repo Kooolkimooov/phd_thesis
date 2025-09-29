@@ -519,15 +519,37 @@ introduced by changes in the optimization problem.
 
 \begin{figure}
 	\centering
-	\inputtikz{figures/mpc_experiment_0_pose_x}
-	\caption{\todo{
-			one or more figures from \texttt{mpc\_joy\_controller\_br4\_2025-03-04-13-39-38.bag}
-			error, kalman covariance, activation, compute time, etc.
-		}}
-	\label{e_rcce_r_mpc_placeholder}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/mpc_experiment_1_pose_x}
+		\caption{Trajectory of the robots on the \ldvect{x}{w}-axis.}
+		\label{e_rcce_r_mpc_pose_x}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/mpc_experiment_1_pose_y}
+		\caption{Trajectory of the robots on the \ldvect{y}{w}-axis.}
+		\label{e_rcce_r_mpc_pose_y}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/mpc_experiment_1_pose_z}
+		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis.}
+		\label{e_rcce_r_mpc_pose_z}
+	\end{subfigure}
+	\caption{Trajectory of the robots during the \ac{mpc} simulation.}
+	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
-\subsubsection{Two Robot \acs{mpc} Experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_experiment_1_compute_time}
+	\caption{Computation time of the \ac{mpc} during the experiment.}
+	\label{rcc_s_mpc_r_compute_time}
+\end{figure}
+
+\subsubsection{Two Robot \acs{mpc} Experiment} 
+\label{e_rcce_r_two_bluerov_mpc_experiment}
 
 Results from the two-robot \ac{mpc} experiment described in
 \cref{e_rcce_es_two_robots_mpc_experiment} are presented in \cref{e_rcce_r_mpc_2_placeholder}. The

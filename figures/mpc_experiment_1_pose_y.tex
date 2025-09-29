@@ -13,18 +13,18 @@
 			legend cell align={left}
 		]
 
-		\addplot[name path=cov_upper, draw=none, forget plot] table [x index=0, y index=1] {figures/data/mpc_experiment_1_position_covariance.txt};
-		\addplot[name path=cov_lower, draw=none, forget plot] table [x index=0, y index=4] {figures/data/mpc_experiment_1_position_covariance.txt};
+		\addplot[name path=cov_upper, draw=none, forget plot] table [x index=0, y index=2] {figures/data/mpc_experiment_1_position_covariance.txt};
+		\addplot[name path=cov_lower, draw=none, forget plot] table [x index=0, y index=5] {figures/data/mpc_experiment_1_position_covariance.txt};
 		\addplot[name path=act_upper, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, 5, NaN)}] {figures/data/mpc_experiment_1_activated.txt};
 		\addplot[name path=act_lower, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, -5, NaN)}] {figures/data/mpc_experiment_1_activated.txt};
 
 		\addplot[fill=green, fill opacity=0.15] fill between [of=act_upper and act_lower];
-		\addplot[red, dashed, very thick, smooth] table [x index=0, y index=1] {figures/data/mpc_experiment_1_target_position.txt};
-		\addplot[red, very thick, smooth] table [x index=0, y index=1] {figures/data/mpc_experiment_1_position.txt};
+		\addplot[red, dashed, very thick, smooth] table [x index=0, y index=2] {figures/data/mpc_experiment_1_target_position.txt};
+		\addplot[red, very thick, smooth] table [x index=0, y index=2] {figures/data/mpc_experiment_1_position.txt};
 		\addplot[fill=red, fill opacity=0.25] fill between [of=cov_upper and cov_lower];
 
 		\legend{
-			\ac{mpc} activated,
+			\acs{mpc} activated,
 			Target,
 			Position,
 			$\pm 1\sigma$,
