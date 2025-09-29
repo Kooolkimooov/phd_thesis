@@ -4,6 +4,7 @@
 			xmin = 0,
 			xmax = 287,
 			ymin = 0,
+			ymax = 4,
 			width = \figurewidth,
 			height = 0.5\figurewidth,
 			xlabel = {time / \unit{\s}},
@@ -12,9 +13,15 @@
 			legend cell align={left}
 		]
 
-		\addplot table [x index=0, y index=1] {figures/data/mpc_experiment_1_compute_times.txt};
+		\addplot[name path=act_lower, draw=none, forget plot] {-5};
+		\addplot[name path=act_upper, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, 5, -5)}] {figures/data/mpc_experiment_1_activated.txt};
+
+		\addplot[fill=green, fill opacity=0.15] fill between [of=act_upper and act_lower];
+		% Plot compute times as very thin histogram bars
+		\addplot[ybar, bar width=0.1pt] table [x index=0, y index=1] {figures/data/mpc_experiment_1_compute_times.txt};
 
 		\legend{
+			\acs{mpc} activated,
 			Compute time,
 		}
 
