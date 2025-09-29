@@ -16,7 +16,6 @@
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{pgfplots}
-\usepackage{pgfplotstable}
 \usepackage{tikz}
 \usepackage{mathtools}
 \usepackage{hyperref}
@@ -149,7 +148,8 @@
 
 \graphicspath{{figures/}}
 
-\usetikzlibrary{external, angles, quotes, calc, positioning, pgfplots.statistics, patterns, fit, backgrounds, fillbetween, intersections}
+\usetikzlibrary{external, angles, quotes, calc, positioning, pgfplots.statistics, patterns, fit, backgrounds, intersections}
+\usepgfplotslibrary{fillbetween}
 
 \newdimen\figurewidth
 \figurewidth=0.8\textwidth

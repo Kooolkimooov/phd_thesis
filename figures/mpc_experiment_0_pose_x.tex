@@ -2,7 +2,9 @@
 
 	\begin{axis}[
 			xmin = 0,
-			xmax = 50,
+			xmax = 287,
+			ymin = -5,
+			ymax = 5,
 			width = \figurewidth,
 			height = 0.5\figurewidth,
 			xlabel = {time / \unit{\s}},
@@ -16,7 +18,7 @@
 		
 		\addplot[red, very thick, smooth] table [x index=0, y index=1] {figures/data/mpc_experiment_1_position.txt};
 		\addplot[red, dashed, very thick, smooth] table [x index=0, y index=1] {figures/data/mpc_experiment_1_target_position.txt};
-		\addplot[fill=red, fill opacity=0.15] fill between[of=upper and lower];
+		\addplot[fill=red, fill opacity=0.15] fill between [of=upper and lower];
 
 		\legend{
 			Position,
