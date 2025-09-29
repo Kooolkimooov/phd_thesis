@@ -7,6 +7,7 @@
 			ymax = 5,
 			width = \figurewidth,
 			height = 0.5\figurewidth,
+			unbounded coords=jump,
 			xlabel = {time / \unit{\s}},
 			ylabel = {position / \unit{\m}},
 			legend style={fill opacity=.75, text opacity=1, font=\footnotesize},
@@ -15,8 +16,8 @@
 
 		\addplot[name path=cov_upper, draw=none, forget plot] table [x index=0, y index=2] {figures/data/mpc_experiment_1_position_covariance.txt};
 		\addplot[name path=cov_lower, draw=none, forget plot] table [x index=0, y index=5] {figures/data/mpc_experiment_1_position_covariance.txt};
-		\addplot[name path=act_upper, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, 5, NaN)}] {figures/data/mpc_experiment_1_activated.txt};
-		\addplot[name path=act_lower, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, -5, NaN)}] {figures/data/mpc_experiment_1_activated.txt};
+		\addplot[name path=act_lower, draw=none, forget plot] {-5};
+		\addplot[name path=act_upper, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, 5, -5)}] {figures/data/mpc_experiment_1_activated.txt};
 
 		\addplot[fill=green, fill opacity=0.15] fill between [of=act_upper and act_lower];
 		\addplot[red, dashed, very thick, smooth] table [x index=0, y index=2] {figures/data/mpc_experiment_1_target_position.txt};
