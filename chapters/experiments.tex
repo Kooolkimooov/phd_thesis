@@ -506,70 +506,70 @@ significantly impact the overall stability of the closed-loop control.
 
 \subsubsection{One Robot \acs{mpc} Experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
 
-The trajectory from the single-robot \ac{mpc} experiment in
-\cref{e_rcce_es_one_robot_mpc_experiment} are shown in
-\cref{e_rcce_r_mpc_poses,e_rcce_r_mpc_pose_wz}. The full sequence spans \qty{287.34}{\s}, of which
-the \ac{mpc} was actively commanding the robot for \qty{183.39}{\s}, i.e., \qty{63.82}{\percent} of
-the time, in several activation windows separated by manual or safety disengagements.
+The trajectory from the single-robot \ac{mpc} experiment introduced in
+\cref{e_rcce_es_one_robot_mpc_experiment} is shown in
+\cref{e_rcce_r_mpc_poses,e_rcce_r_mpc_pose_wz}. The full sequence spanned \qty{287.34}{\s}, of
+which the \ac{mpc} actively commanded the robot for \qty{183.39}{\s}, corresponding to
+\qty{63.82}{\percent} of the duration. These activations occurred in several windows separated by
+manual or safety disengagements.
 
-While the \ac{mpc} was active, position tracking errors remained moderate:
-\begin{itemize}
-	\item Residual on position was \qty{0.240}{\m} on \fvect{x}{w}, \qty{0.132}{\m} on \fvect{y}{w}, and
-	      \qty{0.147}{\m} on \fvect{z}{w};
-	\item the \num{95}\textsuperscript{th} percentile of the absolute error was below \qty{0.586}{\m} on
-	      \fvect{x}{w}, \qty{0.260}{\m} on \fvect{y}{w}, and \qty{0.314}{\m} on \fvect{z}{w};
-	\item the maximum absolute position error observed during activation was \qty{1.02}{\m} on \fvect{x}{w},
-	      \qty{1.00}{\m} on \fvect{y}{w}, and \qty{0.796}{\m} on \fvect{z}{w}.
-\end{itemize}
+During active phases, position tracking errors remained moderate. The residual error on position
+was \qty{0.240}{\m} along \fvect{x}{w}, \qty{0.132}{\m} along \fvect{y}{w}, and \qty{0.147}{\m}
+along \fvect{z}{w}. The \num{95}\textsuperscript{th} percentile of the absolute error did not
+exceed \qty{0.586}{\m} on \fvect{x}{w}, \qty{0.260}{\m} on \fvect{y}{w}, and \qty{0.314}{\m} on
+\fvect{z}{w}. Maximum absolute errors reached \qty{1.02}{\m}, \qty{1.00}{\m}, and \qty{0.796}{\m}
+along the respective axes.
 
-Yaw tracking exhibited larger residuals, consistent with the heading observability limitations of
-the setup and the \ac{ekf} yaw drift when vision quality degrades. Over activation periods, the yaw
-error had a residual of \qty{79.6}{\degree}, with a \num{95}\textsuperscript{th}-percentile of
-\qty{163.9}{\degree}; these peaks concentrated near tracking-volume boundaries and during degraded
-observations, whereas lateral position remained well-behaved.
+Yaw tracking exhibited larger residuals, which is consistent with the heading observability
+limitations of the setup and the drift of the \ac{ekf} yaw estimate when vision quality degraded.
+Across activation periods, the yaw error showed a residual of \qty{79.6}{\degree}, with a
+\num{95}\textsuperscript{th}-percentile of \qty{163.9}{\degree}. These peaks were concentrated near
+tracking-volume boundaries and during intervals of degraded observation, while lateral position
+remained well behaved.
 
-The first severe loss of external tracking occurred at approximately \qty{22.99}{\s} (where the
-estimated \fvect{x}{w} or \fvect{y}{w} leaves the plotted \qty{\pm 5}{\m} band), after which the
-estimated position drifted primarily on \fvect{x}{w} and \fvect{y}{w}. Over a subsequent
-\qty{4.91}{\s} window, the average absolute drift rates were about \qty{1.00}{\m\per\s} on
-\fvect{x}{w} and \qty{1.68}{\m\per\s} on \fvect{y}{w}, which quickly pushes the optimization
-outside its feasible set when the target lies beyond the tracking volume.
+The first severe loss of external tracking occurred at approximately \qty{22.99}{\s}, when the
+estimated position along \fvect{x}{w} or \fvect{y}{w} left the plotted figure. Following this loss,
+the estimated position drifted primarily on \fvect{x}{w} and \fvect{y}{w}. Over a subsequent window
+of \qty{4.91}{\s}, the average absolute drift rates reached approximately \qty{1.00}{\m\per\s}
+along \fvect{x}{w} and \qty{1.68}{\m\per\s} along \fvect{y}{w}, which quickly pushed the
+optimization outside its feasible set when the target lay beyond the tracking volume.
 
-Solver compute times corroborate the qualitative behaviour in \cref{e_rcce_r_mpc_compute_time}: the
-median wall time per solve was \qty{0.196}{\s} (mean \qty{0.214}{\s}), with
-\num{90}\textsuperscript{th}/\num{99}\textsuperscript{th} percentiles of
-\qty{0.315}{\s}/\qty{0.419}{\s}. Rare spikes reached up to \qty{3.093}{\s} during challenging
-configurations. These figures align with the expected variability of a constrained nonlinear
-\ac{mpc} subject to changing constraint activity and measurement quality.
+Solver compute times corroborated the observed behaviour, as shown in
+\cref{e_rcce_r_mpc_compute_time}. The median time per solve was \qty{0.196}{\s}, with a mean of
+\qty{0.214}{\s}, and \num{90}\textsuperscript{th} and \num{99}\textsuperscript{th} percentiles of
+\qty{0.315}{\s} and \qty{0.419}{\s}, respectively. Rare spikes reached up to \qty{3.093}{\s} during
+challenging configurations. This distribution is consistent with the expected variability of a
+constrained nonlinear \ac{mpc} subject to changing constraint activity and varying measurement
+quality.
 
 \begin{figure}
 	\centering
 	\begin{subfigure}{\figurewidth}
 		\centering
 		\inputtikz{figures/mpc_experiment_1_pose_x}
-		\caption{Trajectory of the robots on the \ldvect{x}{w}-axis.}
+		\caption{Trajectory of the robot along the \ldvect{x}{w}-axis.}
 		\label{e_rcce_r_mpc_pose_x}
 	\end{subfigure}
 	\begin{subfigure}{\figurewidth}
 		\centering
 		\inputtikz{figures/mpc_experiment_1_pose_y}
-		\caption{Trajectory of the robots on the \ldvect{y}{w}-axis.}
+		\caption{Trajectory of the robot along the \ldvect{y}{w}-axis.}
 		\label{e_rcce_r_mpc_pose_y}
 	\end{subfigure}
 	\begin{subfigure}{\figurewidth}
 		\centering
 		\inputtikz{figures/mpc_experiment_1_pose_z}
-		\caption{Trajectory of the robots on the \ldvect{z}{w}-axis.}
+		\caption{Trajectory of the robot along the \ldvect{z}{w}-axis.}
 		\label{e_rcce_r_mpc_pose_z}
 	\end{subfigure}
-	\caption{Trajectory of the robots during the \ac{mpc} simulation.}
+	\caption{Trajectory of the robot during the \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_poses}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_experiment_1_pose_wz}
-	\caption{Trajectory of the robots around the \ldvect{z}{w}-axis.}
+	\caption{Trajectory of the robot around the \ldvect{z}{w}-axis.}
 	\label{e_rcce_r_mpc_pose_wz}
 \end{figure}
 
