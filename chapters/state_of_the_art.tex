@@ -209,76 +209,10 @@ In this thesis, \acp{rov} are the primary focus due to their tethered nature.
 \section{Systems modelling}
 \label{sota_systems_modelling}
 
-\subsection{\Ac{uuv} Modelling} \label{sota_sm_uuv_modelling}
-
 The modelling of \acp{uuv} has constituted a foundational element of underwater robotics, providing
 the basis for both simulation and model-based control frameworks. The dynamics of underwater
 vehicles are commonly described by the classical six-degree-of-freedom rigid body model formulated
-for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}:
-\begin{align}
-	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{sota_sm_um_kinematics} \\
-	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
-	                  & + \lrdmatr{C}{rb}\left(\vect{\nu}\right) \vect{\nu}
-	+ \left( \lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right) \right) \ldvect{\nu}{r}
-	+ \vect{s}\left(\vect{\eta}\right) = \vect{\omega} + \vect{\tau}
-	\label{sota_sm_um_dynamics}
-\end{align}
-
-In these equations:
-\begin{itemize}
-	\item \vect{\eta} denotes the vehicle's position and orientation in the inertial frame.
-	\item \vect{\nu} is the linear and angular velocity in the body-fixed frame.
-	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping body velocities to inertial coordinates.
-	\item \ldvect{\nu}{r} represents the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
-	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added mass inertia matrices, respectively.
-	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are their associated Coriolis matrices.
-	\item \matr{D} is the hydrodynamic damping matrix.
-	\item $\vect{s}\left(\vect{\eta}\right)$ represents the hydrostatic restoring force.
-	\item \vect{\omega} includes environmental disturbances such as wind and wave loads.
-	\item \vect{\tau} is the control input.
-\end{itemize}
-
-Under the assumptions of irrotational underwater currents and operation without dynamic ballast
-systems, the dynamic model simplifies to the following form~\cite{fossenHandbookMarineCraft2011}:
-\begin{align}
-	\matr{I} \dot{\vect{\nu}}
-	+ \left( \matr{C}(\vect{\nu}) + \matr{D}(\vect{\nu}) \right) \vect{\nu}
-	+ \vect{s}(\vect{\eta})
-	= \vect{\omega} + \vect{\tau}
-	\label{sota_sm_um_dynamics_simple}
-\end{align}
-
-Here, \matr{I} is the generalized inertia matrix, \matr{C} is the Coriolis matrix, and \matr{D} is
-the damping matrix.
-
-Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} may be combined into a
-state-space representation:
-\begin{align}
-	\begin{bmatrix}
-		\lrdmatr{I}{d} & 0        \\
-		0              & \matr{I}
-	\end{bmatrix}
-	\begin{bmatrix}
-		\dot{\vect{\eta}} \\
-		\dot{\vect{\nu}}
-	\end{bmatrix} & =
-	\begin{bmatrix}
-		0 & \matr{T}(\vect{\eta})                        \\
-		0 & -\matr{C}(\vect{\nu}) - \matr{D}(\vect{\nu})
-	\end{bmatrix}
-	\begin{bmatrix}
-		\vect{\eta} \\
-		\vect{\nu}
-	\end{bmatrix}
-	+
-	\begin{bmatrix}
-		0 \\
-		\vect{\omega} + \vect{\tau} - \vect{s}(\vect{\eta})
-	\end{bmatrix}
-\end{align}
-
-With \lrdmatr{I}{d} the identity matrix. The state vector is $\vect{x} = \left[\vect{\eta},
-		\vect{\nu}\right]^{\top}$.
+for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}.
 
 \subsection{Tether Modelling}
 \label{sota_sm_tether_modelling}
