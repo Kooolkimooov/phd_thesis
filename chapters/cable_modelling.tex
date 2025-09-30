@@ -7,10 +7,10 @@
 \label{cm_introduction}
 
 This chapter focuses on the development of fast and efficient cable models tailored for integration
-within model-based control frameworks of underwater robotic systems. This is achieved by
-parameterizing the model using data exclusively from onboard sensors, \acp{imu}, pressure sensors,
-and cameras. Such sensor-based parameterization enables real-time updates and adaptability to
-changing conditions.
+within model-based control frameworks of underwater robotic systems. This is achieved on the basis
+of the \catenarymodel{} which is parameterizing using exclusively data available from onboard
+sensors, \acp{imu}, pressure sensors, and cameras. Such sensor-based parameterization enables
+real-time updates and adaptability to changing conditions.
 
 The chapter begins with \cref{cm_catenary_model}, where the classical catenary model is introduced.
 This model provides an analytical representation of a flexible cable under the influence of
@@ -52,6 +52,7 @@ Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable
 \begin{figure}
 	\centering
 	\inputtikz{figures/vertical_catenary_schematic}
+	\inputtikz{figures/vertical_catenary_schematic_side_b}
 	\caption{
 		Catenary curve of length \catL{} defined in the plane \lplane{v}. The construction parameters are
 		the sag \catH{}, the elevation difference \catdH{}, and the horizontal span $l = 2\catD + \catdD$
@@ -157,12 +158,12 @@ thus obtaining the standard catenary equation described previously in \cref{cm_c
 The catenary shape is governed by a set of geometric parameters that define its curvature and
 spatial configuration (\cref{cm_cm_d_catenary_curve}). These parameters include:
 \begin{itemize}
-	\item \catC: the catenary parameter, a critical value that characterizes the curvature of the cable and depends on the tension and weight distribution,
+	\item \catC: the catenary parameter that characterizes the curvature of the cable and depends on the tension and weight distribution,
 	\item \catH: the sag, defined as the vertical distance between the lowest point of the cable and \point{B},
 	\item \catdH: the elevation difference between the two endpoints, positive if \point{A} is higher than \point{B} and negative otherwise,
-	\item \catD: the horizontal half-distance, representing the horizontal separation between \point{B} and its projection onto the vertical axis,
+	\item \catD: the horizontal half-distance, representing the horizontal separation between \point{B} and the vertical axis,
 	\item \catdD: the horizontal offset, indicating any lateral asymmetry between the endpoints, positive if \point{A} is further from the origin than the symmetric projection of \point{B} with relation to $\left(\ldpoint{o}{v}, \ldvect{z}{v}\right)$, negative otherwise,
-	\item \catl: the horizontal distance between the two endpoints, defined as $\catl = 2\catD+\catdD$,
+	\item \catl: the horizontal distance between the two endpoints, defined as $\catl = 2\catD+\catdD$ (\cref{cm_cm_d_catenary_curve}),
 	\item \catL: the total length of the cable, which is always greater than or equal to the Euclidean distance between the endpoints.
 \end{itemize}
 
@@ -189,7 +190,7 @@ Using only these two parameters, the known length of the cable \catL{} and the c
 	\label{cm_cm_pd_dH}
 \end{align}
 
-And the addition of the arc length of the curve (see
+and the addition of the arc length of the curve (see
 \cref{cm_acm_ev_curvilinear_discretization_of_the_catenary_model} for more details on this
 expression):
 \begin{align}
@@ -220,11 +221,11 @@ $\catl = 2\catD + \catdD$ gives:
 
 This relation captures the balance between the geometry of the end points, the length of the cable,
 and the way the cable naturally sags under its own weight. It shows that the cable cannot take an
-arbitrary shape: once the distance and height difference between the end points and the total length
-of the cable are fixed, the curve and its internal forces are uniquely determined. In particular,
-the parameter \catC{} reflects the level of horizontal tension in the cable, so the equation
-highlights the direct link between geometry, material length, and the mechanical state of the
-system.
+arbitrary shape: once the distance and height difference between the end points and the total
+length of the cable are fixed, the curve and its internal forces are uniquely determined. In
+particular, the parameter \catC{} reflects the level of horizontal tension in the cable, so the
+equation highlights the direct link between geometry, material length, and the mechanical state of
+the system.
 
 \Cref{cm_cm_pd_minimization_function} is solved numerically due to its transcendental nature. Once \catC{} is determined,
 the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct the \catenarymodel{}.
@@ -245,11 +246,12 @@ proposed to the cable shape model, extending the \verticalmodel{}.
 \label{cm_acm_definition}
 
 The proposed augmented catenary model is based on intuitions while observing a cable's behavior
-during during experiments: The cable would sway when the robot moved in the direction normal to the
-cable's plane while staying in a plane while in steady state, with a relatively short out-of-plane
-transition beforehand; and during in-plane motion, the cable would take on a shape similar to the
-catenary curve, but in a tilted frame (\cref{cm_acm_picture_theta}). again with a short transition
-beforehand.
+during during experiments: when the robot performed a steady state motion in the perpendicular
+direction to the cable's second attachment point, the cable would sway out of the vertical plane to
+a non-vertical plane. During similar in-plane motion, the cable would take on a the catenary shape
+inside the vertical plane, but in a frame tilted around the plane's normal
+(\cref{cm_acm_picture_theta}). During transitions between these two steady states, the cable would
+lose its catenary shape before shortly converging back to it.
 
 \begin{figure}
 	\centering
@@ -292,10 +294,9 @@ equivalently, by applying the same rotation to the curve initially defined in th
 \subsubsection{\scal{\theta} Degree Of Freedom} \label{cm_acm_d_theta_degree_of_freedom}
 
 The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
-\scal{\theta} around the normal to the plane \lplane{v} or \lplane{\gamma} (see
-\cref{cm_acm_d_tdof_schematic}). This transformation accounts for deformations induced by surge
-motion, in which the endpoints of the cable move within the plane \lplane{v} or \lplane{\gamma},
-depending on whether the \scal{\gamma} rotation has already been applied.
+\scal{\theta} around the catenary plane's normal (see \cref{cm_acm_d_tdof_schematic}). This
+transformation accounts for deformations induced by surge motion, in which the endpoints of the
+cable move within the catenary plane.
 
 \begin{figure}
 	\centering
@@ -307,11 +308,11 @@ depending on whether the \scal{\gamma} rotation has already been applied.
 \end{figure}
 
 The \thetamodel{}'s curve can be computed directly in the rotated frame, or alternatively, it may
-be derived by first computing a catenary curve in \lframe{v} or \lframe{\gamma} between the initial
-point \point{A} and a virtual endpoint obtained by rotating \point{B} by \scal{-\theta} around
-\point{A} within \lplane{v} or \lplane{\gamma}, and then applying the inverse rotation to the
-resulting curve. This procedure preserves the parameterization of the original catenary while
-accounting for the inclination induced by surge dynamics.
+be derived by first computing a catenary curve between the initial point \point{A} and a virtual
+endpoint obtained by rotating \point{B} by \scal{-\theta} around \point{A} within the catenary
+plane, and then applying the inverse rotation to the resulting curve. This procedure preserves the
+the relative position of the attachment points while accounting for the inclination induced by
+surge dynamics.
 
 \subsubsection{\thetagammamodeltitle{}}
 \label{cm_acm_d_augmented_catenary_model}
@@ -324,8 +325,9 @@ on the chosen modeling convention:
 \begin{itemize}
 	\item In the \emph{\scal{\gamma}-then-\scal{\theta}} composition, the \scal{\gamma} rotation is first
 	      applied to define the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for
-	      sway-induced displacements of the cable endpoints. The \thetagammamodel{} is then constructed
-	      within this rotated configuration by rotating around the normal to \lplane{\gamma}.
+	      sway-induced displacements of the cable endpoints. The \thetamodel{} is then constructed within
+	      this rotated configuration by rotating around the normal to \lplane{\gamma} to obtain the
+	      \thetagammamodel{}.
 	\item In the \emph{\scal{\theta}-then-\scal{\gamma}} composition, the \thetamodel{} is first computed
 	      within the initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting
 	      curve is then rotated around the \vect{e}-axis by angle \scal{\gamma}, yielding the final shape in
@@ -366,8 +368,8 @@ yield regularly spaced points along the curve that can be compared to the measur
 address this issue, the \thetagammamodel{} was discretized by computing varying steps of
 \coord{x}{v} beforehand.
 
-From the catenary equation, the infinitesimal signed arc-length \scal{ds} of the cable between the
-origin (lowest point) and the point of interest is expressed as:
+From the catenary equation, the infinitesimal arc-length \scal{ds} of the cable between the origin
+(lowest point) and the point of interest is expressed as:
 \begin{align}
 	ds = \sqrt{dx^2 + dz^2}
 \end{align}
@@ -892,13 +894,13 @@ evolution compared to first-order or purely autoregressive approaches. Although 
 errors were not always minimized, the learned equations respected the overall curvature trends of
 the system and generalized across velocity regimes.
 
-This work was carried out and published (\cite{deowanSymbolicRegressionDynamic2025}) during an
-internship by Md~Ether~Deowan. The findings demonstrate that data-driven identification can
-successfully augment physics-based catenary formulations with compact dynamic laws. The resulting
-models maintain computational efficiency, are amenable to implementation in real-time control
-loops, and retain an interpretable algebraic structure. Future work will focus on simplifying the
-symbolic expressions, extending them to both \scal{\theta} and \scal{\gamma}, and validating
-performance in open-water scenarios subject to environmental disturbances.
+This work was carried out and presented in a workshop (\cite{deowanSymbolicRegressionDynamic2025})
+during an internship by Md~Ether~Deowan. The findings demonstrate that data-driven identification
+can successfully augment physics-based catenary formulations with compact dynamic laws. The
+resulting models maintain computational efficiency, are amenable to implementation in real-time
+control loops, and retain an interpretable algebraic structure. Future work will focus on
+simplifying the symbolic expressions, extending them to both \scal{\theta} and \scal{\gamma}, and
+validating performance in open-water scenarios subject to environmental disturbances.
 
 \section{Conclusion}
 \label{cm_conclusion}
