@@ -506,16 +506,15 @@ significantly impact the overall stability of the closed-loop control.
 
 \subsubsection{One Robot \acs{mpc} Experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
 
-Using the raw logs behind \cref{e_rcce_r_mpc_poses,e_rcce_r_mpc_pose_wz,e_rcce_r_mpc_compute_time},
-we quantified tracking accuracy and solver runtime with a small script
-(\texttt{scripts/analyze\_mpc\_experiment\_1.py}). The full sequence spans \qty{287.34}{\s}, of
-which the \ac{mpc} was actively commanding the robot for \qty{183.39}{\s}, i.e.,
-\qty{63.82}{\percent} of the time, in several activation windows separated by manual or safety
-disengagements.
+The trajectory from the single-robot \ac{mpc} experiment in
+\cref{e_rcce_es_one_robot_mpc_experiment} are shown in
+\cref{e_rcce_r_mpc_poses,e_rcce_r_mpc_pose_wz}. The full sequence spans \qty{287.34}{\s}, of which
+the \ac{mpc} was actively commanding the robot for \qty{183.39}{\s}, i.e., \qty{63.82}{\percent} of
+the time, in several activation windows separated by manual or safety disengagements.
 
 While the \ac{mpc} was active, position tracking errors remained moderate:
 \begin{itemize}
-	\item RMSE on position was \qty{0.240}{\m} on \fvect{x}{w}, \qty{0.132}{\m} on \fvect{y}{w}, and
+	\item Residual on position was \qty{0.240}{\m} on \fvect{x}{w}, \qty{0.132}{\m} on \fvect{y}{w}, and
 	      \qty{0.147}{\m} on \fvect{z}{w};
 	\item the \num{95}\textsuperscript{th} percentile of the absolute error was below \qty{0.586}{\m} on
 	      \fvect{x}{w}, \qty{0.260}{\m} on \fvect{y}{w}, and \qty{0.314}{\m} on \fvect{z}{w};
@@ -525,7 +524,7 @@ While the \ac{mpc} was active, position tracking errors remained moderate:
 
 Yaw tracking exhibited larger residuals, consistent with the heading observability limitations of
 the setup and the \ac{ekf} yaw drift when vision quality degrades. Over activation periods, the yaw
-error had an RMSE of \qty{79.6}{\degree}, with a \num{95}\textsuperscript{th}-percentile of
+error had a residual of \qty{79.6}{\degree}, with a \num{95}\textsuperscript{th}-percentile of
 \qty{163.9}{\degree}; these peaks concentrated near tracking-volume boundaries and during degraded
 observations, whereas lateral position remained well-behaved.
 
@@ -540,9 +539,8 @@ Solver compute times corroborate the qualitative behaviour in \cref{e_rcce_r_mpc
 median wall time per solve was \qty{0.196}{\s} (mean \qty{0.214}{\s}), with
 \num{90}\textsuperscript{th}/\num{99}\textsuperscript{th} percentiles of
 \qty{0.315}{\s}/\qty{0.419}{\s}. Rare spikes reached up to \qty{3.093}{\s} during challenging
-configurations (near activation/deactivation edges and at the limits of the tracking volume). These
-figures align with the expected variability of a constrained nonlinear \ac{mpc} subject to changing
-constraint activity and measurement quality.
+configurations. These figures align with the expected variability of a constrained nonlinear
+\ac{mpc} subject to changing constraint activity and measurement quality.
 
 \begin{figure}
 	\centering
