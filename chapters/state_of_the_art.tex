@@ -37,6 +37,8 @@ generally categorized into two primary classes according to their operational mo
 	      high-bandwidth, real-time communication and control, teleoperation, and continuous power supply;
 	\item Operating independently, \acp{auv} rely on preprogrammed missions, limited communications, and
 	      onboard sensors for navigation and data acquisition.
+	\item other, more specialized vehicles, which may combine features of both \acp{rov} and \acp{auv}, or
+	      employ novel designs to enhance maneuverability, energy efficiency, or mission adaptability.
 \end{itemize}
 
 \subsection{\glsentrytitlecase{rov}{long}}
@@ -48,7 +50,8 @@ manipulators, facilitating tasks such as underwater inspection, maintenance, and
 exploration. \Acp{rov} are highly maneuverable and are capable of operating at substantial depths,
 thus allowing them to perform missions deemed hazardous or impractical for human divers. Their
 operations are continuously supervised and controlled by human operators from the surface, which
-limits their range to the tether length.
+limits their range to the tether length. However, this tether allows the \ac{rov} to receive power
+and consequently operate for extended durations.
 
 To ensure reliable high-bandwidth communication, \acp{rov} are connected to surface vessels via
 tethers. This configuration is necessitated by the high absorption of electromagnetic waves in
@@ -131,10 +134,10 @@ into three main categories:
 \begin{itemize}
 	\item Observation-class \acp{rov} are lightweight systems (less than \qty{100}{\kilo\gram}) primarily
 	      used for visual inspection and environmental monitoring. These vehicles are usually equipped with
-	      cameras and simple sensors, lacking manipulator arms or advanced actuation systems. Designed for
-	      shallow water operations (less than \qty{300}{\meter}), they are often deployed from small boats or
-	      by divers. Their tether is typically lightweight and designed for communication only while the
-	      \ac{rov} relies on an internal battery for power.
+	      cameras and simple sensors and may lacking manipulator arms or advanced actuation systems. Designed
+	      for shallow water operations (less than \qty{300}{\meter}), they are often deployed from small
+	      boats or by divers. Their tether is typically lightweight and designed for communication only while
+	      the \ac{rov} relies on an internal battery for power.
 \end{itemize}
 
 \begin{figure}
@@ -202,82 +205,29 @@ adaptability. Notable examples include:
 	      required~\cite{raugelOperationalScientificCapabilities2019}.
 \end{itemize}
 
+In this thesis, \acp{rov} are the primary focus due to their tethered nature.
+
+In this thesis, \acp{rov} are the primary focus due to their tethered nature.
+
 \section{Systems Modelling}
 \label{sota_systems_modelling}
-
-\subsection{\glsentrytitlecase{uuv}{long} Modelling} \label{sota_sm_uuv_modelling}
 
 The modelling of \acp{uuv} has constituted a foundational element of underwater robotics, providing
 the basis for both simulation and model-based control frameworks. The dynamics of underwater
 vehicles are commonly described by the classical six-degree-of-freedom rigid body model formulated
-for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}:
-\begin{align}
-	\vect{\dot{\eta}} & = \matr{T}\left(\vect{\eta}\right) \vect{\nu} \label{sota_sm_um_kinematics} \\
-	\lrdmatr{M}{rb} \vect{\dot{\nu}} + \lrdmatr{M}{a} \ldvect{\dot{\nu}}{r}
-	                  & + \lrdmatr{C}{rb}\left(\vect{\nu}\right) \vect{\nu}
-	+ \left( \lrdmatr{C}{a}\left(\ldvect{\nu}{r}\right) + \matr{D}\left(\ldvect{\nu}{r}\right) \right) \ldvect{\nu}{r}
-	+ \vect{s}\left(\vect{\eta}\right) = \vect{\omega} + \vect{\tau}
-	\label{sota_sm_um_dynamics}
-\end{align}
-
-In these equations:
-\begin{itemize}
-	\item \vect{\eta} denotes the vehicle's position and orientation in the inertial frame.
-	\item \vect{\nu} is the linear and angular velocity in the body-fixed frame.
-	\item $\matr{T}\left(\vect{\eta}\right)$ is the transformation matrix mapping body velocities to inertial coordinates.
-	\item \ldvect{\nu}{r} represents the relative velocity between the vehicle and the surrounding water, accounting for current disturbances.
-	\item \lrdmatr{M}{rb} and \lrdmatr{M}{a} are the rigid-body and added mass inertia matrices, respectively.
-	\item \lrdmatr{C}{rb} and \lrdmatr{C}{a} are their associated Coriolis matrices.
-	\item \matr{D} is the hydrodynamic damping matrix.
-	\item $\vect{s}\left(\vect{\eta}\right)$ represents the hydrostatic restoring force.
-	\item \vect{\omega} includes environmental disturbances such as wind and wave loads.
-	\item \vect{\tau} is the control input.
-\end{itemize}
-
-Under the assumptions of irrotational underwater currents and operation without dynamic ballast
-systems, the dynamic model simplifies to the following form~\cite{fossenHandbookMarineCraft2011}:
-\begin{align}
-	\matr{I} \dot{\vect{\nu}}
-	+ \left( \matr{C}(\vect{\nu}) + \matr{D}(\vect{\nu}) \right) \vect{\nu}
-	+ \vect{s}(\vect{\eta})
-	= \vect{\omega} + \vect{\tau}
-	\label{sota_sm_um_dynamics_simple}
-\end{align}
-
-Here, \matr{I} is the generalized inertia matrix, \matr{C} is the Coriolis matrix, and \matr{D} is
-the damping matrix.
-
-Furthermore, \cref{sota_sm_um_kinematics,sota_sm_um_dynamics_simple} may be combined into a
-state-space representation:
-\begin{align}
-	\begin{bmatrix}
-		\lrdmatr{I}{d} & 0        \\
-		0              & \matr{I}
-	\end{bmatrix}
-	\begin{bmatrix}
-		\dot{\vect{\eta}} \\
-		\dot{\vect{\nu}}
-	\end{bmatrix} & =
-	\begin{bmatrix}
-		0 & \matr{T}(\vect{\eta})                        \\
-		0 & -\matr{C}(\vect{\nu}) - \matr{D}(\vect{\nu})
-	\end{bmatrix}
-	\begin{bmatrix}
-		\vect{\eta} \\
-		\vect{\nu}
-	\end{bmatrix}
-	+
-	\begin{bmatrix}
-		0 \\
-		\vect{\omega} + \vect{\tau} - \vect{s}(\vect{\eta})
-	\end{bmatrix}
-\end{align}
-
-With \lrdmatr{I}{d} the identity matrix. The state vector is $\vect{x} = \left[\vect{\eta},
-		\vect{\nu}\right]^{\top}$.
+for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}.
 
 \subsection{Tether Modelling}
 \label{sota_sm_tether_modelling}
+
+In this thesis, chains of tethered underwater vehicles are considered in constrained and cluttered
+workspaces, where the umbilical simultaneously acts as a safety constraint, a disturbance source,
+and a sensing or actuation resource. The tether models required for such scenarios must therefore
+operate in real time in order to support online planning and collision avoidance through fast
+geometric reasoning and conservative occupancy bounds. At the same time, they must deliver
+sufficiently accurate predictions of shape and forces to inform constraint-aware feedback control
+and tension management. Compatibility with perception-driven estimation pipelines and practical
+tether-management hardware is also essential.
 
 The accurate modeling of tethers represents a fundamental challenge in underwater robotics, as
 these flexible structures exhibit complex nonlinear dynamics that significantly influence the
@@ -309,16 +259,17 @@ estimation based on angular measurements. Similarly,~\cite{vielSelfManagementROV
 introduced sliding buoys to maintain cable tension and prevent self-entanglement, resulting in
 predictable geometric configurations suitable for real-time navigation feedback.
 
-Finally,~\cite{vielEllipsoidTetherModel2024, vielEllipsoidTetherModel2024a} developed an ellipsoid
-model that provides conservative geometric bounds on the tether's spatial occupation. This approach
-offers computational efficiency with guaranteed collision-free motion, requiring only the knowledge
-of attachment points and cable length.
+Finally,~\cite{vielEllipsoidTetherModel2024} developed an ellipsoid model that provides
+conservative geometric bounds on the tether's spatial occupation. This approach offers
+computational efficiency with guaranteed collision-free motion, requiring only the knowledge of
+attachment points and cable length.
 
 The lumped mass approaches discretizes the continuous cable into a finite number of rigid segments
-connected by joints.~\cite{dasilvagomesNewDynamicModel2021} proposed a formalism using the
-Euler-Lagrange method to model towing systems with rigid links connected by fictitious elastic
-joints. This approach demonstrated scalable algorithmic procedures capable of generating dynamic
-models for arbitrary numbers of segments.
+connected by joints modelled as springs, damped springs, ball joints or any other appropriate
+system. In \cite{dasilvagomesNewDynamicModel2021} a formalism was proposed using the Euler-Lagrange
+method to model towing systems with rigid links connected by fictitious elastic joints. This
+approach demonstrated scalable algorithmic procedures capable of generating dynamic models for
+arbitrary numbers of segments.
 
 \begin{figure}
 	\centering
