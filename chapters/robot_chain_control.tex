@@ -413,12 +413,12 @@ Which is then substituted in \cref{rcc_rcm_cm_vertical_tension} to yield
 
 The forces exerted by the cable on the vehicles are then
 \begin{align}
-	\fldvect{\omega}{v}{i} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
-	\fldvect{\omega}{v}{i+1} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
+	\fldvect{\omega}{v}{a} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
+	\fldvect{\omega}{v}{b} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
 \end{align}
 
-with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to
-\point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}. It
+with \fldvect{\omega}{v}{a} the external perturbation force applied to the robot attached to
+\point{a} and \fldvect{\omega}{v}{b} the force applied to the robot attached to \point{b}. It
 should be noted that these forces are expressed in the catenary frame \lframe{v} and must be
 transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
 \cref{rcc_rcm_srd_dynamics_simple}.
@@ -441,10 +441,11 @@ Similarly, its input is a concatenation of all actuations
 	\label{rcc_rcm_rcd_actuation_vector}
 \end{align}
 
-Additionally, the perturbation vector for each robot is define as the perturbation forces derived
-from the cable model described in \cref{rcc_rcm_cable_modelling}. The robots at the ends of the
-chain only experience the perturbation forces from a single cable while the other are subjected to
-the forces of two cables.
+Additionally, the perturbation vector for each robot is define as the sum of the perturbation
+forces derived from the cable models described in \cref{rcc_rcm_cable_modelling} and associated
+with the robot, applied at its center of mass. The robots at the ends of the chain only experience
+the perturbation forces from a single cable while the other are subjected to the forces of two
+cables.
 \begin{figure}
 	\centering
 	\inputtikz{figures/robot_chain_representation}
