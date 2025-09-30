@@ -246,11 +246,12 @@ proposed to the cable shape model, extending the \verticalmodel{}.
 \label{cm_acm_definition}
 
 The proposed augmented catenary model is based on intuitions while observing a cable's behavior
-during during experiments: The cable would sway when the robot moved in the direction normal to the
-cable's plane while staying in a plane while in steady state, with a relatively short out-of-plane
-transition beforehand; and during in-plane motion, the cable would take on a shape similar to the
-catenary curve, but in a tilted frame (\cref{cm_acm_picture_theta}). again with a short transition
-beforehand.
+during during experiments: when the robot performed a steady state motion in the perpendicular
+direction to the cable's second attachment point, the cable would sway out of the vertical plane to
+a non-vertical plane. During similar in-plane motion, the cable would take on a the catenary shape
+inside the vertical plane, but in a frame tilted around the plane's normal
+(\cref{cm_acm_picture_theta}). During transitions between these two steady states, the cable would
+lose its catenary shape before shortly converging back to it.
 
 \begin{figure}
 	\centering
