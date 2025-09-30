@@ -7,10 +7,10 @@
 \label{cm_introduction}
 
 This chapter focuses on the development of fast and efficient cable models tailored for integration
-within model-based control frameworks of underwater robotic systems. This is achieved by
-parameterizing the model using data exclusively from onboard sensors, \acp{imu}, pressure sensors,
-and cameras. Such sensor-based parameterization enables real-time updates and adaptability to
-changing conditions.
+within model-based control frameworks of underwater robotic systems. This is achieved on the basis
+of the \catenarymodel{} which is parameterizing using exclusively data available from onboard
+sensors, \acp{imu}, pressure sensors, and cameras. Such sensor-based parameterization enables
+real-time updates and adaptability to changing conditions.
 
 The chapter begins with \cref{cm_catenary_model}, where the classical catenary model is introduced.
 This model provides an analytical representation of a flexible cable under the influence of
@@ -220,11 +220,11 @@ $\catl = 2\catD + \catdD$ gives:
 
 This relation captures the balance between the geometry of the end points, the length of the cable,
 and the way the cable naturally sags under its own weight. It shows that the cable cannot take an
-arbitrary shape: once the distance and height difference between the end points and the total length
-of the cable are fixed, the curve and its internal forces are uniquely determined. In particular,
-the parameter \catC{} reflects the level of horizontal tension in the cable, so the equation
-highlights the direct link between geometry, material length, and the mechanical state of the
-system.
+arbitrary shape: once the distance and height difference between the end points and the total
+length of the cable are fixed, the curve and its internal forces are uniquely determined. In
+particular, the parameter \catC{} reflects the level of horizontal tension in the cable, so the
+equation highlights the direct link between geometry, material length, and the mechanical state of
+the system.
 
 \Cref{cm_cm_pd_minimization_function} is solved numerically due to its transcendental nature. Once \catC{} is determined,
 the catenary equation (\cref{cm_cm_d_catenary_equation}) is used to construct the \catenarymodel{}.
