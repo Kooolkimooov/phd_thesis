@@ -10,6 +10,125 @@
 
 \chapter{Retours}
 
+\section{30/09/2025 from commit 71896074}
+
+\review{
+
+	Page 51. Je ne comprends pas la phrase "On this foundation, three control strategies with
+	increasing levels of prediction are evaluated (section IV.3)." lorsque je la met en perspective
+	avec le reste. Concrètement tu dis "je vais en allant du contrôleur le moins prédictif vers le plus
+	prédictif"... Alors qu'avec ton ordre est MPC -> PID -> visual servoing (VS). C'est plutôt
+	l'inverse. Bref....phrase à ré-écrire (le reste de l'intro est TB).
+
+}{}
+
+\review{
+
+	Page 53. A nouveau, ton modèle ne précise pas l'endroit où la tension du câble est appliquée.
+	Tensions que tu calcule en IV.28 et IV.29, si je ne m'abuse.... Page 55. Tu peux pas te contenter
+	de définir le gimbal lock. Il faut que tu précises en quoi tu fais l'hypothèse que c'est une
+	position que tu ne comptes pas visiter, que c'est pour cela que tu utilise cette représentation au
+	lieu d'une des autres possibles (quaternions, etc.). Tu pourrais citer ("James Diebel" Representing
+	Attitude: Euler Angles, Unit Quaternions, and Rotation Vectors) mais je n'arrive pas à te trouver
+	une ref propre. --> question : d'où tires tu les valeurs numériques que tu as utilisé dans tes
+	simulations ? As-tu cité la source de ces valeurs ? (master's thesis de Chu-Jou Wu ?)
+	\url{https://theses.flinders.edu.au/view/27aa0064-9de2-441c-8a17-655405d5fc2e/1}
+
+}{}
+
+\review{
+
+	Page 57. Voir le document
+
+}{}
+
+\review{
+
+	Page 58. La notation en IV.33 ne me semble pas très heureuse : pourquoi (i) et (i+1) pour désigner
+	a et b ? Peut-être désigne-tu par (i) la force exercée sur le drone (i) de la cordée. Au passage,
+	dans le cadre de la chaine de ROV, comment calcules tu la force exercée sur un drone qui possède
+	deux attaches ? La somme des forces (bi) et (a i+1) ? Tu en parles dans la section IV.2.3 (j'ai
+	surligné la section en rose) d'ailleurs, mais ça me semble trop succinct. Il faut que tu dises
+	comment le calcul est faire (bilan des forces de tension ou autre), et si jamais tu as une
+	hypothèse simplificatrice (cf. ma remarque en italique plus bas), il faut le mentionner
+	explicitement. Au passage, je me demande comment ça se passe s'il y a un câble qui "tire à dans la
+	direction Oz" et une autre de même amplitude qui "tir dans la direction "Oz". Avec une somme simple
+	des forces, les deux contributions s'annulent alors qu'elles auront pour effet de tourner le drone
+	"en yaw", non ? (peut-être une considération à garder en tête si on te pose des questions sur ton
+	modèle -- vas pas tout changer, surtout !).
+
+}{}
+
+\review{
+
+	Page 59. Figure : le ROV 0 est le leader ? Il n'y a pas d'état 0 dans IV.34 et IV.35. Est-ce
+	pertinent de préciser qu'un ROV contraint de rester à la surface peut simuler les mouvements locaux
+	d'un USV ? (je dis locaux, car à la surface, il y a des effets supplémentaires liés au déplacement
+	de l'eau en surface). (peut-être en parles-tu lorsque tu aborde le simulateur).
+
+}{}
+
+\review{
+
+	Page 59. Ecris au présent simple. Several Controllers --> three types of controllers // three
+	controllers. (ça me semble plus précis).
+
+}{}
+
+\review{
+
+	Page 60 Fig. IV.4 : je trouve que l'on ne voit pas bien la ligne "target", si tu avais la
+	possibilité de changer facilement la couleur (par ex. un bleu). La boite "légende" pourrait-être
+	remontée. Dans le coût, j'ai un problème avec le terme en "petit o" dont tu ne parles pas dans le
+	paragraphe en rose. De plus en page 61, tu explicites à peine ce qu'est "petit o", c'est d'ailleurs
+	assez inutile. Le mieux serait de ne rien mettre et de dire que certains travaux mettent en place
+	des termes non-linéaires dans leur fonction coût, chose que tu as choisi de ne pas faire. (c'est
+	une zone à question à mon avis).
+
+}{}
+
+\review{
+
+	Equation IV.38 : c'est possible de centrer le terme du milieu des inéquations ? (je veux dire, les
+	delta u font bizarre).
+
+}{}
+
+\review{
+
+	Page 61. ** Je pense que ta matrice R doit être symétrique définie positive, sinon son ker n'est
+	pas limité à 0 et tu as des Du non-nuls qui donnent un coût nul. ** Je trouve ton explication sur
+	les "paramètres de la caténaire" un peu aride. J'ai déjà oublié ce que sont H, Delta H et l....
+	comme c'est important rappeler dans le texte ce qu'ils veulent dire peut-être sympa pour le
+	lecteur. ** Dans la def de dhmin, je dirais "is the minimum allowable distance between consecutive
+	robot to avoid collisions. It is also important to note that there's a singularity in the catenary
+	model when l is zero. ** Je trouve ta phrase sur la manière de prendre u (constant sur l'horizon
+	complet ou sur plusieurs pas de l'horizon ---> d'ailleurs je trouve que piecewise constant est
+	malheureux car u est obligatoirement piecewise constant entre deux instants d'échantillonnage). Au
+	passage, si tu as testé certaines de ces configurations et que tu en parle dans la suite, ou dans
+	la partie expérimentale, tu pourrais le mentionner. ** Quand tu dis "a simple controller PID" c'est
+	pas évident d'imaginer ce que tu as fait. Si tu n'as pas de billes pour détailler, c'est pas hyper
+	grave.
+
+}{}
+
+\review{
+
+	Page 62. ** Comme avant, vire la partie nonlinéaire du coût si ne l'a pas définie. A mon avis, il
+	vaut mieux le mentionner dans une phrase que de demander au lecteur de faire un effort de lecture
+	mathématique pour quelque-chose qui ne sert pas. ** La dernière phrase de IV.3.2 n'est pas assez
+	claire. Que veux-tu dire par "or a subset of it ?". Quand je lis cela, je n'ai aucune idée de ce
+	que tu as programmé.
+
+}{}
+
+\review{Page 63.
+
+	** C'est évident ce que c'est le "twist" ? C'est la première fois que tu en parles.
+	** 'tether shape derivatives" : dérivatives pour dérivées ou alors il s'agit de "features", ça prête à confusions.
+
+}{}
+
 \section{29/09/2025 from commit 00b41480}
 
 \review{
