@@ -22,16 +22,16 @@ robot's body frame. This enables the definition of a concatenated chain state an
 of the constraints that must be enforced, including seafloor and surface clearance, inter-robot
 distances, and actuator bounds.
 
-On this foundation, three control strategies with increasing levels of prediction are evaluated
-(\cref{rcc_controllers}). The first is a constrained \ac{mpc} that optimizes future inputs subject
-to coupled dynamics and catenary-induced constraints. The second is a path planning layer that
-generates feasible waypoint sequences subsequently tracked by a \ac{pid} controller. The third is a
-reactive approach derived from earlier leader-follower visual servoing work, here adapted to rely
-on inter-robot pose measurements rather than image features. Their performance is assessed in a
-numerical tank with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain (\cref{rcc_simulation}).
-Both qualitative outcomes (trajectories, catenary clearances) and quantitative indicators (tracking
-errors, inter-robot distances, speeds, computation times) are reported in order to reveal the
-trade-offs between accuracy, constraint satisfaction, and computational feasibility.
+On this foundation, three different control are evaluated (\cref{rcc_controllers}). The first is a
+constrained \ac{mpc} that optimizes future inputs subject to coupled dynamics and catenary-induced
+constraints. The second is a path planning layer that generates feasible waypoint sequences
+subsequently tracked by a \ac{pid} controller. The third is a reactive approach derived from
+earlier leader-follower visual servoing work, here adapted to rely on inter-robot pose measurements
+rather than image features. Their performance is assessed in a numerical tank with varying
+bathymetry and a mixed \ac{rov}/\ac{usv} chain (\cref{rcc_simulation}). Both qualitative outcomes
+(trajectories, catenary clearances) and quantitative indicators (tracking errors, inter-robot
+distances, speeds, computation times) are reported in order to reveal the trade-offs between
+accuracy, constraint satisfaction, and computational feasibility.
 
 In summary, this chapter contributes a compact chain model coupling vehicle dynamics with a
 tractable catenary description; a unified set of geometry-consistent constraints; a comparative
