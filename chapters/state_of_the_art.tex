@@ -50,7 +50,8 @@ manipulators, facilitating tasks such as underwater inspection, maintenance, and
 exploration. \Acp{rov} are highly maneuverable and are capable of operating at substantial depths,
 thus allowing them to perform missions deemed hazardous or impractical for human divers. Their
 operations are continuously supervised and controlled by human operators from the surface, which
-limits their range to the tether length. However, this tether allows the \ac{rov} to receive power and consequently operate for extended durations.
+limits their range to the tether length. However, this tether allows the \ac{rov} to receive power
+and consequently operate for extended durations.
 
 To ensure reliable high-bandwidth communication, \acp{rov} are connected to surface vessels via
 tethers. This configuration is necessitated by the high absorption of electromagnetic waves in
@@ -133,10 +134,10 @@ into three main categories:
 \begin{itemize}
 	\item Observation-class \acp{rov} are lightweight systems (less than \qty{100}{\kilo\gram}) primarily
 	      used for visual inspection and environmental monitoring. These vehicles are usually equipped with
-	      cameras and simple sensors and may lacking manipulator arms or advanced actuation systems. Designed for
-	      shallow water operations (less than \qty{300}{\meter}), they are often deployed from small boats or
-	      by divers. Their tether is typically lightweight and designed for communication only while the
-	      \ac{rov} relies on an internal battery for power.
+	      cameras and simple sensors and may lacking manipulator arms or advanced actuation systems. Designed
+	      for shallow water operations (less than \qty{300}{\meter}), they are often deployed from small
+	      boats or by divers. Their tether is typically lightweight and designed for communication only while
+	      the \ac{rov} relies on an internal battery for power.
 \end{itemize}
 
 \begin{figure}
@@ -216,6 +217,15 @@ for marine craft, as detailed in~\cite{fossenHandbookMarineCraft2011}.
 
 \subsection{Tether Modelling}
 \label{sota_sm_tether_modelling}
+
+In this thesis, chains of tethered underwater vehicles are considered in constrained and cluttered
+workspaces, where the umbilical simultaneously acts as a safety constraint, a disturbance source,
+and a sensing or actuation resource. The tether models required for such scenarios must therefore
+operate in real time in order to support online planning and collision avoidance through fast
+geometric reasoning and conservative occupancy bounds. At the same time, they must deliver
+sufficiently accurate predictions of shape and forces to inform constraint-aware feedback control
+and tension management. Compatibility with perception-driven estimation pipelines and practical
+tether-management hardware is also essential.
 
 The accurate modeling of tethers represents a fundamental challenge in underwater robotics, as
 these flexible structures exhibit complex nonlinear dynamics that significantly influence the
