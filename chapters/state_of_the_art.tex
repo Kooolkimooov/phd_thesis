@@ -695,8 +695,8 @@ retrieval~\cite{modiDeploymentDynamicsTether1979,huangDexterousTetheredSpace2017
 
 Advanced control methodologies have been formulated to address critical issues such as tether
 entanglement around uncooperative, tumbling targets. Energy-based control frameworks exploiting the
-system’s passivity properties have been proposed, wherein potential energy is expressed in terms of
-tether torque to direct the target’s angular velocity toward the tether
+system's passivity properties have been proposed, wherein potential energy is expressed in terms of
+tether torque to direct the target's angular velocity toward the tether
 axis~\cite{wangAntitangleControlTethered2019}. These strategies frequently incorporate sliding mode
 controllers optimized via model predictive control, and integrate adaptive weighting mechanisms to
 enhance entanglement avoidance.
@@ -746,6 +746,7 @@ disturbances~\cite{laranjeiraCatenarybasedVisualServoing2020}.
 	\caption{\todo{Catenary-based visual servoing pipeline for 3D tether shape control}}
 	% \label{}
 \end{figure}
+
 Overall, the literature indicates that effective control of underwater tethered robotic systems
 relies on the integration of high-fidelity dynamic modeling, adaptive and robust control methods,
 and sensor-based feedback architectures. These elements collectively address the nonlinear,
@@ -755,4 +756,59 @@ operation in complex environments.
 \section{Discussion}
 \label{sota_discussion}
 
-\lipsum[1]
+This chapter reviewed recent advances in underwater robotic platforms, the modeling of vehicles and
+tethers, coupled vehicle-tether dynamics, and control strategies for both untethered and tethered
+systems. The literature revealed consistent themes directly relevant to this thesis, which targets
+the safe control of chains of tethered underwater robots operating in known but constrained
+environments.
+
+A first theme concerns the fidelity-computational-efficiency trade-off in tether modeling
+(\cref{sota_sm_tether_modelling}). Geometric models such as the catenary or parabolic curves are
+computationally light and can run at control rates, but they neglect cable dynamics and complex
+hydrodynamic loading. Lumped-mass models provide a tunable compromise, whereas finite-element and
+rod-theory approaches achieve the highest fidelity at the cost of seconds-to-minutes evaluation
+times, typically unsuitable for real-time onboard control. For online planning and constraint
+handling in cluttered workspaces, conservative geometric representations are particularly
+attractive because they provide safety guarantees with modest computational requirements.
+
+A second theme is that accurate control in practice requires treating the vehicle and tether as a
+coupled system (\cref{sota_sm_coupled_modelling}). Multi-body and continuum mechanics formulations
+capture the bidirectional exchange of forces and the constrained motion induced by the tether.
+While high-fidelity \ac{cfd}-informed and \ac{sph}-based schemes yield rich insights, real-time
+control benefits from reduced-order coupled models, often complemented by sensor fusion and
+vision-based estimation of tether shape or attachment geometry. The integration of
+cable-configuration estimation with vehicle-state estimation emerges as a recurring requirement for
+robust performance.
+
+A third theme is the trend toward control approaches that combine constraint-aware optimization
+with robustness to modeling errors and disturbances (\cref{sota_c_uuv_control}). Modern techniques
+such as \ac{mpc}, sliding-mode control, and adaptive or neural augmentation exemplify this
+evolution. For tethered systems, hybrid strategies that regulate tension and cable geometry while
+delegating fast motion to the vehicle actuators have proven effective
+(\cref{sota_c_tethered_uuv_control}). Safety mechanisms such as tension limits, slack avoidance,
+and collision prevention are typically enforced either through dedicated tether-management
+subsystems or embedded as constraints in the control layer.
+
+Finally, analogies with tethered aerial robots and dual-mode platforms highlight architectural
+principles that are transferable to the underwater domain, including hierarchical control,
+flatness-inspired trajectory generation, and the use of the tether as an active element for both
+sensing and actuation. Nevertheless, underwater operation introduces additional difficulties such
+as strong currents, limited visibility, and complex fluid-structure interactions, which complicate
+the direct transfer of these methods.
+
+Despite these advances, several open challenges remain. The incorporation of hard safety
+constraints on tether slack, and collision avoidance into online planners with provable feasibility
+and stability is still unresolved. The tether itself can be exploited as a sensing device, whether
+through smart or actively managed designs such as buoys, moving ballasts, or distributed sensors,
+or through sensor fusion that integrates \acp{imu}, depth, tension, and partial vision measurements
+to enable robust localization and cable-shape estimation under degraded conditions. A further
+challenge lies in the development of reduced-order coupled models that remain efficient yet
+reliable, preserving key behaviors relevant for safety and performance while enabling real-time
+optimization and control.
+
+In summary, the state of the art supports a thesis strategy that combines conservative geometric
+representations for safety, reduced-order coupled models for online decision making, and robust
+constraint-aware control with integrated system estimation. Within this framework, the present work
+addresses the gap of reliable real-time control for chains of tethered underwater robots in
+constrained environments, aiming for formalized safety handling and experimentally validated
+performance under realistic sensing and hydrodynamic conditions.
