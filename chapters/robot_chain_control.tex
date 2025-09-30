@@ -431,13 +431,13 @@ robots connected by tethers, where each robot follows the dynamics described in
 \cref{rcc_rcm_single_robot_dynamics}. The state of the system is a concatenation of the state of
 the robots
 \begin{align}
-	\vect{x} = \left[\ldvect{\eta}{1}, \ldvect{\nu}{1}, \dots, \ldvect{\eta}{n}, \ldvect{\nu}{n}\right]^{\top}
+	\vect{x} = \left[\ldvect{\eta}{0}, \ldvect{\nu}{0}, \dots, \ldvect{\eta}{n-1}, \ldvect{\nu}{n-1}\right]^{\top}
 	\label{rcc_rcm_rcd_state_vector}
 \end{align}
 
 Similarly, its input is a concatenation of all actuations
 \begin{align}
-	\vect{u} = \left[\ldvect{\tau}{1}, \dots, \ldvect{\tau}{n}\right]^{\top}
+	\vect{u} = \left[\ldvect{\tau}{0}, \dots, \ldvect{\tau}{n-1}\right]^{\top}
 	\label{rcc_rcm_rcd_actuation_vector}
 \end{align}
 
