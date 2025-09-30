@@ -15,10 +15,10 @@
 			width = \figurewidth,
 			height = .4\figurewidth,
 			legend cell align=left,
-			legend style={at={(0.98,0.5)}, anchor=east, fill opacity=0.75, text opacity=1, font=\footnotesize},
+			legend style={at={(0.02,0.5)}, anchor=west, fill opacity=0.75, text opacity=1, font=\footnotesize},
 		]
 
-		\addplot[ olive] coordinates{
+		\addplot[ olive, very thick ] coordinates{
 				(-1, .25)
 				(-0.6, .25)
 				(-0.6, .61)
@@ -28,7 +28,7 @@
 				(0, .6)
 			};
 
-		\addplot[red] coordinates{
+		\addplot[red, very thick] coordinates{
 				(-1, -0.3)
 				(-0.6, -0.3)
 				(-0.6, -0.6)
@@ -37,7 +37,7 @@
 				(0, -0.4)
 			};
 
-		\addplot[densely dotted, olive] coordinates{
+		\addplot[densely dotted, blue, very thick] coordinates{
 				(-1, .75)
 				(1, .75)
 			};
