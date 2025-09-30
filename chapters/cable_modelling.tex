@@ -294,10 +294,9 @@ equivalently, by applying the same rotation to the curve initially defined in th
 \subsubsection{\scal{\theta} Degree Of Freedom} \label{cm_acm_d_theta_degree_of_freedom}
 
 The second degree of freedom introduced in the augmented model corresponds to a rotation of angle
-\scal{\theta} around the normal to the plane \lplane{v} or \lplane{\gamma} (see
-\cref{cm_acm_d_tdof_schematic}). This transformation accounts for deformations induced by surge
-motion, in which the endpoints of the cable move within the plane \lplane{v} or \lplane{\gamma},
-depending on whether the \scal{\gamma} rotation has already been applied.
+\scal{\theta} around the catenary plane's normal (see \cref{cm_acm_d_tdof_schematic}). This
+transformation accounts for deformations induced by surge motion, in which the endpoints of the
+cable move within the catenary plane.
 
 \begin{figure}
 	\centering
@@ -309,11 +308,11 @@ depending on whether the \scal{\gamma} rotation has already been applied.
 \end{figure}
 
 The \thetamodel{}'s curve can be computed directly in the rotated frame, or alternatively, it may
-be derived by first computing a catenary curve in \lframe{v} or \lframe{\gamma} between the initial
-point \point{A} and a virtual endpoint obtained by rotating \point{B} by \scal{-\theta} around
-\point{A} within \lplane{v} or \lplane{\gamma}, and then applying the inverse rotation to the
-resulting curve. This procedure preserves the parameterization of the original catenary while
-accounting for the inclination induced by surge dynamics.
+be derived by first computing a catenary curve between the initial point \point{A} and a virtual
+endpoint obtained by rotating \point{B} by \scal{-\theta} around \point{A} within the catenary
+plane, and then applying the inverse rotation to the resulting curve. This procedure preserves the
+the relative position of the attachment points while accounting for the inclination induced by
+surge dynamics.
 
 \subsubsection{\thetagammamodeltitle{}}
 \label{cm_acm_d_augmented_catenary_model}
@@ -326,8 +325,9 @@ on the chosen modeling convention:
 \begin{itemize}
 	\item In the \emph{\scal{\gamma}-then-\scal{\theta}} composition, the \scal{\gamma} rotation is first
 	      applied to define the frame \lframe{\gamma} and plane \lplane{\gamma}, thereby accounting for
-	      sway-induced displacements of the cable endpoints. The \thetagammamodel{} is then constructed
-	      within this rotated configuration by rotating around the normal to \lplane{\gamma}.
+	      sway-induced displacements of the cable endpoints. The \thetamodel{} is then constructed within
+	      this rotated configuration by rotating around the normal to \lplane{\gamma} to obtain the
+	      \thetagammamodel{}.
 	\item In the \emph{\scal{\theta}-then-\scal{\gamma}} composition, the \thetamodel{} is first computed
 	      within the initial vertical plane \lplane{v} by applying a surge-induced inclination. The resulting
 	      curve is then rotated around the \vect{e}-axis by angle \scal{\gamma}, yielding the final shape in
