@@ -504,18 +504,21 @@ significantly impact the overall stability of the closed-loop control.
 	\label{e_rcce_r_pd_placeholder}
 \end{figure}
 
-\subsubsection{One Robot \acs{mpc} Experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
+\subsubsection{One Robot \acs{mpc} Experiment} 
+\label{e_rcce_r_single_bluerov_mpc_experiment}
 
-Results from the single-robot \ac{mpc} experiment in \cref{e_rcce_es_one_robot_mpc_experiment} are
-shown in \cref{e_rcce_r_mpc_placeholder}. Under the chosen operating conditions and with carefully
-selected target poses, the \ac{mpc} achieved accurate tracking performance. However, when the
-target left the Qualisys tracking volume, odometry drifted due to accumulated estimation error,
-which caused the \ac{mpc} to lose feasibility.
+The trajectory from the single-robot \ac{mpc} experiment in
+\cref{e_rcce_es_one_robot_mpc_experiment} are shown in
+\cref{e_rcce_r_mpc_poses,e_rcce_r_mpc_pose_wz}. Under the chosen operating conditions and with
+carefully selected target poses, the \ac{mpc} achieved accurate tracking performance. However, when
+the target left the Qualisys tracking volume, odometry drifted mostly on the \fvect{x}{w} and
+\fvect{y}{w} axes due to accumulated estimation error, which caused the \ac{mpc} to lose
+feasibility.
 
-In steady-state operation, the \ac{mpc} typically converged within \qty{0.01}{\s}, while
-computation time increased to approximately \qty{0.1}{\s} during controller engagement or when
-target poses were updated. These variations are consistent with the computational complexity
-introduced by changes in the optimization problem.
+In steady-state operation, the \ac{mpc} typically converged within \qty{0.1}{\s}, while computation
+time increased to approximately \qty{3.0}{\s} during challenging configurations
+(\ref{e_rcce_r_mpc_compute_time}). These variations are consistent with the computational
+complexity introduced by changes in the optimization problem.
 
 \begin{figure}
 	\centering
@@ -543,13 +546,19 @@ introduced by changes in the optimization problem.
 
 \begin{figure}
 	\centering
+	\inputtikz{figures/mpc_experiment_1_pose_wz}
+	\caption{Trajectory of the robots around the \ldvect{z}{w}-axis.}
+	\label{e_rcce_r_mpc_pose_wz}
+\end{figure}
+
+\begin{figure}
+	\centering
 	\inputtikz{figures/mpc_experiment_1_compute_time}
 	\caption{Computation time of the \ac{mpc} during the experiment.}
 	\label{e_rcce_r_mpc_compute_time}
 \end{figure}
 
-\subsubsection{Two Robot \acs{mpc} Experiment} 
-\label{e_rcce_r_two_bluerov_mpc_experiment}
+\subsubsection{Two Robot \acs{mpc} Experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
 
 Results from the two-robot \ac{mpc} experiment described in
 \cref{e_rcce_es_two_robots_mpc_experiment} are presented in \cref{e_rcce_r_mpc_2_placeholder}. The
