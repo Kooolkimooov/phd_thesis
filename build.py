@@ -237,7 +237,8 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
   ensure_output_directories()
 
   if not remake:
-    success = build_figure( verbose = verbose, dry_run = dry_run )
+    # Only precompile figures that are actually referenced by the thesis
+    success = build_only_used_figure_tex( verbose = verbose, dry_run = dry_run )
     if not success:
       return False
 
@@ -444,6 +445,74 @@ def collect_used_figures(tex_files: list[str]) -> set[str]:
     except (FileNotFoundError, OSError):
       continue
   return used
+
+
+def collect_included_tex_files(entry: str = 'thesis.tex') -> list[str]:
+  r"""Recursively collect actually included .tex files starting from entry.
+
+  Follows \include{...} and \input{...} with paths resolved relative to the including file.
+  Comments are stripped before scanning. Only existing non-figure files are returned.
+  """
+  include_pattern = re.compile(r'\\(?:include|input)\{([^}]+)\}')
+  seen: set[str] = set()
+  order: list[str] = []
+
+  def resolve_and_add(base_file: str):
+    if not os.path.exists(base_file):
+      return
+    norm = os.path.normpath(base_file)
+    # Skip figure files in recursion set; we only want document sources
+    parts = [p.lower() for p in norm.split(os.sep)]
+    if 'figures' in parts:
+      return
+    if norm in seen:
+      return
+    seen.add(norm)
+    order.append(norm)
+    try:
+      with open(norm, 'r', encoding='utf-8') as f:
+        content = strip_tex_comments(f.read())
+    except (FileNotFoundError, OSError):
+      return
+    base_dir = os.path.dirname(norm)
+    for m in include_pattern.finditer(content):
+      rel = m.group(1).strip()
+      if not rel or rel.startswith('!'):
+        continue
+      # Ensure .tex extension
+      rel_path = rel if os.path.splitext(rel)[1].lower() == '.tex' else rel + '.tex'
+      child = os.path.normpath(os.path.join(base_dir, rel_path))
+      resolve_and_add(child)
+
+  resolve_and_add(entry)
+  return order
+
+
+def build_only_used_figure_tex(verbose: bool = False, dry_run: bool = False) -> bool:
+  """Precompile only TikZ figure .tex files that are referenced by the thesis.
+
+  Figures referenced only as images are skipped.
+  """
+  ensure_output_directories()
+  sources = collect_included_tex_files('thesis.tex')
+  if not sources:
+    printlog('no thesis sources found; skipping figure precompilation')
+    return True
+  used = collect_used_figures(sources)
+  candidates = sorted(
+      name for name in used if os.path.exists(os.path.join('figures', name + '.tex'))
+      )
+  if not candidates:
+    printlog('no used TikZ figure .tex files detected; skipping precompilation')
+    return True
+  printlog(f'precompiling {len(candidates)} used figure .tex file(s)')
+  all_ok = True
+  for i, name in enumerate(candidates):
+    printlog(f"{i + 1}/{len(candidates)}")
+    ok = build_figure(name=name, verbose=verbose, dry_run=dry_run)
+    all_ok = all_ok and ok
+  printlog('used figure precompilation finished')
+  return all_ok
 
 
 def check_project(verbose: bool = False, remove_unused: bool = False, dry_run: bool = False) -> bool:
