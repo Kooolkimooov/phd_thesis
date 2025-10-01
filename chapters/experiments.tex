@@ -610,15 +610,13 @@ traveled \qty{1.27}{\meter} over \qty{21.64}{\s} with a net displacement of appr
 $(\qty{-0.574}{\meter},\,\qty{-0.336}{\meter},\,\qty{0.145}{\meter})$ and a mean speed of
 \qty{0.061}{\m\per\s} (median \qty{0.024}{\m\per\s}). The inter-robot distance remained comfortably
 bounded (median \qty{0.807}{\meter}, maximum \qty{0.945}{\meter}), which is coherent with the
-qualitative impression in \cref{e_rcce_r_mpc_2_follower_poses} that the follower only ``nudged'' in
-response to the leader without committing to a pronounced motion.
+qualitative impression in \cref{e_rcce_r_mpc_2_follower_poses} that the follower moved only
+slightly in response to the leader without committing to a pronounced motion.
 
-Overall, these two regimes are informative. The first window demonstrates that the follower reacts
-to the leader and explores the feasible set until proximity to the tracking-volume boundary and
-intermittent observation degrade the estimate, at which point performance degrades as expected. The
-second window confirms the importance of an explicit follower target or a richer representation of
-the admissible tracking space: without it, the controller naturally favors slow, constrained
-motions that keep the system well inside the safe set but provide limited task progression.
+Overall, these two regimes are informative. The first window confirms that loss of tracking are
+very easily encountered in such a small observable space with two active robots. The second window
+hints that the \ac{mpc} controller actually functions as intended with a chain of robots, but also
+confirms the importance of further experimentation with better tracking setup.
 
 \begin{figure}
 	\centering
