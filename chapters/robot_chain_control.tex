@@ -519,7 +519,7 @@ The optimization is solved subject to dynamic feasibility and a set of inequalit
 	\ldvect{u}{\text{min}}           \leq & ~\ldvect{u}{k}                                                           & ~\leq & ~\ldvect{u}{\text{max}} \nonumber         \\
 	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \nonumber   \\
 	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\nonumber                                \\
-	& ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
+	                                      & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
 	\ldscal{dh}{\text{min}}         \leq  & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & ~\nonumber                                \\
 	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
 	\label{rcc_c_mpc_constraints}
@@ -586,8 +586,9 @@ where
 \end{itemize}
 
 Once the optimal waypoint sequence was found, it is passed to a controller as a reference
-trajectory. The optimization problem, or a subset of it, may be solved again according to different
-criteria such as time, tracking error, etc; this is called replanning.
+trajectory. The optimization problem, or a subset of it (starting from the closest or current point
+in the reference trajectory, for example) may be solved again according to different criteria such
+as time, tracking error, etc; this is called replanning.
 
 \subsection{Reactive Control}
 \label{rcc_c_reactive_control}
