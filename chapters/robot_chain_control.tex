@@ -691,9 +691,10 @@ steps, i.e. \qty{1}{\second}. The problem is solved with the \texttt{scipy.minim
 Python with a tolerance of \num{1e-6} and a maximum number of iterations set to \num{100}.
 
 A recovery procedure was implemented for cases in which the \ac{mpc} failed to converge to a
-solution. In this procedure, the optimization tolerance was progressively increased until either
-convergence was achieved -at which point the tolerance was reduced again- or the tolerance reached
-a predefined maximum value.
+solution. In this procedure, the optimization tolerance was progressively increased up to a
+predefined maximum value until convergence was achieved, at which point the tolerance was reduced
+again. If the tolerance reached its maximum value without convergence, the simulation continues but
+the chances of convergence become small.
 
 The matrices \matr{P} and \matr{Q} (\cref{rcc_c_mpc_equation}) are defined in such a way that the
 position of the leader is assigned a weight of \num{10} and its orientation a weight of \num{1}.
@@ -728,11 +729,12 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 	\label{rcc_s_mpc_i_constrains_values}
 \end{table}
 
-In order to differentiate the simulation from the model employed in the MPC prediction horizon,
-their integration method diverge: the simulation utilizes a Runge-Kutta integration of order 4
-(\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas the MPC prediction employs an Euler-explicit
-scheme. The shape of each cable is deduced at any time from the position of its attachment points
-using the catenary equation \cref{cm_cm_d_catenary_equation}.
+In order to differentiate the simulation from the model employed in the MPC prediction horizon, and
+ensure a degree of modeling error in the latter, their integration method diverge: the simulation
+utilizes a Runge-Kutta integration of order 4 (\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas
+the MPC prediction employs an Euler-explicit scheme. The shape of each cable is deduced at any time
+from the position of its attachment points using the catenary equation
+\cref{cm_cm_d_catenary_equation}.
 
 \subsubsection{Results}
 \label{rcc_s_mpc_results}
