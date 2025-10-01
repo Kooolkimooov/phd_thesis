@@ -929,17 +929,18 @@ bounded within a few decimeters (see also \cref{rcc_s_pp_r_fc_error}). In contra
 \ldvect{z}{w}-axis response exhibited a marked loss of performance whenever the reference underwent
 a steep variation. Instead of brief overshoots followed by rapid convergence, the vertical error
 accumulated over several seconds, leading to a sustained bias before partial recovery. Analysis of
-the error logs confirmed a peak tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s}, dominated
-by the vertical component (\qty{2.19}{\m}). The RMS errors were limited to \qty{0.16}{\m} on
-\ldvect{x}{w} and \qty{0.09}{\m} on \ldvect{y}{w}, but reached \qty{1.00}{\m} on \ldvect{z}{w},
+the error logs confirmed a peak in the tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s},
+dominated by the vertical component (\qty{2.19}{\m}). The RMS errors were limited to \qty{0.16}{\m}
+on \ldvect{x}{w} and \qty{0.09}{\m} on \ldvect{y}{w}, but reached \qty{1.00}{\m} on \ldvect{z}{w},
 bringing the overall RMS norm above one metre. Hence, the apparent quality of planar tracking
 concealed a substantial degradation in vertical control authority.
 
 Two mechanisms explain this behavior. First, the two-stage architecture (periodic path optimization
 followed by low-level \ac{pid} tracking) introduced an intrinsic delay: the predictive layer
 generated waypoints at discrete replanning instants, while the inner loop responded continuously
-but without preview. This excited the derivative component of the \ac{pid} controller and induced a
-lagging integral accumulation, producing a quasi wind-up effect in the vertical channel.
+but without taking into account potential changes in target. This excited the derivative component
+of the \ac{pid} controller and induced a lagging integral accumulation, producing a quasi wind-up
+effect in the vertical channel.
 
 \begin{figure}
 	\centering
