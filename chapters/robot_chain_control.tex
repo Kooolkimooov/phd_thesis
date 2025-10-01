@@ -1019,7 +1019,7 @@ mean speed from leader to tail illustrates the damping of commanded motion as it
 the chain. Nonetheless, peaks for the leader and the last robot approached
 \num{0.88}\,\si{\m\per\s}, indicating that although the overall norm constraint was respected,
 local actuation along individual axes may have been close to saturation. This observation supports
-the case for introducing anisotropic or per-axis speed constraints.
+the case for introducing per-axis speed constraints.
 
 \begin{figure}
 	\centering
@@ -1090,14 +1090,14 @@ controller reacted without preview, compounding phase lag in the vertical channe
 	\label{rcc_s_pp_r_sc_error}
 \end{figure}
 
-The clearance data (\cref{rcc_s_pp_r_sc_lowest_point}) reveal significant violations for the first
-cable span (0--1). The minimum clearance reached \qty{-0.456}{\m}, indicating seafloor penetration.
-Over the horizon, this span was below the \qty{0.2}{\m} limit for \qty{5.8}{\percent} of the time
-(\qty{2.9}{\s}) and negative for \qty{3.2}{\percent} (\qty{1.6}{\s}). In contrast, spans 1--2 and
-2--3 maintained large safety margins, with minima of \qty{1.65}{\m} and \qty{2.65}{\m} and median
-clearances of \qty{2.15}{\m} and \qty{2.98}{\m}, respectively. The mean values
-(\qtylist{1.25;2.18;3.09}{\m}) confirm that vertical risk was concentrated almost entirely in the
-leading span.
+The environment clearance data (\cref{rcc_s_pp_r_sc_lowest_point}) reveal significant violations
+for the first cable span (0--1). The minimum clearance reached \qty{-0.456}{\m}, indicating
+seafloor penetration. Over the horizon, this span was below the \qty{0.2}{\m} limit for
+\qty{5.8}{\percent} of the time (\qty{2.9}{\s}) and negative for \qty{3.2}{\percent}
+(\qty{1.6}{\s}). In contrast, spans 1--2 and 2--3 maintained large safety margins, with minima of
+\qty{1.65}{\m} and \qty{2.65}{\m} and median clearances of \qty{2.15}{\m} and \qty{2.98}{\m},
+respectively. The mean values (\qtylist{1.25;2.18;3.09}{\m}) confirm that vertical risk was
+concentrated almost entirely in the leading span.
 
 \begin{figure}
 	\centering
