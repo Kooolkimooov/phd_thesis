@@ -477,12 +477,8 @@ The optimization problem was solved with the same tolerance of \num{1e-6} and a 
 \subsection{Results}
 \label{e_rcce_results}
 
-\todo{
-	maybe talk about: ekf recovery; actuation saturation; mpc recovery; mpc computation time
-	comparision; qualitative behaviour.
-}
-
-\subsubsection{One Robot \acs{pd} Experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
+\subsubsection{One Robot \acs{pd} Experiment}
+\label{e_rcce_r_single_bluerov_pd_experiment}
 
 Results from the preliminary integration test described in \cref{e_rcce_es_one_robot_pd_experiment}
 are shown in \cref{e_rcce_r_pd_placeholder}. The target trajectory was tracked with good accuracy.
@@ -504,7 +500,8 @@ significantly impact the overall stability of the closed-loop control.
 	\label{e_rcce_r_pd_placeholder}
 \end{figure}
 
-\subsubsection{One Robot \acs{mpc} Experiment} \label{e_rcce_r_single_bluerov_mpc_experiment}
+\subsubsection{One Robot \acs{mpc} Experiment}
+\label{e_rcce_r_single_bluerov_mpc_experiment}
 
 The trajectory from the single-robot \ac{mpc} experiment introduced in
 \cref{e_rcce_es_one_robot_mpc_experiment} is shown in
@@ -562,25 +559,26 @@ quality.
 		\caption{Trajectory of the robot along the \ldvect{z}{w}-axis.}
 		\label{e_rcce_r_mpc_pose_z}
 	\end{subfigure}
-	\caption{Trajectory of the robot during the \ac{mpc} experiment.}
+	\caption{Trajectory of the robot during the one robot \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_poses}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_experiment_1_pose_wz}
-	\caption{Trajectory of the robot around the \ldvect{z}{w}-axis.}
+	\caption{Trajectory of the robot around the \ldvect{z}{w}-axis during the one robot \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_pose_wz}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_experiment_1_compute_time}
-	\caption{Computation time of the \ac{mpc} during the experiment.}
+	\caption{Computation times during the one robot \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_compute_time}
 \end{figure}
 
-\subsubsection{Two Robot \acs{mpc} Experiment} \label{e_rcce_r_two_bluerov_mpc_experiment}
+\subsubsection{Two Robot \acs{mpc} Experiment}
+\label{e_rcce_r_two_bluerov_mpc_experiment}
 
 Trajectories from the two-robot \ac{mpc} experiment described in
 \cref{e_rcce_es_two_robots_mpc_experiment} were obtained and are presented in
@@ -592,26 +590,25 @@ controller's constraint set, which ensured stable operation at the start of each
 Two distinct \ac{mpc} activation windows were recorded for the follower: \qty{24.08}{\s} from
 \qty{130.56}{\s} to \qty{154.64}{\s}, and \qty{21.64}{\s} from \qty{191.21}{\s} to
 \qty{212.85}{\s}. During the first window, the follower covered a path length of approximately
-\qty{6.41}{\meter}, with a net displacement of
-$(\qty{1.14}{\meter},\,\qty{0.524}{\meter},\,\qty{-0.236}{\meter})$ in
-$(\fvect{x}{w},\,\fvect{y}{w},\,\fvect{z}{w})$, and an average speed of \qty{0.267}{\m\per\s}. The
-median instantaneous speed remained low (\qty{0.022}{\m\per\s}), although sporadic outliers were
-observed (\num{99}\textsuperscript{th} percentile approximately \qty{7.96}{\m\per\s}). These
-outliers are consistent with brief tracking glitches near the volume boundaries, as noted earlier
-in \cref{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}. Leader-follower separations in
-this window clustered well below the cable limit of \qty{1.5}{\meter} (median \qty{1.25}{\meter},
-\num{90}\textsuperscript{th} percentile \qty{1.33}{\meter}); only \qty{5.8}{\percent} of samples
-lay within \qty{0.1}{\meter} of the limit. Isolated larger values appeared in the upper percentile
-range and are attributable to momentary losses of external tracking rather than sustained
-violations of the constraint set.
+\qty{6.41}{\meter}, with a net displacement of \qtylist{1.14;0.524;-0.236}{\meter} in the
+\fvect{x}{w}, \fvect{y}{w} and \fvect{z}{w} axes, respectively, and an average speed of
+\qty{0.267}{\m\per\s}. The median instantaneous speed remained low (\qty{0.022}{\m\per\s}),
+although sporadic outliers were observed (\num{99}\textsuperscript{th} percentile approximately
+\qty{7.96}{\m\per\s}). These outliers are consistent with brief tracking glitches near the volume
+boundaries, as noted earlier in \cref{ex_rcce_ctcl_state_estimation_with_extended_kalman_filter}.
+Leader-follower separations in this window clustered well below the cable limit of
+\qty{1.5}{\meter} (median \qty{1.25}{\meter}, \num{90}\textsuperscript{th} percentile
+\qty{1.33}{\meter}); only \qty{5.8}{\percent} of samples lay within \qty{0.1}{\meter} of the limit.
+Isolated larger values appeared in the upper percentile range and are attributable to momentary
+losses of external tracking rather than sustained violations of the constraint set.
 
 In contrast, the second activation window exhibited more conservative behavior. The follower
 traveled \qty{1.27}{\meter} over \qty{21.64}{\s} with a net displacement of approximately
-$(\qty{-0.574}{\meter},\,\qty{-0.336}{\meter},\,\qty{0.145}{\meter})$ and a mean speed of
-\qty{0.061}{\m\per\s} (median \qty{0.024}{\m\per\s}). The inter-robot distance remained comfortably
-bounded (median \qty{0.807}{\meter}, maximum \qty{0.945}{\meter}), which is consistent with the
-qualitative impression in \cref{e_rcce_r_mpc_2_follower_poses} that the follower moved only
-slightly in response to the leader without committing to pronounced motion.
+\qtylist{-0.574;-0.336;0.145}{\meter} and a mean speed of \qty{0.061}{\m\per\s} (median
+\qty{0.024}{\m\per\s}). The inter-robot distance remained comfortably bounded (median
+\qty{0.807}{\meter}, maximum \qty{0.945}{\meter}), which is consistent with the qualitative
+impression in \cref{e_rcce_r_mpc_2_follower_poses} that the follower moved only slightly in
+response to the leader without committing to pronounced motion.
 
 Overall, these two regimes are informative. The first window indicates that tracking losses are
 easily encountered in a small observable space with two active robots. The second window suggests
@@ -638,14 +635,14 @@ importance of further experimentation under improved tracking conditions.
 		\caption{Trajectory of the robot along the \ldvect{z}{w}-axis.}
 		\label{e_rcce_r_mpc_2_follower_pose_z}
 	\end{subfigure}
-	\caption{Trajectory of the robot during the \ac{mpc} experiment.}
+	\caption{Trajectory of the robot during the two robots \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_2_follower_poses}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_experiment_2_pose_wz}
-	\caption{Trajectory of the robot around the \ldvect{z}{w}-axis.}
+	\caption{Trajectory of the robot around the \ldvect{z}{w}-axis during the two robots \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_2_follower_pose_wz}
 \end{figure}
 
@@ -662,7 +659,7 @@ time, as also observed in the single-robot case.
 \begin{figure}
 	\centering
 	\inputtikz{figures/mpc_experiment_2_compute_time}
-	\caption{Computation time of the \ac{mpc} during the experiment.}
+	\caption{Computation times during the two robots \ac{mpc} experiment.}
 	\label{e_rcce_r_mpc_2_compute_time}
 \end{figure}
 
