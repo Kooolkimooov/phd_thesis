@@ -2,9 +2,7 @@
 \usepackage[english]{babel}
 \usepackage{csquotes}
 \usepackage{graphics}
-\usepackage[
-	% showframe % /!\ this produces artefacts on figures
-]{geometry}
+\usepackage{geometry}
 \usepackage{epsfig}
 \usepackage{mathptmx}
 \usepackage{amsmath}
@@ -25,8 +23,7 @@
 \usepackage{multirow}
 \usepackage{minitoc}
 \usepackage{titlesec}
-\usepackage[style=authoryear-comp]{biblatex}
-% \usepackage[style=numeric-comp]{biblatex}
+\usepackage[style=authoryear]{biblatex}
 \usepackage{lipsum}
 \usepackage{textcase}
 \usepackage{mfirstuc}
@@ -52,6 +49,10 @@
 		pdfauthor={\theauthor{}},
 		pdftitle={\thetitle{}},
 		pdfsubject={PhD thesis},
+		colorlinks={true},
+		linkcolor={black},
+		citecolor={blue!70!black},
+		urlcolor={blue!70!black},
 		% pdfpagelayout={TwoColumnRight},
 	}
 }{}
@@ -60,6 +61,40 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% review macro
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareFieldFormat{citehyperref}{%
+	\DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+	\bibhyperref{#1}}
+
+\DeclareFieldFormat{textcitehyperref}{%
+	\DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+	\bibhyperref{%
+		#1%
+		\ifbool{cbx:parens}
+		{\bibcloseparen\global\boolfalse{cbx:parens}}
+		{}}}
+
+\savebibmacro{cite}
+\savebibmacro{textcite}
+
+\renewbibmacro*{cite}{%
+	\printtext[citehyperref]{%
+		\restorebibmacro{cite}%
+		\usebibmacro{cite}}}
+
+\renewbibmacro*{textcite}{%
+	\ifboolexpr{
+		( not test {\iffieldundef{prenote}} and
+		test {\ifnumequal{\value{citecount}}{1}} )
+		or
+		( not test {\iffieldundef{postnote}} and
+		test {\ifnumequal{\value{citecount}}{\value{citetotal}}} )
+	}
+	{\DeclareFieldAlias{textcitehyperref}{noformat}}
+	{}%
+	\printtext[textcitehyperref]{%
+		\restorebibmacro{textcite}%
+		\usebibmacro{textcite}}}
 
 \newcommand{\review}[2]{%
 	\begin{tabularx}{\linewidth}{X|X}
