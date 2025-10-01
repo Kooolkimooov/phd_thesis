@@ -614,9 +614,9 @@ law is expressed as
 	\label{rcc_c_rc_law}
 \end{align}
 
-where \ldvect{v}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is the
-interaction matrix (see \cite{moreiraVisualServoingDeformable2019} for details) relating the tether
-shape derivatives to the relative motion of the robots, $\scal{\lambda} \in \mathbb{R}^{+}$ is a
+where \ldvect{v}{i+1} is the velocity of robot \scal{i+1}, \matr{L} is the interaction matrix (see
+\cite{moreiraVisualServoingDeformable2019} for details) relating the catenary shape parameters and
+their derivatives to the relative motion of the robots, $\scal{\lambda} \in \mathbb{R}^{+}$ is a
 control gain, and \ldvect{s}{i(i+1)} is feature vector such that
 \begin{align}
 	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}, \frac{\ldscal{\Delta H}{i(i+1)} + \ldscal{\Delta H}{max}}{2\ldscal{\Delta H}{max}}\right]
