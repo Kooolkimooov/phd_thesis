@@ -10,6 +10,166 @@
 
 \chapter{Retours}
 
+\section{01/10/2025 from commit 71896074}
+
+\review{
+
+	Remarque générale (facultatif et sujet à préférence). Simulations / Analyses et graphes.
+
+	Je sais que latex fonctionne comme cela, mais je trouve dommage que certaines analyses (que je
+	trouve intéressantes à lire, pour le coup) soit des fois coupées par une ou deux pages de graphes.
+	Serait-il possible (au prix de pages blaches, je sais) de forcer le manuscrit (FloatBarrier ?) à
+	bien séparer
+
+	- IV.4.1
+
+	- Présentation et ses graphs.
+
+	- Analyse des résultats
+	- graphes
+
+	- IV.4.2
+	- présentation des scénario (et leur graphs cas échéant)
+
+	- analyse des résultats de la config 1
+
+	- graphs config 1
+
+	- analyse des résultats de la config 1
+
+	- graphs config 2
+
+	======  Ce sera plus moche, c'est sûr, mais comme je trouve certaines analyses très compréhensives sans les images, je trouve le texte dur à lire lorsque découpé entre des planches de graphes ===
+
+}{}
+
+\review{
+
+	Page 64. ** The chain of ROV is made of four ROVs and one USV that represents the link to a surface
+	control vehicle. --- i.e. dans la phrase en rose tu parles des "trois ROV" avant d'avoir dit à ton
+	lecteur que tes 4 robots sont séparés en deux groupes.
+
+	** partie en bleu : que fait le 4ème robot ?
+
+	** Github : il me semble que le repo est le même pour les "trois controleurs".
+
+	Peut-être peux-tu envisager de donner l'adresse à la fin de IV.4, juste avant IV.4.1 (un paragraphe
+	après la définition des états initiaux), MAIS, en faisant une phrase qui dit explicitement
+	l'ensemble des travaux présentés dans le reste de ce chapitre ont été implémenté sous python, et
+	toutes les simulation sont dispo ici: .... Je me dis que ça met mieux en valeur ton travail que de
+	passer l'adresse entre parenthèse.
+
+}{}
+
+\review{
+
+	Page 65. ** "or the tolerance reached a predefined maximum value." ---> que fais-tu dans ce cas là
+	? La mission est considérée comme ayant échoué ?
+
+	** explicites plus pourquoi tu résous le problème de deux manière différentes => pour créer un comportement différent, ou une forme d'erreur de modélisation, ou pour rendre le travail du MPC plus délicat.
+
+}{}
+
+\review{
+
+	Page 66
+
+	** Euclidean norm of the tracking error (fais un ctr+f sur Euclidean, je l'ai vu plusieurs fois).
+
+}{}
+
+\review{
+
+	Page 68.
+
+	Le petit bout d'analyse des priorités qui est là me plaît bien
+
+	--> Dans l'implémentation du MPC
+
+}{}
+
+\review{
+
+	Page 70.
+
+	** A nouveau, que se passe t'il en cas d'échec méchant ? Simulation terminée ?
+
+	** "for the following 10 steps" ---> over a 10 steps horizon, corresponding to 1s.
+
+	** est-tu capable de rajouter une phrase ou deux pour expliquer ce que tu testes / cherche à révéler / différencier avec les deux stratégies que tu mets en place.
+	Ou autrement dit "pourquoi choisis-tu ces deux configurations ?"
+	Je pense que ce serait un plus (c'est facultatif)
+
+}{}
+
+\review{
+
+	Page 71 ** a peak "Euclidean tracking error norm" -> a peak in the Euclidean norm of the tracking
+	error
+
+	** while the inner loop responded continuously but without preview ---> que veux tu dire par là (...but without preview..)
+	prévoir
+	provide, predict, foresee, anticipate, forecast, envisage
+
+	présager predict, presage, foresee, portend, foreshadow, augur
+
+}{}
+
+\review{
+
+	Page 74 Anisotropic --> j'ai du aller voir dans le dico. Tu es sûr d'être le papa de l'usage de ce
+	mot ? (comme c'est souvent relatif à la tectonique des plaques et que tu es spécialiste de national
+	geographic, je suppose).
+
+	De manière générale. Qu'est-ce que tu appelles les "clearance data" ? J'ai à chaque fois un peu de
+	mal à comprendre de quoi tu parles (c'est peut-être un problème d'anglais de ma part)
+
+	Par exemple, page 79 : qu'est ce qu'une clearance violation ?
+
+}{}
+
+\review{
+
+	Page 79.
+
+	La partie en bleu est ta conclusion de l'ensemble de cette sous-section. J'en ferais un autre
+	paragraphe. Comme c'est écrit maintenant, c'est au même niveau que le reste alors qu'il s'agit d'un
+	verdict --> à la ligne. J'aurais tendance à privilégier un début de phrase de style "In conclusion"
+	que "taken together" qui indique plus clairement que tu conclues...
+
+}{}
+
+\review{
+
+	Page 80 ** !!! Broken link Alert !!!!
+
+	** "by the visual" --> by a visual (+recites la sources) plusieurs pages sont passées pas sûr que ton lecteur se souvienne de quoi tu parles.
+
+	** Avant le paragraphe bleu, ou au début. Rappelles que tu as présenté le visual servoing en section IV.3.3.
+	Pour tout t'avouer, j'avais oublié que tu l'avais fait... et écrit un paragraphe te disant "faut présenter le visual, bla bla bla."
+	Donc, un petit \ref{...} ne ferait pas de mal.
+
+}{}
+
+\review{
+
+	Page 82 - 83
+
+	La fin de la section IV.4.3 est très bien et très importante.
+
+	Pense-tu que cela vaille le coup de compléter ce que tu dis en précisant que des simu faites avec
+	moins de robots (2 ?) donnaient de meilleurs résultats du moins des résultats viables (mais que tu
+	as choisi de ne pas les présenter car ça ne correspondait pas à ton cahier des charges) ?
+
+}{}
+
+\review{
+
+	Page 84 J'ai bien la conclusion du chapitre et je trouve que tu t'en sors pas mal pour pointer vers
+	la partie expérimentale prélimiaire.
+
+}{}
+
 \section{30/09/2025 from commit 71896074}
 
 \review{
