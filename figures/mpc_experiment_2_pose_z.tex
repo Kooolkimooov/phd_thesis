@@ -1,0 +1,53 @@
+\begin{tikzpicture}
+
+	\begin{axis}[
+			xmin = 50,
+			xmax = 260,
+			ymin = -5,
+			ymax = 5,
+			restrict x to domain=50:260,
+			restrict y to domain=-6:6,
+			width = \figurewidth,
+			height = 0.5\figurewidth,
+			unbounded coords=jump,
+			xlabel = {time / \unit{\s}},
+			ylabel = {position / \unit{\m}},
+			legend style={at={(0.9, 0.5)}, anchor=west, fill opacity=.75, text opacity=1, font=\footnotesize},
+			legend cell align={left},
+		]
+
+		\addplot[name path=cov_upper_leader, draw=none, forget plot] table [x index=0, y index=3] {figures/data/mpc_experiment_2_leader_position_covariance.txt};
+		\addplot[name path=cov_lower_leader, draw=none, forget plot] table [x index=0, y index=6] {figures/data/mpc_experiment_2_leader_position_covariance.txt};
+
+		\addplot[name path=cov_upper_follower, draw=none, forget plot] table [x index=0, y index=3] {figures/data/mpc_experiment_2_follower_position_covariance.txt};
+		\addplot[name path=cov_lower_follower, draw=none, forget plot] table [x index=0, y index=6] {figures/data/mpc_experiment_2_follower_position_covariance.txt};
+
+		\addplot[name path=act_lower_leader, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, 0, 5)}] {figures/data/mpc_experiment_2_leader_activated.txt};
+		\addplot[name path=act_upper_leader, draw=none, forget plot] coordinates {(50,5) (260,5)};
+
+		\addplot[name path=act_lower_follower, draw=none, forget plot] coordinates {(50,-5) (260,-5)};
+		\addplot[name path=act_upper_follower, draw=none, forget plot] table [x index=0, y expr={ifthenelse(\thisrowno{1}==1, 0, -5)}] {figures/data/mpc_experiment_2_follower_activated.txt};
+
+		\addplot[fill=blue, fill opacity=0.15] fill between [of=act_upper_leader and act_lower_leader];
+		\addplot[fill=black, fill opacity=0.15] fill between [of=act_upper_follower and act_lower_follower];
+
+		\addplot[red, very thick] table [x index=0, y index=3] {figures/data/mpc_experiment_2_leader_position.txt};
+		\addplot[red, very thick, dashed] table [x index=0, y index=3] {figures/data/mpc_experiment_2_leader_target_position.txt};
+		\addplot[green, very thick] table [x index=0, y index=3] {figures/data/mpc_experiment_2_follower_position.txt};
+
+		\addplot[fill=red, fill opacity=0.25] fill between [of=cov_upper_leader and cov_lower_leader];
+		\addplot[fill=green, fill opacity=0.25] fill between [of=cov_upper_follower and cov_lower_follower];
+
+		\legend{
+			\acs{pid} activated,
+			\acs{mpc} activated,
+			Leader position,
+			Leader target,
+			Follower position,
+			$\pm 1\sigma$,
+			$\pm 1\sigma$
+		}
+
+	\end{axis}
+
+\end{tikzpicture}
