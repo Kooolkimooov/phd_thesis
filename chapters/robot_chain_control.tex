@@ -22,16 +22,16 @@ robot's body frame. This enables the definition of a concatenated chain state an
 of the constraints that must be enforced, including seafloor and surface clearance, inter-robot
 distances, and actuator bounds.
 
-On this foundation, three control strategies with increasing levels of prediction are evaluated
-(\cref{rcc_controllers}). The first is a constrained \ac{mpc} that optimizes future inputs subject
-to coupled dynamics and catenary-induced constraints. The second is a path planning layer that
-generates feasible waypoint sequences subsequently tracked by a \ac{pid} controller. The third is a
-reactive approach derived from earlier leader-follower visual servoing work, here adapted to rely
-on inter-robot pose measurements rather than image features. Their performance is assessed in a
-numerical tank with varying bathymetry and a mixed \ac{rov}/\ac{usv} chain (\cref{rcc_simulation}).
-Both qualitative outcomes (trajectories, catenary clearances) and quantitative indicators (tracking
-errors, inter-robot distances, speeds, computation times) are reported in order to reveal the
-trade-offs between accuracy, constraint satisfaction, and computational feasibility.
+On this foundation, three different control are evaluated (\cref{rcc_controllers}). The first is a
+constrained \ac{mpc} that optimizes future inputs subject to coupled dynamics and catenary-induced
+constraints. The second is a path planning layer that generates feasible waypoint sequences
+subsequently tracked by a \ac{pid} controller. The third is a reactive approach derived from
+earlier leader-follower visual servoing work, here adapted to rely on inter-robot pose measurements
+rather than image features. Their performance is assessed in a numerical tank with varying
+bathymetry and a mixed \ac{rov}/\ac{usv} chain (\cref{rcc_simulation}). Both qualitative outcomes
+(trajectories, catenary clearances) and quantitative indicators (tracking errors, inter-robot
+distances, speeds, computation times) are reported in order to reveal the trade-offs between
+accuracy, constraint satisfaction, and computational feasibility.
 
 In summary, this chapter contributes a compact chain model coupling vehicle dynamics with a
 tractable catenary description; a unified set of geometry-consistent constraints; a comparative
@@ -248,7 +248,9 @@ By collecting terms, the relation between angular velocities and Euler angle rat
 \end{align}
 
 This expression becomes singular at $\scal{\theta} = \pm{}\qty{90}{\degree}$, this is called gimbal
-lock.
+lock. This singularity is usually avoided in practice by the fact that the center of buoyancy is
+above the center of gravity, which makes the pitch and roll converge to zero in steady state, and
+limited actuation capabilities on these axes.
 
 \trigft{}
 
@@ -382,8 +384,8 @@ the standard catenary equation:
 
 Here, $\catC \in \mathbb{R}^*_+$ is the catenary parameter and governs the cable's curvature.
 
-In the context of a chain of \acp{rov}, the mechanical effects of the cable on the robot are of
-interest. To this end the horizontal tension force is by definition
+In the context of a chain of \acp{rov}, the mechanical effects of the cable on the robot must be
+considered. To this end the horizontal tension force is by definition
 (\cref{cm_cm_dotcm_change_of_variable})
 \begin{align}
 	\ldscal{T}{h} = \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}
@@ -411,12 +413,12 @@ Which is then substituted in \cref{rcc_rcm_cm_vertical_tension} to yield
 
 The forces exerted by the cable on the vehicles are then
 \begin{align}
-	\fldvect{\omega}{v}{i} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
-	\fldvect{\omega}{v}{i+1} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
+	\fldvect{\omega}{v}{a} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(-\catC\left(\catD+\catdD\right)\right)} \end{bmatrix} \hspace{1cm}
+	\fldvect{\omega}{v}{b} = \begin{bmatrix} \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\\ 0 \\ \frac{\ldscal{\lambda}{m}\scal{g}}{\catC{}}\sinh{\left(\catC\catD\right)} \end{bmatrix}
 \end{align}
 
-with \fldvect{\omega}{v}{i} the external perturbation force applied to the robot attached to
-\point{a} and \fldvect{\omega}{v}{i+1} the force applied to the robot attached to \point{b}. It
+with \fldvect{\omega}{v}{a} the external perturbation force applied to the robot attached to
+\point{a} and \fldvect{\omega}{v}{b} the force applied to the robot attached to \point{b}. It
 should be noted that these forces are expressed in the catenary frame \lframe{v} and must be
 transformed to the body-fixed frame \lframe{B} of each vehicle before being used in
 \cref{rcc_rcm_srd_dynamics_simple}.
@@ -429,20 +431,21 @@ robots connected by tethers, where each robot follows the dynamics described in
 \cref{rcc_rcm_single_robot_dynamics}. The state of the system is a concatenation of the state of
 the robots
 \begin{align}
-	\vect{x} = \left[\ldvect{\eta}{1}, \ldvect{\nu}{1}, \dots, \ldvect{\eta}{n}, \ldvect{\nu}{n}\right]^{\top}
+	\vect{x} = \left[\ldvect{\eta}{0}, \ldvect{\nu}{0}, \dots, \ldvect{\eta}{n-1}, \ldvect{\nu}{n-1}\right]^{\top}
 	\label{rcc_rcm_rcd_state_vector}
 \end{align}
 
 Similarly, its input is a concatenation of all actuations
 \begin{align}
-	\vect{u} = \left[\ldvect{\tau}{1}, \dots, \ldvect{\tau}{n}\right]^{\top}
+	\vect{u} = \left[\ldvect{\tau}{0}, \dots, \ldvect{\tau}{n-1}\right]^{\top}
 	\label{rcc_rcm_rcd_actuation_vector}
 \end{align}
 
-Additionally, the perturbation vector for each robot is define as the perturbation forces derived
-from the cable model described in \cref{rcc_rcm_cable_modelling}. The robots at the ends of the
-chain only experience the perturbation forces from a single cable while the other are subjected to
-the forces of two cables.
+Additionally, the perturbation vector for each robot is define as the sum of the perturbation
+forces derived from the cable models described in \cref{rcc_rcm_cable_modelling} and associated
+with the robot, applied at its center of mass. The robots at the ends of the chain only experience
+the perturbation forces from a single cable while the other are subjected to the forces of two
+cables.
 \begin{figure}
 	\centering
 	\inputtikz{figures/robot_chain_representation}
@@ -517,8 +520,8 @@ The optimization is solved subject to dynamic feasibility and a set of inequalit
 	\Delta   \ldvect{u}{\text{min}}  \leq & ~\Delta\ldvect{u}{k}                                                     & ~\leq & ~\Delta\ldvect{u}{\text{max}} \nonumber   \\
 	\ldcoord{z}{w}{\text{seafloor}}  \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & ~\nonumber                                \\
 	                                      & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
+	\ldscal{dh}{\text{min}}         \leq  & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & ~\nonumber                                \\
 	                                      & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
-	                                      & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}}
 	\label{rcc_c_mpc_constraints}
 \end{alignat}
 
@@ -527,13 +530,13 @@ In \cref{rcc_c_mpc_equation,,rcc_c_mpc_constraints}:
 	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ is the state deviation from the target,
 	\item $\Delta \ldvect{u}{k} = \ldvect{u}{k} - \ldvect{u}{k-1}$ is the incremental control input,
 	\item \matr{P}, \matr{Q} and \matr{R} are positive semi-definite matrices weighting the final, state, and control costs, respectively,
-	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is an optional nonlinear objective term that should be minimized,
-	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model representing the tether between robots \scal{i} and \scal{i+1},
+	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is a nonlinear objective term that should be minimized; in the robot chain context, this term can be used to define a preferred inter-robot distance,
+	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model, the sag as well as the vertical and horizontal inter-robot distances respectively, representing the tether between robots \scal{i} and \scal{i+1},
 	\item $\mathbf{u}_{\text{min}}$ and $\mathbf{u}_{\text{max}}$, $\Delta\mathbf{u}_{\text{min}}$ and $\Delta\mathbf{u}_{\text{max}}$ are the bounds of the control input,
 	\item \ldcoord{z}{w}{\text{seafloor}} is the known elevation of the seafloor which neither the robot nor the cable should cross,
 	\item \ldcoord{z}{w}{\text{surface}} is the known elevation of the water surface which the robot cannot physically cross,
 	\item \ldscal{dp}{\text{max}} is the maximum allowable distance between two consecutive robots in the chain based on the tether length,
-	\item \ldscal{dh}{\text{min}} is the minimum allowable distance between consecutive robots, both to ensure separation and to avoid a singularity in the catenary model when \catl{} is zero.
+	\item \ldscal{dh}{\text{min}} is the minimum allowable horizontal distance between consecutive robots, both to ensure separation and to avoid a singularity in the catenary model when \catl{} is zero.
 \end{itemize}
 
 If the robot is operated in a constrained environment such as a pool, additional box constraints
@@ -545,16 +548,16 @@ could be imposed on the position:
 
 Once the optimal control input is found, the first element of the sequence is applied to the
 system, and the optimization problem is solved again at the next time step. In order to reduce the
-optimization time, \vect{u} may be considered constant, piecewise constant, or parameterized as a
-polynomial function over the horizon.
+optimization time, \vect{u} may be considered constant, piecewise constant on a fraction of the
+horizon, or parameterized as a polynomial function over the horizon.
 
 \subsection{Path Planning}
 \label{rcc_c_path_planning}
 
 A path planning problem was formulated to generate feasible trajectories for the robots while
 respecting the tether kinematics and the constraints of the chain. The resulting trajectory is then
-used with a simple controller (\ac{pid}) to move the system. The path planning optimization problem
-consists of finding a sequence of waypoints $\vect{p}=\left(\ldvect{x}{0}, \dots,
+used with a simple \ac{pid} controller on the pose of the system. The path planning optimization
+problem consists of finding a sequence of waypoints $\vect{p}=\left(\ldvect{x}{0}, \dots,
 	\ldvect{x}{n}\right)$ over a finite horizon \mpch{} in order to minimize the distance of the path
 to the desired pose of the robots while enforcing kinematic feasibility constraints:
 \begin{align}
@@ -567,24 +570,25 @@ subject to
 \begin{alignat}{3}
 	\ldcoord{z}{w}{\text{seafloor}} \leq & ~\ldcoord{z}{w}{i} - \ldscal{\catH{}}{i(i+1)}                            & ~     & \label{rcc_c_pp_constraints} \nonumber    \\
 	\leq                                 & ~\max{\left(\ldcoord{z}{w}{i}, \ldcoord{z}{w}{i+1}\right)}               & ~\leq & ~\ldcoord{z}{w}{\text{surface}} \nonumber \\
-	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
 	\ldscal{dh}{\text{min}}         \leq & ~\ldscal{\catl{}}{i(i+1)}                                                & ~     & ~\nonumber                                \\
-	                                     & ~\norm{\ldvect{p}{i+1}-\ldvect{p}{i}}                                    & ~\leq & ~\ldscal{d}{\text{max}}
+	                                     & ~\sqrt{\llscal{\catl{}}{2}{i(i+1)} + \Delta \llscal{\catH{}}{2}{i(i+1)}} & ~\leq & ~\ldscal{dp}{\text{max}} \nonumber        \\
+	                                     & ~\norm{\ldvect{\nu}{i}}                                                  & ~\leq & ~\ldvect{\nu}{\text{max}}
 \end{alignat}
 
 where
 \begin{itemize}
 	\item $\res{k} = \ldvect{x}{k} - \llvect{x}{\text{target}}{k}$ denotes the state deviation from the target,
 	\item \matr{P} and \matr{Q} are positive semi-definite matrices weighting the final and state costs, respectively,
-	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is an optional nonlinear objective term that should be minimized,
-	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)}, and \ldscal{\catl{}}{i(i+1)} are the catenary model parameters representing the tether between robots \scal{i} and \scal{i+1},
-	\item $\Delta\mathbf{r}_{\text{min}}$ and $\Delta\mathbf{r}_{\text{max}}$ are bounds on the increments between path parameters,
-	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and seafloor clearance.
+	\item $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ is a nonlinear objective term that should be minimized; in the robot chain context, this term can be used to define a preferred inter-robot distance,
+	\item \ldscal{\catH{}}{i(i+1)}, \ldscal{\catdH{}}{i(i+1)} and \ldscal{\catl{}}{i(i+1)} are parameters of the catenary model, the sag as well as the vertical and horizontal inter-robot distances respectively, representing the tether between robots \scal{i} and \scal{i+1},
+	\item \ldcoord{z}{w}{\text{seafloor}}, \ldscal{dp}{\text{max}}, \ldscal{dh}{\text{min}}, and \ldscal{dh}{\text{max}} are geometrical bounds ensuring safe separation, catenary feasibility, and environment clearance,
+	\item \ldvect{\nu}{\text{max}} is the maximum allowable velocity of each robot.
 \end{itemize}
 
 Once the optimal waypoint sequence was found, it is passed to a controller as a reference
-trajectory. The optimization problem, or a subset of it, may be solved again according to different
-criteria such as time, tracking error, etc; this is called replanning.
+trajectory. The optimization problem, or a subset of it (starting from the closest or current point
+in the reference trajectory, for example) may be solved again according to different criteria such
+as time, tracking error, etc; this is called replanning.
 
 \subsection{Reactive Control}
 \label{rcc_c_reactive_control}
@@ -610,9 +614,9 @@ law is expressed as
 	\label{rcc_c_rc_law}
 \end{align}
 
-where \ldvect{v}{i+1} is the twist of robot \scal{i+1} relative to robot \scal{i}, \matr{L} is the
-interaction matrix (see \cite{moreiraVisualServoingDeformable2019} for details) relating the tether
-shape derivatives to the relative motion of the robots, $\scal{\lambda} \in \mathbb{R}^{+}$ is a
+where \ldvect{v}{i+1} is the velocity of robot \scal{i+1}, \matr{L} is the interaction matrix (see
+\cite{moreiraVisualServoingDeformable2019} for details) relating the catenary shape parameters and
+their derivatives to the relative motion of the robots, $\scal{\lambda} \in \mathbb{R}^{+}$ is a
 control gain, and \ldvect{s}{i(i+1)} is feature vector such that
 \begin{align}
 	\ldvect{s}{i(i+1)} = \left[\frac{\ldscal{H}{i(i+1)}}{\ldscal{H}{\text{max}}}, \sin{\scal{\alpha}}, \frac{\ldscal{\Delta H}{i(i+1)} + \ldscal{\Delta H}{max}}{2\ldscal{\Delta H}{max}}\right]
@@ -632,7 +636,7 @@ the global chain maintains feasible catenary geometries without over-constrainin
 \section{Simulation}
 \label{rcc_simulation}
 
-The controllers is assessed through the analysis of a scenario comprising four tethered robots
+The controllers are assessed through the analysis of a scenario comprising four tethered robots
 ($\scal{n}=4$ in \cref{rcc_rcm_rcd_state_vector,rcc_rcm_rcd_actuation_vector}). The experiment
 takes place in a numerical tank with varying depth, and infinite width and length
 (\cref{rcc_s_mpc_ss_tank}). The tethers are assumed to be negatively buoyant with a known fixed
@@ -640,9 +644,10 @@ length as discussed in \cref{cable_modelling}. The leader robot as well as the t
 robots are considered as \acp{rov} while the fourth robot is modelled as an \ac{usv} in order to
 represent the link to a surface control vehicle.
 
-The leader robot is tasked with tracking a reference trajectory, while the two follower robots must
-ensure that the constraints are not violated. It is imperative that they maintain a safe distance
-from one another since proximity could result in contact with the floor or other obstacles.
+The leader robot is tasked with tracking a reference trajectory, while the three follower robots
+must ensure that the constraints are not violated. It is imperative that they maintain a safe
+distance from one another since proximity could result in contact with the floor or other
+obstacles.
 
 To test the system's ability to cope with these constraints, we considered a trajectory in which
 the leading robot passes over a raised peak in which the tether would be entangled without proper
@@ -659,6 +664,8 @@ During this planned trajectory, the leader is closest to the seafloor at times \
 The leader robot initial state is $\fldvect{\eta}{w}{0}=[2,0,1, 0, 0, 0]$ and the two follower
 robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,1, 0, 0, 0]$ and $\fldvect{\eta}{w}{2}=[3,0,1, 0, 0,
 	0]$. The \ac{usv} is positioned at $\fldvect{\eta}{w}{3}=[3.5,0,0,0,0,\pi/2]$.
+
+All the code from simulations in this chapter is available at \citeurl{filliungPympc_usage2025}.
 
 \begin{figure}
 	\centering
@@ -677,17 +684,18 @@ robots'states are $\fldvect{\eta}{w}{1}=[2.5,0,1, 0, 0, 0]$ and $\fldvect{\eta}{
 \subsubsection{Implementation}
 \label{rcc_s_mpc_implementation}
 
-The simulation (\citeurl{filliungPympc_usage2025}) integrates the robots chain dynamics introduced
-in \cref{rcc_robot_chain_modelling} and follows the scenario outlined previously. The simulation is
-run with a time step of \qty{0.1}{\second} for \num{500} steps, i.e. \qty{50}{\second}. The
-\ac{mpc} horizon is \num{10} steps, i.e. \qty{1}{\second}. The problem is solved with the
-\texttt{scipy.minimize} function in Python with a tolerance of \num{1e-6} and a maximum number of
-iterations set to \num{100}.
+The simulation integrates the robots chain dynamics introduced in \cref{rcc_robot_chain_modelling}
+and follows the scenario outlined previously. The simulation is run with a time step of
+\qty{0.1}{\second} for \num{500} steps, i.e. \qty{50}{\second}. The \ac{mpc} horizon is \num{10}
+steps, i.e. \qty{1}{\second}. The problem is solved with the \texttt{scipy.minimize} function in
+Python with a tolerance of \num{1e-6} and a maximum number of iterations set to \num{100}.
 
 A recovery procedure was implemented for cases in which the \ac{mpc} failed to converge to a
-solution. In this procedure, the optimization tolerance was progressively increased until either
-convergence was achieved -at which point the tolerance was reduced again- or the tolerance reached
-a predefined maximum value.
+solution. In this procedure, the optimization tolerance was progressively increased up to a
+predefined maximum value until convergence was achieved, at which point the tolerance was reduced
+again. If the tolerance reached its maximum value without convergence, the simulation continues but
+the chances of convergence become small. The simulation is never stopped on the basis of this
+recovery method although in a practical deployment, a failsafe procedure would be necessary.
 
 The matrices \matr{P} and \matr{Q} (\cref{rcc_c_mpc_equation}) are defined in such a way that the
 position of the leader is assigned a weight of \num{10} and its orientation a weight of \num{1}.
@@ -722,11 +730,12 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 	\label{rcc_s_mpc_i_constrains_values}
 \end{table}
 
-In order to differentiate the simulation from the model employed in the MPC prediction horizon,
-their integration method diverge: the simulation utilizes a Runge-Kutta integration of order 4
-(\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas the MPC prediction employs an Euler-explicit
-scheme. The shape of each cable is deduced at any time from the position of its attachment points
-using the catenary equation \cref{cm_cm_d_catenary_equation}.
+In order to differentiate the simulation from the model employed in the MPC prediction horizon, and
+ensure a degree of modeling error in the latter, their integration method diverge: the simulation
+utilizes a Runge-Kutta integration of order 4 (\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas
+the MPC prediction employs an Euler-explicit scheme. The shape of each cable is deduced at any time
+from the position of its attachment points using the catenary equation
+\cref{cm_cm_d_catenary_equation}.
 
 \subsubsection{Results}
 \label{rcc_s_mpc_results}
@@ -765,7 +774,7 @@ large control efforts on orientations, and the soft structural coupling introduc
 	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
-The instantaneous Euclidean tracking error of the leader remains below \qty{0.2}{\m} for most of
+The instantaneous norm of the tracking error of the leader remains below \qty{0.2}{\m} for most of
 the experiment with a median error of \qty{0.053}{\m} and a mean of \qty{0.107}{\m}. The maximum
 error observed over the whole simulation is \qty{0.714}{\m}, occurring at the apex of the elevation
 change when the controller momentarily prioritizes reshaping inter-robot spacing to preserve future
@@ -847,33 +856,37 @@ threshold, and surrogate linear models for early-phase stretching to reduce solv
 \subsubsection{Implementation}
 \label{rcc_s_pp_implementation}
 
-The simulation (\citeurl{filliungPympc_usage2025}) was implemented by integrating the robot chain
-dynamics introduced in \cref{rcc_robot_chain_modelling} and by following the previously described
-scenario. It was executed with a time step of \qty{0.1}{\second} over \num{500} steps,
-corresponding to a simulated duration of \qty{50}{\second}. The optimization problem was solved
-using the \texttt{scipy.minimize} function in Python.
+The simulation was implemented by integrating the robot chain dynamics introduced in
+\cref{rcc_robot_chain_modelling} and by following the previously described scenario. It was
+executed with a time step of \qty{0.1}{\second} over \num{500} steps, corresponding to a simulated
+duration of \qty{50}{\second}. The optimization problem was solved using the
+\texttt{scipy.minimize} function in Python.
 
 A recovery procedure was introduced for cases in which the optimization failed to converge. In this
-procedure, the optimization tolerance was progressively increased until convergence was achieved,
-at which point the tolerance was reduced again. If no convergence occurred, the tolerance was
-capped at a predefined maximum value.
+procedure, the optimization tolerance was progressively increased up to a predefined maximum value
+until convergence was achieved, at which point the tolerance was reduced again. If the tolerance
+reached its maximum value without convergence, the simulation continues but the chances of
+convergence become small. The simulation is never stopped on the basis of this recovery method
+although in a practical deployment, a failsafe procedure would be necessary.
 
 Two distinct simulations were performed using different replanning strategies:
 \begin{enumerate}
-	\item In the first configuration, the path was optimized at every step for the following \num{10} steps,
-	      corresponding to \qty{1}{\second}. The tolerance was set to \num{1e-3} and the maximum number of
-	      iterations to \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) were defined
-	      such that the leader's position was assigned a weight of \num{10} and its orientation a weight of
-	      \num{1}. The orientation of the follower robots was also weighted with \num{1}, while their
-	      positions remained unweighted. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$
-	      penalized the robots' linear speed and aimed to maintain inter-robot distances close to
-	      \qty{1.5}{\m}. This term was weighted with a factor of \num{0.01}.
+	\item In the first configuration, the path was optimized at every step over a \num{10} steps horizon,
+	      corresponding to \qty{1}{\second}. This closely resembles \ac{mpc}'s optimization strategy without
+	      using model dynamics. The tolerance was set to \num{1e-3} and the maximum number of iterations to
+	      \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) were defined such that the
+	      leader's position was assigned a weight of \num{10} and its orientation a weight of \num{1}. The
+	      orientation of the follower robots was also weighted with \num{1}, while their positions remained
+	      unweighted. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ penalized the robots'
+	      linear speed and aimed to maintain inter-robot distances close to \qty{1.5}{\m}. This term was
+	      weighted with a factor of \num{0.01}.
 	\item In the second configuration, the path was replanned every \num{10} steps or whenever the leader's
-	      tracking error exceeded \qty{1}{\m}. The optimization horizon covered the following \num{20} steps,
-	      corresponding to \qty{2}{\second}, with a tolerance of \num{1e-5} and a maximum of \num{100}
-	      iterations. The weighting matrices \matr{P} and \matr{Q} were defined as in the first
-	      configuration, and the same inter-robot objective was applied. In this case, however, the objective
-	      term was weighted with a factor of \num{20.0}.
+	      tracking error exceeded \qty{1}{\m}. This configuration used a more standard replanning strategy.
+	      The optimization horizon covered the following \num{20} steps, corresponding to \qty{2}{\second},
+	      with a tolerance of \num{1e-5} and a maximum of \num{100} iterations. The weighting matrices
+	      \matr{P} and \matr{Q} were defined as in the first configuration, and the same inter-robot
+	      objective was applied. In this case, however, the objective term was weighted with a factor of
+	      \num{20.0}.
 \end{enumerate}
 
 These parameter values were determined by trial and error. Additionally, the constraints introduced
@@ -916,7 +929,7 @@ bounded within a few decimeters (see also \cref{rcc_s_pp_r_fc_error}). In contra
 \ldvect{z}{w}-axis response exhibited a marked loss of performance whenever the reference underwent
 a steep variation. Instead of brief overshoots followed by rapid convergence, the vertical error
 accumulated over several seconds, leading to a sustained bias before partial recovery. Analysis of
-the error logs confirmed a peak Euclidean tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s},
+the error logs confirmed a peak in the tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s},
 dominated by the vertical component (\qty{2.19}{\m}). The RMS errors were limited to \qty{0.16}{\m}
 on \ldvect{x}{w} and \qty{0.09}{\m} on \ldvect{y}{w}, but reached \qty{1.00}{\m} on \ldvect{z}{w},
 bringing the overall RMS norm above one metre. Hence, the apparent quality of planar tracking
@@ -925,8 +938,9 @@ concealed a substantial degradation in vertical control authority.
 Two mechanisms explain this behavior. First, the two-stage architecture (periodic path optimization
 followed by low-level \ac{pid} tracking) introduced an intrinsic delay: the predictive layer
 generated waypoints at discrete replanning instants, while the inner loop responded continuously
-but without preview. This excited the derivative component of the \ac{pid} controller and induced a
-lagging integral accumulation, producing a quasi wind-up effect in the vertical channel.
+but without taking into account potential changes in target. This excited the derivative component
+of the \ac{pid} controller and induced a lagging integral accumulation, producing a quasi wind-up
+effect in the vertical channel.
 
 \begin{figure}
 	\centering
@@ -1005,7 +1019,7 @@ mean speed from leader to tail illustrates the damping of commanded motion as it
 the chain. Nonetheless, peaks for the leader and the last robot approached
 \num{0.88}\,\si{\m\per\s}, indicating that although the overall norm constraint was respected,
 local actuation along individual axes may have been close to saturation. This observation supports
-the case for introducing anisotropic or per-axis speed constraints.
+the case for introducing per-axis speed constraints.
 
 \begin{figure}
 	\centering
@@ -1037,8 +1051,8 @@ The trajectories of the robots (\cref{rcc_s_pp_r_sc_poses}) indicate good tracki
 the leader along \ldvect{x}{w} and \ldvect{y}{w}, while large excursions occurred on \ldvect{z}{w}
 whenever the reference changed abruptly. This anisotropy is confirmed by tracking error statistics:
 RMS errors reached \qty{0.284}{\m} on \ldvect{x}{w}, \qty{0.145}{\m} on \ldvect{y}{w}, and
-\qty{0.908}{\m} on \ldvect{z}{w}. The Euclidean error norm had a median of \qty{0.708}{\m}, a mean
-of \qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of \qty{2.09}{\m}. It exceeded
+\qty{0.908}{\m} on \ldvect{z}{w}. The error norm had a median of \qty{0.708}{\m}, a mean of
+\qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of \qty{2.09}{\m}. It exceeded
 \qty{1}{\m} during \qty{28.4}{\percent} of the \qty{50}{\s} horizon (\qty{14.2}{\s}), and
 \qty{2}{\m} during \qty{2.6}{\percent} (\qty{1.3}{\s}). These deviations did not coincide with the
 bathymetry-induced difficulty windows but rather reflected the delays introduced by the two-stage
@@ -1076,14 +1090,14 @@ controller reacted without preview, compounding phase lag in the vertical channe
 	\label{rcc_s_pp_r_sc_error}
 \end{figure}
 
-The clearance data (\cref{rcc_s_pp_r_sc_lowest_point}) reveal significant violations for the first
-cable span (0--1). The minimum clearance reached \qty{-0.456}{\m}, indicating seafloor penetration.
-Over the horizon, this span was below the \qty{0.2}{\m} limit for \qty{5.8}{\percent} of the time
-(\qty{2.9}{\s}) and negative for \qty{3.2}{\percent} (\qty{1.6}{\s}). In contrast, spans 1--2 and
-2--3 maintained large safety margins, with minima of \qty{1.65}{\m} and \qty{2.65}{\m} and median
-clearances of \qty{2.15}{\m} and \qty{2.98}{\m}, respectively. The mean values
-(\qtylist{1.25;2.18;3.09}{\m}) confirm that vertical risk was concentrated almost entirely in the
-leading span.
+The environment clearance data (\cref{rcc_s_pp_r_sc_lowest_point}) reveal significant violations
+for the first cable span (0--1). The minimum clearance reached \qty{-0.456}{\m}, indicating
+seafloor penetration. Over the horizon, this span was below the \qty{0.2}{\m} limit for
+\qty{5.8}{\percent} of the time (\qty{2.9}{\s}) and negative for \qty{3.2}{\percent}
+(\qty{1.6}{\s}). In contrast, spans 1--2 and 2--3 maintained large safety margins, with minima of
+\qty{1.65}{\m} and \qty{2.65}{\m} and median clearances of \qty{2.15}{\m} and \qty{2.98}{\m},
+respectively. The mean values (\qtylist{1.25;2.18;3.09}{\m}) confirm that vertical risk was
+concentrated almost entirely in the leading span.
 
 \begin{figure}
 	\centering
@@ -1143,15 +1157,17 @@ burden for real-time use.
 
 A comparison of the two configurations highlights a trade-off between tracking quality, constraint
 robustness, and computational feasibility. The first configuration achieved accurate horizontal
-tracking with only marginal clearance infringements, but persistent vertical errors accumulated due
-to the lag introduced by the two-step control architecture: the planner provided new waypoints only
-at discrete instants, while the inner \ac{pid} loop reacted continuously but without preview,
-compounding phase delay in the vertical channel. The second configuration reduced the overall RMS
-tracking error norm and improved average spatial coherence, yet it also produced severe clearance
-violations in the leading cable and frequent distance constraint breaches. Most critically, the
-sporadic replanning events in the second configuration imposed computational demands far beyond
-real-time feasibility, with solve times several orders of magnitude larger than the horizon length.
-Taken together, these results indicate that while both approaches can generate feasible paths, the
+tracking with only marginal environment clearance infringements, but persistent vertical errors
+accumulated due to the lag introduced by the two-step control architecture: the planner provided
+new waypoints only at discrete instants, while the inner \ac{pid} loop reacted continuously but
+without preview, compounding phase delay in the vertical channel. The second configuration reduced
+the overall tracking error norm and improved average spatial coherence, yet it also produced severe
+environment clearance violations in the leading cable and frequent distance constraint breaches.
+Most critically, the sporadic replanning events in the second configuration imposed computational
+demands far beyond real-time feasibility, with solve times several orders of magnitude larger than
+the horizon length.
+
+In conclusion, these results indicate that while both approaches can generate feasible paths, the
 first configuration provides a more balanced compromise between accuracy and practicality, whereas
 the second configuration requires additional refinement -particularly in clearance handling, solver
 efficiency, and mitigation of control lag- before it can be deployed in real-time scenarios.
@@ -1162,19 +1178,19 @@ efficiency, and mitigation of control lag- before it can be deployed in real-tim
 \subsubsection{Implementation}
 \label{rcc_s_rc_implementation}
 
-The simulation (\citeurl{filliungPympc_usage2025}) was implemented by integrating the robot chain
-dynamics introduced in \cref{rcc_robot_chain_modelling} and by following the previously described
-scenario. It was executed with a time step of \qty{0.1}{\second} over \num{500} steps,
-corresponding to a simulated duration of \qty{50}{\second}. Owing to the reactive nature of the
-controller described in \cref{rcc_c_rc}, the leader was controlled by a simple \ac{pid} regulator
-with proportional, integral, and derivative gains of \num{100}, \num{10}, and \num{6500}
-respectively in the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains were set to
-\num{100}, \num{10}, and \num{5000}. The angular control used proportional, integral, and
-derivative gains of \num{0.1}, \num{0}, and \num{0}. The follower robots were driven by the visual
-servoing controller, with a gain matrix weighting horizontal speed by \num{0.1}, vertical speed by
-\num{3}, and angular speed by \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and
-maximum vertical offset \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e.
-\qty{1.5}{\m}.
+The simulation was implemented by integrating the robot chain dynamics introduced in
+\cref{rcc_robot_chain_modelling} and by following the previously described scenario. It was
+executed with a time step of \qty{0.1}{\second} over \num{500} steps, corresponding to a simulated
+duration of \qty{50}{\second}. Owing to the peer-to-peer nature of the controller described in
+\cref{rcc_c_reactive_control}, the leader was controlled by a simple \ac{pid} regulator with
+proportional, integral, and derivative gains of \num{100}, \num{10}, and \num{6500} respectively in
+the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains were set to \num{100}, \num{10},
+and \num{5000}. The angular control used proportional, integral, and derivative gains of \num{0.1},
+\num{0}, and \num{0}. The follower robots were driven by a visual servoing controller (see
+\cref{rcc_c_reactive_control} and \cite{laranjeiraCatenarybasedVisualServoing2020}), with a gain
+matrix weighting horizontal speed by \num{0.1}, vertical speed by \num{3}, and angular speed by
+\num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and maximum vertical offset
+\ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e. \qty{1.5}{\m}.
 
 Different target features were assigned to each follower. For Robot~1, following the leader, the
 target was set to $\left[0.9, 0.0, 0.75\right]$, keeping it above the leader and limiting cable
@@ -1194,9 +1210,9 @@ All parameter values were selected by trial and error.
 The trajectories (\cref{rcc_s_rc_r_poses}) show that the leader initially tracked the reference
 accurately but eventually developed an instability that caused divergence. Quantitatively, during
 the first \qty{15}{\s}---before divergence began---the leader's linear tracking error had a norm
-median of \qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The Euclidean
-error norm first exceeded \qty{2}{\m} at approximately \qty{16.1}{\s}, after which it grew without
-bound, confirming the instability.
+median of \qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The error
+norm first exceeded \qty{2}{\m} at approximately \qty{16.1}{\s}, after which it grew without bound,
+confirming the instability.
 
 \begin{figure}
 	\centering
