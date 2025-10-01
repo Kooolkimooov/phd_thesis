@@ -1181,14 +1181,15 @@ efficiency, and mitigation of control lag- before it can be deployed in real-tim
 The simulation was implemented by integrating the robot chain dynamics introduced in
 \cref{rcc_robot_chain_modelling} and by following the previously described scenario. It was
 executed with a time step of \qty{0.1}{\second} over \num{500} steps, corresponding to a simulated
-duration of \qty{50}{\second}. Owing to the reactive nature of the controller described in
-\cref{rcc_c_rc}, the leader was controlled by a simple \ac{pid} regulator with proportional,
-integral, and derivative gains of \num{100}, \num{10}, and \num{6500} respectively in the
-\vect{x}-\vect{y} plane. In the \vect{z} direction, the gains were set to \num{100}, \num{10}, and
-\num{5000}. The angular control used proportional, integral, and derivative gains of \num{0.1},
-\num{0}, and \num{0}. The follower robots were driven by the visual servoing controller, with a
-gain matrix weighting horizontal speed by \num{0.1}, vertical speed by \num{3}, and angular speed
-by \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and maximum vertical offset
+duration of \qty{50}{\second}. Owing to the peer-to-peer nature of the controller described in
+\cref{rcc_c_reactive_control}, the leader was controlled by a simple \ac{pid} regulator with
+proportional, integral, and derivative gains of \num{100}, \num{10}, and \num{6500} respectively in
+the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains were set to \num{100}, \num{10},
+and \num{5000}. The angular control used proportional, integral, and derivative gains of \num{0.1},
+\num{0}, and \num{0}. The follower robots were driven by a visual servoing controller (see
+\cref{rcc_c_reactive_control} and \cite{laranjeiraCatenarybasedVisualServoing2020}), with a gain
+matrix weighting horizontal speed by \num{0.1}, vertical speed by \num{3}, and angular speed by
+\num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and maximum vertical offset
 \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e. \qty{1.5}{\m}.
 
 Different target features were assigned to each follower. For Robot~1, following the leader, the
