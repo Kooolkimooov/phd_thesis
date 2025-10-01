@@ -773,7 +773,7 @@ large control efforts on orientations, and the soft structural coupling introduc
 	\label{rcc_s_mpc_r_poses}
 \end{figure}
 
-The instantaneous Euclidean tracking error of the leader remains below \qty{0.2}{\m} for most of
+The instantaneous norm of the tracking error of the leader remains below \qty{0.2}{\m} for most of
 the experiment with a median error of \qty{0.053}{\m} and a mean of \qty{0.107}{\m}. The maximum
 error observed over the whole simulation is \qty{0.714}{\m}, occurring at the apex of the elevation
 change when the controller momentarily prioritizes reshaping inter-robot spacing to preserve future
@@ -924,9 +924,9 @@ bounded within a few decimeters (see also \cref{rcc_s_pp_r_fc_error}). In contra
 \ldvect{z}{w}-axis response exhibited a marked loss of performance whenever the reference underwent
 a steep variation. Instead of brief overshoots followed by rapid convergence, the vertical error
 accumulated over several seconds, leading to a sustained bias before partial recovery. Analysis of
-the error logs confirmed a peak Euclidean tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s},
-dominated by the vertical component (\qty{2.19}{\m}). The RMS errors were limited to \qty{0.16}{\m}
-on \ldvect{x}{w} and \qty{0.09}{\m} on \ldvect{y}{w}, but reached \qty{1.00}{\m} on \ldvect{z}{w},
+the error logs confirmed a peak tracking error norm of \qty{2.49}{\m} at \qty{15.9}{\s}, dominated
+by the vertical component (\qty{2.19}{\m}). The RMS errors were limited to \qty{0.16}{\m} on
+\ldvect{x}{w} and \qty{0.09}{\m} on \ldvect{y}{w}, but reached \qty{1.00}{\m} on \ldvect{z}{w},
 bringing the overall RMS norm above one metre. Hence, the apparent quality of planar tracking
 concealed a substantial degradation in vertical control authority.
 
@@ -1045,8 +1045,8 @@ The trajectories of the robots (\cref{rcc_s_pp_r_sc_poses}) indicate good tracki
 the leader along \ldvect{x}{w} and \ldvect{y}{w}, while large excursions occurred on \ldvect{z}{w}
 whenever the reference changed abruptly. This anisotropy is confirmed by tracking error statistics:
 RMS errors reached \qty{0.284}{\m} on \ldvect{x}{w}, \qty{0.145}{\m} on \ldvect{y}{w}, and
-\qty{0.908}{\m} on \ldvect{z}{w}. The Euclidean error norm had a median of \qty{0.708}{\m}, a mean
-of \qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of \qty{2.09}{\m}. It exceeded
+\qty{0.908}{\m} on \ldvect{z}{w}. The error norm had a median of \qty{0.708}{\m}, a mean of
+\qty{0.810}{\m}, an RMS of \qty{0.963}{\m}, and a maximum of \qty{2.09}{\m}. It exceeded
 \qty{1}{\m} during \qty{28.4}{\percent} of the \qty{50}{\s} horizon (\qty{14.2}{\s}), and
 \qty{2}{\m} during \qty{2.6}{\percent} (\qty{1.3}{\s}). These deviations did not coincide with the
 bathymetry-induced difficulty windows but rather reflected the delays introduced by the two-stage
@@ -1201,9 +1201,9 @@ All parameter values were selected by trial and error.
 The trajectories (\cref{rcc_s_rc_r_poses}) show that the leader initially tracked the reference
 accurately but eventually developed an instability that caused divergence. Quantitatively, during
 the first \qty{15}{\s}---before divergence began---the leader's linear tracking error had a norm
-median of \qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The Euclidean
-error norm first exceeded \qty{2}{\m} at approximately \qty{16.1}{\s}, after which it grew without
-bound, confirming the instability.
+median of \qty{0.219}{\m} and a maximum of \qty{0.345}{\m} (\cref{rcc_s_rc_r_error}). The error
+norm first exceeded \qty{2}{\m} at approximately \qty{16.1}{\s}, after which it grew without bound,
+confirming the instability.
 
 \begin{figure}
 	\centering
