@@ -694,7 +694,8 @@ A recovery procedure was implemented for cases in which the \ac{mpc} failed to c
 solution. In this procedure, the optimization tolerance was progressively increased up to a
 predefined maximum value until convergence was achieved, at which point the tolerance was reduced
 again. If the tolerance reached its maximum value without convergence, the simulation continues but
-the chances of convergence become small.
+the chances of convergence become small. The simulation is never stopped on the basis of this
+recovery method although in a practical deployment, a failsafe procedure would be necessary.
 
 The matrices \matr{P} and \matr{Q} (\cref{rcc_c_mpc_equation}) are defined in such a way that the
 position of the leader is assigned a weight of \num{10} and its orientation a weight of \num{1}.
@@ -862,26 +863,30 @@ duration of \qty{50}{\second}. The optimization problem was solved using the
 \texttt{scipy.minimize} function in Python.
 
 A recovery procedure was introduced for cases in which the optimization failed to converge. In this
-procedure, the optimization tolerance was progressively increased until convergence was achieved,
-at which point the tolerance was reduced again. If no convergence occurred, the tolerance was
-capped at a predefined maximum value.
+procedure, the optimization tolerance was progressively increased up to a predefined maximum value
+until convergence was achieved, at which point the tolerance was reduced again. If the tolerance
+reached its maximum value without convergence, the simulation continues but the chances of
+convergence become small. The simulation is never stopped on the basis of this recovery method
+although in a practical deployment, a failsafe procedure would be necessary.
 
 Two distinct simulations were performed using different replanning strategies:
 \begin{enumerate}
-	\item In the first configuration, the path was optimized at every step for the following \num{10} steps,
-	      corresponding to \qty{1}{\second}. The tolerance was set to \num{1e-3} and the maximum number of
-	      iterations to \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) were defined
-	      such that the leader's position was assigned a weight of \num{10} and its orientation a weight of
-	      \num{1}. The orientation of the follower robots was also weighted with \num{1}, while their
-	      positions remained unweighted. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$
-	      penalized the robots' linear speed and aimed to maintain inter-robot distances close to
-	      \qty{1.5}{\m}. This term was weighted with a factor of \num{0.01}.
+	\item In the first configuration, the path was optimized at every step over a \num{10} steps horizon,
+	      corresponding to \qty{1}{\second}. This closely resembles \ac{mpc}'s optimization strategy without
+	      using model dynamics. The tolerance was set to \num{1e-3} and the maximum number of iterations to
+	      \num{100}. The matrices \matr{P} and \matr{Q} (\cref{rcc_c_pp_cost}) were defined such that the
+	      leader's position was assigned a weight of \num{10} and its orientation a weight of \num{1}. The
+	      orientation of the follower robots was also weighted with \num{1}, while their positions remained
+	      unweighted. The objective term $o\left(\ldvect{x}{k}, \ldvect{u}{k}\right)$ penalized the robots'
+	      linear speed and aimed to maintain inter-robot distances close to \qty{1.5}{\m}. This term was
+	      weighted with a factor of \num{0.01}.
 	\item In the second configuration, the path was replanned every \num{10} steps or whenever the leader's
-	      tracking error exceeded \qty{1}{\m}. The optimization horizon covered the following \num{20} steps,
-	      corresponding to \qty{2}{\second}, with a tolerance of \num{1e-5} and a maximum of \num{100}
-	      iterations. The weighting matrices \matr{P} and \matr{Q} were defined as in the first
-	      configuration, and the same inter-robot objective was applied. In this case, however, the objective
-	      term was weighted with a factor of \num{20.0}.
+	      tracking error exceeded \qty{1}{\m}. This configuration used a more standard replanning strategy.
+	      The optimization horizon covered the following \num{20} steps, corresponding to \qty{2}{\second},
+	      with a tolerance of \num{1e-5} and a maximum of \num{100} iterations. The weighting matrices
+	      \matr{P} and \matr{Q} were defined as in the first configuration, and the same inter-robot
+	      objective was applied. In this case, however, the objective term was weighted with a factor of
+	      \num{20.0}.
 \end{enumerate}
 
 These parameter values were determined by trial and error. Additionally, the constraints introduced
