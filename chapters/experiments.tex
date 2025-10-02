@@ -484,28 +484,26 @@ Trajectories from the preliminary integration test described in
 trajectory was tracked with good accuracy. A small offset was consistently observed in the \vect{z}
 direction, which resulted from imperfect buoyancy compensation.
 
-To substantiate these observations, we extracted the raw time series used to generate
-\cref{e_rcce_r_pd_poses,e_rcce_r_pd_pose_wz} and computed summary statistics over the closed-loop
-activation windows. The \acs{pd} loop was engaged over two intervals
-\qtyrange{17.491}{21.735}{\second} and \qtyrange{36.121}{237.401}{\second}, totalling
-\qty{205.52}{\second} of operation. Over these active windows, the mean tracking error was
-\qty{0.128}{\meter} on \fvect{x}{w}, \qty{0.006}{\meter} on \fvect{y}{w}, and a negative bias of
-\qty{-0.236}{\meter} on \fvect{z}{w}, consistent with the noted buoyancy offset. The corresponding
-root-mean-square error (RMSE) values were \qty{0.281}{\meter} (\fvect{x}{w}), \qty{0.052}{\meter}
-(\fvect{y}{w}) and \qty{0.260}{\meter} (\fvect{z}{w}). The \num{95}\textsuperscript{th} percentile
-of the absolute error remained below \qty{0.689}{\meter} (\fvect{x}{w}), \qty{0.048}{\meter}
-(\fvect{y}{w}) and \qty{0.364}{\meter} (\fvect{z}{w}), with maximum absolute deviations of
-\qtylist{1.003;0.567;0.770}{\meter}, respectively. These figures confirm that lateral tracking in
-\fvect{y}{w} was very tight, while a small but systematic depth bias persisted.
+The \acs{pd} loop was engaged over two intervals \qtyrange{17.491}{21.735}{\second} and
+\qtyrange{36.121}{237.401}{\second}, totalling \qty{205.52}{\second} of operation. Over these
+active windows, the mean tracking error was \qty{0.128}{\meter} on \fvect{x}{w},
+\qty{0.006}{\meter} on \fvect{y}{w}, and a negative bias of \qty{-0.236}{\meter} on \fvect{z}{w},
+consistent with the noted buoyancy offset. The corresponding residual values were
+\qty{0.281}{\meter} (\fvect{x}{w}), \qty{0.052}{\meter} (\fvect{y}{w}) and \qty{0.260}{\meter}
+(\fvect{z}{w}). The \num{95}\textsuperscript{th} percentile of the absolute error remained below
+\qty{0.689}{\meter} (\fvect{x}{w}), \qty{0.048}{\meter} (\fvect{y}{w}) and \qty{0.364}{\meter}
+(\fvect{z}{w}), with maximum absolute deviations of \qtylist{1.003;0.567;0.770}{\meter},
+respectively. These figures confirm that lateral tracking in \fvect{y}{w} was very tight, while a
+small but systematic depth bias persisted.
 
-Yaw tracking, illustrated in \cref{e_rcce_r_pd_pose_wz}, also remained moderate during activation,
-with a median absolute error of \qty{2.64}{\degree}, a mean of \qty{4.36}{\degree}, and a
-\num{95}\textsuperscript{th}-percentile of \qty{15.64}{\degree}; the worst instantaneous deviation
+Yaw tracking, illustrated in \cref{e_rcce_r_pd_pose_wz}, also remained good during activation, with
+a median absolute error of \qty{2.64}{\degree}, a mean of \qty{4.36}{\degree}, and a
+\num{95}\textsuperscript{th} percentile of \qty{15.64}{\degree}; the worst instantaneous deviation
 reached \qty{34.72}{\degree}. These values are consistent with the limited heading observability of
 the setup and with the depth-buoyancy trade-offs discussed above.
 
-For the selected trajectory, the Qualisys system experienced only a few short tracking losses, as
-indicated by the covariance spikes in \cref{e_rcce_r_pd_poses}. These losses did not significantly
+For the selected trajectory, the Qualisys system experienced only a short tracking loss, as
+indicated by the covariance spikes in \cref{e_rcce_r_pd_poses}. This loss did not significantly
 impact the overall stability of the closed-loop control. Quantitatively, over the active windows we
 detected \num{11} position-covariance spikes clustered around \qtyrange{17.6}{19.0}{\second} and
 \qtyrange{145.8}{146.2}{\second}, and \num{11} orientation-covariance spikes concentrated near
