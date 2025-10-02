@@ -717,7 +717,7 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 		round-mode = places,
 		round-precision = 1
 	}
-	\caption{Model Predictive Controller Constraints}
+	\caption{\Acl{mpc} constraints}
 	\begin{tabular}{@{}ccSS@{}}
 		constrained value                                                         & unit             & {upper bound}                              & {lower bound} \\ \midrule
 		\ldcoord{u}{B}{k,x} and \ldcoord{u}{B}{k,y}                               & \unit{\newton}   & 36.5                                       & -36.5         \\
@@ -900,7 +900,7 @@ in \cref{rcc_c_pp_constraints} were imposed and are summarized in
 		round-mode = places,
 		round-precision = 1
 	}
-	\caption{Path Planning Constraints}
+	\caption{Path planning constraints}
 	\begin{tabular}{@{}ccSS@{}}
 		constrained value                                                        & unit            & {upper bound}                              & {lower bound} \\ \midrule
 		linear part of \ldscal{\nu}{k}                                           & \unit{\m\per\s} & 1.0                                        & -1.0          \\
