@@ -311,13 +311,6 @@ Finite element models typically require seconds to minutes for evaluation, depen
 resolution and nonlinearity, making them more suitable for offline analysis and detailed design
 studies rather than real-time control applications.
 
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{figure for continuum models}}
-	% \label{}
-\end{figure}
-
 Computational efficiency is addressed in~\cite{westinEfficientSemiimplicitNumerical2023} through
 semi-implicit numerical methods on finite element representation of flexible bodies, achieving
 improved stability and reduced computational requirements for real-time applications. The
@@ -335,20 +328,19 @@ that characterizes tether modeling approaches.
 	\label{sota_sm_tm_comparison}
 	\begin{tabular}{@{}llcc@{}}
 		\toprule
-		\textbf{Approach}                        & \textbf{Method}          & \textbf{Computation Time}         & \textbf{Accuracy} \\
+		\multirow{2}{*}{\textbf{Approach}}  & \multirow{2}{*}{\textbf{Method}} & \textbf{Order of Magnitude}  & \multirow{2}{*}{\textbf{Speed Category}} \\
+		                                    &                                  & \textbf{of Computation Time} &                                          \\
 		\midrule
-		\multirow{3}{*}{\textbf{Geometric}}      & Catenary                 & $< \qty{1}{\milli\second}$        & Low -- Medium     \\
-		                                         & Straight-line segments   & $< \qty{1}{\milli\second}$        & High              \\
-		                                         & Ellipsoid bounds         & $< \qty{1}{\milli\second}$        & Low               \\
+		\multirow{3}{*}{\textbf{Geometric}} & Catenary                         & $< \qty{1}{\milli\second}$   & \multirow{3}{*}{Real time}               \\
+		                                    & Ellipsoid bounds                 & $< \qty{1}{\milli\second}$   &                                          \\
+		\cmidrule(lr){1-3}
+		\textbf{Lumped Mass}                & Rigid segments + joints          & \qty{10}{\milli\second}      &                                          \\
 		\midrule
-		\textbf{Lumped Mass}                     & Rigid segments + joints  & \qtyrange{10}{100}{\milli\second} & Medium -- High    \\
-		\midrule
-		\multirow{3}{*}{\textbf{Finite Element}} & 3rd-order elements       & \qtyrange{1}{10}{\second}         & High              \\
-		                                         & Kirchhoff rod theory     & \qtyrange{1}{30}{\second}         & High              \\
-		                                         & Geometrically exact beam & \qtyrange{10}{60}{\second}        & Very High         \\
-		\midrule
-		\multirow{2}{*}{\textbf{Continuum}}      & CFD + cable coupling     & \qtyrange{1}{10}{\minute}         & Very High         \\
-		                                         & SPH-DEM methods          & \qtyrange{10}{60}{\minute}        & Very High         \\
+		                                    & Kirchhoff rod theory             & \qtyrange{1}{30}{\second}    & \multirow{3}{*}{Not}                     \\
+		                                    & Geometrically exact beam         & \qtyrange{10}{60}{\second}   & \multirow{3}{*}{real time}               \\
+		\cmidrule(lr){1-3}
+		\multirow{2}{*}{\textbf{Continuum}} & \acs{cfd} + cable coupling       & \qtyrange{1}{10}{\minute}    &                                          \\
+		                                    & \acs{sph}-\acs{dem} methods      & \qtyrange{10}{60}{\minute}   &                                          \\
 		\bottomrule
 	\end{tabular}
 \end{table}
