@@ -244,13 +244,6 @@ milliseconds for evaluation, making them suitable for real-time applications. Ho
 accuracy is limited to scenarios with low cable dynamics and minimal hydrodynamic
 loading~\cite{filliungAugmentedCatenaryModel2024}.
 
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{figure for the geometric models}}
-	% \label{}
-\end{figure}
-
 Another geometric approximations is the use of active shape
 control.~\cite{vielROVLocalizationBased2023} proposed a method where the umbilical is equipped with
 moving ballasts and buoys to enforce straight-line segments, enabling analytical position
@@ -263,18 +256,21 @@ conservative geometric bounds on the tether's spatial occupation. This approach 
 computational efficiency with guaranteed collision-free motion, requiring only the knowledge of
 attachment points and cable length.
 
-The lumped mass approaches discretizes the continuous cable into a finite number of rigid segments
+The lumped mass approaches discretizes the continuous cable into a finite number of lumped masses
 connected by joints modelled as springs, damped springs, ball joints or any other appropriate
-system. In \cite{dasilvagomesNewDynamicModel2021} a formalism was proposed using the Euler-Lagrange
-method to model towing systems with rigid links connected by fictitious elastic joints. This
-approach demonstrated scalable algorithmic procedures capable of generating dynamic models for
-arbitrary numbers of segments.
+system (\cref{sota_sm_tm_lumped_mass}). In \cite{dasilvagomesNewDynamicModel2021} a formalism was
+proposed using the Euler-Lagrange method to model towing systems with rigid links connected by
+fictitious elastic joints. This approach demonstrated scalable algorithmic procedures capable of
+generating dynamic models for arbitrary numbers of segments.
 
 \begin{figure}
 	\centering
-	% \input{}
-	\caption{\todo{figure for lumped mass models}}
-	% \label{}
+	\inputtikz{figures/lumped_mass_model}
+	\caption{
+		Lumped-mass cable model: the tether is discretized into point masses \ldscal{m}{i} linked by
+		compliant segments, subjected to weight and buoyancy forces.
+	}
+	\label{sota_sm_tm_lumped_mass}
 \end{figure}
 
 This modelling approach strikes a balance between computational efficiency and accuracy, typically

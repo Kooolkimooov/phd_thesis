@@ -1,0 +1,200 @@
+% TikZ/PGFPlots schematic of a lumped-mass cable model
+\begin{tikzpicture}
+	\begin{axis}[
+			width=\figurewidth,
+			height=0.56\figurewidth,
+			axis equal image,
+			axis lines=middle,
+			xmin=-0.3, xmax=5.4,
+			ymin=-2.3, ymax=1.2,
+			xlabel={$x$}, ylabel={$z$},
+			xtick=\empty, ytick=\empty,
+			axis line style={thick},
+			clip=false,
+		]
+
+		\addplot[mark=*, mark size=2pt, only marks] coordinates {(0,0)};
+		\node[above left] at (axis cs:0,0) {anchor};
+
+		\coordinate (A) at (axis cs: 0, 0);
+		\coordinate (B) at (axis cs: 1, -0.1);
+
+		\coordinate (Ap) at ($ (A)!0.2!(B) $);
+		\coordinate (Bp) at ($ (A)!0.8!(B) $);
+
+		\draw[very thick] (A) -- (Ap);
+		\draw[very thick] (B) -- (Bp);
+
+		\coordinate (A_top) at ($ (Ap)!6pt!90:(Bp) $);
+		\coordinate (B_top) at ($ (Bp)!6pt!-90:(Ap) $);
+		\coordinate (A_bot) at ($ (Ap)!6pt!-90:(Bp) $);
+		\coordinate (B_bot) at ($ (Bp)!6pt!90:(Ap) $);
+
+		\draw[very thick, line cap=round] (A_top) -- (A_bot);
+		\draw[very thick, line cap=round] (B_top) -- (B_bot);
+
+		\draw[very thick, decorate, decoration={coil, segment length=6pt, amplitude=2pt}] (A_top) -- (B_top);
+
+		\coordinate (L1) at ($ (A_bot)!0.2!(B_bot) $);
+		\coordinate (L2) at ($ (A_bot)!0.50!(B_bot) $);
+		\coordinate (L3) at ($ (A_bot)!0.7!(B_bot) $);
+		\coordinate (L4) at ($ (A_bot)!0.8!(B_bot) $);
+
+		\def\pl{3pt}
+		\draw[very thick] (A_bot) -- (L1);
+		\draw[very thick, line cap=round] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L1)!\pl!-90:(B_bot) $);
+
+		\draw[very thick] ($ (L1)!\pl!-90:(B_bot) $) -- ($ (L4)!\pl!-90:(B_bot) $);
+		\draw[very thick] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L4)!\pl!90:(B_bot) $);
+
+		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
+		\draw[very thick] (L3) -- (B_bot);
+
+		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{1}};
+
+		\coordinate (A) at (axis cs: 1, -0.1);
+		\coordinate (B) at (axis cs: 2, -0.4);
+
+		\coordinate (Ap) at ($ (A)!0.2!(B) $);
+		\coordinate (Bp) at ($ (A)!0.8!(B) $);
+
+		\draw[very thick] (A) -- (Ap);
+		\draw[very thick] (B) -- (Bp);
+
+		\coordinate (A_top) at ($ (Ap)!6pt!90:(Bp) $);
+		\coordinate (B_top) at ($ (Bp)!6pt!-90:(Ap) $);
+		\coordinate (A_bot) at ($ (Ap)!6pt!-90:(Bp) $);
+		\coordinate (B_bot) at ($ (Bp)!6pt!90:(Ap) $);
+
+		\draw[very thick, line cap=round] (A_top) -- (A_bot);
+		\draw[very thick, line cap=round] (B_top) -- (B_bot);
+
+		\draw[very thick, decorate, decoration={coil, segment length=6pt, amplitude=2pt}] (A_top) -- (B_top);
+
+		\coordinate (L1) at ($ (A_bot)!0.2!(B_bot) $);
+		\coordinate (L2) at ($ (A_bot)!0.50!(B_bot) $);
+		\coordinate (L3) at ($ (A_bot)!0.7!(B_bot) $);
+		\coordinate (L4) at ($ (A_bot)!0.8!(B_bot) $);
+
+		\def\pl{3pt}
+		\draw[very thick] (A_bot) -- (L1);
+		\draw[very thick, line cap=round] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L1)!\pl!-90:(B_bot) $);
+
+		\draw[very thick] ($ (L1)!\pl!-90:(B_bot) $) -- ($ (L4)!\pl!-90:(B_bot) $);
+		\draw[very thick] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L4)!\pl!90:(B_bot) $);
+
+		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
+		\draw[very thick] (L3) -- (B_bot);
+
+		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{2}};
+
+		\coordinate (A) at (axis cs: 2, -0.4);
+		\coordinate (B) at (axis cs: 3, -0.9);
+
+		\coordinate (Ap) at ($ (A)!0.2!(B) $);
+		\coordinate (Bp) at ($ (A)!0.8!(B) $);
+
+		\draw[very thick] (A) -- (Ap);
+		\draw[very thick] (B) -- (Bp);
+
+		\coordinate (A_top) at ($ (Ap)!6pt!90:(Bp) $);
+		\coordinate (B_top) at ($ (Bp)!6pt!-90:(Ap) $);
+		\coordinate (A_bot) at ($ (Ap)!6pt!-90:(Bp) $);
+		\coordinate (B_bot) at ($ (Bp)!6pt!90:(Ap) $);
+
+		\draw[very thick, line cap=round] (A_top) -- (A_bot);
+		\draw[very thick, line cap=round] (B_top) -- (B_bot);
+
+		\draw[very thick, decorate, decoration={coil, segment length=6pt, amplitude=2pt}] (A_top) -- (B_top);
+
+		\coordinate (L1) at ($ (A_bot)!0.2!(B_bot) $);
+		\coordinate (L2) at ($ (A_bot)!0.50!(B_bot) $);
+		\coordinate (L3) at ($ (A_bot)!0.7!(B_bot) $);
+		\coordinate (L4) at ($ (A_bot)!0.8!(B_bot) $);
+
+		\def\pl{3pt}
+		\draw[very thick] (A_bot) -- (L1);
+		\draw[very thick, line cap=round] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L1)!\pl!-90:(B_bot) $);
+
+		\draw[very thick] ($ (L1)!\pl!-90:(B_bot) $) -- ($ (L4)!\pl!-90:(B_bot) $);
+		\draw[very thick] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L4)!\pl!90:(B_bot) $);
+
+		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
+		\draw[very thick] (L3) -- (B_bot);
+
+		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{3}};
+
+		\coordinate (A) at (axis cs: 3, -0.9);
+		\coordinate (B) at (axis cs: 4, -1.6);
+
+		\coordinate (Ap) at ($ (A)!0.2!(B) $);
+		\coordinate (Bp) at ($ (A)!0.8!(B) $);
+
+		\draw[very thick] (A) -- (Ap);
+		\draw[very thick] (B) -- (Bp);
+
+		\coordinate (A_top) at ($ (Ap)!6pt!90:(Bp) $);
+		\coordinate (B_top) at ($ (Bp)!6pt!-90:(Ap) $);
+		\coordinate (A_bot) at ($ (Ap)!6pt!-90:(Bp) $);
+		\coordinate (B_bot) at ($ (Bp)!6pt!90:(Ap) $);
+
+		\draw[very thick, line cap=round] (A_top) -- (A_bot);
+		\draw[very thick, line cap=round] (B_top) -- (B_bot);
+
+		\draw[very thick, decorate, decoration={coil, segment length=6pt, amplitude=2pt}] (A_top) -- (B_top);
+
+		\coordinate (L1) at ($ (A_bot)!0.2!(B_bot) $);
+		\coordinate (L2) at ($ (A_bot)!0.50!(B_bot) $);
+		\coordinate (L3) at ($ (A_bot)!0.7!(B_bot) $);
+		\coordinate (L4) at ($ (A_bot)!0.8!(B_bot) $);
+
+		\def\pl{3pt}
+		\draw[very thick] (A_bot) -- (L1);
+		\draw[very thick, line cap=round] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L1)!\pl!-90:(B_bot) $);
+
+		\draw[very thick] ($ (L1)!\pl!-90:(B_bot) $) -- ($ (L4)!\pl!-90:(B_bot) $);
+		\draw[very thick] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L4)!\pl!90:(B_bot) $);
+
+		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
+		\draw[very thick] (L3) -- (B_bot);
+
+		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{4}};
+
+		\coordinate (A) at (axis cs: 4, -1.6);
+		\coordinate (B) at (axis cs: 5, -2.0);
+
+		\coordinate (Ap) at ($ (A)!0.2!(B) $);
+		\coordinate (Bp) at ($ (A)!0.8!(B) $);
+
+		\draw[very thick] (A) -- (Ap);
+		\draw[very thick] (B) -- (Bp);
+
+		\coordinate (A_top) at ($ (Ap)!6pt!90:(Bp) $);
+		\coordinate (B_top) at ($ (Bp)!6pt!-90:(Ap) $);
+		\coordinate (A_bot) at ($ (Ap)!6pt!-90:(Bp) $);
+		\coordinate (B_bot) at ($ (Bp)!6pt!90:(Ap) $);
+
+		\draw[very thick, line cap=round] (A_top) -- (A_bot);
+		\draw[very thick, line cap=round] (B_top) -- (B_bot);
+
+		\draw[very thick, decorate, decoration={coil, segment length=6pt, amplitude=2pt}] (A_top) -- (B_top);
+
+		\coordinate (L1) at ($ (A_bot)!0.2!(B_bot) $);
+		\coordinate (L2) at ($ (A_bot)!0.50!(B_bot) $);
+		\coordinate (L3) at ($ (A_bot)!0.7!(B_bot) $);
+		\coordinate (L4) at ($ (A_bot)!0.8!(B_bot) $);
+
+		\def\pl{3pt}
+		\draw[very thick] (A_bot) -- (L1);
+		\draw[very thick, line cap=round] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L1)!\pl!-90:(B_bot) $);
+
+		\draw[very thick] ($ (L1)!\pl!-90:(B_bot) $) -- ($ (L4)!\pl!-90:(B_bot) $);
+		\draw[very thick] ($ (L1)!\pl!90:(B_bot) $) -- ($ (L4)!\pl!90:(B_bot) $);
+
+		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
+		\draw[very thick] (L3) -- (B_bot);
+
+		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{5}};
+
+	\end{axis}
+\end{tikzpicture}
