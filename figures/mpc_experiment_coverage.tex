@@ -7,24 +7,24 @@
 			xlabel={x / \unit{\m}},
 			ylabel={y / \unit{\m}},
 			zlabel={z / \unit{\m}},
-			legend columns=4,
+			legend columns=2,
 			legend style = {draw=none, at={(0.5,-0.15)}, anchor=north, font=\footnotesize}
 		]
 
 		\addplot3[only marks] table {figures/data/mpc_experiment_camera_positions.txt};
+		\addplot3[no markers, very thick] table {figures/data/mpc_experiment_camera_0_fov.txt};
 
 		\addplot3[red, only marks, mark size=0.15pt] table {figures/data/mpc_experiment_sparse_point_cloud.txt};
 		% \addplot3[blue, very thin] table {figures/data/mpc_experiment_pose_cloud.txt};
 		\addplot3 [thick, blue, ->, quiver={u=\thisrowno{3}, v=\thisrowno{4}, w=\thisrowno{5}, scale arrows=0.15}] table[col sep=space] {figures/data/mpc_experiment_sparse_pose_cloud.txt};
 
 		\legend{
-			Camera positions, 
-			Markers positions, 
+			Camera positions,
+			Camera \acs{fov},
+			Markers positions,
 			% Robot trajectories, 
-			Robots poses
-			}
+			Robots poses }
 
-		\addplot3[no markers, very thick] table {figures/data/mpc_experiment_camera_0_fov.txt};
 		\addplot3[no markers, very thick] table {figures/data/mpc_experiment_camera_1_fov.txt};
 		\addplot3[no markers, very thick] table {figures/data/mpc_experiment_camera_2_fov.txt};
 		\addplot3[no markers, very thick] table {figures/data/mpc_experiment_camera_3_fov.txt};
