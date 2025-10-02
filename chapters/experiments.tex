@@ -488,16 +488,38 @@ balance. Both of these residuals could be compensated by the addition of integra
 controller.
 
 For the selected trajectory, the Qualisys system experienced only a few short tracking losses, as
-indicated by the covariance spikes in \cref{e_rcce_r_pd_placeholder}. These losses did not
+indicated by the covariance spikes in \cref{e_rcce_r_pd_poses}. These losses did not
 significantly impact the overall stability of the closed-loop control.
 
 \begin{figure}
 	\centering
-	\caption{\todo{
-			one or more figures from \texttt{pid\_from\_bag\_joy\_controller\_br6\_2025-07-11-09-58-40.bag}
-			error, kalman covariance, activation, etc.
-		}}
-	\label{e_rcce_r_pd_placeholder}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/pid_experiment_pose_x}
+		\caption{Trajectory of the robot along the \ldvect{x}{w}-axis.}
+		\label{e_rcce_r_pd_pose_x}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/pid_experiment_pose_y}
+		\caption{Trajectory of the robot along the \ldvect{y}{w}-axis.}
+		\label{e_rcce_r_pd_pose_y}
+	\end{subfigure}
+	\begin{subfigure}{\figurewidth}
+		\centering
+		\inputtikz{figures/pid_experiment_pose_z}
+		\caption{Trajectory of the robot along the \ldvect{z}{w}-axis.}
+		\label{e_rcce_r_pd_pose_z}
+	\end{subfigure}
+	\caption{Trajectory of the robot during the one robot \ac{mpc} experiment.}
+	\label{e_rcce_r_pd_poses}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/pid_experiment_pose_wz}
+	\caption{Trajectory of the robot around the \ldvect{z}{w}-axis during the one robot \ac{mpc} experiment.}
+	\label{e_rcce_r_pd_pose_wz}
 \end{figure}
 
 \subsubsection{One Robot \acs{mpc} Experiment}
