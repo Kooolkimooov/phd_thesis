@@ -8,7 +8,7 @@ one of the research topics of the \ac{cosmer} laboratory and has led to the intr
 underwater robot chain concept. This concept consists in managing the cable of an underwater robot
 through intermediary robots placed along the cable in order to actively regulate its shape.
 
-The concept was first introduced during the PhD work of Matheus Laranjeira, who investigated
+This concept was first introduced during the PhD work of Matheus Laranjeira, who investigated
 peer-to-peer visual servoing. It was subsequently extended by Juliette Drupt, who explored
 localization methods for the proposed robot chain system. Building on these works, the present
 thesis has focused on the control of the chain system using efficient cable models. The research
@@ -47,12 +47,13 @@ control developments explored in this thesis.
 \label{i_focus_and_contributions}
 
 This thesis is concerned with the modeling and control of chains of tethered underwater robots
-operating in constrained environments. The central premise is that cable geometry must be
-explicitly accounted for in both modeling and control, while still being represented with
-sufficient computational efficiency to allow real-time use. Two interrelated strands are addressed:
-the development of fast, analytically tractable models of tether shape suitable for online
-estimation and control, and the design of chain-level control methods that incorporate tether
-geometrical constraints while remaining practical for implementation.
+operating in constrained environments with a particular emphasis on practical applications. The
+central premise is that cable geometry must be explicitly accounted for in both modeling and
+control, while still being represented with sufficient computational efficiency to allow real-time
+use. Two interrelated strands are addressed: the development of fast, analytically tractable models
+of tether shape suitable for online estimation and control, and the design of chain-level control
+methods that incorporate tether geometrical constraints while remaining practical for
+implementation.
 
 The following research questions are investigated:
 \begin{itemize}
@@ -60,8 +61,8 @@ The following research questions are investigated:
 	      control? Which minimal representation are sufficient to capture steady hydrodynamic effects without
 	      resorting to full continuum dynamics?
 	\item How should a robot chain be modeled so that tether forces and geometry map consistently into each
-	      vehicle's dynamics, and how can controllers exploit this structure to enforce environmental
-	      clearance and inter-robot spacing?
+	      vehicle's dynamics, and how can controllers exploit this structure to enforce clearance from
+	      environmental obstacles and inter-robot spacing?
 	\item How do the proposed models and controllers behave under realistic conditions across different
 	      operating regimes?
 \end{itemize}
@@ -99,7 +100,7 @@ The main contributions are as follows:
 	      \begin{itemize}
 		      \item Experimental resources and validation. A motion-capture dataset covering multiple cables, lengths,
 		            and motion regimes is collected to evaluate the augmented catenary. Furthermore, a robot chain
-		            experiment is carried out to assess the feasibility of the proposed control methods.
+		            experiment is carried out to assess the practical feasibility of the proposed control methods.
 	      \end{itemize}
 \end{itemize}
 
@@ -120,6 +121,7 @@ set of control strategies for robot chains that explicitly respect tether geomet
 
 \begin{itemize}
 	\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{filliungAugmentedCatenaryModel2024a}
+	\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{deowanSymbolicRegressionDynamic2025}
 \end{itemize}
 
 \section{Thesis Outline}\label{i_thesis_outline}
