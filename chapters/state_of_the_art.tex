@@ -321,29 +321,29 @@ development of efficient numerical schemes remains an active area of research, p
 applications requiring both high fidelity and real-time performance.
 
 A comparative analysis of the different tether modeling approaches is provided in
-\cref{sota_sm_tm_comparison} in terms of computational requirements and accuracy characteristics.
-The table illustrates the fundamental trade-off between model fidelity and computational efficiency
-that characterizes tether modeling approaches.
+\cref{sota_sm_tm_comparison}. Not all models are suitable for real-time applications, fewer are
+compatible with the requirements of model based control where where real-time may necessitate
+hundrerds of evaluations of the model per time step.
 
 \begin{table}[htbp]
 	\centering
-	\caption{Comparison of tether modeling approaches: computational requirements and accuracy characteristics}
+	\caption{Qualitative Comparison of tether modeling approaches}
 	\label{sota_sm_tm_comparison}
 	\begin{tabular}{@{}llcc@{}}
 		\toprule
-		\multirow{2}{*}{\textbf{Approach}}  & \multirow{2}{*}{\textbf{Method}} & \textbf{Order of Magnitude}  & \multirow{2}{*}{\textbf{Speed Category}} \\
-		                                    &                                  & \textbf{of Computation Time} &                                          \\
+		\multirow{2}{*}{\textbf{Approach}}       & \multirow{2}{*}{\textbf{Method}} & \textbf{Order of Magnitude}  & \multirow{2}{*}{\textbf{Speed Category}} \\
+		                                         &                                  & \textbf{of Computation Time} &                                          \\
 		\midrule
-		\multirow{3}{*}{\textbf{Geometric}} & Catenary                         & $< \qty{1}{\milli\second}$   & \multirow{3}{*}{Real time}               \\
-		                                    & Ellipsoid bounds                 & $< \qty{1}{\milli\second}$   &                                          \\
+		\multirow{2}{*}{\textbf{Geometric}}      & Catenary                         & \qty{1}{\milli\second}       & \multirow{3}{*}{Real time}               \\
+		                                         & Ellipsoid bounds                 & \qty{1}{\milli\second}       &                                          \\
 		\cmidrule(lr){1-3}
-		\textbf{Lumped Mass}                & Rigid segments + joints          & \qty{10}{\milli\second}      &                                          \\
-		\midrule
-		                                    & Kirchhoff rod theory             & \qtyrange{1}{30}{\second}    & \multirow{3}{*}{Not}                     \\
-		                                    & Geometrically exact beam         & \qtyrange{10}{60}{\second}   & \multirow{3}{*}{real time}               \\
+		\textbf{Lumped Mass}                     & Rigid segments + joints          & \qty{10}{\milli\second}      &                                          \\
+		\cmidrule(lr){1-4}
+		\multirow{2}{*}{\textbf{Finite Element}} & Kirchhoff rod theory             & \qty{1}{\second}             & \multirow{3}{*}{Not}                     \\
+		                                         & Geometrically exact beam         & \qty{10}{\second}            & \multirow{3}{*}{real time}               \\
 		\cmidrule(lr){1-3}
-		\multirow{2}{*}{\textbf{Continuum}} & \acs{cfd} + cable coupling       & \qtyrange{1}{10}{\minute}    &                                          \\
-		                                    & \acs{sph}-\acs{dem} methods      & \qtyrange{10}{60}{\minute}   &                                          \\
+		\multirow{2}{*}{\textbf{Continuum}}      & \acs{cfd} + cable coupling       & \qty{1}{\minute}             &                                          \\
+		                                         & \acs{sph}-\acs{dem} methods      & \qty{10}{\minute}            &                                          \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -356,13 +356,6 @@ robotics, as the dynamic interactions between flexible cables and underwater veh
 influence overall system behavior. Unlike standalone tether or vehicle models, coupled approaches
 explicitly account for the bidirectional force transmission, hydrodynamic interactions, and
 constrained motion that characterize tethered underwater systems.
-
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{figure for coupled models}}
-	% \label{}
-\end{figure}
 
 The most sophisticated coupled modeling approaches employ advanced continuum mechanics formulations
 to capture complex fluid-structure interactions between the tether, vehicle, and surrounding
@@ -507,7 +500,7 @@ manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
 \begin{figure}
 	\centering
 	% \input{}
-	\caption{\todo{Constraint-aware NMPC and robust control under disturbances}}
+	\caption{\todo{MPC}}
 	% \label{}
 \end{figure}
 
@@ -520,13 +513,6 @@ to sensor noise, hydrodynamic disturbances, and actuator degradation. Notably, h
 combining robust filtering with sliding-window estimation have been developed to improve system
 resilience and autonomy under uncertain operational
 conditions~\cite{songRobustStateEstimation2023}.
-
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{Formation control of multiple AUVs with trajectory tracking}}
-	% \label{}
-\end{figure}
 
 \subsection{Tethered \glsentrytitlecase{uuv}{long} Control}\label{sota_c_tethered_uuv_control}
 
@@ -584,13 +570,6 @@ movement~\cite{aaseModelingControlCatenary2018}. These systems often incorporate
 such as tension constraints and alarm protocols, alerting operators when operational limits are
 exceeded.
 
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{Dynamic mooring/catenary model with forces and safety constraints}}
-	% \label{}
-\end{figure}
-
 Advanced cable routing and manipulation techniques have emerged as key enablers for intervention
 missions. Robotic cable routing frameworks now incorporate spatial and topological representations
 to plan cable paths between initial and target configurations~\cite{jinRoboticCableRouting2022}.
@@ -608,13 +587,6 @@ Hybrid systems have demonstrated the effectiveness of combining tether length re
 with vehicle propulsion for coordinated control. Experimental studies have shown that while tether
 length adjustment primarily governs vertical motion, horizontal motion is efficiently controlled
 through propeller-based actuation~\cite{wuTrajectoryFollowingTethered2019}.
-
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{Hybrid control: vertical via tether length regulation, horizontal via thrusters}}
-	% \label{}
-\end{figure}
 
 Fundamental properties of tethered aerial robots have been analytically characterized, revealing
 differential flatness with respect to specific output pairs. Notable flat outputs include
@@ -679,13 +651,6 @@ employed onboard cameras and inertial measurement units to estimate and control 
 three-dimensional shape of the tether in real time. These systems support stable coordination even
 in scenarios involving visual occlusion and external
 disturbances~\cite{laranjeiraCatenarybasedVisualServoing2020}.
-
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{Catenary-based visual servoing pipeline for 3D tether shape control}}
-	% \label{}
-\end{figure}
 
 Overall, the literature indicates that effective control of underwater tethered robotic systems
 relies on the integration of high-fidelity dynamic modeling, adaptive and robust control methods,
