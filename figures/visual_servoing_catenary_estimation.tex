@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+
+	\def\c{1.0}
+
+	\begin{axis}[
+			width=\figurewidth,
+			axis lines=none,
+			enlargelimits=false,
+			xmin=0,
+			xmax=1,
+			ymin=0,
+			ymax=1
+		]
+		\addplot graphics[
+				xmin=0,
+				xmax=1,
+				ymin=0,
+				ymax=1
+			] {visual_servoing_catenary_estimation.png};
+
+		\coordinate (A) at (axis cs:0.025,0.3);
+		\coordinate (B) at (axis cs:0.12,0.4);
+		\coordinate (L1) at (axis cs:0.047,0.04);
+
+		\draw[thick, white, dashed] plot[smooth] coordinates {(A) (L1) (B)};
+
+	\end{axis}
+\end{tikzpicture}

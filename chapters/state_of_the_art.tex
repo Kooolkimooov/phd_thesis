@@ -396,14 +396,14 @@ offering relative positioning capabilities and active buoyancy control, enabling
 small, agile \acp{rov} as manipulative end-effectors tethered to a primary platform.
 
 For specialized applications,~\cite{abreuMarineVehiclesStreamers2016} addressed marine vehicles
-with sensor-equipped cables (streamer) for geotechnical surveys, employing Kane's method for
-coupled streamer-vehicle dynamics. This approach demonstrates the adaptability of multi-body
-methods to specific operational configurations while maintaining computational efficiency.
+with sensor-equipped cables for geotechnical surveys, employing Kane's method for coupled
+streamer-vehicle dynamics. This approach demonstrates the adaptability of multi-body methods to
+specific operational configurations while maintaining computational efficiency.
 
 \begin{figure}
 	\centering
-	% \input{}
-	\caption{\todo{figure for active and smart tethers}}
+	\includegraphics[width=0.5\figurewidth]{smart_tether.png}
+	\caption{Picture of a smart tether with integrated sensors \parencite{KCFTechnologiesNaval}}
 	% \label{}
 \end{figure}
 
@@ -425,16 +425,19 @@ recognize that accurate localization and velocity estimation depend fundamentall
 tether's influence on overall vehicle motion.
 
 Vision-based estimation methods have demonstrated particular effectiveness in coupled systems.
-Visual servoing approaches simultaneously estimate vehicle pose and tether shape by optimizing
+Visual servoing approaches simultaneously estimate vehicle pose and tether shape (\cref{sota_sm_cm_visual_servoing_experiment}) by optimizing
 parameterized catenary models through nonlinear least-squares
 methods~\cite{laranjeiraCatenarybasedVisualServoing2020}. These techniques remain effective even
 with partial cable visibility or environmental perturbations.
 
 \begin{figure}
 	\centering
-	% \input{}
-	\caption{\todo{figure for vision based}}
-	% \label{}
+	\inputtikz{figures/visual_servoing_catenary_estimation}
+	\caption{
+		Experiment from \cite{laranjeiraCatenarybasedVisualServoing2020}: \ac{rov} with vision based
+		estimation of the cable shape used in a visual servoing control loop.
+	}
+	\label{sota_sm_cm_visual_servoing_experiment}
 \end{figure}
 
 Sensor fusion techniques enhance estimation robustness by integrating heterogeneous sensor inputs
