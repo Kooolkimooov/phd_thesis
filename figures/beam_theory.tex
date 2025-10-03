@@ -1,0 +1,65 @@
+\begin{tikzpicture}
+
+	\coordinate (grill/sw) at (0,0);
+	\coordinate (grill/ne) at ($(grill/sw)+(0.8\figurewidth,1cm)$);
+	\coordinate (grill/nw) at (grill/sw|-grill/ne);
+	\coordinate (grill/se) at (grill/sw-|grill/ne);
+
+	\draw[fill=gray!20] (grill/sw) rectangle (grill/ne);
+
+	\def\mymax{7}
+	\foreach \myn in {0,1,...,\mymax}
+		{
+			\draw ($(grill/sw)!\myn/\mymax!(grill/nw)$)
+			-- ($(grill/se)!\myn/\mymax!(grill/ne)$);
+		}
+
+	\def\myarrowheight{1cm}
+	\def\myarrowcount{12}
+	\foreach \myn in {0,1,...,\myarrowcount}
+		{
+			\draw[arrows=Stealth-] ($(grill/nw)!\myn/\myarrowcount!(grill/ne)$) -- ++ (0,\myarrowheight);
+		}
+	\path ([yshift=\myarrowheight+2ex]grill/nw) --
+	([yshift=\myarrowheight+2ex]grill/ne)
+	node[midway] {External forces and moments};
+
+	\path (grill/sw) -- (grill/se) node[midway, above, fill=white, fill opacity=0.7, rounded corners=2pt] {Mechanical properties};
+	\def\myr{1.5ex}
+
+	\begin{scope}[myyshift/.style={yshift={-2*\myr}}]
+
+		\def\mystepmax{5}
+		\def\mystepwidth{5pt}
+		\def\mystepheight{6pt}
+
+		\foreach \myn in {1,...,\mystepmax}
+			{
+				\pgfmathsetmacro\myxshift{ (\mystepmax /8+\myn)*\mystepwidth  -\mystepwidth}
+				\draw ([0,yshift=\myxshift]grill/sw)--
+				([0,yshift={\myxshift+\mystepwidth}]grill/sw) --
+				([0,xshift=-\mystepheight,yshift=\myxshift]grill/sw)
+			}
+
+	\end{scope}
+
+	\pgfmathsetmacro\myyshift{1.5*\myr}
+	\begin{scope}[myshift/.style={yshift={-\myyshift}}]
+
+		\path
+		([myshift]grill/sw)
+		--
+		([myshift]grill/se)
+		node [midway] {L}
+		edge[arrows=->] ([myshift]grill/se)
+		edge[arrows=->] ([myshift]grill/sw);
+		\foreach \myn in {se,sw}
+			{
+				\draw ([myshift]grill/\myn)
+				edge ++(up:1ex)
+				edge ++(down:1ex);
+			}
+
+	\end{scope}
+
+\end{tikzpicture}
