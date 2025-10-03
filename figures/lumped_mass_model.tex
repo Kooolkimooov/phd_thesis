@@ -50,7 +50,9 @@
 		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
 		\draw[very thick] (L3) -- (B_bot);
 
-		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{1}};
+		\draw[->, thick, blue] (B) -- ($(B) - (axis cs: 0, 0) + (axis cs: 0, .5)$)  node[above] {Buoyancy};
+		\draw[->, thick, red] (B) -- ($(B) + (axis cs: 0, 0) - (axis cs: 0, .5)$)  node[below] {Weight};
+		\filldraw[blue] (B) circle (3pt) node[above right] {\ldscal{m}{1}};
 
 		\coordinate (A) at (axis cs: 1, -0.1);
 		\coordinate (B) at (axis cs: 2, -0.4);
@@ -86,7 +88,9 @@
 		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
 		\draw[very thick] (L3) -- (B_bot);
 
-		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{2}};
+		\draw[->, thick, blue] (B) -- ($(B) - (axis cs: 0, 0) + (axis cs: 0, .5)$);
+		\draw[->, thick, red] (B) -- ($(B) + (axis cs: 0, 0) - (axis cs: 0, .5)$);
+		\filldraw[blue] (B) circle (3pt) node[above right] {\ldscal{m}{2}};
 
 		\coordinate (A) at (axis cs: 2, -0.4);
 		\coordinate (B) at (axis cs: 3, -0.9);
@@ -122,7 +126,9 @@
 		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
 		\draw[very thick] (L3) -- (B_bot);
 
-		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{3}};
+		\draw[->, thick, blue] (B) -- ($(B) - (axis cs: 0, 0) + (axis cs: 0, .5)$);
+		\draw[->, thick, red] (B) -- ($(B) + (axis cs: 0, 0) - (axis cs: 0, .5)$);
+		\filldraw[blue] (B) circle (3pt) node[above right] {\ldscal{m}{3}};
 
 		\coordinate (A) at (axis cs: 3, -0.9);
 		\coordinate (B) at (axis cs: 4, -1.6);
@@ -158,7 +164,9 @@
 		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
 		\draw[very thick] (L3) -- (B_bot);
 
-		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{4}};
+		\draw[->, thick, blue] (B) -- ($(B) - (axis cs: 0, 0) + (axis cs: 0, .5)$);
+		\draw[->, thick, red] (B) -- ($(B) + (axis cs: 0, 0) - (axis cs: 0, .5)$);
+		\filldraw[blue] (B) circle (3pt) node[above right] {\ldscal{m}{4}};
 
 		\coordinate (A) at (axis cs: 4, -1.6);
 		\coordinate (B) at (axis cs: 5, -2.0);
@@ -194,7 +202,9 @@
 		\draw[very thick, line cap=round] ($ (L3)!\pl!90:(B_bot) $) -- ($ (L3)!\pl!-90:(B_bot) $);
 		\draw[very thick] (L3) -- (B_bot);
 
-		\filldraw[blue] (B) circle (3pt) node[above] {\ldscal{m}{5}};
+		\draw[->, thick, blue] (B) -- ($(B) - (axis cs: 0, 0) + (axis cs: 0, .5)$);
+		\draw[->, thick, red] (B) -- ($(B) + (axis cs: 0, 0) - (axis cs: 0, .5)$);
+		\filldraw[blue] (B) circle (3pt) node[above right] {\ldscal{m}{5}};
 
 	\end{axis}
 \end{tikzpicture}
