@@ -487,11 +487,11 @@ the presence of static or dynamic obstacles. To address these issues, a wide arr
 estimation, and control strategies has been developed in recent years.
 
 Robust control approaches remain essential to ensure stable and reliable underwater operation.
-\Acp{nmpc} schemes have been formulated to navigate vehicles in constrained workspaces, accounting
-for environmental obstacles, boundary limitations, thruster saturation, and ocean
-currents~\cite{heshmati-alamdariRobustPredictiveControl2020}. To mitigate the influence of
-unmodeled hydrodynamic phenomena and reduce tracking errors, sliding mode control has been combined
-with Gaussian process regression, producing data-driven compensatory
+\Acp{nmpc} (see~\cref{sota_c_uc_mpc}) schemes have been formulated to navigate vehicles in
+constrained workspaces, accounting for environmental obstacles, boundary limitations, thruster
+saturation, and ocean currents~\cite{heshmati-alamdariRobustPredictiveControl2020}. To mitigate the
+influence of unmodeled hydrodynamic phenomena and reduce tracking errors, sliding mode control has
+been combined with Gaussian process regression, producing data-driven compensatory
 mechanisms~\cite{limaSlidingModeControl2020}. Additionally, adaptive neural network-based
 controllers optimized using genetic algorithms have demonstrated resilience against parametric
 uncertainty and external disturbances, particularly in the control of underwater
@@ -499,9 +499,13 @@ manipulators~\cite{salloomAdaptiveNeuralNetwork2020}.
 
 \begin{figure}
 	\centering
-	% \input{}
-	\caption{\todo{MPC}}
-	% \label{}
+	\input{figures/model_predictive_control_schematic}
+	\caption{
+		Schematic of the principle of \ac{mpc}: at each time step, an optimal control problem is solved
+		over a finite horizon, based on the current state estimate and a predictive model of the system to
+		computing future state.
+	}
+	\label{sota_c_uc_mpc}
 \end{figure}
 
 As multi-agent operations gain prominence in subsea applications, formation control and cooperative
