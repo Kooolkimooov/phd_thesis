@@ -476,6 +476,12 @@ The optimization problem was solved with the same tolerance of \num{1e-6} and a 
 \subsection{Results}
 \label{e_rcce_results}
 
+The figures representing the trajectories in the following sections include the trajectories
+themselves, the target trajectories when appropriate as well as shaded areas indicating periods
+when the controller was active as well as measurement covariance. The latter is always in the same
+shade as the corresponding trajectory. When experimenting with several robots, all trajectories are
+plotted on the same figure in order to facilitate comparison and analysis of relative motion.
+
 \subsubsection{One Robot \acs{pd} Experiment} \label{e_rcce_r_single_bluerov_pd_experiment}
 
 Trajectories from the preliminary integration test described in
@@ -502,16 +508,13 @@ reached \qty{34.72}{\degree}. These values are consistent with the limited headi
 the setup and with the depth-buoyancy trade-offs discussed above.
 
 For the selected trajectory, the Qualisys system experienced only a short tracking loss, as
-indicated by the covariance spikes in \cref{e_rcce_r_pd_poses}. This loss did not significantly
+indicated by the covariance increases in \cref{e_rcce_r_pd_poses}. This loss did not significantly
 impact the overall stability of the closed-loop control. Quantitatively, across the active windows
-\num{11} position-covariance spikes were detected, clustered around \qtyrange{17.6}{19.0}{\second}
-and \qtyrange{145.8}{146.2}{\second}, along with \num{11} orientation-covariance spikes
-concentrated near \qty{18.8}{\second}, \qtyrange{20.0}{20.6}{\second}, and
-\qtyrange{82.6}{83.6}{\second}. The spike thresholds were set at the \num{99}\textsuperscript{th}
-percentile of the covariance magnitude. The corresponding threshold magnitudes were \num{1.244} for
-position and \num{0.888} for orientation, with observed maxima of \num{1.663} and \num{1.095},
-respectively. These short episodes align with the small covariance bursts visible in the plots and
-did not destabilize the loop.
+\num{11} position-covariance increases were detected, clustered around
+\qtyrange{17.6}{19.0}{\second} and \qtyrange{145.8}{146.2}{\second}, along with \num{11}
+orientation-covariance increases concentrated near \qty{18.8}{\second},
+\qtyrange{20.0}{20.6}{\second}, and \qtyrange{82.6}{83.6}{\second}. These short episodes align with
+the small covariance bursts visible in the plots and did not destabilize the loop.
 
 \begin{figure}
 	\centering
@@ -574,12 +577,12 @@ of \qty{4.91}{\s}, the average absolute drift rates reached approximately \qty{1
 along \fvect{x}{w} and \qty{1.68}{\m\per\s} along \fvect{y}{w}, which quickly pushed the
 optimization outside its feasible set when the target lay beyond the tracking volume.
 
-Solver compute times corroborated the observed behaviour, as shown in
+Solver compute times corroborated the observed behavior, as shown in
 \cref{e_rcce_r_mpc_compute_time}. The median time per solve was \qty{0.196}{\s}, with a mean of
 \qty{0.214}{\s}, and \num{90}\textsuperscript{th} and \num{99}\textsuperscript{th} percentiles of
-\qty{0.315}{\s} and \qty{0.419}{\s}, respectively. Rare spikes reached up to \qty{3.093}{\s} during
-challenging configurations. This distribution is consistent with the expected variability of a
-constrained nonlinear \ac{mpc} subject to changing constraint activity and varying measurement
+\qty{0.315}{\s} and \qty{0.419}{\s}, respectively. Rare increases reached up to \qty{3.093}{\s}
+during challenging configurations. This distribution is consistent with the expected variability of
+a constrained nonlinear \ac{mpc} subject to changing constraint activity and varying measurement
 quality.
 
 \begin{figure}
@@ -688,11 +691,11 @@ importance of further experimentation under improved tracking conditions.
 	\label{e_rcce_r_mpc_2_follower_pose_wz}
 \end{figure}
 
-Solver timings remained compatible with the \qty{10}{\Hz} control loop. Across the entire
+Solver timings remained mostly compatible with the \qty{10}{\Hz} control loop. Across the entire
 experiment, the median solve time was \qty{0.085}{\s}, with the \num{90}\textsuperscript{th},
 \num{95}\textsuperscript{th}, and \num{99}\textsuperscript{th} percentiles at \qty{0.155}{\s},
 \qty{0.409}{\s}, and \qty{0.913}{\s}, respectively (maximum \qty{1.167}{\s}). Within the follower's
-first activation window, the median was \qty{0.081}{\s} with rare spikes up to \qty{1.167}{\s},
+first activation window, the median was \qty{0.081}{\s} with rare increases up to \qty{1.167}{\s},
 whereas in the second window the median was \qty{0.088}{\s} with a much tighter upper tail
 (\num{95}\textsuperscript{th} percentile \qty{0.145}{\s}). These distributions are consistent with
 a constrained nonlinear \ac{mpc} whose active constraint set and measurement quality vary over
