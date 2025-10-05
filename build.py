@@ -14,6 +14,8 @@ LATEX_FLAGS = [ "-output-directory=build", "-pdf", "--shell-escape", "-interacti
 MIKTEX_FLAGS = [ "--extra-mem-top=10000000", "--main-memory=10000000", "--extra-mem-bot=10000000" ]
 SILENT_FLAGS = [ "-silent" ]
 
+IMAGE_EXTENSIONS = [".pdf", ".png", ".jpg", ".jpeg", ".eps", ".svg"]
+
 def printlog( message: str ):
   n_culumns = shutil.get_terminal_size().columns
   if len( message ) < 2 * n_culumns // 3:
@@ -62,7 +64,7 @@ def ensure_output_directories():
   os.makedirs( "out", exist_ok = True )
 
 
-def build_figure( name = None, verbose = False, dry_run = False ):
+def build_figure( name = None, verbose = False, dry_run = False, force_all = False ):
   ensure_output_directories()
 
   if name:
@@ -111,10 +113,17 @@ def build_figure( name = None, verbose = False, dry_run = False ):
 
   else:
 
-    files = [ os.path.splitext( os.path.basename( file ) )[ 0 ] for file in glob.glob( "figures/*.tex" ) ]
+    if force_all: 
+      files = ( os.path.splitext( os.path.basename( file ) )[ 0 ] for file in glob.glob( "figures/*.tex" ) )
+    else: 
+      files = collect_figure_tex_names() & collect_used_figures( collect_included_tex_files() )
     successes = [ ]
 
-    printlog( "building all figures" )
+    if force_all: 
+      printlog( "building all figures" )
+    else:
+      printlog( "building included figures" )
+
     for i, file in enumerate(files):
       printlog( f"{i + 1}/{len(files)}" )
       successes.append( build_figure( file, verbose = verbose, dry_run = dry_run ) )
@@ -238,7 +247,7 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
 
   if not remake:
     # Only precompile figures that are actually referenced by the thesis
-    success = build_only_used_figure_tex( verbose = verbose, dry_run = dry_run )
+    success = build_figure( verbose = verbose, dry_run = dry_run )
     if not success:
       return False
 
@@ -396,8 +405,6 @@ def collect_figure_tex_names() -> set[str]:
   return {os.path.splitext(os.path.basename(p))[0] for p in glob.glob('figures/*.tex')}
 
 
-IMAGE_EXTENSIONS = [".pdf", ".png", ".jpg", ".jpeg", ".eps", ".svg"]
-
 
 def collect_figure_image_names() -> set[str]:
   names = set()
@@ -488,34 +495,7 @@ def collect_included_tex_files(entry: str = 'thesis.tex') -> list[str]:
   return order
 
 
-def build_only_used_figure_tex(verbose: bool = False, dry_run: bool = False) -> bool:
-  """Precompile only TikZ figure .tex files that are referenced by the thesis.
-
-  Figures referenced only as images are skipped.
-  """
-  ensure_output_directories()
-  sources = collect_included_tex_files('thesis.tex')
-  if not sources:
-    printlog('no thesis sources found; skipping figure precompilation')
-    return True
-  used = collect_used_figures(sources)
-  candidates = sorted(
-      name for name in used if os.path.exists(os.path.join('figures', name + '.tex'))
-      )
-  if not candidates:
-    printlog('no used TikZ figure .tex files detected; skipping precompilation')
-    return True
-  printlog(f'precompiling {len(candidates)} used figure .tex file(s)')
-  all_ok = True
-  for i, name in enumerate(candidates):
-    printlog(f"{i + 1}/{len(candidates)}")
-    ok = build_figure(name=name, verbose=verbose, dry_run=dry_run)
-    all_ok = all_ok and ok
-  printlog('used figure precompilation finished')
-  return all_ok
-
-
-def check_project(verbose: bool = False, remove_unused: bool = False, dry_run: bool = False) -> bool:
+def check(verbose: bool = False, remove_unused: bool = False, dry_run: bool = False) -> bool:
   """Check for unused bibliography and figure assets.
 
   If remove_unused is True, delete unused figure files and prune unused bib entries.
@@ -735,7 +715,7 @@ def main():
     return clean( args.name )
 
   if args.command == "check":
-    return check_project( verbose = args.verbose, remove_unused = getattr(args, 'remove_unused', False), dry_run = args.dry_run )
+    return check( verbose = args.verbose, remove_unused = getattr(args, 'remove_unused', False), dry_run = args.dry_run )
 
   latex_distribution = check_latex_installation()
   if latex_distribution is None:
