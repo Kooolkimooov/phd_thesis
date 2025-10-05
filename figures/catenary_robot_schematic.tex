@@ -1,0 +1,51 @@
+\begin{tikzpicture}
+
+	\def\c{0.85}
+
+	\def\xmin{-1.5}
+	\def\xmid{-1.0}
+	\def\xmax{1.0}
+
+	\def\ymin{0.0}
+	\pgfmathsetmacro{\ymax}{(cosh(\xmin*\c)-1)/\c}
+	\pgfmathsetmacro{\ymid}{(cosh(\xmax*\c)-1)/\c}
+
+	\tikzset{
+		simpleuav/.pic={
+				\draw[line width=2pt] (-20pt, 5pt) -- (-20pt, 0) -- (20pt, 0) -- (20pt, 5pt);
+				\draw[thick] (-35pt, 5pt) -- (-5pt, 5pt);
+				\draw[thick] (5pt, 5pt) -- (35pt, 5pt);
+			}
+	}
+
+	\begin{axis}[
+			xmin = \xmin,
+			xmax = \xmax,
+			ymin = \ymin,
+			ymax = \ymax,
+			width = \figurewidth,
+			axis equal,
+			clip = false,
+			axis x line=none,
+			axis y line=none
+		]
+
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (A) at (axis cs: \xmin, \ymax);
+		\coordinate (B) at (axis cs: \xmax, \ymid);
+
+		\coordinate (C) at (axis cs: -0.5, 0.5);
+		\coordinate (D) at (axis cs: -1.2, 0.75);
+
+		\filldraw[blue] (O) circle (2pt);
+
+		\draw[thick, blue, dashed] plot[smooth] coordinates {(O) (C) (D)};
+
+		\addplot[smooth, domain=\xmin:\xmax, samples=100, thick] {{(cosh(\x*\c)-1)/\c}};
+
+		\pic[rotate=18] at (A) {simpleuav};
+		\pic[rotate=18] at (B) {simpleuav};
+
+	\end{axis}
+
+\end{tikzpicture}

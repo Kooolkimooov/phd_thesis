@@ -425,10 +425,10 @@ recognize that accurate localization and velocity estimation depend fundamentall
 tether's influence on overall vehicle motion.
 
 Vision-based estimation methods have demonstrated particular effectiveness in coupled systems.
-Visual servoing approaches simultaneously estimate vehicle pose and tether shape (\cref{sota_sm_cm_visual_servoing_experiment}) by optimizing
-parameterized catenary models through nonlinear least-squares
-methods~\cite{laranjeiraCatenarybasedVisualServoing2020}. These techniques remain effective even
-with partial cable visibility or environmental perturbations.
+Visual servoing approaches simultaneously estimate vehicle pose and tether shape
+(\cref{sota_sm_cm_visual_servoing_experiment}) by optimizing parameterized catenary models through
+nonlinear least-squares methods~\cite{laranjeiraCatenarybasedVisualServoing2020}. These techniques
+remain effective even with partial cable visibility or environmental perturbations.
 
 \begin{figure}
 	\centering
@@ -530,28 +530,21 @@ Early research on tether management systems laid foundational principles for the
 and retrieval of umbilicals, focusing on mechanical reliability and operational
 robustness~\cite{abelUnderwaterVehicleTether1994}.
 
-\begin{figure}
-	\centering
-	% \input{}
-	\caption{\todo{Tether Management System (TMS) schematic for deployment and retrieval}}
-	% \label{}
-\end{figure}
-
 Although this study primarily focuses on underwater robots, similar control challenges are
 encountered in aerial robotics, where tethers may be used not only for energy delivery, data
 transmission, or mechanical stabilization, but also as active elements in cooperative manipulation
-tasks. For example, a catenary robot --comprising two \acp{uav} connected by a flexible cable-- was
-designed to autonomously locate and transport hook-shaped
-objects~\cite{dantonioCatenaryRobotDesign2021}. In that system, the cable's position, orientation,
-and span were regulated in real time to facilitate manipulation tasks without requiring prior
-mechanical attachment. Such applications demonstrate that tether dynamics can be exploited as
-functional assets, rather than merely compensated for.
+tasks. For example, a catenary robot (\cref{sota_c_tuuvc_catenary_robot}) --comprising two
+\acp{uav} connected by a flexible cable-- was designed to autonomously locate and transport
+hook-shaped objects~\cite{dantonioCatenaryRobotDesign2021}. In that system, the cable's position,
+orientation, and span were regulated in real time to facilitate manipulation tasks without
+requiring prior mechanical attachment. Such applications demonstrate that tether dynamics can be
+exploited as functional assets, rather than merely compensated for.
 
 \begin{figure}
 	\centering
-	% \input{}
-	\caption{\todo{Catenary robot: two UAVs manipulating a hook via a flexible cable}}
-	% \label{}
+	\inputtikz{figures/catenary_robot_schematic}
+	\caption{Catenary robot: two \acp{uav} control the position of the lowest point of a flexible cable using a catenary model.}
+	\label{sota_c_tuuvc_catenary_robot}
 \end{figure}
 
 Recent advancements in tethered aerial systems have enabled the development of multi-vehicle

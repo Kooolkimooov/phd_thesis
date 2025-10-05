@@ -1,0 +1,23 @@
+% TikZ/PGFPlots schematic of a lumped-mass cable model
+\begin{tikzpicture}
+	\begin{axis}[
+			width=\figurewidth,
+			axis equal,
+			clip=false,
+			axis x line=none,
+			axis y line=none,
+			xmin=-1.0, xmax=1.0,
+			ymin=-1.0, ymax=1.0,
+			trig format=rad
+		]
+
+		\addplot[draw=brown!80!black, fill=brown!60, line width=1.2pt] coordinates {(0.0,0.08) (0.7,0.08) (0.57,-0.08) (0.0,-0.08)} \closedcycle;
+		
+		\draw[line width=1.2pt] at (0.1, 0.2) circle (0.1);
+		\addplot[draw=brown!80!black, line width=1.2pt] coordinates {(0.0,0.08) (0.1,0.2) (0.2,0.08)};
+
+		\addplot[domain=-1.0:1.0, samples=300, draw=blue!40, very thick] ({\x},{0.045*sin(6*\x)});
+		\addplot[domain=-1.0:1.0, samples=300, draw=blue!20, thick] ({\x},{0.02*sin(14*\x)});
+
+	\end{axis}
+\end{tikzpicture}
