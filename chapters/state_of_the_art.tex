@@ -570,17 +570,21 @@ movement~\cite{aaseModelingControlCatenary2018}. These systems often incorporate
 such as tension constraints and alarm protocols, alerting operators when operational limits are
 exceeded.
 
-Advanced cable routing and manipulation techniques have emerged as key enablers for intervention
-missions. Robotic cable routing frameworks now incorporate spatial and topological representations
-to plan cable paths between initial and target configurations~\cite{jinRoboticCableRouting2022}.
-These frameworks draw from manipulation primitives learned through human demonstrations and apply
-high-level planning methods for intermediate cable state transitions.
+Advanced cable routing and manipulation \cref{sota_c_tuuvc_cable_routing} techniques have emerged
+as key enablers for intervention missions. Robotic cable routing frameworks now incorporate spatial
+and topological representations to plan cable paths between initial and target
+configurations~\cite{jinRoboticCableRouting2022}. These frameworks draw from manipulation
+primitives learned through human demonstrations and apply high-level planning methods for
+intermediate cable state transitions.
 
 \begin{figure}
 	\centering
-	% \input{}
-	\caption{\todo{Robotic cable routing: spatial/topological planning between configurations}}
-	% \label{}
+	\inputtikz{figures/cable_routing_planning}
+	\caption{
+		Cable routing: the cable is routed in several steps from start to goal while crossing over
+		designated obstacles.
+	}
+	\label{sota_c_tuuvc_cable_routing}
 \end{figure}
 
 Hybrid systems have demonstrated the effectiveness of combining tether length regulation mechanisms

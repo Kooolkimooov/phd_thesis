@@ -1,0 +1,33 @@
+
+\begin{tikzpicture}
+
+	\begin{axis}[
+			width=\figurewidth,
+			height=0.5\figurewidth,
+			axis equal image,
+			xmin=-1.0, xmax=1.0,
+			ymin=-1.0, ymax=1.0,
+			axis x line=none,
+			axis y line=none,
+			clip=false,
+		]
+
+		\coordinate (A) at (axis cs: -0.8, 0.0);
+		\coordinate (B) at (axis cs: 0.8, 0.0);
+
+		\coordinate (P1) at (axis cs: -0.4, 0.5);
+		\coordinate (P2) at (axis cs: 0.2, -0.5);
+		\coordinate (P3) at (axis cs: 0.5, 0.0);
+
+		\filldraw[red] (P1) circle (2pt) node[below] {A};
+		\filldraw[red] (P2) circle (2pt) node[above] {B};
+		\filldraw[red] (P3) circle (2pt) node[below] {C};
+
+		\draw[thick, blue] (A) -- ($(P1) - (1pt, 0pt)$) .. controls ($(P1) + (8pt, 10pt)$) .. ($(P1) + (20pt, 10pt)$) node[right] {1};
+		\draw[thick, blue] ($(P1) - (1pt, 0pt)$) .. controls ($(P1) + (0pt, 1pt)$) .. ($(P1) + (1pt, 0pt)$) -- ($(P2) - (1pt, 0pt)$) .. controls ($(P2) + (7pt, -10pt)$) .. ($(P2) + (20pt, -10pt)$) node[right] {2};
+		\draw[thick, blue] ($(P2) - (1pt, 0pt)$) .. controls ($(P2) + (0pt, -1pt)$) .. ($(P2) + (1pt, 0pt)$) -- ($(P3) - (1pt, 0pt)$) .. controls ($(P3) + (0pt, 2pt)$) .. (B);
+
+		\filldraw[black] (A) circle (3pt) node[below] {Start};
+		\filldraw[black] (B) circle (3pt) node[above] {Goal}; 
+	\end{axis}
+\end{tikzpicture}
