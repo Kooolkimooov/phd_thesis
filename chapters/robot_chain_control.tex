@@ -13,9 +13,9 @@ In contrast to single-vehicle control, the presence of cables introduces strong 
 clearance, inter-robot spacing, and feasible cable shapes must all be preserved as the leader
 maneuvers.
 
-Building on the classical marine craft model (\cite{fossenHandbookMarineCraft2011}) and the
-catenary formulation introduced in \cref{cable_modelling}, a unified description of the chain is
-first established in which tether forces explicitly enter each vehicle's dynamics
+Building on the classical marine craft model proposed by \cite{fossenHandbookMarineCraft2011} and
+the catenary formulation introduced in \cref{cable_modelling}, a unified description of the chain
+is first established in which tether forces explicitly enter each vehicle's dynamics
 (\cref{rcc_robot_chain_modelling}), indeed the cable is represented as a vertical catenary,
 yielding expressions for horizontal and vertical tensions that can be consistently mapped into each
 robot's body frame. This enables the definition of a concatenated chain state and a clear statement
@@ -87,8 +87,8 @@ In these equations:
 \end{itemize}
 
 Under the assumptions of irrotational underwater currents, absence of dynamic ballast systems, and
-negligible Coriolis effects at the low to moderate speeds considered, the dynamic model was
-simplified (\cite{fossenHandbookMarineCraft2011}) to:
+negligible Coriolis effects at the low to moderate speeds considered whose details are found in
+\cite{fossenHandbookMarineCraft2011}, the dynamic model was simplified to:
 \begin{align}
 	\matr{I} \vect{\dot{\nu}}
 	+ \matr{D}\left(\vect{\nu}\right) \vect{\nu}
@@ -732,10 +732,10 @@ Additionally, the constraints defined in \cref{rcc_c_mpc_constraints} are set an
 
 In order to differentiate the simulation from the model employed in the MPC prediction horizon, and
 ensure a degree of modeling error in the latter, their integration method diverge: the simulation
-utilizes a Runge-Kutta integration of order 4 (\cite{ralstonRungeKuttaMethodsMinimum1962}), whereas
-the MPC prediction employs an Euler-explicit scheme. The shape of each cable is deduced at any time
-from the position of its attachment points using the catenary equation
-\cref{cm_cm_d_catenary_equation}.
+utilizes a Runge-Kutta integration of order 4 whose parameters can be found in
+\cite{ralstonRungeKuttaMethodsMinimum1962}, whereas the MPC prediction employs an Euler-explicit
+scheme. The shape of each cable is deduced at any time from the position of its attachment points
+using the catenary equation \cref{cm_cm_d_catenary_equation}.
 
 \subsubsection{Results}
 \label{rcc_s_mpc_results}
@@ -1186,8 +1186,8 @@ duration of \qty{50}{\second}. Owing to the peer-to-peer nature of the controlle
 proportional, integral, and derivative gains of \num{100}, \num{10}, and \num{6500} respectively in
 the \vect{x}-\vect{y} plane. In the \vect{z} direction, the gains were set to \num{100}, \num{10},
 and \num{5000}. The angular control used proportional, integral, and derivative gains of \num{0.1},
-\num{0}, and \num{0}. The follower robots were driven by a visual servoing controller (see
-\cref{rcc_c_reactive_control} and \cite{laranjeiraCatenarybasedVisualServoing2020}), with a gain
+\num{0}, and \num{0}. The follower robots were driven by the visual servoing controller proposed by
+\cite{laranjeiraCatenarybasedVisualServoing2020} (\cref{rcc_c_reactive_control}), with a gain
 matrix weighting horizontal speed by \num{0.1}, vertical speed by \num{3}, and angular speed by
 \num{0.005}. The maximum allowable sag \ldscal{H}{\text{max}} and maximum vertical offset
 \ldscal{\Delta H}{\text{max}} were set to half of the cable length, i.e. \qty{1.5}{\m}.

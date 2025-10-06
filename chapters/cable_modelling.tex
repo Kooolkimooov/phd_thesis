@@ -870,13 +870,12 @@ The dataset considered consisted of the data described in
 the values of \scal{\theta} and \scal{\gamma} computed with \cref{cm_acm_ev_am_minimization}.
 
 To relate these augmentation parameters to attachment point motion, symbolic regression was applied
-using the \texttt{PySR} library (\cite{cranmerInterpretableMachineLearning2023},
-\citeurl{cranmerPySR2025}). This tool employed an evolutionary algorithm to identify compact
-algebraic expressions that balance predictive accuracy with interpretability. Both first and second
-order candidate models were considered, with velocity or acceleration of the attachment points
-serving as inputs. After preliminary testing, second-order formulations proved most suitable, as
-they allowed the influence of drag forces --proportional to squared velocities-- to be captured
-naturally.
+using the \texttt{PySR} library from \cite{cranmerInterpretableMachineLearning2023}. This tool
+employed an evolutionary algorithm to identify compact algebraic expressions that balance
+predictive accuracy with interpretability. Both first and second order candidate models were
+considered, with velocity or acceleration of the attachment points serving as inputs. After
+preliminary testing, second-order formulations proved most suitable, as they allowed the influence
+of drag forces --proportional to squared velocities-- to be captured naturally.
 
 A representative outcome for the angle \ldscal{\theta}{t} took the form
 \begin{align}
@@ -894,13 +893,14 @@ evolution compared to first-order or purely autoregressive approaches. Although 
 errors were not always minimized, the learned equations respected the overall curvature trends of
 the system and generalized across velocity regimes.
 
-This work was carried out and presented in a workshop (\cite{deowanSymbolicRegressionDynamic2025})
-during an internship by Md~Ether~Deowan. The findings demonstrate that data-driven identification
-can successfully augment physics-based catenary formulations with compact dynamic laws. The
-resulting models maintain computational efficiency, are amenable to implementation in real-time
-control loops, and retain an interpretable algebraic structure. Future work will focus on
-simplifying the symbolic expressions, extending them to both \scal{\theta} and \scal{\gamma}, and
-validating performance in open-water scenarios subject to environmental disturbances.
+This work was carried out and presented in a workshop
+\parencite{deowanSymbolicRegressionDynamic2025} during an internship by Md~Ether~Deowan. The
+findings demonstrate that data-driven identification can successfully augment physics-based
+catenary formulations with compact dynamic laws. The resulting models maintain computational
+efficiency, are amenable to implementation in real-time control loops, and retain an interpretable
+algebraic structure. Future work will focus on simplifying the symbolic expressions, extending them
+to both \scal{\theta} and \scal{\gamma}, and validating performance in open-water scenarios subject
+to environmental disturbances.
 
 \section{Conclusion}
 \label{cm_conclusion}
