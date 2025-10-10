@@ -15,19 +15,22 @@ one of the research topics of the \ac{cosmer} laboratory and has led to the intr
 	\label{i_robot_chain_schematic}
 \end{figure}
 
-This concept consists in managing the cable of an underwater robot --which is vital for its
-communication and power delivery capabilities-- with intermediary robots placed along the cable in
-order to actively regulate its shape. The follower robots must manage the cable in order to avoid
-environmental hazards such as rocks, underwater currents or wrecks, etc; and allow the leader to
-perform its mission without disturbances. Since the follower robots are attached to the cable, they
-also benefit from its communication abilities without the need of their own cable.
+This concept consists in managing the cable of an underwater robot --vital for communication and
+power delivery-- by introducing intermediary robots placed along the cable to actively regulate its
+shape. The follower robots are responsible for maintaining the cable configuration so as to avoid
+environmental hazards such as rocks, strong underwater currents, or wrecks, thereby allowing the
+leader robot to perform its mission without disturbance. Because the follower robots are attached
+to the same cable, they also benefit from the communication link without requiring individual
+tethers.
 
-From the control point of view, the robot chain can be considered as a constrained robot swarm --or
-fleet-- with the particularity that the constraints are not only on the robots but also on the
-cable. In a system with more than two robots, the series configuration and peer-to-peer propagation
-lag may introduce platooning as in land vehicles. The chain may also be seen as a single robot with
-multiple actuated nodes linked with passive links, in which case the sensing capabilities of all
-robots may be combined as input for a single controller --- as in a multi-joint manipulator.
+From a control perspective, the robot chain can be considered as a constrained robotic swarm --or
+fleet-- whose constraints apply not only to the individual robots but also to the cable connecting
+them. In systems composed of more than two robots, the serial configuration and peer-to-peer signal
+propagation may introduce effects similar to platooning observed in terrestrial vehicle.
+Alternatively, the chain may be modeled as a single articulated system composed of multiple
+actuated nodes linked by passive links, in which case the sensing capabilities of all robots can
+be aggregated and treated as the input of a centralized controller, analogous to a multi-joint
+manipulator.
 
 \begin{figure}
 	\centering
@@ -40,18 +43,18 @@ robots may be combined as input for a single controller --- as in a multi-joint 
 	\begin{subfigure}{.5\figurewidth}
 		\centering
 		\includegraphics[width=\linewidth, trim=0 30 0 80, clip]{cordee3.png}
-		\caption{Heterogenous chain of three \acs{rov}.}
+		\caption{Heterogeneous chain of three \acs{rov}.}
 	\end{subfigure}
-	\caption{Picture examples of underwater robot chains.}
+	\caption{Example configurations of underwater robot chains.}
 	\label{i_robot_chain_pictures}
 \end{figure}
 
-This concept was first introduced during the PhD work of Matheus Laranjeira, who investigated
-peer-to-peer visual servoing. It was subsequently extended by Juliette Drupt, who explored
-localization methods for the proposed robot chain system. Building on these works, the present
-thesis has focused on the control of the chain system using efficient cable models and assuming
-that the localization is solved. The research has been conducted at \ac{lis} and \ac{cosmer}
-laboratory.
+The underwater robot chain concept was first introduced during the PhD work of Matheus Laranjeira,
+who investigated peer-to-peer visual servoing. It was subsequently extended by Juliette Drupt, who
+studied localization methods for the proposed robot chain architecture. Building upon these
+foundations, the present thesis has focused on the control of the chain system using
+computationally efficient cable models, under the assumption that localization is available. The
+research was conducted jointly at the \ac{lis} and the \ac{cosmer} laboratory.
 
 \section{Underwater Robotics}
 \label{i_underwater_robotics}
