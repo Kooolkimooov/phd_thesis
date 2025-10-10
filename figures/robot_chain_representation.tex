@@ -12,7 +12,7 @@
 	\def\cd{8.7092}
 
 	\tikzset{
-		rov/.style={ rectangle, draw, rounded corners, thick, text centered, draw=black, fill=black!20 }
+		rov/.style={ rectangle, draw, rounded corners, thick, text centered, draw=black, fill=black!20 },
 	}
 
 	\begin{axis}[
@@ -37,7 +37,7 @@
 		\addplot[smooth, domain=0.25:0.85, samples=100, thick, blue]
 		({\x}, {-0.55+(cosh((\x-0.59)*\cc)-1)/\cc});
 
-        \addplot[smooth, domain=0.85:1.0, samples=100, thick, blue, dashed]
+		\addplot[smooth, domain=0.85:1.0, samples=100, thick, blue, dashed]
 		({\x}, {-0.45+(cosh((\x-1.0)*\cd)-1)/\cd});
 
 		\node[rov] at (axis cs:-0.85, -0.95) {ROV \scal{0}};
@@ -45,6 +45,29 @@
 		\node[rov] at (axis cs:-0.45, -0.15) {ROV \scal{1}};
 		\node[rov] at (axis cs:0.25, -0.05) {ROV \scal{2}};
 		\node[rov] at (axis cs:0.85, -0.25) {ROV \scal{3}};
+
+		\filldraw[brown] (axis cs:-0.3,-1.0)
+		-- ++(0.2cm, 1.0cm)
+		-- ++(0.1cm, -0.3cm)
+		-- ++(0.3cm, 0.6cm)
+		-- ++(0.1cm, -0.9cm)
+		-- ++(0.3cm, 0.3cm)
+		-- ++(0.1cm, -0.3cm)
+		-- ++(0.3cm, 0.6cm)
+		-- ++(0.1cm, -0.3cm)
+		-- ++(0.3cm, 0.3cm)
+		-- ++(0.1cm, -0.3cm)
+		-- ++(0.3cm, 0.6cm)
+		-- ++(0.1cm, -0.3cm)
+		-- ++(0.3cm, 0.3cm)
+		-- ++(0.1cm, -0.3cm)
+		-- ++(0.3cm, 0.6cm)
+		-- ++(0.1cm, -0.6cm)
+		-- ++(0.3cm, 0.3cm)
+		-- ++(0.1cm, -0.7cm)
+		-- ++(0.3cm, 0.3cm)
+		-- ++(0.2cm, -0.9cm)
+		-- cycle node[black, midway, above] {Environment hazard};
 
 	\end{axis}
 \end{tikzpicture}
