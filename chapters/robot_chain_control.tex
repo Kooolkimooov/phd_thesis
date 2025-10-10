@@ -1304,12 +1304,14 @@ threshold, and surrogate linear models for early-phase stretching to reduce solv
 \section{Discussion on Experimental Application}
 \label{rcc_short_discussion_on_experimental_application}
 
-As detailed in \cref{e_robot_chain_control_experiment}, preliminary experiments were carried out
-using a reduced chain configuration composed of two \ac{rov} units in a water tank. The leader was
-controlled by a \ac{pid} controller, while the follower operated under the same \ac{mpc}
-implementation described in \cref{rcc_s_model_predictive_control}, interfaced with the robots
-through \ac{ros}. The constraints defined in \cref{rcc_s_mpc_i_constrains_values} were adapted to
-the specific system and fine-tuned to the experimental environment.
+Preliminary experiments were carried out using a reduced chain configuration composed of two
+\ac{rov} units in a water tank. While the complete technical details are and results are detailed
+in \cref{e_robot_chain_control_experiment}, a brief summary of the results is provided here.
+
+The leader was controlled by a \ac{pid} controller, while the follower operated under the same
+\ac{mpc} implementation described in \cref{rcc_s_model_predictive_control}, interfaced with the
+robots through \ac{ros}. The constraints defined in \cref{rcc_s_mpc_i_constrains_values} were
+adapted to the specific system and fine-tuned to the experimental environment.
 
 The trajectories of the robots along the \ldvect{x}{w}-axis are presented in
 \cref{rcc_sdoea_mpc_2_follower_pose_x}. Tracking difficulties were encountered, which led to
