@@ -90,17 +90,18 @@ into three main categories:
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.48\figurewidth}
+	\begin{subfigure}{.40\figurewidth}
 		\centering
-		\includegraphics[width=\textwidth, trim=300 0 200 0, clip]{victor_6000.png}
+		\includegraphics[width=\textwidth, trim=350 0 200 0, clip]{victor_6000.png}
 		\caption{
 			Victor in the ocean.
 		}
 		\label{sota_uuv_rov_victor_6000}
+		\vspace{1.1em}
 	\end{subfigure}
 	\begin{subfigure}{.48\figurewidth}
 		\centering
-		\includegraphics[width=\textwidth, trim=100 0 100 0, clip]{atlante_and_victor_6000.png}
+		\includegraphics[width=\textwidth, trim=150 0 170 0, clip]{atlante_and_victor_6000.png}
 		\caption{
 			Victor deployed from \acs{ifremer}'s research vessel Atlante.
 		}
@@ -113,7 +114,7 @@ into three main categories:
 \end{figure}
 
 \begin{itemize}
-	\item Mid-sized \acp{rov} (\cref{sota_uuv_rov_ocean_one_k}) typically weigh between
+	\item Mid-sized \acp{rov} (\cref{sota_uuv_rov_arthur}) typically weigh between
 	      \qtyrange{100}{1000}{\kilo\gram} and are designed for medium-depth operations (between
 	      \qtyrange{300}{3000}{\meter}). These systems are generally powered electrically and are operable
 	      from smaller vessels by a reduced crew. Despite their smaller footprint, they retain many
@@ -121,14 +122,14 @@ into three main categories:
 	      \acp{rov}.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[b]
 	\centering
-	\includegraphics[width=\figurewidth, trim=250 100 250 100, clip]{ocean_one_k.png}
+	\includegraphics[width=\figurewidth, trim=0 0 0 0, clip]{arthur.jpg}
 	\caption{
-		A mid-sized humanoid \ac{rov}: Ocean One K, developed at Stanford University for deep-sea
-		exploration \parencite{StanfordRoboticsLab,khatibOceanOneRobotic2016}.
+		A mid-sized \ac{rov}: Arthur, developed at \acs{lirmm} for deep-sea
+		exploration \parencite{EquipeRSMRobotique}.
 	}
-	\label{sota_uuv_rov_ocean_one_k}
+	\label{sota_uuv_rov_arthur}
 \end{figure}
 
 \begin{itemize}
@@ -205,6 +206,16 @@ adaptability. Notable examples include:
 	      this class with its ability to switch to autonomous operation when required.
 \end{itemize}
 
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth, trim=250 100 250 100, clip]{ocean_one_k.png}
+	\caption{
+		A mid-sized humanoid \ac{rov}: Ocean One K, developed at Stanford University for deep-sea
+		exploration \parencite{StanfordRoboticsLab,khatibOceanOneRobotic2016}.
+	}
+	\label{sota_uuv_rov_ocean_one_k}
+\end{figure}
+
 In this thesis, \acp{rov} are the primary focus due to their tethered nature.
 
 \section{Systems Modelling}
@@ -268,7 +279,7 @@ generating dynamic models for arbitrary numbers of segments.
 	\inputtikz{figures/lumped_mass_model}
 	\caption{
 		Lumped-mass cable model: the tether is discretized into point masses \ldscal{m}{i} linked by
-		compliant segments, subjected to weight and buoyancy forces.
+		compliant segments, subjected to weight and buoyancy forces \parencite{hallValidationLumpedmassMooring2015, hongDynamicsModelingMotion2020}.
 	}
 	\label{sota_sm_tm_lumped_mass}
 \end{figure}
@@ -294,7 +305,7 @@ exact beam theory to model cable-payload systems, incorporating large displaceme
 cross-sectional shear. This formulation proved particularly effective for transient flight
 scenarios and aerodynamic loading analysis.
 
-\begin{figure}
+\begin{figure}[b]
 	\centering
 	\inputtikz{figures/beam_theory}
 	\caption{
@@ -325,9 +336,9 @@ A comparative analysis of the different tether modeling approaches is provided i
 compatible with the requirements of model based control where where real-time may necessitate
 hundrerds of evaluations of the model per time step.
 
-\begin{table}[htbp]
+\begin{table}
 	\centering
-	\caption{Qualitative Comparison of tether modeling approaches}
+	\caption{Qualitative comparison of tether modeling approaches}
 	\label{sota_sm_tm_comparison}
 	\begin{tabular}{@{}llcc@{}}
 		\toprule
@@ -390,10 +401,11 @@ approach addresses the iterative coupling between cable dynamics and vehicle mot
 constraint forces depend nonlinearly on both systems.
 
 Advanced coupled systems incorporate smart cables with integrated sensing and actuation
-capabilities. These systems transform the traditional passive tether into an active component of
-the robotic system.~\cite{yuArmlessUnderwaterManipulation2013} demonstrated the use of smart cables
-offering relative positioning capabilities and active buoyancy control, enabling the deployment of
-small, agile \acp{rov} as manipulative end-effectors tethered to a primary platform.
+capabilities (\cref{sota_sm_cm_smart_tether}). These systems transform the traditional passive
+tether into an active component of the robotic system.~\cite{yuArmlessUnderwaterManipulation2013}
+demonstrated the use of smart cables offering relative positioning capabilities and active buoyancy
+control, enabling the deployment of small, agile \acp{rov} as manipulative end-effectors tethered
+to a primary platform.
 
 For specialized applications,~\cite{abreuMarineVehiclesStreamers2016} addressed marine vehicles
 with sensor-equipped cables for geotechnical surveys, employing Kane's method for coupled
@@ -403,8 +415,11 @@ specific operational configurations while maintaining computational efficiency.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\figurewidth]{smart_tether.png}
-	\caption{Picture of a smart tether with integrated sensors \parencite{KCFTechnologiesNaval}}
-	% \label{}
+	\caption{
+		Picture of a smart tether with integrated \acs{imu} which can be used to obtain the cable's shape
+		\parencite{KCFTechnologiesNaval}
+	}
+	\label{sota_sm_cm_smart_tether}
 \end{figure}
 
 The integration of controllable elements along the tether enables predictable geometric

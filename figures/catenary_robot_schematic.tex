@@ -38,13 +38,14 @@
 		\coordinate (D) at (axis cs: -1.2, 0.75);
 
 		\filldraw[blue] (O) circle (2pt);
+		% \node[blue, right, align=center] at (C) {Reference path of the\\lowest point of the cable};
 
 		\draw[thick, blue, dashed] plot[smooth] coordinates {(O) (C) (D)};
 
 		\addplot[smooth, domain=\xmin:\xmax, samples=100, thick] {{(cosh(\x*\c)-1)/\c}};
 
-		\pic[rotate=18] at (A) {simpleuav};
-		\pic[rotate=18] at (B) {simpleuav};
+		\pic[rotate=8] at (A) {simpleuav};
+		\pic[rotate=8] at (B) {simpleuav};
 
 	\end{axis}
 
