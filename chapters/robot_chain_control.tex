@@ -1301,6 +1301,54 @@ Future refinements could explore adaptive horizon lengths near steep bathymetric
 weight scheduling to transiently elevate tracking priority once clearance margins exceed a safety
 threshold, and surrogate linear models for early-phase stretching to reduce solve times.
 
+\section{Discussion on Experimental Application}
+\label{rcc_short_discussion_on_experimental_application}
+
+As detailed in \cref{e_robot_chain_control_experiment}, preliminary experiments were carried out
+using a reduced chain configuration composed of two \ac{rov} units in a water tank. The leader was
+controlled by a \ac{pid} controller, while the follower operated under the same \ac{mpc}
+implementation described in \cref{rcc_s_model_predictive_control}, interfaced with the robots
+through \ac{ros}. The constraints defined in \cref{rcc_s_mpc_i_constrains_values} were adapted to
+the specific system and fine-tuned to the experimental environment.
+
+The trajectories of the robots along the \ldvect{x}{w}-axis are presented in
+\cref{rcc_sdoea_mpc_2_follower_pose_x}. Tracking difficulties were encountered, which led to
+reduced operational time for the \ac{mpc}. However, during its second activation, the leader robot
+was commanded to approach the follower in order to challenge the inter-robot distance constraint.
+The \ac{mpc} was able to briefly actuate the follower to maintain the constraints before external
+tracking was lost, indicating that constraint enforcement operated as expected during periods of
+reliable state estimation.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_experiment_2_pose_x}
+	\caption{
+		Trajectory of the robots along the \ldvect{x}{w}-axis during the experiment. The gray and blue
+		areas represent the controllers' active windows, while the red and green areas indicate the
+		positional uncertainty of the robots.
+	}
+	\label{rcc_sdoea_mpc_2_follower_pose_x}
+\end{figure}
+
+Computation times recorded during the experiment are shown in \cref{rcc_sdoea_mpc_2_compute_time}.
+Solver performance remained largely compatible with the \qty{10}{\hertz} control loop frequency of
+the \ac{mpc}, with a median solve time of \qty{0.085}{\s}. This consistency demonstrates that the
+controller can sustain near real-time operation in this configuration despite the variability in
+experimental conditions.
+
+\begin{figure}
+	\centering
+	\inputtikz{figures/mpc_experiment_2_compute_time}
+	\caption{Computation times during the experiment.}
+	\label{rcc_sdoea_mpc_2_compute_time}
+\end{figure}
+
+These preliminary results are encouraging. They indicate that the implemented control architecture
+is capable of real-time operation and that constraint handling behaves as expected when tracking
+data are reliable. Nevertheless, further work will be required to enhance the robustness of the
+tracking system and to improve the performance of the \ac{mpc} implementation in multi-robot
+conditions.
+
 \section{Conclusion}
 
 This chapter proposed a unified framework for modeling and controlling a chain of tethered
