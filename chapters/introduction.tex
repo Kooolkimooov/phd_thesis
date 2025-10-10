@@ -6,9 +6,7 @@
 This thesis is situated in the context of cable management for underwater robots, which constitutes
 one of the research topics of the \ac{cosmer} laboratory and has led to the introduction of
 \textbf{the underwater robot chain concept}
-(\cref{i_robot_chain_schematic,i_robot_chain_pictures}). This concept consists in managing the
-cable of an underwater robot with intermediary robots placed along the cable in order to actively
-regulate its shape.
+(\cref{i_robot_chain_schematic,i_robot_chain_pictures}).
 
 \begin{figure}
 	\centering
@@ -17,17 +15,19 @@ regulate its shape.
 	\label{i_robot_chain_schematic}
 \end{figure}
 
-The follower robots must manage the cable in order to avoid environmental hazards such as rocks,
-underwater currents or wrecks, etc; and allow the leader to perform its mission without
-disturbances. Since the follower robots are attached to the cable, they also benefit from its
-communication abilities without the need of their own cable.
+This concept consists in managing the cable of an underwater robot --which is vital for its
+communication and power delivery capabilities-- with intermediary robots placed along the cable in
+order to actively regulate its shape. The follower robots must manage the cable in order to avoid
+environmental hazards such as rocks, underwater currents or wrecks, etc; and allow the leader to
+perform its mission without disturbances. Since the follower robots are attached to the cable, they
+also benefit from its communication abilities without the need of their own cable.
 
-From the control point of view, the robot chain can be seen as a constrained robot swarm --or
+From the control point of view, the robot chain can be considered as a constrained robot swarm --or
 fleet-- with the particularity that the constraints are not only on the robots but also on the
 cable. In a system with more than two robots, the series configuration and peer-to-peer propagation
 lag may introduce platooning as in land vehicles. The chain may also be seen as a single robot with
-multiple actuated nodes linked with passive links, in which case the sensing capabilities of all robots 
-may be combined as input for a single controller --- as in a multi-joint manipulator.
+multiple actuated nodes linked with passive links, in which case the sensing capabilities of all
+robots may be combined as input for a single controller --- as in a multi-joint manipulator.
 
 \begin{figure}
 	\centering
