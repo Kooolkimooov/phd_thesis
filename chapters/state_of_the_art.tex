@@ -444,7 +444,10 @@ Visual servoing approaches are explored in \cite{laranjeiraCatenarybasedVisualSe
 simultaneously estimate vehicle pose and tether shape
 (\cref{sota_sm_cm_visual_servoing_experiment}) by optimizing parameterized catenary models through
 nonlinear least-squares methods. These techniques remain effective even with partial cable
-visibility or environmental perturbations.
+visibility or environmental perturbations; although their convergence is local and they subject to
+singularities related to the relative pose of the robots. Additionally, this method is subject to
+the usual challenges of vision based methods, such as visibility, lighting conditions and
+turbidity.
 
 \begin{figure}
 	\centering
