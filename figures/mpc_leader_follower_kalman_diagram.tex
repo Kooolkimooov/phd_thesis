@@ -44,8 +44,8 @@
 		\draw[connection, ->] (qtm) -- (qtm_interface) node[pos=0.4, left] {Bluerovs poses};
 		\draw[connection, ->] (qtm_interface) -- (kalman_mpc) node[near end, above left] {Pose};
 		\draw[connection, ->] (qtm_interface) -- (kalman_pid) node[near end, above right] {Pose};
-		\draw[connection, ->] (br0) -- (axis cs: 0.7, 0.0) node[pos=0.6, right, align=center] {\acs{imu}\\Depth} -- (kalman_pid);
-		\draw[connection, ->] (br1) -- (axis cs: -0.75, 0.0) node[pos=0.6, left, align=center] {\acs{imu}\\Depth} -- (kalman_mpc);
+		\draw[connection, ->] (br0) -- (axis cs: 0.7, 0.0) node[pos=0.6, right, align=center] {IMU\\Depth} -- (kalman_pid);
+		\draw[connection, ->] (br1) -- (axis cs: -0.75, 0.0) node[pos=0.6, left, align=center] {IMU\\Depth} -- (kalman_mpc);
 		\draw[connection, ->] (kalman_mpc) -- (mpc_controller) node[midway, rignt] {Odometry};
 		\draw[connection, ->] (kalman_pid) -- (mpc_controller);
 		\draw[connection, ->] (pid_controller) -- (mpc_controller);

@@ -39,7 +39,7 @@
 
 		\draw[connection, ->] (qtm) -- (qtm_interface) node[pos=0.4] {Bluerovs poses};
 		\draw[connection, ->] (qtm_interface) -- (kalman_mpc) node[midway] {Pose};
-		\draw[connection, ->] (br) -- (axis cs: -0.35, -0.1) node[near end, left, align=center] (imu) {\acs{imu}\\Depth} -- (kalman_mpc);
+		\draw[connection, ->] (br) -- (axis cs: -0.35, -0.1) node[near end, left, align=center] (imu) {IMU\\Depth} -- (kalman_mpc);
 		\draw[connection, ->] (kalman_mpc) -- (mpc_controller) node[midway, rignt] {Odometry};
 		\draw[connection, ->] (mpc_controller) -- (br) node[pos=0.65] {Control};
 		\draw[connection, ->] (js) -- (mpc_controller) node[pos=0.35] {Command};
