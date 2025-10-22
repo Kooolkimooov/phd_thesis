@@ -7,17 +7,16 @@
 
 		This thesis addresses cable-aware modeling and control for chains of tethered underwater robots. An
 		accurate yet computationally efficient cable model is proposed, designed to preserve real-time
-		applicability while maintaining analytical tractability. Building upon the classical catenary
-		formulation, a two-parameter \augmentedmodel{} is introduced to account for steady hydrodynamic
-		deformations. When evaluated on a motion-capture dataset, the augmented model reduces point-cloud
-		residuals by \qtyrange{10}{75}{\percent} relative to the vertical catenary for several cable
-		configurations while remaining fully analytical. For control, catenary forces are embedded within a
-		unified robot-chain model in which clearance, inter-robot spacing, and actuator bounds are
-		formulated as geometry-consistent constraints. Three control strategies are investigated: a
-		constrained \acl{mpc}, a waypoint planner combined with \acl{pid} tracking, and a lightweight
-		reactive approach. Their performance is assessed through numerical simulations and a scaled-down
-		experimental chain system, demonstrating the feasibility of achieving practical and safe
-		coordination for tethered robot formations.
+		applicability. Building upon the classical catenary formulation, a two-parameter \augmentedmodel{}
+		is introduced to account for hydrodynamic deformations. When evaluated on a motion-capture dataset,
+		the augmented model reduces residuals by \qtyrange{10}{75}{\percent} relative to the vertical
+		catenary for several cable configurations while remaining fully analytical. For control, catenary
+		forces and shape are embedded within a unified robot-chain model in which clearance, inter-robot
+		spacing, and actuator bounds are formulated as geometry-consistent constraints. Three control
+		strategies are investigated: a constrained \acl{mpc}, a waypoint planner combined with \acl{pid}
+		tracking, and a lightweight reactive approach. Their performance is assessed through numerical
+		simulations and a scaled-down experimental chain system, demonstrating the potential of achieving
+		practical and safe coordination for tethered robot formations.
 
 	\end{abstract}
 
@@ -26,6 +25,22 @@
 		\setlocalecaption{french}{abstract}{Résumé}
 
 		\begin{abstract}
+
+			Cette thèse traite de la modélisation et du contrôle sensibles au câble pour des cordée de robots
+			sous-marins. Un modèle de câble précis et efficace sur le plan calculatoire est proposé, conçu pour
+			préserver l'applicabilité en temps réel. À partir de la formulation classique de la chaînette, un
+			modèle de chaînette augmentée de deux paramètres est introduit afin de prendre en compte les
+			déformations hydrodynamiques. Évalué sur un jeu de données, ce modèle augmenté réduit les résidus
+			de \qtyrange{10}{75}{\percent} par rapport à la chaînette verticale pour plusieurs configurations
+			de câbles, tout en restant entièrement analytique. Pour le contrôle, les forces et la forme de la
+			chaînette sont intégrées dans un modèle unifié de cordée de robots, où les contraintes liées à
+			l'environnement, d'espacement inter-robots et de limites d'actionneurs sont formulées de manière
+			cohérente avec la géométrie du système. Trois stratégies de contrôle sont étudiées : un
+			\emph{\acl{mpc}} contraint, une planification de trajectoire combiné à un asservissement
+			\emph{\acl{pid}}, et une approche réactive. Leurs performances sont évaluées à travers des
+			simulations numériques et une expérience avec une cordée d'ordre réduit, démontrant le potentiel
+			d'une coordination sûre et efficace pour des formations de robots sous-marins reliés par câble.
+
 		\end{abstract}
 
 	\end{otherlanguage}
