@@ -4,7 +4,21 @@
 \begin{vplace}
 
 	\begin{abstract}
-		\lipsum[1]
+
+		This thesis addresses cable-aware modeling and control for chains of tethered underwater robots. An
+		accurate yet computationally efficient cable model is proposed, designed to preserve real-time
+		applicability while maintaining analytical tractability. Building upon the classical catenary
+		formulation, a two-parameter \augmentedmodel{} is introduced to account for steady hydrodynamic
+		deformations. When evaluated on a motion-capture dataset, the augmented model reduces point-cloud
+		residuals by \qtyrange{10}{75}{\percent} relative to the vertical catenary for several cable
+		configurations while remaining fully analytical. For control, catenary forces are embedded within a
+		unified robot-chain model in which clearance, inter-robot spacing, and actuator bounds are
+		formulated as geometry-consistent constraints. Three control strategies are investigated: a
+		constrained \acl{mpc}, a waypoint planner combined with \acl{pid} tracking, and a lightweight
+		reactive approach. Their performance is assessed through numerical simulations and a scaled-down
+		experimental chain system, demonstrating the feasibility of achieving practical and safe
+		coordination for tethered robot formations.
+
 	\end{abstract}
 
 	\begin{otherlanguage}{french}
@@ -12,7 +26,6 @@
 		\setlocalecaption{french}{abstract}{Résumé}
 
 		\begin{abstract}
-			\lipsum[1]
 		\end{abstract}
 
 	\end{otherlanguage}
