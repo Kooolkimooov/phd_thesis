@@ -48,7 +48,206 @@
 
 	\section{État de l'Art}
 	\label{sif_state_of_the_art}
-	
+
+	Dans un premier temps, il est nécessaire de replacer cette thèse dans le contexte plus général de
+	la robotique sous-marine et des véhicules sous-marins sans pilote, largement présentée par exemple
+	dans \textcite{creuzeRobotsMarinsSousmarins2014}. On distingue classiquement les \acp{rov}, reliés
+	en temps réel à un navire support par un ombilical, et les \acp{auv}, qui opèrent de manière
+	autonome avec des capacités de communication limitées. À côté de ces architectures
+	conventionnelles, des véhicules plus spécialisés (biomimétiques, reconfigurables, hybrides)
+	cherchent à améliorer la manoeuvrabilité, l'efficacité énergétique ou l'adaptabilité aux missions.
+	Dans cette thèse, l'accent est mis sur les \acp{rov} en raison de la présence du câble, qui devient
+	un élément central de la dynamique et du contrôle.
+
+	\subsection{Robots sous-marins}
+	\label{sif_sota_rov}
+
+	Les \acp{rov} constituent aujourd'hui la plateforme privilégiée pour les missions de grande
+	profondeur et les opérations industrielles, notamment dans les domaines de l'exploration et de
+	l'inspection offshore \parencite{christROVManualUser2013}. Ils sont alimentés et pilotés à travers
+	un ombilical reliant le robot au navire support, ombilical qui assure également une liaison de
+	communication à haut débit. La nécessité de cette liaison filaire s'explique par la forte
+	absorption des ondes électromagnétiques dans l'eau, qui rend les communications radio classiques
+	inopérantes au- delà de quelques mètres
+	\parencite{downingOpticalConstantsWater1975,rothmanHITRAN2004Molecular2005,altgeltWorldsLargestRadiostation2005}.
+
+	Les \acp{rov} sont généralement classés en trois grandes familles : les engins de grande taille,
+	capables de tâches complexes de construction ou de maintenance en grande profondeur ; les engins de
+	taille intermédiaire, plus légers, opérables depuis des navires de taille modeste ; et les engins
+	d'observation, ayant une masse réduite, principalement dédiés à l'inspection visuelle et à la
+	surveillance environnementale
+	\parencite{christROVManualUser2013,FlotteOceanographiqueFrancaise,EquipeRSMRobotique,StanfordRoboticsLab,khatibOceanOneRobotic2016}.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=.48\figurewidth, trim=350 0 200 0, clip]{victor_6000.png}
+		\includegraphics[width=.48\figurewidth, trim=150 0 170 0, clip]{atlante_and_victor_6000.png}
+		\caption{
+			Un \ac{rov} de grande taille: le Victor~6000 opéré par l'Ifremer.
+		}
+	\end{figure}
+
+	\begin{figure}
+		\centering
+		\begin{subfigure}[b]{.48\figurewidth}
+			\centering
+			\includegraphics[width=\linewidth]{arthur.jpg}
+			\caption{Un \ac{rov} de taille intermédiaire: Arthur, développé au LIRMM.}
+		\end{subfigure}
+		\begin{subfigure}[b]{.48\figurewidth}
+			\centering
+			\includegraphics[width=\linewidth]{betty.png}
+			\caption{Un \ac{rov} d'observation: BlueROV Heavy ``Betty''.}
+		\end{subfigure}
+		\caption{}
+	\end{figure}
+
+	Les \acp{auv}, quant à eux, sont des plateformes autonomes qui ne sont pas reliées physiquement à
+	la surface. Ils sont typiquement programmés en amont avec un plan de mission et s'appuient sur
+	leurs capteurs embarqués, leurs algorithmes de contrôle et des communications acoustiques
+	sporadiques ou des remontées à la surface pour accomplir leurs tâches (cartographie bathymétrique,
+	suivi environnemental, recherche et sauvetage, etc.)
+	\parencite{bechlioulisRobustFormationControl2019,merciSimulatorUnderwaterGlider2023}. Leur forme
+	hydrodynamique, souvent de type torpille, est optimisée pour limiter la traînée et ainsi parcourir
+	de longues distances \parencite{meyerGliderTechnologyOcean2016}.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=\figurewidth]{asterix.jpg}
+		\caption{
+			Un \ac{auv} représentatif: AsterX opéré par l'Ifremer.
+		}
+	\end{figure}
+
+	D'autres véhicules plus spécialisés existent, par exemple des robots biomimétiques s'inspirant de
+	la nage des poissons, ou des systèmes reconfigurables capables de modifier la disposition de leurs
+	propulseurs ou leur mode d'opération (hybride \ac{rov}/\ac{auv}) en fonction de la mission
+	\parencite{triantafyllouEfficientSwimmingMachine1995,fagundesgasparotoAdvancesReconfigurableVectorial2021,raugelOperationalScientificCapabilities2019}.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=\figurewidth, trim=250 100 250 100, clip]{ocean_one_k.png}
+		\caption{
+			Un \ac{rov} humanoïde de taille intermédiaire : Ocean One~K.
+		}
+	\end{figure}
+
+	\subsection{Modélisation des câbles et systèmes couplés}
+	\label{sif_sota_modelling}
+
+	La modélisation des ombilicaux et des câbles joue un rôle central dans la commande des systèmes
+	sous-marins encâblés. Le câble n'est pas seulement une contrainte mécanique : sa forme et les
+	efforts qu'il transmet influencent directement la dynamique des véhicules, la faisabilité des
+	trajectoires et la sécurité vis-à-vis du fond et des obstacles. Les approches de modélisation se
+	positionnent sur un continuum allant de modèles géométriques simples à des modèles par éléments
+	finis très détaillés.
+
+	Les modèles géométriques, comme la chaînette (courbe hyperbolique) ou des paramétrisations
+	ellipsoïdales, décrivent la forme du câble à partir de fonctions analytiques. Ils ont été largement
+	validés en régime quasi-statique
+	\parencite{druptValidityCatenaryModel2022,laranjeiraCatenarybasedVisualServoing2020} et présentent
+	un coût de calcul très faible (de l'ordre de la milliseconde), ce qui les rend adaptés aux
+	applications temps réel \parencite{smolentsevShapeVisualServoing2023}. En contrepartie, leur
+	précision diminue dès que les effets dynamiques et les charges hydrodynamiques deviennent
+	importants \parencite{filliungAugmentedCatenaryModel2024}.
+
+	Une autre famille d'approches, dite de masse-ressort, discrétise le câble en une succession de
+	masses reliées par des liaisons élastiques et amorties
+	\parencite{hallValidationLumpedmassMooring2015,hongDynamicsModelingMotion2020}. Ce compromis entre
+	fidélité et coût de calcul permet de capter des déformations importantes et des effets dynamiques,
+	au prix d'un temps de calcul croissant avec le nombre de segments
+	\parencite{dasilvagomesNewDynamicModel2021}.
+
+	Les modèles par éléments finis (théorie de Kirchhoff, poutres géométriquement exactes, etc.)
+	offrent la fidélité la plus élevée en prenant en compte la flexion, la torsion et de fortes
+	déformations du câble
+	\parencite{buckhamDevelopmentFiniteElement2004,chenDynamicCharacteristicsDeepsea2021,dehadraiTransientPlanarDynamics2022,beltranEvaluationCoupledEffect2020}.
+	Ils sont adaptés à l'analyse fine et à la conception, mais leur coût de calcul (de la seconde à la
+	minute) les rend difficilement utilisables dans des boucles de commande en temps réel.
+
+	Des approches de couplage fin entre le véhicule et le câble s'appuient sur des modèles continus et
+	des solveurs \ac{cfd} ou des méthodes \ac{sph}/\ac{dem} pour représenter les interactions
+	fluide-structure de manière détaillée
+	\parencite{wuIntegratedHydrodynamicsControl2018,xuHydrodynamicAnalysisTethered2022,xuNumericalSimulationHydrodynamics2022,suSPHDEMModelingCablecontrolled2024}.
+	D'autres méthodes exploitent des formulations multi-corps avancées (\acp{ancf}, coordonnées mixtes)
+	pour modéliser le système complet incluant le treuil, le câble et le véhicule, notamment lors des
+	phases de déploiement et de récupération
+	\parencite{htunSingularityfreeMultibodyModeling2021,htunTheoryApplicationAbsolute2022,banerjeeDeploymentControlCable1995,abreuMarineVehiclesStreamers2016}.
+	Ces modèles fournissent une description précise des interactions, mais restent coûteux en calcul.
+
+	Les travaux récents explorent aussi l'utilisation de \enquote{câbles intelligents} équipés de
+	capteurs et d'actionneurs, capables par exemple de fournir des mesures de forme ou de modifier
+	localement la flottabilité du câble afin de maîtriser sa géométrie
+	\parencite{yuArmlessUnderwaterManipulation2013,vielROVLocalizationBased2023,vielSelfManagementROVUmbilical2022,vielEllipsoidTetherModel2024,KCFTechnologiesNaval}.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=.5\figurewidth]{smart_tether.png}
+		\caption{
+			Exemple de câble instrumenté, équipé de capteurs inertiels.
+		}
+	\end{figure}
+
+	\subsection{Contrôle des robots sous-marins}
+	\label{sif_sota_control_uuv}
+
+	Le contrôle des véhicules sous-marins autonomes et téléopérés est marqué par la présence de fortes
+	non-linéarités, d'incertitudes sur les paramètres hydrodynamiques et de perturbations
+	environnementales difficiles à modéliser. De nombreuses approches de commande robuste ont ainsi été
+	proposées pour garantir la stabilité et la précision de suivi malgré ces incertitudes, comme le
+	montrent par exemple des travaux combinant commande prédictive robuste et prise en compte des
+	contraintes d'actionnement et d'obstacles \parencite{heshmati-alamdariRobustPredictiveControl2020}.
+
+	Les méthodes de type \ac{nmpc} se sont imposées comme un cadre unificateur pour traiter les
+	contraintes de positionnement, de vitesse et d'évitement d'obstacles dans des environnements
+	complexes, tout en intégrant éventuellement des modèles simplifiés de la dynamique du véhicule. En
+	parallèle, des approches hybrides mêlant contrôle en mode glissant et apprentissage statistique,
+	par exemple via des processus gaussiens pour compenser les efforts hydrodynamiques mal modélisés
+	\parencite{limaSlidingModeControl2020}, permettent d'améliorer le suivi de trajectoire en
+	s'appuyant sur les données collectées en opération.
+
+	Des techniques de commande adaptative basées sur des réseaux de neurones, parfois optimisées par
+	des algorithmes évolutionnaires, ont également été proposées pour gérer les incertitudes
+	paramétriques et les perturbations externes dans le contrôle de véhicules ou de manipulateurs sous
+	marins \parencite{salloomAdaptiveNeuralNetwork2020}. À l'échelle de groupes de véhicules, des
+	stratégies de contrôle de formation, fondées sur des fonctions de Lyapunov ou des cadres de
+	commande distribuée, permettent de maintenir des formations d'\acp{auv} tout en suivant des
+	trajectoires de référence \parencite{khalajiLyapunovBasedFormationControl2020}. Ces travaux
+	s'accompagnent souvent de méthodes d'estimation d'état et de diagnostic de pannes robustes pour
+	faire face au bruit de mesure, aux courants marins et aux dégradations d'actionneurs
+	\parencite{songRobustStateEstimation2023}.
+
+	\subsection{Contrôle des systèmes encâblés}
+	\label{sif_sota_control_tethered}
+
+	Les systèmes encâblés présentent des défis spécifiques liés au couplage dynamique entre le
+	véhicule, le câble et l'environnement. Les premiers travaux sur les systèmes de gestion
+	d'ombilicaux se sont concentrés sur des stratégies de déploiement et de récupération sûres, en
+	mettant l'accent sur la fiabilité mécanique et la régulation de la tension dans le câble
+	\parencite{abelUnderwaterVehicleTether1994,aaseModelingControlCatenary2018}.
+
+	Au-delà de la seule robotique sous-marine, des études sur les systèmes aériens encâblés mettent en
+	avant des architectures multi-robots où la longueur des câbles est activement régulée par des
+	treuils et où le câble joue un rôle d'élément mécanique utile, par exemple pour le transport ou la
+	manipulation d'objets
+	\parencite{fagianoSystemsTetheredMulticopters2017,dantonioCatenaryRobotDesign2021}. Dans ces
+	contextes, le système complet peut être vu comme un manipulateur articulé dont les segments sont
+	des câbles de longueur variable et les véhicules des actionneurs aux extrémités.
+
+	Dans le domaine spatial, les robots et satellites encâblés exploitent des cables pour des missions
+	de transfert d'orbite, de désorbitation ou de manipulation de débris, avec des problèmes de
+	commande spécifiques liés à l'absence d'amortissement atmosphérique et aux longues longueurs de
+	câble \parencite{modiDeploymentDynamicsTether1979,huangDexterousTetheredSpace2017}. Des cadres de
+	commande basés sur l'énergie et la passivité sont alors utilisés pour éviter l'emmêlement et
+	réguler les oscillations du câble \parencite{wangAntitangleControlTethered2019}.
+
+	Enfin, des résultats analytiques montrent que certains systèmes aériens encâblés sont plats au sens
+	de la platitude différentielle, ce qui permet de concevoir des lois de commande non linéaires et
+	des observateurs presque globalement convergents à partir d'ensembles de sorties judicieusement
+	choisis \parencite{tognonDynamicsControlEstimation2017}. Ces travaux illustrent comment le câble
+	peut être considéré non plus comme une simple perturbation, mais comme un élément de structure
+	exploité explicitement dans la pose du problème de commande.
+
 	\section{Modélisation d'un Câble}
 	\label{sif_cable_modelling}
 
