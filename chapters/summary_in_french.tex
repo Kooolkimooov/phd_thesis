@@ -251,6 +251,108 @@
 	\section{Modélisation d'un Câble}
 	\label{sif_cable_modelling}
 
+	Dans le cadre de cette thèse, la modélisation du câble vise avant tout une intégration directe dans
+	des lois de commande en temps réel. L'objectif est de disposer d'un modèle suffisamment fidèle pour
+	représenter des ombilicaux sous-marins soumis à la gravité, à la poussée d'Archimède et aux efforts
+	hydrodynamiques, tout en conservant un coût de calcul compatible avec une commande en temps réel.
+
+	\subsection{Modèle de Chaînette}
+
+	Le point de départ est le modèle classique de chaînette, qui décrit l'équilibre statique d'un câble
+	homogène, parfaitement flexible et inextensible, suspendu entre deux points fixes et soumis à son
+	propre poids. Dans ce cadre, la forme du câble est confinée à un plan vertical et est entièrement
+	définie par quelques grandeurs géométriques : la distance horizontale entre les points d'attache,
+	la flèche (distance verticale entre le point le plus bas et les attaches), la distance vertical
+	entre les extrémités et la longueur totale du câble. Ces paramètres sont reliés par une équation
+	faisant intervenir un paramètre de chaînette qui reflète la tension horizontale dans le câble.
+
+	Une fois la longueur de câble et la position des deux points d'attache connues, cette relation
+	permet de déterminer numériquement le paramètre de chaînette, puis de reconstruire la courbe. La
+	figure suivante illustre la géométrie associée au modèle de chaînette utilisé dans cette thèse.
+
+	\begin{figure}
+		\centering
+		\inputtikz{figures/vertical_catenary_schematic}
+		\caption{
+			Géométrie d'une chaînette de longueur donnée entre deux points d'attache, avec flèche, différence d'altitude et portée horizontale.
+		}
+	\end{figure}
+
+	Ce modèle présente deux avantages majeurs pour la commande : il est analytique (donc très rapide à
+	évaluer) et il ne nécessite que des informations qui peuvent être obtenues à partir des capteurs
+	embarqués (position relative et profondeur des robots, longueur de câble) pour être paramétré. En
+	revanche, il repose sur une hypothèse statique : les efforts hydrodynamiques et les accélérations
+	du câble sont négligés, ce qui limite sa précision dès que le système évolue à vitesse
+	significative.
+
+	\subsection{Chaînette Augmentée pour les Régimes Dynamiques}
+
+	Pour mieux rendre compte des déformations induites par les mouvements du robot et du câble dans
+	l'eau, la chaînette verticale est enrichie par deux degrés de liberté supplémentaires. Le premier
+	correspond à une rotation \emph{hors du plan vertical}, qui modélise les mouvements du câble
+	lorsque les points d'attache se déplacent selon la normale au plan initial. Le second correspond à
+	une inclinaison \emph{dans le plan de la chaînette}, qui modélise les effets de traînée et de masse
+	ajoutée lors de mouvements de translation dans le plan initial.
+
+	\begin{figure}
+		\centering
+		\inputtikz{figures/augmented_catenary_gamma_schematic}
+		\caption{
+			Illustration d'une déformation hors du plan vertical par rotation autour de l'axe reliant les points d'attache.
+		}
+	\end{figure}
+
+	La combinaison de ces deux rotations définit un modèle de \enquote{chaînette augmentée} dans lequel
+	la forme obtenue reste une chaînette dans un repère proprement choisi mais représente mieux un
+	câble soumis à des force hydrodynamiques. Ce choix permet de conserver la structure analytique du
+	modèle de base tout en capturant des effets dynamiques dominants liés à la traînée et à
+	l'accélération uniforme du câble.
+
+	\begin{figure}
+		\centering
+		\inputtikz{figures/augmented_catenary_theta_schematic}
+		\caption{
+			Illustration d'une inclinaison de la chaînette dans son plan propre, permettant de modéliser les effets de mouvement dans le plan.
+		}
+	\end{figure}
+
+	Afin de comparer ce modèle à des mesures expérimentales, la chaînette (verticale et augmentée) est
+	discrétisée en un ensemble de points régulièrement espacés le long de l'abscisse curviligne. Cette
+	discrétisation tient compte du caractère non linéaire de l'équation de chaînette, qui ne produit
+	pas spontanément un échantillonnage régulier. À partir de ces points, on peut calculer la précision
+	par rapport à des mesures de forme provenant d'une base de données.
+
+	\subsection{Validation Expérimentale et Comparaison aux Modèles Dynamiques}
+
+	Le modèle de chaînette augmentée a été évalué sur un ensemble de données issues d'expériences en
+	bassin, où différents types de câbles (souples, flottants, coaxiaux, elastiques, etc.) sont mis en
+	mouvement par un robot selon des trajectoires prédéfinies à différentes vitesses et avec
+	différentes position initiales. Pour chaque configuration, on reconstruit la forme du câble à
+	partir de points mesurés et l'on optimise la valeurs les angles de manière à minimiser l'erreur
+	moyenne entre modèle et mesure. Cela permet d'évaluer le maximum de précision atteignable par le
+	modèle de chaînette augmentée.
+
+	Les résultats montrent que la chaînette augmentée réduit significativement la distance aux mesures
+	par rapport au modèle purement vertical, avec des gains de l'ordre de 10 à 75~\% selon le type de
+	câble et les conditions d'essai. Les améliorations les plus marquées sont observées pour les câbles
+	souples et nettement lourds, dont le comportement se rapproche le plus des hypothèses de la
+	chaînette. Même pour des câbles flottants ou présentant des déformations plastiques, le modèle
+	reste globalement plus précis que la version non augmentée.
+
+	Par ailleurs, la précision obtenue avec la chaînette augmentée a été comparée à celle d'un modèle
+	dynamique détaillé basé sur une discrétisation du câble et une résolution itérative des équations
+	de la mécanique. Ce modèle complet, bien que plus fidèle et capable d'atteindre des erreurs très
+	faibles, reste coûteux en calcul et difficile à intégrer dans une boucle de commande. À l'inverse,
+	la chaînette augmentée offre un compromis attractif : des résidus médians comparables à ceux du
+	modèle dynamique dans de nombreux cas, pour un coût de calcul d'un ordre de grandeur bien
+	inférieur.
+
+	Enfin, la thèse explore des pistes pour doter les paramètres d'augmentation d'une véritable
+	dynamique. D'une part, une analogie avec un pendule monté sur un chariot mobile permet de proposer
+	un modèle physique simplifié intégrant la traînée. D'autre part, des approches par régression
+	symbolique à partir de données expérimentales permettent d'identifier des équations différentielles
+	explicites reliant les angles d'augmentation aux mouvements des points d'attache.
+
 	\section{Contrôle de la Cordée de Robots}
 	\label{sif_robot_chain_control}
 
