@@ -471,22 +471,138 @@
 	sous-marin, de manière à tester la capacité des contrôleurs à empêcher que les câbles entrent en
 	contact avec le fond. Les robots suiveurs doivent maintenir une distance sûre avec leurs voisins et
 	adapter leur position pour garantir une distance au fond minimale pour chaque chaînette, tout en
-	respectant les limitations d'actionnement.
+	respectant les limites d'actionnement.
 
 	Avec la commande réactive, les simulations montrent que la géométrie des câbles est correctement
 	maintenue dans la phase initiale, avec des marges de distance au fond confortables. Toutefois, des
 	instabilités apparaissent ensuite sur la trajectoire du leader, entraînant une divergence
 	progressive et des comportements non physiques.
 
-	La combinaison planification + PID et la commande prédictive par modèle offrent un comportement
-	plus régulier, au prix d'un temps de calcul plus élevé pour l'optimisation, en particulier pour le
-	\ac{mpc} qui manipule directement l'actionnement de la cordée. Les indicateurs mis en avant sont la
-	précision de suivi de la trajectoire du leader, le respect des contraintes de distance au fond, les
-	distances inter-robots, ainsi que les temps de calcul par itération. Ces résultats illustrent les
-	compromis nécessaires entre performance, robustesse et complexité de mise en oeuvre pour le
-	contrôle de systèmes multirobots encâblés.
+	La combinaison planification et PID ainsi que la commande prédictive basée modèle offrent un
+	comportement plus régulier, au prix d'un temps de calcul plus élevé pour l'optimisation, en
+	particulier pour le \ac{mpc} qui manipule directement l'actionnement de la cordée. Les indicateurs
+	mis en avant sont la précision de suivi de la trajectoire du leader, le respect des contraintes de
+	distance au fond, les distances inter-robots, ainsi que les temps de calcul par itération. Ces
+	résultats illustrent les compromis nécessaires entre performance, robustesse et complexité de mise
+	en oeuvre pour le contrôle de systèmes multirobots encâblés.
 
 	\section{Conclusion}
 	\label{sif_conclusion}
+
+	Cette thèse a étudié la modélisation et la commande de cordées de robots sous-marins encâblés, en
+	mettant l'accent à la fois sur des représentations analytiques rapides des ombilicaux et sur des
+	stratégies de commande de cordée qui tiennent explicitement compte de la géométrie des câbles. Deux
+	axes techniques ont été développés en parallèle : la modélisation de câbles adaptée à une
+	intégration en temps réel dans des lois de commande, et la coordination de chaînes de robots sous
+	contraintes géométriques cohérentes. Cette section résume les principaux résultats, discute les
+	limites identifiées et esquisse des perspectives de travaux futurs.
+
+	\subsection{Synthèse des Contributions en Modélisation de Câbles}
+
+	Les travaux de modélisation se sont appuyés sur le modèle classique de chaînette verticale, adapté
+	aux besoins du contrôle et de la validation expérimentale. Une paramétrisation compacte a été
+	dérivée pour relier la courbe de chaînette à la géométrie des points d'attache et à la longueur du
+	câble. Le modèle fournit en outre des expressions explicites pour les composantes horizontale et
+	verticale de la tension le long du câble, qui peuvent être directement réutilisées comme forces
+	externes dans les modèles dynamiques de véhicules. En régime statique, la chaînette reste ainsi une
+	base solide et très compétitive : sa structure analytique permet des évaluations en temps très
+	restreint, compatibles avec des architectures de commande en temps réel et des algorithmes
+	d'optimisation sous contraintes.
+
+	Afin de mieux rendre compte des effets hydrodynamiques en mouvement, un modèle de
+	\enquote{chaînette augmentée} a été proposé. La courbe obtenue résulte de l'application de deux
+	rotations à la chaînette verticale : une rotation hors du plan, liée aux mouvements de
+	\enquote{sway} du câble, et une rotation dans le plan propre de la chaînette, liée aux déplacements
+	de type \enquote{surge} dans le plan. Cette construction conserve la tractabilité analyse et la
+	discrétisation curviligne tout en permettant de mieux représenter les déformations induites par la
+	traînée et la masse ajoutée.
+
+	Le modèle de chaînette augmentée a été évalué sur une base de données de mesures expérimentales en
+	bassin. La précision a été mesurée en comparant des nuages de points reconstruits à partir de
+	mesures de position à des échantillons régulièrement espacés le long de la courbe de modèle. Les
+	réductions de résidus médians observées par rapport à la chaînette purement verticale sont
+	comprises environ entre \qty{10}{\percent} et \qty{75}{\percent}, les gains les plus importants
+	concernant les câbles les plus souples et nettement lestés. Pour ces derniers, les résidus médians
+	typiques se situent entre \qty{10}{\milli\meter} et \qty{13}{\milli\meter}, ce qui est compatible
+	avec une utilisation dans des boucles de commande.
+
+	Deux pistes ont été explorées pour doter les paramètres d'augmentation d'une dynamique propre :
+	d'une part, un modèle inspiré d'un pendule entraîné par le mouvement des points d'attache,
+	intégrant de manière simplifiée les effets de traînée ; d'autre part, une identification de lois
+	différentielles par régression symbolique à partir de trajectoires expérimentales.
+
+	\subsection{Synthèse des Contributions en Commande de Cordée}
+
+	Sur la base d'un modèle standard de véhicule marin à six degrés de liberté et des forces de
+	chaînette, un modèle unifié de cordée a été formulé. Chaque robot est décrit par sa pose et ses
+	vitesses dans un repère corps, et les forces horizontales et verticales issues des câbles sont
+	injectées explicitement dans sa dynamique. Cette écriture permet d'exprimer de manière compacte les
+	contraintes de distance au fond, d'espacement inter-robots et de limites d'actionnement, en les
+	liant directement à la géométrie des câbles.
+
+	Trois familles de lois de commande ont été étudiées dans un scénario commun impliquant un relief
+	sous-marin, un robot leader manoeuvrant et des véhicules mixtes de surface et sous-marins. Une
+	commande prédictive basée modèle (\ac{mpc}) permet d'optimiser les efforts sur un horizon fini tout
+	en respectant la dynamique de la cordée et les contraintes induites par les câbles : distance au
+	fond minimale pour chaque chaînette, distances horizontales minimales entre robots, bornes
+	d'actionnement et limites de vitesse. Une architecture planification et suivi, quant à elle, sépare
+	la génération de trajectoires de référence (sous forme de suites de points faisables) d'un suivi
+	par régulateurs \ac{pid}, offrant une solution plus simple à mettre en oeuvre tout en filtrant les
+	configurations géométriquement non réalisables.
+
+	Enfin, une stratégie réactive légère inspirée du asservissement visuel basé chaînette a été adaptée
+	à la cordée : chaque robot suiveur régule localement la géométrie de son câble avec le robot
+	précédent à partir de mesures de pose relative, sans planification globale. Cette approche se
+	distingue par sa simplicité et son coût de calcul réduit, mais ne fournit pas de garanties
+	formelles sur le respect des contraintes de distance au fond et d'espacement inter-robots.
+
+	Les simulations numériques comparent ces stratégies en termes de précision de suivi de la
+	trajectoire du leader, de distances inter-robots, de marges de distance au fond et de temps de
+	calcul par itération. La commande prédictive apparaît comme la plus systématique pour gérer les
+	contraintes lorsqu'une puissance de calcul suffisante est disponible. L'approche planification et
+	suivi offre un compromis intéressant entre faisabilité, robustesse et simplicité, et la commande
+	réactive se révèle pertinente comme couche de sécurité rapide ou comme mode dégradé.
+
+	\subsection{Limites}
+
+	Plusieurs limites ont été mises en évidence au fil de ces travaux. Sur le plan de la modélisation,
+	l'absence d'une loi dynamique cohérente et validée pour les paramètres d'augmentation limite
+	l'utilisation opérationnelle du modèle de chaînette augmentée : sans cette dynamique, le passage
+	des gains de précision observés hors ligne à une commande de cordée en ligne reste incertain.
+
+	Sur le plan expérimental, la validation s'est principalement appuyée sur des essais en bassin avec
+	un ou deux robots. Des campagnes plus étendues, impliquant un plus grand nombre de \acp{rov} et des
+	capteurs embarqués plus représentatifs des applications réelles (\acp{imu}, \ac{dvl}, vision,
+	capteurs de pression), restent à être menées. Enfin, le déploiement d'un \ac{mpc} en temps réel
+	pour des configurations multi-robots demeure sensible à la taille du modèle, à la longueur de
+	l'horizon et aux réglages du solveur, ce qui impose un travail significatif d'optimisation
+	numérique et d'adaptation à la plate-forme matérielle.
+
+	\subsection{Perspectives}
+
+	Les perspectives de recherche ouvertes par cette thèse sont nombreuses. Un premier axe consiste à
+	développer et valider des équations dynamiques pour les paramètres d'augmentation, en combinant
+	modélisation physique et identification à partir de données issues de capteurs embarqués sur les
+	câbles (capteurs inertiels, mesures de tension, etc.). De telles lois permettraient de bénéficier
+	pleinement de la précision de la chaînette augmentée dans des architectures de commande en temps
+	réel.
+
+	Un second axe concerne l'exploration de formulations alternatives de \ac{mpc} pour la cordée, par
+	exemple en intégrant directement des caractéristiques d'image ou des primitives d'asservissement
+	visuel afin de réduire la dimension de l'espace de décision et d'améliorer l'efficacité des
+	solveurs. Parallèlement, une transition progressive des essais en bassin instrumenté vers des
+	essais en environnement semi-ouvert, puis en mer, avec des tâches plus réalistes et des cordées
+	mêlant \acp{rov} et véhicules de surface, sera nécessaire pour valider la robustesse des stratégies
+	proposées.
+
+	Enfin, l'intégration de modèles d'interaction avec l'environnement, incluant des garanties
+	explicites de garde au fond, la gestion de câbles détendus et le contact contrôlé avec des
+	structures, constitue une étape clé pour le déploiement dans des environnements non structurés. À
+	plus long terme, les résultats de cette thèse fournissent ainsi une couche de modélisation
+	analytiquement tractable pour les ombilicaux, une variante augmentée capable de capturer les
+	déformations hydrodynamiques dominantes, et un ensemble de stratégies de commande de cordée qui
+	respectent explicitement la géométrie des câbles. Ces contributions constituent un socle pratique
+	pour la mise en oeuvre de comportements \enquote{cable-aware} à plus grande échelle et en situation
+	réelle.
 
 \end{otherlanguage}
