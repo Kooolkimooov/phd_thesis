@@ -356,6 +356,136 @@
 	\section{Contrôle de la Cordée de Robots}
 	\label{sif_robot_chain_control}
 
+	Dans la continuité de la modélisation de câble présentée ci-dessus, cette section résume les
+	travaux consacrés au contrôle de cordées de robots sous-marins encâblés. L'objectif est de
+	permettre à un robot \emph{leader} de suivre une mission de référence tout en garantissant que
+	l'ensemble de la cordée respecte les contraintes mécaniques et environnementales associées aux
+	câbles: distance au fond, espacement entre robots, tension admissible et maintien de formes de
+	câbles physiquement cohérentes. Pour cela, la dynamique de chaque véhicule est couplée
+	explicitement à un modèle de chaînette verticale permettant de calculer les efforts exercés par les
+	ombilicaux, et plusieurs stratégies de commande sont comparées dans un même scénario de simulation.
+
+	\subsection{Modélisation de la Cordée de Robots}
+	\label{sif_rcc_modelling}
+
+	La cordée est modélisée comme un ensemble de \scal{n} véhicules sous-marins reliés par des
+	ombilicaux de longueur connue. Chaque robot suit un modèle de dynamique rigide à six degrés de
+	liberté inspiré de \cite{fossenHandbookMarineCraft2011}.
+
+	Les câbles reliant les robots sont quant à eux décrits par le modèle de chaînette verticale
+	présenté dans \cref{sif_cable_modelling}. À partir de ce modèle, les composantes horizontale et
+	verticale de la tension peuvent être calculées en tout point du câble et en particulier aux points
+	d'attache sur les robots. Ces forces sont ensuite transformées dans le repère de chaque robot et
+	ajoutées comme perturbations externes dans les équations de mouvement simplifiées.
+
+	L'état global de la cordée est obtenu en concaténant les états individuels des robots
+	(position/orientation et vitesses dans le repère corps), et le vecteur d'entrée regroupe l'ensemble
+	des efforts d'actionnement. Cette écriture permet de formuler de manière compacte les contraintes à
+	respecter: bornes d'actionnement, distances minimales entre robots, distance au fond minimale pour
+	le point le plus bas de chaque chaînette, et limitation de la longueur effective des câbles.
+
+	\begin{figure}
+		\centering
+		\inputtikz{figures/robot_chain_representation}
+		\caption{
+			Exemple de cordée de robots sous-marins reliés par des câbles modélisés par une chaînette.
+		}
+	\end{figure}
+
+	\subsection{Stratégies de Commande Étudiées}
+	\label{sif_rcc_controllers}
+
+	Trois familles de lois de commande sont étudiées.
+
+	\subsubsection{Commande Réactive Basée sur la Chaînette}
+
+	Une première approche, dite \emph{réactive}, s'appuie sur la loi de commande basée image utilisant
+	le modèle de chaînette proposée par \textcite{laranjeiraCatenarybasedVisualServoing2017} et adaptée
+	ici à partir de mesures de pose relatives entre robots plutôt que de caractéristiques d'image.
+	Chaque robot suiveur régule localement la géométrie de son câble avec le robot précédent en
+	agissant sur sa vitesse relative, sans planification globale.
+
+	Plus précisément, les paramètres de forme de la chaînette reliant les robots \scal{i} et \scal{i+1}
+	(flèche, orientation, écart vertical) sont regroupés dans un vecteur de caractéristiques. Une
+	matrice d'interaction lie la dérivée de ces caractéristiques à la vitesse du robot suiveur. En
+	utilisant la pseudo-inverse de cette matrice, la loi de commande impose des valeurs cibles de
+	flèche et de distance vertical afin de garantir une distance au fond suffisante et un
+	positionnement relatif sûr. Cette formulation pair à pair permet de distribuer le contrôle le long
+	de la cordée, chaque robot ne dépendant que de son voisin amont.
+
+	\subsubsection{Planification de Trajectoire et Suivi PID}
+
+	La deuxième approche sépare planification et commande. Un problème de planification en position est
+	formulé afin de générer, sur un horizon fini, une suite de points de passage pour les robots, de
+	manière à à la fois approcher une pose cible et respecter des contraintes de faisabilité
+	cinématique. Les contraintes incluent notamment une distance horizontale minimale entre robots, des
+	vitesses bornées et une distance au fond pour le point le plus bas de chaque chaînette.
+
+	Une fois la suite de points optimisée, elle sert de trajectoire de référence pour un régulateur
+	classique de type PID appliqué à la pose de chaque robot. Le planificateur peut être relancé
+	régulièrement (replanification) en fonction de l'état courant afin de tenir compte des écarts de
+	suivi et des perturbations. Cette architecture offre un compromis entre simplicité de mise en
+	oeuvre et capacité à anticiper certaines contraintes géométriques liées aux câbles.
+
+	\subsubsection{Commande Prédictive basée Modèle}
+
+	Enfin, une commande prédictive basée modèle (\acl{mpc}) est mise en place sur le modèle complet de
+	la cordée. À chaque pas de temps, l'évolution de l'état concaténé sur un horizon de prédiction est
+	anticipée en intégrant la dynamique des robots couplés par les forces de chaînette. Une fonction de
+	coût pénalise l'écart à une trajectoire de référence, la norme des entrées de commande et leurs
+	variations temporelles.
+
+	Le problème d'optimisation est soumis à un ensemble de contraintes d'inégalité: bornes sur les
+	actionneurs, vitesses maximales, distance au fond minimale pour chaque câble (via la position du
+	point le plus bas de la chaînette) et distance horizontale minimale entre robots afin d'éviter les
+	singularités du modèle de câble. Des contraintes supplémentaires peuvent également être ajoutées
+	pour représenter les limites d'un bassin d'essai. Seule la première commande optimale est
+	appliquée, puis le problème est résolu à nouveau.
+
+	\begin{figure}
+		\centering
+		\inputtikz{figures/model_predictive_control_schematic}
+		\caption{
+			Schéma de principe d'un contrôleur prédictif.
+		}
+	\end{figure}
+
+	\subsection{Scénario de Simulation et Résultats}
+	\label{sif_rcc_simulation}
+
+	Les trois stratégies de commande sont évaluées dans un même scénario de simulation numérique.
+	Quatre robots sont reliés en série par des câbles de longueur fixe : trois \acp{rov} représentent
+	le leader et deux suiveurs, et un \ac{usv} en surface assure le lien avec un navire de support. Le
+	système évolue dans un bassin numérique de profondeur variable et de dimensions horizontales
+	supposées infinies.
+
+	\begin{figure}
+		\centering
+		\inputtikz{figures/mpc_simulation_tank}
+		\caption{
+			Schéma de principe d'un contrôleur prédictif.
+		}
+	\end{figure}
+
+	Le robot leader doit suivre une trajectoire de référence qui le conduit à franchir un relief
+	sous-marin, de manière à tester la capacité des contrôleurs à empêcher que les câbles entrent en
+	contact avec le fond. Les robots suiveurs doivent maintenir une distance sûre avec leurs voisins et
+	adapter leur position pour garantir une distance au fond minimale pour chaque chaînette, tout en
+	respectant les limitations d'actionnement.
+
+	Avec la commande réactive, les simulations montrent que la géométrie des câbles est correctement
+	maintenue dans la phase initiale, avec des marges de distance au fond confortables. Toutefois, des
+	instabilités apparaissent ensuite sur la trajectoire du leader, entraînant une divergence
+	progressive et des comportements non physiques.
+
+	La combinaison planification + PID et la commande prédictive par modèle offrent un comportement
+	plus régulier, au prix d'un temps de calcul plus élevé pour l'optimisation, en particulier pour le
+	\ac{mpc} qui manipule directement l'actionnement de la cordée. Les indicateurs mis en avant sont la
+	précision de suivi de la trajectoire du leader, le respect des contraintes de distance au fond, les
+	distances inter-robots, ainsi que les temps de calcul par itération. Ces résultats illustrent les
+	compromis nécessaires entre performance, robustesse et complexité de mise en oeuvre pour le
+	contrôle de systèmes multirobots encâblés.
+
 	\section{Conclusion}
 	\label{sif_conclusion}
 
