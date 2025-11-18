@@ -1,16 +1,61 @@
-\chapter{Résumé en Français}
-\label{summary_in_french}
+\begin{otherlanguage}{french}
 
-\minitoc{}
+	\mtcselectlanguage{french}
+	\setlocalecaption{french}{appendix}{Annexe}
+	\setlocalecaption{french}{figure}{Figure}
 
-\section{Introduction}
-\label{sif_introduction}
+	\chapter{Résumé en Français}
+	\label{summary_in_french}
 
-\section{État de l'Art}
-\label{sif_state_of_the_art}
+	\minitoc{}
 
-\section{Modélisation d'un Câble}
-\label{sif_cable_modelling}
+	\section{Introduction}
+	\label{sif_introduction}
 
-\section{Contrôle de la Cordée de Robots}
-\label{sif_robot_chain_control}
+	Les travaux présentés dans cette thèse s'inscrivent dans le contexte de la gestion des câbles pour
+	la robotique sous-marine, et plus particulièrement dans le cadre du concept de \emph{cordée de
+		robots} sous-marins. L'idée générale consiste à remplacer le schéma classique \enquote{un robot --
+		un ombilical} par un système où plusieurs véhicules sont disposés le long du même câble et
+	collaborent pour en contrôler la forme. Le robot de tête (leader) accomplit la mission principale
+	(inspection, intervention, cartographie, etc.) tandis que les robots suiveurs régulent activement
+	la géométrie du câble afin d'éviter le contact avec le fond, les obstacles et la coque du navire
+	support.
+
+	Du point de vue du contrôle, une telle cordée peut être vue soit comme un essaim de robots
+	fortement contraints par un lien mécanique commun, soit comme un système articulé unique où chaque
+	robot joue le rôle d'un maillon actionné relié aux autres par des liaisons flexibles et passives.
+	Dans les deux cas, la géométrie du câble ne peut plus être traitée comme une perturbation
+	secondaire : elle intervient directement dans la faisabilité des trajectoires, dans la sécurité
+	(distance au fond, évitement d'emmêlement) et dans les charges appliquées aux véhicules.
+
+	L'objectif central de cette thèse est donc de proposer des modèles de câble à la fois suffisamment
+	précis pour représenter des ombilicaux et suffisamment rapides en termes de temps de calcul pour
+	être utilisés en temps réel dans des lois de commande, puis de concevoir et d'évaluer des
+	stratégies de contrôle de cordée qui exploitent explicitement ces modèles. Les contributions se
+	structurent autour de deux axes complémentaires : la modélisation rapide de câbles pour la
+	commande, notamment via une extension dynamique du modèle de chaînette, et la commande de chaînes
+	de robots sous-marins reliés par des câbles, en tenant compte explicitement des contraintes
+	géométriques et environnementales.
+
+	Les travaux présentés dans cette thèse ont donné lieu aux publications et communications suivantes:
+
+	\begin{itemize}
+		\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{filliungAugmentedCatenaryModel2024}
+		\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{peraudIMUbasedMonitoringBuoyBallast2024}
+		\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{filliungAugmentedCatenaryModel2024a}
+		\item \AtNextCite{\setcounter{maxnames}{99}}\fullcite{deowanSymbolicRegressionDynamic2025}
+	\end{itemize}
+
+	\section{État de l'Art}
+	\label{sif_state_of_the_art}
+	
+	\section{Modélisation d'un Câble}
+	\label{sif_cable_modelling}
+
+	\section{Contrôle de la Cordée de Robots}
+	\label{sif_robot_chain_control}
+
+	\section{Conclusion}
+	\label{sif_conclusion}
+
+\end{otherlanguage}
