@@ -1,0 +1,73 @@
+\begin{tikzpicture}
+
+	\def\c{0.85}
+
+	\def\xmin{-1.5}
+	\def\xmid{-1.0}
+	\def\xmax{1.0}
+
+	\def\ymin{0.0}
+	\pgfmathsetmacro{\ymax}{(cosh(\xmin*\c)-1)/\c}
+	\pgfmathsetmacro{\ymid}{(cosh(\xmax*\c)-1)/\c}
+
+	\def\arrowlength{.2}
+	
+	\begin{axis}[
+		xmin = \xmin,
+		xmax = \xmax,
+		ymin = \ymin,
+		ymax = \ymax,
+		width = \figurewidth,
+		axis equal,
+		clip = false,
+		axis x line=none,
+		axis y line=none
+		]
+		
+		\coordinate (O) at (axis cs: 0.0, 0.0);
+		\coordinate (x) at (axis cs: \arrowlength, 0.0);
+		\coordinate (z) at (axis cs: 0.0, \arrowlength);
+
+		\coordinate (A) at (axis cs: \xmin, \ymax);
+		\coordinate (B) at (axis cs: \xmax, \ymid);
+
+		\coordinate (Bp) at (axis cs: \xmid, \ymid);
+
+		\coordinate (Ou) at (axis cs: 0.0, \ymax);
+		\coordinate (Om) at (axis cs: 0.0, \ymid);
+
+		\coordinate (Am) at (axis cs: \xmin, \ymid);
+		\coordinate (Ad) at (axis cs: \xmin, \ymin);
+
+		\coordinate (Bpu) at (axis cs: \xmid, \ymax);
+		\coordinate (Bpd) at (axis cs: \xmid, \ymin);
+
+		\coordinate (Bu) at (axis cs: \xmax, \ymax);
+		\coordinate (Bd) at (axis cs: \xmax, \ymin);
+
+		\coordinate (Add) at ($(A)!1.2!(Ad)$);
+		\coordinate (Bdd) at ($(Bu)!1.2!(Bd)$);
+
+		\draw[densely dotted, thick] (Ad) -- (Bd);
+		\draw[densely dotted, thick] (A) -- (Bu);
+		\draw[densely dotted, thick] (Am) -- (B);
+		\draw[densely dotted, thick] (Bpu) -- (Bpd);
+		\draw[densely dotted, thick] (A) -- (Ad);
+		\draw[densely dotted, thick] (Bu)  -- (Bd);
+		\draw[densely dotted, thick] (Ou)  -- (O);
+
+		\filldraw[blue] (O) circle (2pt) node[below] {\ldpoint{O}{v}};
+		\draw[->, thick, blue] (O) -- (x) node[below right] {\ldvect{x}{v}};
+		\draw[->, thick, blue] (O) -- (z) node[above right] {\ldvect{z}{v}};
+
+		\addplot[smooth, domain=\xmin:\xmax, samples=100, thick, blue] {{(cosh(\x*\c)-1)/\c}};
+
+		\filldraw[blue] (A) circle (2pt) node[above right] {\fpoint{A}{v}};
+		\filldraw[blue] (B) circle (2pt) node[above left] {\fpoint{B}{v}};
+
+		\draw[->, thick] (A) -- ++(-60.:30) node[above right] {\fldvect{\omega}{v}{a}};
+		\draw[->, thick] (B) -- ++(-135.:30) node[above left] {\fldvect{\omega}{v}{b}};
+
+	\end{axis}
+
+\end{tikzpicture}
