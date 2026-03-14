@@ -2,16 +2,17 @@
 
 ## Project Structure
 
-- `build.py` - Python script for building the thesis
 - `thesis.tex` - Main document file
 - `preamble.tex` - LaTeX configuration and package imports
-- `title.tex` - Title page formatting and content
-- `bib.bib` - Bibliography file
-- `chapter.tex` - Template used to programmatically compile individual chapters
-- `figure.tex` - Template used to programmatically compile individual figures
-- `gitdescription.tex` - Empty file used to embed the git description in the thesis
+- `front_cover.tex` - Front cover page formatting and content
+- `back_cover.tex` - Back cover page formatting and content
 - `chapters/` - Directory containing individual chapter files
 - `figures/` - Directory for figures and diagrams
+- `bib.bib` - Bibliography file
+- `build.py` - Python script for building the thesis
+- `chapter.tex` - Template used by the script to programmatically compile individual chapters
+- `figure.tex` - Template used by the script to programmatically compile individual tikz  figures
+- `gitdescription.tex` - Empty file used by the script to embed git information in the thesis
 
 ## Requirements
 
@@ -25,13 +26,12 @@
 
 You can build the thesis using the included Python script:
 
-```
-usage: build.py [-h] [-H] [-v] [-d] {thesis,chapters,chapter,figures,figure,clean,all} ...
+```usage: build.py [-h] [-H] [-v] [-d] {thesis,chapters,chapter,figures,figure,clean,all,check} ...
 
 LaTeX thesis build script
 
 positional arguments:
-  {thesis,chapters,chapter,figures,figure,clean,all}
+  {thesis,chapters,chapter,figures,figure,clean,all,check}
     thesis              build the complete thesis
     chapters            build all chapters as separate pdf files
     chapter             build a specific chapter as separate pdf file
@@ -39,6 +39,7 @@ positional arguments:
     figure              build a specific figure
     clean               clean build files
     all                 build thesis and all chapters
+    check               check for unused bibliography entries and figures
 
 options:
   -h, --help            show this help message and exit
@@ -115,6 +116,14 @@ options:
   -r, --remake          skip rebuilding figures
   -gd, --git-description GIT_DESCRIPTION
                         git description to embed in the thesis
+
+          ==========
+
+usage: build.py check [-h] [--remove-unused]
+
+options:
+  -h, --help       show this help message and exit
+  --remove-unused  delete unused figures and bib entries (makes backup of bib.bib)
 ```
 
 This will compile the LaTeX files in the `build/` directory and output the final result in the `out/` directory.

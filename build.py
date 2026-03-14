@@ -98,7 +98,7 @@ def build_figure( name = None, verbose = False, dry_run = False, force_all = Fal
       if os.path.exists(log_file):
         backup_log = f"build/figure_{name}_error.log"
         try:
-          shutil.move(log_file, backup_log)
+          shutil.copy(log_file, backup_log)
           printlog(f"saved error log to {backup_log}")
         except Exception as move_error:
           printlog(f"failed to save log file: {move_error}")
@@ -196,7 +196,7 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
       if os.path.exists(log_file):
         backup_log = f"build/chapter_{name}_error.log"
         try:
-          shutil.move(log_file, backup_log)
+          shutil.copy(log_file, backup_log)
           printlog(f"saved error log to {backup_log}")
         except Exception as move_error:
           printlog(f"failed to save log file: {move_error}")
@@ -214,7 +214,7 @@ def build_chapter( name = None, remake = False, git_description = None, verbose 
       if dry_run:
         printlog( f"dry run: moving build/chapter.pdf to {destination}" )
       else:
-        shutil.move( "build/chapter.pdf", destination )
+        shutil.copy( "build/chapter.pdf", destination )
     except (FileNotFoundError, shutil.Error) as e:
       printlog( f"error moving output file: {e}" )
       return False
@@ -289,7 +289,7 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
     if os.path.exists(log_file):
       backup_log = f"build/thesis_error.log"
       try:
-        shutil.move(log_file, backup_log)
+        shutil.copy(log_file, backup_log)
         printlog(f"saved error log to {backup_log}")
       except Exception as move_error:
         printlog(f"failed to save log file: {move_error}")
@@ -305,7 +305,7 @@ def build_thesis( remake = False, git_description = None, verbose = False, dry_r
     if dry_run:
       printlog( f"dry run: moving build/thesis.pdf to {destination}" )
     else:
-      shutil.move( "build/thesis.pdf", destination )
+      shutil.copy( "build/thesis.pdf", destination )
   except (FileNotFoundError, shutil.Error) as e:
     printlog( f"error moving output file: {e}" )
     return False
